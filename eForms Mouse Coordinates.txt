@@ -1,0 +1,42 @@
+<!-- SCRIPT GIVES THE MOUSE COORDINATES - Hold SHIFT and click two points for distance between -->
+<script type="text/javascript" language="javascript">
+var isIE = document.all?true:false;
+if (!isIE) document.captureEvents(Event.MOUSEMOVE);
+document.onmousemove = getMousePosition;
+document.onclick = captureposition;
+var capX = 0;
+var capY = 0;
+var sy = 0;
+var sx = 0;
+
+function getMousePosition(e) {
+var _x;
+var _y;
+if (!isIE) {
+_x = e.pageX;
+_y = e.pageY;
+}
+  document.title = _x + " " + _y;
+  return true;
+}
+function captureposition(e) {
+
+  if (e.shiftKey) {
+     if ((capX == 0) && (capY == 0)) {
+        capX = e.pageX;
+        capY = e.pageY;
+     } else {
+        var diffX = e.pageX-capX;
+        var diffY = e.pageY-capY;
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            alert('X-coordinate distance: ' + diffX + 'px');
+        } else {
+            alert('Y-coordinate distance: ' + diffY + 'px');
+        }
+        capX = 0;
+        capY = 0;
+     }
+   }
+}
+</script>
+<!-- ----------End coordinate script--------------------------------------------------------- -->

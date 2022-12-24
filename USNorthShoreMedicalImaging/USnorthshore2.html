@@ -1,0 +1,348 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>US REQ - North Shore Medical Imaging</title>
+
+<!-- <script src="${oscar_image_path}functions.js"></script> -->
+<script type = "text/javascript">
+var startX = 760		//set x offset of topbar in pixels
+</script>
+
+
+<!-- Drawing scripts -->
+<script language="javascript" type="text/javascript" src="${oscar_image_path}jsgraphics.js"></script>
+<!-- <script language="JavaScript1.2" type="text/javascript" src="jsgraphics.js"></script> -->
+<script language="javascript" type="text/javascript" src="${oscar_image_path}mouse.js"></script>
+<!-- <script language="JavaScript1.2" type="text/javascript" src="mouse.js"></script> -->
+
+<style>
+ input {
+	 -moz-box-sizing: content-box;
+	 -webkit-print-color-adjust: exact;
+	 -webkit-box-sizing: content-box;
+	 box-sizing: content-box
+}
+ .sig {
+	 border: 2px dotted blue;
+	 background-color: lightgrey;
+ }
+ </style>
+
+	
+<style type="text/css" media="print">
+ .DoNotPrint {
+	 display: none;
+ }
+ .noborder {
+	 border: 0px;
+	 background: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-arrow-color: transparent;
+	 scrollbar-base-color: transparent;
+	 scrollbar-darkshadow-color: transparent;
+	 scrollbar-face-color: transparent;
+	 scrollbar-highlight-color: transparent;
+	 scrollbar-shadow-color: transparent;
+	 scrollbar-track-color: transparent;
+	 background: transparent;
+	 overflow: hidden;
+ }
+</style>
+
+
+
+<link rel="stylesheet" href="${oscar_image_path}eforms.css" media="screen" type="text/css" charset="utf-8"/>
+<link rel="stylesheet" href="${oscar_image_path}eforms-print.css" media="print" type="text/css" charset="utf-8"/>
+<!-- **********MAKE CHECKBOXES: <input type="checkbox" class="largerCheckbox"> -->
+
+<!---******DATEPICKER - source, individualize, & call---------------------->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<link href="${oscar_image_path}datepicker.css" rel="stylesheet" type="text/css"/> 
+<script type = "text/javascript">
+		$(function()
+			{
+				$("#datepicker1").datepicker({dateFormat: 'd M yy'}).val;
+				$('#date').datepicker({dateFormat: 'd M yy'});			});
+		$(function()
+			{
+				$("#datepicker2").datepicker({dateFormat: 'd M yy'}).val;
+				$('#date').datepicker({dateFormat: 'd M yy'});			});
+		$(function()
+			{
+				$("#datepicker3").datepicker({dateFormat: 'd M yy'}).val;
+				$('#date').datepicker({dateFormat: 'd M yy'});			});
+		$(function()
+			{
+				$("#datepicker4").datepicker({dateFormat: 'd M yy'}).val;
+				$('#date').datepicker({dateFormat: 'd M yy'});			});
+</script>
+<!---------end: DATEPICKER-------------------------------------------------------------->
+
+
+<!-- scripts for Xbox functions -->
+<script language="javascript">
+$(document).ready(function() {
+	  $( ".Xbox" ).click(function() {
+		  var st = $( this ).val();
+		  if (st=="X") {
+			  $( this ).val("");
+		  } else {
+			  $( this ).val("X");
+		  }
+      console.log('hihihi');
+    });
+
+$( ".Xbox" ).keypress(function(event) {
+	  // any key press except tab will constitute a value change to the checkbox
+	  if (event.which != 0){
+		  $( this ).click();
+		  return false;
+		  }
+	});
+
+});
+
+// //onclick="Radio_Box1(this.id)" onkeypress="Radio_Box1(this.id)"
+// function Radio_Box1(x) {
+//   var scales = ["Yes", "No"];
+//   var partA = x.substring(0, x.indexOf("_"));
+//   var i = x.substring(x.indexOf("_"));
+//   var j = i.substr(1);
+
+//   for (var n in scales) {
+//     if ( j == scales[n]) {
+//       for (var m in scales) {
+//         if (m != n) { document.getElementById(partA+"_"+scales[m]).value = ''; }
+//       }
+//     }
+//   }
+// return false;
+// }
+
+</script>
+
+
+<script type="text/javascript" language="javascript">
+function checkGender(){
+	 if (document.getElementById('PatientGender').value == 'M'){
+	 document.getElementById('Male').value = "X";
+	 }else if (document.getElementById('PatientGender').value == 'F'){
+	 document.getElementById('Female').value = "X";
+	}
+}
+
+//keypress events trigger dirty flag
+var needToConfirm = false;
+document.onkeyup=setDirtyFlag;
+function setDirtyFlag(){
+		needToConfirm = true;
+}
+function releaseDirtyFlag(){
+		needToConfirm = false; //Call this function if doesn't requires an alert.
+//this could be called when save button is clicked
+}
+window.onbeforeunload = confirmExit;
+function confirmExit(){
+	 if (needToConfirm){
+		 return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+	 }
+}
+
+function submission() { // requires type="submit" in submit button input to allow for validity testing
+	releaseDirtyFlag();
+	document.FormName.submit();
+}
+
+function printSubmit() {
+
+	window.print();
+	setTimeout('submission()', 500);
+}
+</script>
+
+
+</head>
+<body onload=" checkGender();">
+
+<form name="FormName" method="get" action="">
+<div style="position: absolute; left: 10px; top: 10px;" >
+<!--<img src ="UltrasoundNSMI.png" width="750">--->
+	<img src="${oscar_image_path}UltrasoundNSMI.png" width="750">
+</div >
+<input name="PatientGender" id="PatientGender" type="hidden" oscarDB=sex>
+    
+
+
+	<input name="Female" id="Female" type="text" class="Xbox"  style="position: absolute; left: 599px; top: 353px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;" >
+	<span style="position: absolute; left: 599px; top: 373px;"> <input name="Male" id="Male" type="text" class="Xbox"  style="width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;" > Male </span>
+  <input name="docname" type="text" class="OscarFilled" style="width: 200px; position: absolute; left: 45px; top: 205px;" oscardb=current_user>
+	<input name="nameL" type="text" class="OscarFilled" id="name" style="position:absolute; left:131px; top:278px; width: 182px;" size="40" oscarDB=patient_nameL>
+  <input name="nameF" type="text" class="OscarFilled" id="name" style="position:absolute; left:350px; top:278px; width: 187px;" size="40" oscarDB=patient_nameF>
+  <input name="phn" type="text" class="OscarFilled" id="phn" style="position:absolute; left:243px; top:378px;" size="15" oscarDB=HINc>
+      <input name="dob" type="text" class="OscarFilled" id="dob" style="position:absolute; left:97px; top:351px;" size="15"  oscardb=DOBC>
+  <input name="address" type="text" class="OscarFilled" id="address" style="position:absolute; left:77px; top:303px; height: 19px; width: 372px;" size="38" oscardb=addressline>
+   <input name="PostalCode" type="text" class="OscarFilled" id="PostalCode" style="position:absolute; left:600px; top:303px; height: 19px; width: 80px;" size="38" oscardb=postal>
+ 
+  <input name="homephoneLABEL" type="text" class="noborder" style="position:absolute; left:57px; top:329px;" value="h: " size="5" oscardb=phone>
+  <input name="homephone" type="text" class="OscarFilled" id="homephone"  style="position:absolute; left:74px; top:329px;" size="20" oscardb=phone>
+  <input name="cellLABEL" type="text" class="noborder" style="position:absolute; left:204px; top:329px;" value="c: " size="5" oscardb=phone>
+  <input name="cellphone" type="text" class="OscarFilled" id="cellphone" style="position:absolute; left:221px; top:329px;" size="20"  oscardb=cell>
+  <input name="workphoneLABEL" type="text" class="noborder" style="position:absolute; left:353px; top:329px;" value="w: " size="5" oscardb=phone>
+  <input name="workphone" type="text"  class="OscarFilled" id="workphone" style="position:absolute; left:370px; top:329px;" size="20"  oscardb=phone2>
+
+  <span style="position:absolute; left:60px; top:230px; width: 563px; height: 20px;">
+  <input name="Clinic" type="text" class="noborder" id="Clinic"  style="width: 300px; height: 20px;" oscardb=clinic_name>
+  Phone: <input name="clinicphone" id="clinicphone" type="text" class="noborder" style="width: 80px; height: 20px;" oscardb=clinic_phone>
+  Fax: <input name="clinicfax" id="clinicfax" type="text" class="noborder" style="width: 80px; height: 20px;" oscardb=clinic_fax>
+</span>  
+
+<input name="CopyTo" id="CopyTo" style="position:absolute; left:131px; top:252px; width: 400px;" size="40" >
+
+<input name="appdate" type="text" class="editable" ID="datepicker1"style="width: 138px; position: absolute; left: 180px; top: 427px;">
+
+<input name="apptime" type="text" class="editable" style="width: 101px; position: absolute; left: 358px; top: 427px;">
+<input name="docnumber" type="text" class="OscarFilled" style="position: absolute; left: 376px; top: 205px;" size="8" oscarDB=current_user_ohip_no>
+<input name="date" type="text" class="OscarFilled" style="position: absolute; left: 554px; top: 205px;" size="8" oscarDB=today>
+
+
+
+<input name="Abdomen" id="Abdomen" type="text" class="Xbox"  style="position: absolute; left: 12px; top: 503px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="Pelvis" id="Pelvis" type="text" class="Xbox"  style="position: absolute; left: 12px; top: 528px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="Renal" id="Renal" type="text" class="Xbox"  style="position: absolute; left: 12px; top: 553px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="OBSTETRICS" id="OBSTETRICS" type="text" class="Xbox"  style="position: absolute; left: 12px; top: 578px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="LMP" type="text" class="editable" id="datepicker2" style="position: absolute; left: 182px; top:577px; width: 79px;" size="15" oscarDB=m$LMP#value>
+<input name="NTyes" id="NTyes" type="text" class="Xbox"  style="position: absolute; left: 12px; top: 603px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;" >
+<input name="ScreeningBreastUS" id="ScreeningBreastUS" type="text" class="Xbox"  style="position: absolute; left: 12px; top: 628px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;" >
+
+<input name="Breast" id="Breast" type="text" class="Xbox"  style="position: absolute; left: 263px; top: 503px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="Hernia" id="Hernia" type="text" class="Xbox"  style="position: absolute; left: 263px; top: 528px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="Thyroid" id="Thyroid" type="text" class="Xbox"  style="position: absolute; left: 263px; top: 553px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="Scrotum" id="Scrotum" type="text" class="Xbox"  style="position: absolute; left: 263px; top: 578px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="Other" id="Other" type="text" class="Xbox"  style="position: absolute; left: 263px; top: 603px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="OtherText" type="text" class="editable" id="OtherText" style="position: absolute; left: 315px; top:602px; width: 130px;" >
+<input name="instructionsLABEL" type="text" class="noborder" style="position:absolute; left:23px; top:676px; width: 116px; font-weight:bold" value="INSTRUCTIONS: " size="8" >
+<textarea name="Instructions" class="editable" style="width:725px; height:98px; position: absolute; left: 21px; top:697px;" id="Instructions"></textarea>
+<textarea name="Clinic" cols="50" rows="3" class="noborder" id="Clinic" style="position:absolute; left:28px; top:816px; width: 283px; height: 100px;" oscardb=clinic_label></textarea>
+  
+</form>       
+        
+
+<!-- -----------Floating Controls Box ------------------->
+<div id="topbar" class="DoNotPrint" style ="visibility: visible; left: 760px; top: 400px;">
+<form name="LazyForm">
+<p><u>OB Ultrasound:</u><br/>
+  <input type="radio" name="RadioGroup2" id="RadioGroup2_1" onClick="
+                document.FormName.reset();
+                document.FormName.Instructions.value = 'VIABILITY ULTRASOUND';
+                document.FormName.CopyTo.value += ' Maternity ';
+                document.FormName.Female.value = 'X';
+                document.FormName.OBSTETRICS.value = 'X';">
+				Viability<br/>
+                
+<input type="radio" name="RadioGroup2" id="RadioGroup2_2"onClick="
+                document.FormName.reset();
+                document.FormName.OBSTETRICS.value = 'X';
+                document.FormName.Instructions.value = 'DATING ULTRASOUND';
+                document.FormName.Female.value = 'X';
+                document.FormName.CopyTo.value += ' Maternity ';
+                document.FormName.EDD.value =  'unknown';">
+				Dating <BR/>
+  <input type="radio" name="RadioGroup2" id="RadioGroup2_10" onClick="
+                document.FormName.reset();
+                document.FormName.OBSTETRICS.value = 'X';
+                document.FormName.NTyes.value = 'X';
+                document.FormName.Female.value = 'X';
+                document.FormName.CopyTo.value += ' Maternity ';
+                document.FormName.Instructions.value = 'NUCHAL TRANSLUCENCY';">
+Nuchal translucency<br/>
+  
+    <input type="radio" name="RadioGroup2" id="RadioGroup2_3" onClick="
+                document.FormName.reset();
+                document.FormName.OBSTETRICS.value = 'X';
+                document.FormName.Female.value = 'X';
+                document.FormName.CopyTo.value += ' Maternity ';
+                document.FormName.Instructions.value = 'DETAILED ULTRASOUND';">
+  Detailed - FULL<br/>
+  
+    <input type="radio" name="RadioGroup2" id="RadioGroup2_4" onClick="
+                document.FormName.reset();
+                document.FormName.OBSTETRICS.value = 'X';
+                document.FormName.Female.value = 'X';
+                document.FormName.CopyTo.value += ' Maternity ';
+                document.FormName.Instructions.value = 'DETAILED ULTRASOUND - does NOT want soft-marker assessment';">
+  Detailed - NO markers<br/>
+  
+    <input type="radio" name="RadioGroup2" id="RadioGroup2_5" onClick="
+                document.FormName.reset();
+                document.FormName.OBSTETRICS.value = 'X';
+                document.FormName.Female.value = 'X';
+                document.FormName.CopyTo.value += ' Maternity ';
+                document.FormName.Instructions.value ='GROWTH & FLUID ASSESSMENT';">
+  Growth &/or Fluid <br/>
+  
+    <input type="radio" name="RadioGroup2" id="RadioGroup2_9" onClick="
+                document.FormName.reset();
+                document.FormName.OBSTETRICS.value = 'X';
+                document.FormName.Female.value = 'X';
+                document.FormName.CopyTo.value += ' Maternity ';
+                document.FormName.Instructions.value ='CERVICAL LENGTH'">
+  Cervical length<br/>
+  
+    <input type="radio" name="RadioGroup2" id="RadioGroup2_8" onClick="
+                document.FormName.reset();
+                document.FormName.OBSTETRICS.value = 'X';
+                document.FormName.Female.value = 'X';
+                document.FormName.CopyTo.value += ' Maternity ';
+                document.FormName.Instructions.value ='PLACENTAL LOCATION';">
+  Placental location/APH<br/>
+  
+    <input type="radio" name="RadioGroup2" id="RadioGroup2_6" onClick="
+                document.FormName.reset();
+                document.FormName.OBSTETRICS.value = 'X';
+                document.FormName.Female.value = 'X';
+                document.FormName.CopyTo.value += ' Maternity ';
+                document.FormName.Instructions.value = 'PRESENTATION & POSITION ASSESSMENT';">
+  Presentation <br/>
+  
+    <input type="radio" name="RadioGroup2" id="RadioGroup2_7" onClick="
+                document.FormName.reset();
+                document.FormName.OBSTETRICS.value = 'X';
+                document.FormName.Female.value = 'X';
+                document.FormName.CopyTo.value += ' Maternity ';
+                document.FormName.Instructions.value = 'POSTDATES FLUID ASSESSMENT';">
+  Postdates <br/>
+  
+    <input type="radio" name="RadioGroup2" id="RadioGroup2_8" onClick="
+                document.FormName.reset();
+                document.FormName.Pelvis.value = 'X';
+                document.FormName.Instructions.value ='POSTPARTUM ASSESSMENT - suspected retained products';
+                document.FormName.Female.value = 'X';
+                document.FormName.LMP.value='NA';
+                document.FormName.EDD.value='NA';">
+  Postpartum </p>
+<p><u>Patient:</u><br/>
+                
+<input name="Sex" type="checkbox" onClick="
+                document.FormName.Instructions.value=document.FormName.Instructions.value + ', wants to know SEX';">
+  				Wants to know sex of fetus</p>
+     
+  
+<input value="Reset Form" name="ResetButton" id="ResetButton" type="reset" onClick="document.FormName.reset()"> <br/><br/>
+<input value="Print and Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="printSubmit();"> 
+<input value="Submit" name="SubmitButton" id="SubmitButton" type="button" onclick="submission();"><br/> 
+Subject:<input name="subjectName" id="subjectName" type="text" size="15" >
+</p>
+</p>
+</form>
+
+</div>
+<!-- -----------------------End: Floating Box u0096 part 2 --------------------------------->
+
+
+
+
+</body>
+</html>

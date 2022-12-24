@@ -1,0 +1,256 @@
+<html>
+<head>
+<title>Brooke Radiology Breast Imaging</title>
+<style type="text/css" media="print">
+ .DoNotPrint {
+	 display: none;
+ }
+ .noborder {
+	 border : 0px;
+	 background: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-arrow-color: transparent;
+	 scrollbar-base-color: transparent;
+	 scrollbar-darkshadow-color: transparent;
+	 scrollbar-face-color: transparent;
+	 scrollbar-highlight-color: transparent;
+	 scrollbar-shadow-color: transparent;
+	 scrollbar-track-color: transparent;
+	 background: transparent;
+	 overflow: hidden;
+ }
+ </style>
+
+<script type="text/javascript" language="javascript">
+function checkGender(){
+	 if (document.getElementById('PatientGender').value == 'M'){
+	 document.getElementById('Male').checked = true;
+	 }else if (document.getElementById('PatientGender').value == 'F'){
+	 document.getElementById('Female').checked = true;
+	}
+ }
+</script>
+
+<!-- js graphics scripts -->
+<script type="text/javascript" src="${oscar_image_path}jsgraphics.js"></script>
+<script language="javascript">
+function formPrint(){
+	 if (document.getElementById('DrawCheckmark').checked){ 
+			printCheckboxes();
+	 }else{
+			window.print();
+	 } 
+} 
+</script>
+
+<!-- scripts to confirm closing of window if it hadn't been saved yet -->
+<script language="javascript">
+//keypress events trigger dirty flag
+var needToConfirm = false;
+document.onkeyup=setDirtyFlag;
+function setDirtyFlag(){
+		needToConfirm = true;
+}
+function releaseDirtyFlag(){
+		needToConfirm = false; //Call this function if doesn't requires an alert.
+//this could be called when save button is clicked
+}
+window.onbeforeunload = confirmExit;
+function confirmExit(){
+	 if (needToConfirm){
+		 return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+	 }
+}
+</script>
+
+</head>
+
+<body onload="checkGender();">
+<img id='BGImage' src="${oscar_image_path}brookebreast.png" style="position: absolute; left: 0px; top: 0px; width:750px">
+<div id="chkCanvas" style="position:absolute; left:0px; top:0px; width:750; height:975;" onmouseover="putInBack();"></div>
+
+<form method="post" action="" name="FormName" id="FormName" >
+
+<input name="brk4" id="brk4" type="checkbox" style="position:absolute; left:51px; top:145px; " checked>
+
+
+<textarea name="hinc" id="hinc" class="noborder" style="position:absolute; left:52px; top:175px; width:244px; height:17px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=hinc></textarea>
+
+
+<textarea name="dobc2" id="dobc2" class="noborder" style="position:absolute; left:301px; top:174px; width:152px; height:17px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=dobc2></textarea>
+
+
+<textarea name="patient_name" id="patient_name" class="noborder" style="position:absolute; left:53px; top:204px; width:400px; height:16px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=patient_name></textarea>
+
+
+<textarea name="phone" id="phone" class="noborder" style="position:absolute; left:52px; top:233px; width:243px; height:17px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=phone></textarea>
+
+
+<textarea name="address_street_number_and_name" id="address_street_number_and_name" class="noborder" style="position:absolute; left:53px; top:260px; width:194px; height:17px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=address_street_number_and_name></textarea>
+
+
+<textarea name="city" id="city" class="noborder" style="position:absolute; left:255px; top:260px; width:115px; height:16px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=city></textarea>
+
+
+<textarea name="postal" id="postal" class="noborder" style="position:absolute; left:373px; top:260px; width:82px; height:16px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=postal></textarea>
+
+
+<input name="brk5" id="brk5" type="checkbox" style="position:absolute; left:196px; top:296px; ">
+
+
+<input name="brk6" id="brk6" type="checkbox" style="position:absolute; left:196px; top:312px; ">
+
+
+<input name="brk7" id="brk7" type="checkbox" style="position:absolute; left:196px; top:330px; ">
+
+
+<input name="brk8" id="brk8" type="checkbox" style="position:absolute; left:197px; top:366px; ">
+
+
+<input name="orderingDoctor" id="orderingDoctor" class="noborder" style="position:absolute; left:458px; top:145px; width:254px; height:18px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=current_user></input>
+
+
+<textarea name="clinic_label" id="clinic_label" class="noborder" style="position:absolute; left:458px; top:165px; width:254px; height:81px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=clinic_label></textarea>
+
+<input name="copyTo" id="copyTo" class="noborder" style="position:absolute; left:458px; top:260px; width:254px; height:18px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=doctor></input>
+
+
+<input name="brk9" id="brk9" type="checkbox" style="position:absolute; left:434px; top:295px; ">
+
+
+<input name="brk10" id="brk10" type="checkbox" style="position:absolute; left:62px; top:422px; ">
+
+
+<input name="brk11" id="brk11" type="checkbox" style="position:absolute; left:104px; top:421px; ">
+
+
+<input name="brk13" id="brk13" type="text" class="noborder" style="position:absolute; left:199px; top:412px; width:511px; height:20px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="brk14" id="brk14" type="checkbox" style="position:absolute; left:62px; top:452px; ">
+
+
+<input name="brk15" id="brk15" type="checkbox" style="position:absolute; left:104px; top:451px; ">
+
+
+<input name="brk16" id="brk16" type="checkbox" style="position:absolute; left:62px; top:481px; ">
+
+
+<input name="brk17" id="brk17" type="checkbox" style="position:absolute; left:104px; top:482px; ">
+
+
+<input name="brk18" id="brk18" type="checkbox" style="position:absolute; left:62px; top:513px; ">
+
+
+<input name="brk19" id="brk19" type="checkbox" style="position:absolute; left:104px; top:512px; ">
+
+
+<textarea name="m$LMP#value" id="m$LMP#value" class="noborder" style="position:absolute; left:94px; top:546px; width:296px; height:19px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=m$LMP#value></textarea>
+
+
+<textarea name="brk20" id="brk20" class="noborder" style="position:absolute; left:458px; top:537px; width:255px; height:25px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" ></textarea>
+
+
+<input name="brk21" id="brk21" type="checkbox" style="position:absolute; left:51px; top:603px; ">
+
+
+<input name="brk22" id="brk22" type="checkbox" style="position:absolute; left:51px; top:620px; ">
+
+
+<input name="brk23" id="brk23" type="checkbox" style="position:absolute; left:233px; top:600px; ">
+
+
+<input name="brk24" id="brk24" type="checkbox" style="position:absolute; left:233px; top:618px; ">
+
+
+<input name="brk25" id="brk25" type="checkbox" style="position:absolute; left:406px; top:598px; ">
+
+
+<input name="brk26" id="brk26" type="checkbox" style="position:absolute; left:406px; top:617px; ">
+
+
+<input name="brk28" id="brk28" type="checkbox" style="position:absolute; left:567px; top:599px; ">
+
+
+<input name="brk29" id="brk29" type="checkbox" style="position:absolute; left:567px; top:617px; ">
+
+
+<input name="brk30" id="brk30" type="checkbox" style="position:absolute; left:52px; top:642px; ">
+
+
+<textarea name="brk31" id="brk31" class="noborder" style="position:absolute; left:129px; top:643px; width:587px; height:37px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" ></textarea>
+
+
+<textarea name="brk32" id="brk32" class="noborder" style="position:absolute; left:531px; top:863px; width:187px; height:50px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" >'Electronically Signed'</textarea>
+
+
+<textarea name="today" id="today" class="noborder" style="position:absolute; left:280px; top:887px; width:240px; height:26px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=today></textarea>
+
+
+<input name="PatientGender" id="PatientGender" type="hidden" oscarDB=sex>
+<input name="Male" id="Male" type="checkbox" class="noborder" style="position:absolute; left: 299px; top: 231px">
+<input name="Female" id="Female" type="checkbox" class="noborder" style="position:absolute; left: 326px; top: 230px">
+
+
+
+ <div class="DoNotPrint" id="BottomButtons" style="position: absolute; top:975px; left:0px;">
+	 <table><tr><td>
+		 Subject: <input name="subject" size="40" type="text"> 
+			<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick=" releaseDirtyFlag();"> 
+			<input value="Reset" name="ResetButton" id="ResetButton" type="reset"> 
+			<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();"> 
+			<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',3000);"> 
+			<input name="DrawCheckmark" id="DrawCheckmark" type="checkbox" checked><span style="font-family:sans-serif; font-size:12px;">Draw Checkmarks</span> 
+	 </td></tr></table>
+ </div>
+ </form>
+
+<script type="text/javascript">
+<!-- Drawing in checkmarks -->
+var chkcnv = document.getElementById('chkCanvas');
+var chkjg = new jsGraphics(chkcnv);
+var chkcnvLeft = parseInt(chkcnv.style.left);
+var chkcnvTop = parseInt(chkcnv.style.top);
+chkjg.setPrintable(true);
+function drawCheckmark(x,y){
+var offset = 6;
+var x = parseInt(x) + offset;
+var y = parseInt(y) + offset;
+chkjg.setColor('black');
+chkjg.setStroke(3);
+		// draws checkmark
+		var x1 = x;
+		var y1 = y+4;
+		var x2 = x1 + 3;
+		var y2 = y1 + 4;
+		var x3 = x2 + 4;
+		var y3 = y2 - 12;
+		chkjg.drawLine(x1,y1,x2,y2);
+		chkjg.drawLine(x2,y2,x3,y3);
+		chkjg.paint();
+}
+function replaceCheckmarks(){
+var f = document.getElementById("FormName");
+		 for (var i=0;i<f.length;i++){
+				if ((f.elements[i].type == 'checkbox') && (f.elements[i].checked)){
+					var a = f.elements[i].style.left;
+					var b = f.elements[i].style.top;
+					drawCheckmark(a,b);
+				}
+		 }
+}
+function printCheckboxes(){
+		putInFront();
+		replaceCheckmarks();
+		window.print();
+}
+function putInFront(){
+		chkcnv.style.zIndex = "999999";	
+}
+function putInBack(){
+		chkcnv.style.zIndex = "-999999";	
+}
+</script>
+</body>
+</html>

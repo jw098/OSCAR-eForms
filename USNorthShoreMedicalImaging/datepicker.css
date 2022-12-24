@@ -1,0 +1,49 @@
+@import "reset.css";
+
+		#datepicker .ui-widget {
+			font-family: inherit;
+			}
+		#datepicker .ui-datepicker {
+			font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+			}
+		#datepicker .ui-datepicker-title {
+			font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+			font-size: 1.1em;
+			color: #000000;
+			font-weight: normal;
+			line-height: 1.8em;
+			}
+		#datepicker .ui-state-default, .ui-widget-content .ui-state-default {
+			border-color: #e6e6e6;
+			background-color: #e6e6e6;
+			color: #330099;
+			}
+		#datepicker .ui-state-default, .ui-state-default a {
+			color: #330099;
+			}	
+		#datepicker .ui-state-highlight, .ui-widget-content .ui-state-highlight {
+	border-color:#FF0000;
+	background-color:#66ccff;
+	color:#330099;
+			}		
+		#datepicker .ui-state-active, .ui-widget-content .ui-state-active { 
+			border-color: #ffcc00;
+			background-color: #ffcc00;
+			color: #330099; 
+			}
+		#datepicker .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus {
+			border-color: #ff9900;
+			background-color: #ff9900;
+			color: #330033;
+			}
+		#datepicker .ui-widget-header{
+			border-color: #5f5f5f;
+			background-color: #808080;
+			border-width: 1px;
+			}
+		/* Text attributes for the Days of Week Text */ 
+		#datepicker .ui-datepicker table th{
+			font-size: .8em;
+			color: #000000;
+			font-weight: bold;
+			}

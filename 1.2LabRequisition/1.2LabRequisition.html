@@ -1,0 +1,2955 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Standard Outpatient Lab Requisition eForm" />
+<meta name="keywords" content="Standard, Lab, Outpatient, Requisition" />
+<meta name="robots" content="nofollow" />
+<meta http-equiv="author" content="Multiple Authors" />
+
+<!-- eForm DISCLAIMER: As is: eForms are shared as-is, free of charge on a share-alike basis with absolutely no guarantee or warranty. No Quality
+Control: The author does not vet any eForms and does not purport to apply any manner of quality control. Responsibility: The responsibility for the
+clinical and medical-legal consequences of any and all eForms, rest with the clinical OSCAR end-users themselves, not with the author of the eForm.
+This applies to both eForms shared by others, and those created by users themselves. Attribution: eForms are shared freely among the user community,
+with attribution to the original author of the eForm. Free: eForms so shared may not be sold or purchased. Provincial validation: eForms are optional
+and non-essential add-ons, separate from OSCAR, and with their own license terms. eForms are not part of the OSCAR core program functionality and
+code base. For this reason eForms are not subject to provincial validation testing and conformance criteria. eForms are also not subject to the ISO
+production process for OSCAR.-->
+
+<!-- Do not use apostrophes in text, only in html-required coding - they do not allow for proper eForm zip inside Oscar. Instead, use: &#8217; -->
+
+<!-- Updated Nov2013. QuickSelect menu float deactivated and not attached to main form (Dr. John Robertson), but close feature enabled. Background
+at 850x1100; new FIT/hemochromatosis items in place; apostrophes eradicated! Checks for regular MD if locum or other MD has ordered lab. -->
+<!-- 2 column Menu Select. Corrected minor cosmetic issues with spacing. JY -->
+<!-- Update Dec2013: new SOPLR background for 2014. JY -->
+<!-- Update March 2014 Copy to will now display regular physician if locum is ordering AND will display Referring Physician - useful for specialist keeping primary care in the loop -->
+<!-- Update May 24 2014: addition of Prenatal req links:  NIPT, Prenatal Genetic Screening -->
+<!-- Update Sep 29 2015: addition of A1AT quick pick menu, fix gestational HTN pick. JY -->
+<!-- Update Nov1_2015: new LocationsLab_Nov2015.js, new LabDecisionSupport4.js; additional mobile lab options, updated ph # -->
+<!-- Update Mar28_2016: add FRAX risk calculator -->
+<!-- Update Aug26_2016: add text-area width/height limits; add FHCV measurement - FHx of CV disease - required for Oscar 15. -->
+<!-- V5 Oct16_2016: attempt at JQuery X-box, unsuccessful, Xbox function does not work; Xbox styling instituted.  Updated lipid references. Onclick for time and date stamps, add Fosfomycin for urine cultures, simplify fasting instruction paste, off-line architecture as per K Yap. Name order is proper. -->
+<!-- V6 Jan29_2017: add urine drug screen with req for semi-synthetics; and highlight CurrentMed box -->
+<!-- V7_Feb3_2018: update Prenatal options; JohnY -->
+<!-- V8_May18_2018: add PrEP baseline, F/U, SO quick picks; with input from MHO Dr. A Bharmal; JohnY -->
+<!-- V9_Jun1_2018: update links to Lab costs 2018; JohnY -->
+<!-- V10_Jun12_2018: update links to Lab costs 2018; JohnY -->
+<!-- V11_Aug25_2018: update to 2019 background; update LabDecisionSupport4_Aug2018; JohnY -->
+<!-- V12_Sep13_2018: additional legacy serology results; JohnY -->
+<!-- V13_Sep15_2018: new LocationsLab_Sep2018.js, updated mobile lab numbers, conversion to LifeLabs; toggles in side menu, jQuery boxes working -->
+<!-- BugFix Sep18_2018: Added Holter, Urine Macroscopic Toggle Functions. Fixed Fasting instructions for Lipids. Error where lab req prints too small fixed C Chan, R1 -->
+<!-- V14_Oct2_2018: new LocationsLab_Oct2018.js, from Herb Chang; simpler links to NIPT/PGS -->
+<!-- V15_Oct22_2018: new LabDecisionSupport4_Oct2018.js, add RBS legacy values -->
+<!-- V16_Oct23_2018: cosmetic tweak, and STI screen -->
+<!-- V17_Nov4_2018: removed colonoscopy checker; add prevention link; simplify ColonDueDate -->
+<!-- V18_Nov24_2018: removed Frax advisor and link, add additional info for UBT -->
+<!-- V19_Dec14_2018: update LabDecisionSupport to remove FHCVD and old Colonoscopy references; use new 	LabDecisionSupport4_Dec2018.js -->
+<!-- V20_Feb6_2019 update LabDecisionSupport change to remove automatic NO response to SKST status 	LabDecisionSupport4_Feb2019.js -->
+<!-- V21_Feb17_2019 update for cross-browser compatibility when choosing lab location HuyN -->
+<!-- V22_Mar12_2019 place Fosfomycin sensitivity to checkbox; remove caseroom reference, as per OUG, JohnY -->
+<!-- V23_Oct7_2019 add HIV prompts, for screening; anemia work-up, JohnY -->
+<!-- V24_Oct27_2019 update FIT LOINC to 29771-3; results are pos or neg now; updated LabDecisionSupport4_Oct2019.js -->
+<!-- V25_Mar3_2020 fix Group B Strep swab check for Pen allergy; only triggers if GBS swab is selected, JohnY -->
+<!-- V25_May2_2020 lab locations/closures updated due to COVID pandemic, updated Footer References; update LabDecisionSupport4__May2020.js JohnY -->
+<!-- V26_Jun4_2020 fix bug in urine test boxes - would paste No fasting in Dx if unchecked! JohnY -->
+<!-- V27_Aug11_2020 - OscarPro fix; major adjustment to LabDecisionSupport.js - to account for naming changes. Note there is much variation in naming, 
+	despite similar LOINC, and 	this invalidates many displays.  Or alternate names and LOINC, for the same measure:  Troponin I and Troponin high-sensitivity.  
+	There are 3 CRPs. JohnY -->
+<!-- V28_Aug12_2020 - add Recurrent Pregnancy Loss, as per JohnR. JohnY -->
+<!-- V29_Oct27_2020 - update location closures; check website; LocationsLab_Oct2020.js;  =JohnY -->
+<!-- V30_Nov11_2020 - update Lower Mainland Mobile lab; LocationsLab_Nov2020.js;  =JohnY -->
+<!-- V31_Feb17_2021 - add loop closer, draft;  =JohnY -->
+<!-- V32_Oct30_2021 - enable proper name order in CopyTo; JohnY -->
+<!-- V33_Nov8_2021 - improved formatting; needs new LabDecisionSupport4_OscarPro_Nov8_2021.js
+		add New Beginnings reference to First Prenatal link; JohnY -->
+<!-- V34_May26_2022 - deactivate Diagnosis input checker; add maternityhub.ca link; for DW and FNW region; JohnY -->
+<!-- V35_Sep19_2022 - removed font-size changer from LabDecisionSupport4 and return to main HTML to allow for loadFontSize() to work on re-opening; JohnY -->
+<!-- 2022-10-12: removed warning with print button. re-implemented Print and Submit button. -->
+
+<script>
+// For OSCAR to detect what files to include in the generated ZIP, the
+// filename must appear in the HTML document within quotation marks, with the ${oscar_image_path} in front of it;
+// this serves as a workaround to force the files to be included for ZIP exports.
+// Allows for appropriate import of all png files that are not referenced by BGImage tags
+// Place any needed image or js file names within the script tabs, inside double quotations, and to the right of the double slashes
+// "${oscar_image_path}SOPLR_BC_2018_Sans.png"
+// "${oscar_image_path}BCCW_Lab_pg2.png"
+// "${oscar_image_path}FHA_Lab_Mar2018_Pg2.png"
+// "${oscar_image_path}VCH_PHC_Labs_2018.png"
+// "${oscar_image_path}LifeLabsPg2_2019.png"
+// "${oscar_image_path}CreativeCommonsIcon.png" // for Copy Left footer
+</script>
+
+<!-- Files for testing outside of OSCAR: comment out this section on upload to Oscar to prevent 404 errors <script type='text/javascript' src='jquery-1.12.0.min.js'></script>
+<script language="javascript1.2" type="text/javascript" src="onBodyLoad_Dec2019.js"></script>
+<link rel="stylesheet" href="LabReq2014_OscarPro.css"/>
+<script language="javascript" type="text/javascript" src="ScrollTo.js"></script>
+<script language="javascript" type="text/javascript" src="LocationsLab_Nov2020.js"></script>
+<script language="javascript" type="text/javascript" src="LabDecisionSupport4_OscarPro_Sep19_2022.js"></script>
+<script language="javascript" type="text/javascript" src="LabEngine.js"></script>
+<script language="javascript" type="text/javascript" src="QueryString.js"></script>
+<script language="javascript" type="text/javascript" src="underscore.js"></script>
+End of files for testing outside of OSCAR: comment out this section on upload to Oscar to prevent 404 errors -->
+
+<!-- OSCAR based files for greater functionality -->
+<script type='text/javascript' src='${oscar_image_path}jquery-1.12.0.min.js'></script>
+
+<!-- script to link to other pages within Oscar -->
+<script language="javascript" type="text/javascript" src="${oscar_image_path}onBodyLoad_Dec2019.js"></script>
+
+<!-- Extra Lab Req Pop Code -->
+ <link rel="stylesheet" href="${oscar_image_path}LabReq2014_OscarPro.css"/>
+ <script language="javascript" type="text/javascript" src="${oscar_image_path}ScrollTo.js"></script>
+ <script language="javascript" type="text/javascript" src="${oscar_image_path}LocationsLab_Nov2020.js"></script>
+ <script language="javascript" type="text/javascript" src="${oscar_image_path}LabDecisionSupport4_OscarPro_Sep19_2022.js"></script>
+ <script language="javascript" type="text/javascript" src="${oscar_image_path}LabEngine.js"></script>
+ <script language="javascript" type="text/javascript" src="${oscar_image_path}QueryString.js"></script>
+ <script language="javascript" type="text/javascript" src="${oscar_image_path}underscore.js"></script>
+
+ <!-- main calendar program -->
+<script type="text/javascript" src="../share/calendar/calendar.js"></script>
+<script type="text/javascript" src="../share/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="../share/calendar/calendar-setup.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="../share/calendar/calendar.css" title="win2k-cold-1" />
+
+<!-- DatePicker code 
+	<link rel=" stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+	<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+-->	
+
+<style type="text/css" media="screen">
+*{font-family: Helvetica, Arial, sans-serif;}
+input {
+	-moz-box-sizing: content-box;
+	-webkit-print-color-adjust: exact;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box
+}
+
+input#SubmitButton { 
+	color: white;
+	text-shadow: 0px 1px 1px #ffffff;
+	border-bottom: 2px solid #b2b2b2;
+	background: #229ece;
+	background: -webkit-gradient(linear, left top, left bottom, from(#6bb5d2), to(#229ece));
+	background: -moz-linear-gradient(top, #6bb5d2, #229ece);
+	background: -o-linear-gradient(top, #6bb5d2, #229ece);
+	background: -ms-linear-gradient(top, #6bb5d2, #229ece);}
+
+input#SubmitButton:hover {
+	color: #333333;
+	border: 1px solid #a4a4a4;
+	border-top: 2px solid #b2b2b2;
+	background: #a0dbc4;
+	background: -webkit-gradient(linear, left top, left bottom, from(#229ece), to(#F2EFFB));
+	background: -moz-linear-gradient(top, #229ece, #6bb5d2);
+	background: -o-linear-gradient(top, #229ece, #6bb5d2);
+	background: -ms-linear-gradient(top, #229ece, #6bb5d2);}
+
+.attn {
+	animation-name: lookHere;
+	animation-duration: 5s;
+	animation-timing-function: linear;
+	animation-iteration-count: 3;
+	animation-direction: alternate;
+}
+
+@keyframes lookHere {
+  0%   {border-color:#ced5e3;
+box-shadow: 0 0 5px #ced5e3;}
+  25%  {border-color:#364460;
+box-shadow: 0 0 20px #364460;}
+  50%  {border-color:#a21d22;
+box-shadow: 0 0 5px #a21d22;}
+  75%  {border-color:#f7977b;
+box-shadow: 0 0 20px #f7977b;}
+  100% {border-color:#ced5e3;
+box-shadow: 0 0 5px #ced5e3;}
+}
+
+a {text-decoration:none;} 
+a:hover { border: 1px solid #000000; border-style: outset; background: pink; opacity: 0.6;}
+a:active { border: 3px solid #000000; border-style: inset;}
+
+::placeholder {
+	color: rebeccapurple;
+	font-style: italic;
+	opacity: 1;
+}
+
+textarea {resize: none;}
+</style>
+
+<style type="text/css" media="print">
+*{font-family: Helvetica, Arial, sans-serif;}
+input {
+	-moz-box-sizing: content-box;
+	-webkit-print-color-adjust: exact;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box
+}
+
+.DoNotPrint {display: none;} 
+.noborder { 
+	border:0px; 
+	background:transparent;
+	scrollbar-3dlight-color: transparent;
+	scrollbar-arrow-color: transparent; 
+	scrollbar-base-color: transparent;
+	scrollbar-darkshadow-color: transparent; 
+	scrollbar-face-color: transparent;
+	scrollbar-highlight-color: transparent; 
+	scrollbar-shadow-color: transparent;
+	scrollbar-track-color: transparent; 
+	overflow: hidden; 
+}
+
+/* hide placehoders */
+::placeholder {
+	color: transparent;
+} 
+</style>
+
+<style type="text/css">
+.labBox {
+	border: 0px;
+	background: transparent;
+	scrollbar-3dlight-color: transparent;
+	scrollbar-arrow-color: transparent;
+	scrollbar-base-color: transparent;
+	scrollbar-darkshadow-color: transparent;
+	scrollbar-face-color: transparent;
+	scrollbar-highlight-color: transparent;
+	scrollbar-shadow-color: transparent;
+	scrollbar-track-color: transparent;
+	overflow: hidden;
+	font-size: 11px;
+}
+
+input[type="text"], textarea {
+	font-size: 11px;
+	background: transparent;
+	scrollbar-3dlight-color: transparent;
+	scrollbar-arrow-color: transparent;
+	scrollbar-base-color: transparent;
+	scrollbar-darkshadow-color: transparent;
+	scrollbar-face-color: transparent;
+	scrollbar-highlight-color: transparent;
+	scrollbar-shadow-color: transparent;
+	scrollbar-track-color: transparent;
+	overflow: hidden;
+}
+
+.warning {background-color: red;}
+a:link {color: black}
+a:visited {color: black}
+.ui-datepicker-calendar {display: none;}
+
+.FontSizeChange {
+	position: absolute;
+	width: 35px;
+	height: 15px;
+	font-size: 13px;
+	cursor: pointer;
+	background: yellow;
+	text-align: center;
+	border: 1px solid #000000;
+}
+</style>
+
+<!-- Xbox styling -->
+<style type="text/css">
+.box1 {
+	position: absolute;
+	width: 15px;
+	height: 16px;
+	font-size: 16px;
+	font-family: Arial;
+	border: 1px solid #000000;
+	cursor: pointer;
+	font-weight: bold;
+	text-align: center;
+	background: aquamarine;
+}
+.box2 {
+	position: absolute;
+	width: 8px;
+	height: 9px;
+	font-size: 9px;
+	font-family: Arial;
+	border: 1px solid #000000;
+	cursor: pointer;
+	font-weight: bold;
+	text-align: center;
+	background: transparent;
+}
+</style>
+
+<script language="javascript" type="text/javascript">
+	/****************************
+		startup functions 
+	****************************/
+	function startUp() {
+		// new offline architecture as per K Yap
+		setDocumentTitle('Lab_Req_2021', document.getElementById('PatientNameL').value);
+		changeImage("SOPLR_BC_2018_Sans.png", "BGImage");
+		changeImage("BCCW_Lab_pg2.png", "BGImage2");
+		changeImage("FHA_Lab_Mar2018_Pg2.png", "BGImage3");
+		changeImage("VCH_PHC_Labs_2018.png", "BGImage4");
+		changeImage("LifeLabsPg2_2019.png", "BGImage6");
+		changeImage("CreativeCommonsIcon.png", "CreativeCommons"); // for Copy Left footer
+		setDefaults();
+		loadFontSize();
+
+		//optimize window size/width
+		top.window.resizeTo(1330, screen.availHeight);
+	}
+
+	function resourceLink(resource, extension) {
+		// Takes two arguments -- the base filename and its extension -- and
+		// returns a string depending on whether the page has been opened
+		// locally or if it has been uploaded to OSCAR.
+		//
+		// Example usage: resourceLink('image1', 'png')
+		// Return value: 'image1.png' or '${oscar_image_path}image1.png'
+		var prefix = (window.location.href.toLowerCase().indexOf("http") != -1) ? '${oscar_image_path}' : '';
+
+		if (typeof extension === "undefined") {
+			var extension = '';
+		} else {
+			var extension = '.' + extension;
+		}
+		return prefix + resource + extension;
+	}
+
+	function changeImage(img,imgId) {
+		// Changes the src value of an <img>.
+		document.getElementById(imgId).src = resourceLink(img)
+		document.getElementById(imgId).href = resourceLink(img)
+	}
+
+	function setDocumentTitle(Title, PatientNameL) {
+		// set document title
+		document.title = Title + '_' + PatientNameL;
+	}
+
+	function setDefaults() {
+		// check the newform flag to ensure this is the initial load of the form
+		if (document.getElementById("newForm").value == 'True') {
+			document.getElementById('BillTo_MSP').value = 'X';
+
+			parseName('current_user');
+			// Put CopyTo names in proper order
+			parseName('ReferralMD');
+			parseName('PatientMD');
+			parseName('PhysicianName');
+			CheckCopyTo();
+
+		// Check if colonoscopy due date is set and uncheck FIT reminder
+		if (document.FormName.FUYear.value != "") {
+			document.FormName.FIT_CSP.style.background = 'transparent';
+		}
+	
+		// Show ordering MD and MSP
+		document.FormName.CurrentProviderDoctor.value = document.getElementById('current_user').value + ", " + document.getElementById('user_ohip').value;
+		} else {
+		}
+	}
+
+	/****************************
+		Create name in proper order 
+	****************************/
+	function parseName(id) {
+		// Get the name
+		var fullName = document.getElementById(id).value;
+
+		// Split the value
+		var splitName = fullName.split(",");
+		var firstName = "";
+		var lastName  = "";
+
+		// Check for last name
+		if(splitName.length >= 1) {
+			lastName = splitName[0].trim();
+		}
+		if(splitName.length >= 2) {
+			firstName = splitName[1].trim();
+		}
+		var First_Last_Name = firstName + " " + lastName;
+
+		// Show the fields on the page
+		document.getElementById(id).value = First_Last_Name;
+	}
+
+	/****************************
+		print and submit/save functions 
+	****************************/
+	function printLetter() { 
+		// Save reminder; allows for validity testing
+		document.getElementById("SuperficialWound_text").style.background='transparent';
+		document.getElementById("DeepWound_text").style.background='transparent';
+		document.getElementById("OtherWound_text").style.background='transparent';
+		document.getElementById('SupplementalInfo').style.visibility = 'hidden';
+
+		document.getElementById('ResetButton').style.color = 'black';
+		document.getElementById('SubmitButton').classList.toggle('attn');
+		document.getElementById('SubmitButton').style.border = '2px solid red';
+		// alert("eFORM has NOT been submitted.  If needed, cancel print and complete required fields.  Ensure you click SUBMIT after print.");
+		window.print();
+	}
+
+	function submission() { // requires type="submit" in submit button input to allow for validity testing
+		setFlag();
+		releaseDirtyFlag();
+		document.FormName.submit();
+	}
+
+	function printSubmit() {
+
+		window.print();
+		setTimeout('submission()', 500);
+	}
+
+	function CheckComplete() { // deactivated in V34
+		var complete = true;
+		// Check that all questions are answered before print
+
+		// Check for diagosis input
+		if (document.getElementById('DiagnosisAndIndications').value =='') {
+			document.getElementById('DiagnosisAndIndications').style.background = 'yellow';
+			complete = false;
+		} else {
+			document.getElementById('DiagnosisAndIndications').style.background = 'transparent';
+		}
+
+		if (!complete) {
+			alert("Diagnosis incomplete. Please cancel print, and provide highlighted details before proceeding");
+			return false;
+		}
+			return true;
+	}
+
+	function setFlag() {
+		// indicate that the form has been submitted
+		if (document.getElementById("newForm").value == 'True')
+		document.getElementById("newForm").value = 'False';
+	}
+
+	/****************************
+		Checkbox functions - NOT using jQuery; original smart lab version 
+		required the changeValue and displayKeyCode function in every line with an Xbox.
+	****************************/
+	function changeValue(x) {
+		if (document.getElementById(x).value == '')
+		document.getElementById(x).value = 'X';
+		else document.getElementById(x).value = '';
+	}
+
+	function displayKeyCode(evt, x) {
+		var charCode = (evt.which) ? evt.which : event.keyCode
+		// any key press except tab will constitute a value change to the checkbox
+		if (charCode != 9) {
+			changeValue(x);
+			return false;
+		}
+	}
+
+	/****************************
+		Toggle and Array functions to show and hide supplemental text and X-box combinations
+	****************************/
+	function checkArray(x) {
+	for (var i = 0; i < x.length; i++) {
+		if (document.getElementById(x[i]).value == '') {
+			document.getElementById(x[i]).value='X'}
+		}
+	}
+
+	function uncheckArray(x) {
+	for (var i = 0; i < x.length; i++) {
+		if (document.getElementById(x[i]).value == 'X') {
+			document.getElementById(x[i]).value=''}
+		}
+	}
+
+	function ToggleBoxesAndDiagnosisAndSubject(ElementId,BoxesToCheck,DiagnosisAndIndicationsValue,SubjectValue) {
+		if(document.getElementById(ElementId).checked == true || (document.getElementById(ElementId).value != 'X' && document.getElementById(ElementId).classList.contains('box2'))) {
+			checkArray(BoxesToCheck)
+			document.FormName.DiagnosisAndIndications.value += DiagnosisAndIndicationsValue;
+			document.FormName.subject.value += SubjectValue;
+		} else {
+			uncheckArray(BoxesToCheck)
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace(DiagnosisAndIndicationsValue,'');
+			document.FormName.subject.value = document.FormName.subject.value.replace(SubjectValue,'');
+		}
+	}
+
+	function ToggleDiagnosisAndSubject(ElementId,DiagnosisAndIndicationsValue,SubjectValue) {
+		if(document.getElementById(ElementId).checked == true || (document.getElementById(ElementId).value != 'X' && document.getElementById(ElementId).classList.contains('box2'))) {
+			document.FormName.DiagnosisAndIndications.value += DiagnosisAndIndicationsValue;
+			document.FormName.subject.value += SubjectValue;
+		} else {
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace(DiagnosisAndIndicationsValue,'');
+			document.FormName.subject.value = document.FormName.subject.value.replace(SubjectValue,'');	
+		}
+	}
+
+	function ToggleAdditionalTestInstructions(ElementId,AdditionalTestInstructionsValue) {
+		if(document.getElementById(ElementId).checked == true || (document.getElementById(ElementId).value != 'X' && document.getElementById(ElementId).classList.contains('box2'))) {
+			document.FormName.AdditionalTestInstructions.value += AdditionalTestInstructionsValue;
+		} else {
+			document.FormName.AdditionalTestInstructions.value = document.FormName.AdditionalTestInstructions.value.replace(AdditionalTestInstructionsValue,'');
+		}
+	}
+
+	function TogglePatientInstructions(ElementId,PatientInstructionsValue) {
+		if(document.getElementById(ElementId).checked == true || (document.getElementById(ElementId).value != 'X' && document.getElementById(ElementId).classList.contains('box2'))) {
+			document.FormName.PatientInstructions.value += PatientInstructionsValue;
+		} else {
+			document.FormName.PatientInstructions.value = document.FormName.PatientInstructions.value.replace(PatientInstructionsValue,'');
+		}
+	}
+
+	function ToggleCurrentMedications(ElementId,CurrentMedicationsLastDoseValue) {
+		if(document.getElementById(ElementId).checked == true || (document.getElementById(ElementId).value != 'X' && document.getElementById(ElementId).classList.contains('box2'))) {
+			document.FormName.CurrentMedicationsLastDose.value += CurrentMedicationsLastDoseValue;
+		} else {
+			document.FormName.CurrentMedicationsLastDose.value = document.FormName.CurrentMedicationsLastDose.value.replace(CurrentMedicationsLastDoseValue,'');
+		}
+	}
+
+	function ToggleCopyTo(ElementId,CopyToValue) {
+		if(document.getElementById(ElementId).checked == true || (document.getElementById(ElementId).value != 'X' && document.getElementById(ElementId).classList.contains('box2'))) {
+			document.FormName.CopyTo.value += CopyToValue;
+		} else {
+			document.FormName.CopyTo.value = document.FormName.CopyTo.value.replace(CopyToValue,'');
+		}
+	}
+
+	//scripts to confirm closing of window if you have not saved yet
+	//keypress events trigger dirty flag
+	var needToConfirm = false;
+	document.onkeyup = setDirtyFlag;
+	function setDirtyFlag() {
+		needToConfirm = true;
+	}
+	
+	function releaseDirtyFlag() {
+		needToConfirm = false; //Call this function if does not require an alert.
+		//this could be called when save button is clicked
+	}
+	window.onbeforeunload = confirmExit;
+
+	function confirmExit() {
+		if (needToConfirm) {
+			return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+		}
+	}
+
+	//scripts to copy regular GP if locum or other physician has ordered
+	//lab also cc to referral doc for specialists
+	function CheckCopyTo() {
+		if (document.getElementById("PhysicianName").value != document.getElementById("PatientMD").value) {
+			(document.getElementById("CopyTo").value = document.getElementById("PatientMD").value + ' - ' + document.getElementById("PatientMD_MSP").value + ', ' + document.getElementById("ReferralMD").value + ' - ' + document.getElementById("ReferralMD_MSP").value);
+		} else {
+			(document.getElementById("CopyTo").value = document.getElementById("ReferralMD").value + ' - ' + document.getElementById("ReferralMD_MSP").value);
+		}
+	}
+
+		//add fasting instructions
+		function AddFasting(FastingTimeHours) {
+			document.FormName.PatientInstructions.value = document.FormName.PatientInstructions.value.replace('No fasting required. ','');
+			document.FormName.PatientInstructions.value += 'Nothing to eat or drink, except for water, for ' + FastingTimeHours + ' hours prior to test. ';
+			document.FormName.FastingTime.value = FastingTimeHours;}
+
+		function RemoveFasting() {
+			document.FormName.PatientInstructions.value = document.FormName.PatientInstructions.value.replace(/Nothing to eat or drink, except for water, for (\d+)(-(\d+))? hours prior to test. /g,'');
+			document.FormName.FastingTime.value = document.FormName.FastingTime.value.replace(/(\d+)(-(\d+))?/g,'');}
+
+		function ToggleFasting(ElementId,FastingTimeHours) {
+			if(document.getElementById(ElementId).checked == true || (document.getElementById(ElementId).value != 'X' && document.getElementById(ElementId).classList.contains('box2'))) {
+				AddFasting(FastingTimeHours);
+			} else {
+				RemoveFasting();
+			}
+		}
+
+		/****************************
+			script to Increase or Decrease the Font Size
+			name = input name/id, delta = increase (+) or decrease (-) increment #
+			Requires loadFontSize(); in startUp, or in onload line
+		****************************/
+		function changeFontSize(name, delta) {
+			var element = $("#" + name)
+			var oldSize = parseInt(element.css("font-size"));
+			var newSize = oldSize + delta;
+	
+			// Save new font size into "value" field of hidden element
+			$("#" + name + "_fontsize").attr('value', newSize);
+	
+			// Set font size
+			element.css({'font-size': newSize + 'px'});
+		}
+	
+			// ReOpen eForm with altered font size; create hidden inputs with name_fontsize format
+		function loadFontSize() {
+			$.each($("input[name*='_fontsize'"), function(index, element) {
+				var fontSize = element.value;
+	
+				if (!!fontSize) {
+					var name = element.name.split('_')[0];
+					$("#" + name).css({'font-size': fontSize + 'px'});
+				}
+			});
+		}
+</script>
+
+<!-- script for current time -->
+<script language="javascript">
+	function StartClock12() {
+		Time12 = new Date();
+		Cur12Hour = Time12.getHours();
+		Cur12Mins = Time12.getMinutes();
+		The12Time = 0;
+		The12Time = (Cur12Hour > 12) ? Cur12Hour - 12 : Cur12Hour;
+		The12Time += ((Cur12Mins < 10) ? ':0' : ':') + Cur12Mins;
+		The12Time += (Cur12Hour > 11) ? ' PM' : ' AM';
+		window.status = The12Time;
+		setTimeout('StartClock12()', 1000);
+	}
+
+	/****************************
+		Script to check for Penicillin allergy with respect to GBS screening
+	****************************/
+	function CheckAllergyWarning() {
+		const text = document.getElementById("Allergies").value
+		const wordList = /\bpen/i;
+
+		if (wordList.test(text)) {
+			document.getElementById("PenicillinAllergy").value='X';
+		} else {
+			document.getElementById("PenicillinAllergy").value='';
+		}
+	}
+</script>
+
+<!-- script to close quick select menu -->
+<script type="text/javascript">
+	var persistclose = 0 //set to 0 or 1. 1 means once the bar is manually closed, it will remain closed for browser session
+
+	function closebar() {
+		if (persistclose)
+		document.cookie = "remainclosed=1"
+		document.getElementById("LabQuickSelect").style.visibility = "hidden"
+		document.getElementById("LabQuickSelect").style.display = "none"
+	}
+
+	/****************************
+		Radio-XBox functions 
+		Changes function of X_boxes to radio_boxes when the id of the radiobox is passed 
+		as x and is named in the convention name_X where X appears in the string defined in scales
+	****************************/
+	function Radio_Box1(x) {
+		var scales = ["Yes", "No"];
+		var partA = x.substring(0, x.indexOf("_"));
+		var i = x.substring(x.indexOf("_"));
+		var j = i.substr(1);
+
+		for (var n in scales) {
+			if ( j == scales[n]) {
+				for (var m in scales) {
+					if (m != n) { document.getElementById(partA+"_"+scales[m]).value = ''; }
+				}
+			}
+		}
+	return false;
+	}
+
+	function Radio_Box2(x) {
+		var scales = ["full", "FU", "ApoB"];
+		var partA = x.substring(0, x.indexOf("_"));
+		var i = x.substring(x.indexOf("_"));
+		var j = i.substr(1);
+
+		for (var n in scales) {
+			if ( j == scales[n]) {
+				for (var m in scales) {
+					if (m != n) { document.getElementById(partA+"_"+scales[m]).value = ''; }
+				}
+			}
+		}
+	return false;
+	}
+
+	function Radio_Box3(x) {
+		var scales = ["MSP", "ICBC", "WSBC", "Patient", "Other"];
+		var partA = x.substring(0, x.indexOf("_"));
+		var i = x.substring(x.indexOf("_"));
+		var j = i.substr(1);
+
+		for (var n in scales) {
+			if ( j == scales[n]) {
+				for (var m in scales) {
+					if (m != n) { document.getElementById(partA+"_"+scales[m]).value = ''; }
+				}
+			}
+		}
+	return false;
+	}
+
+	/****************************
+		script to set Tickler reminder for future date (aka loop closer)
+	****************************/
+	Date.prototype.addDays = function(days) {
+		var dat = new Date(this.valueOf());
+		dat.setDate(dat.getDate() + days);
+		return dat;
+	}
+
+	Date.prototype.addMonths = function(months) {
+		var dat = new Date(this.valueOf());
+		dat.setMonth(dat.getMonth() + months);
+		return dat;
+	}
+
+	function addMonths(months) {
+		var d = new Date();
+		d = d.addMonths(months);
+		var mth = ((d.getMonth()+1)<10)? ("0"+(d.getMonth()+1)) : (d.getMonth()+1);
+		var day =  d.getDate() > 10 ? d.getDate() : ("0" + d.getDate());
+		var newD = d.getFullYear() + "-" + mth + "-" + day;
+		document.FormName.Tickler_date.value = newD;
+	}
+
+	function addDays(numDays) {
+		var d = new Date();
+		d = d.addDays(numDays);
+		var mth = ((d.getMonth()+1)<10)? ("0"+(d.getMonth()+1)) : (d.getMonth()+1);
+		var day =  d.getDate() > 10 ? d.getDate() : ("0" + d.getDate());
+		var newD = d.getFullYear() + "-" + mth + "-" + day;
+		document.FormName.Tickler_date.value = newD;
+	}
+
+	ticklerReminder = function() {
+		var patient_id = document.getElementById('patient_id').value;
+		var user_id = document.getElementById('current_user_id').value;
+		var ticklerDate = $( '#Tickler_date' ).val();
+		var ticklerMsg = "Review labs. " + $( '#Tickler_msg' ).val();
+		sendTickler(patient_id, ticklerMsg, user_id, ticklerDate);
+		if (ticklerDate == '') {
+			return("ERROR: Tickler reminder date is blank.  Please correct before proceeding.");
+			return;
+		}
+	} 
+
+	sendTickler = function(demographicNo, message, taskAssignedTo, ticklerDate) {
+		var ticklerToSend = {};
+		ticklerToSend.demographicNo = demographicNo;
+		ticklerToSend.message = message;
+		ticklerToSend.taskAssignedTo = taskAssignedTo;
+		ticklerToSend.serviceDate = ticklerDate ;
+
+	jQuery.ajax( {
+		type: "POST",
+		url:  '../ws/rs/tickler/add',
+		dataType:'json',
+		contentType:'application/json',
+		data: JSON.stringify(ticklerToSend),
+		success: processTicklerCallBack
+		});
+	}
+
+	processTicklerCallBack = function(data) {
+		if(data.success) {
+			alert("Lab reminder Tickler created and assigned to you.");
+		} else {
+			alert("ERROR: Tickler failed. Please create tickler manually.");
+		}
+	}
+
+	calculateTicklerDays = function() {
+		if(jQuery.trim($('#Tickler_date').val()).length > 0) {
+		// calculate future date for Tickler
+			var t = new Date(); // today
+			var d = new Date(Date.parse(jQuery.trim($('#Tickler_date').val()))); // chosen date or (today + add) - days
+			var i = ((Math.floor((d - t)/(1000 * 60 * 60 * 24))) +2); // days forward from today
+			d.setDate(d.getDate());
+			$( "#Tickler_date" ).val(d.toISOString().substring(0,10));
+			var NewTickler = document.getElementById('Tickler_date').value;
+		//	alert("Once you click Set Tickler button, a reminder will be set for " + i + " day(s) from today.  Expect Lab result(s) by " +  $( '#Tickler_date' ).val() + ". Click the Set Tickler button to create reminder now.");
+		}
+	}
+</script>
+</head>
+
+<body onload=" startUp(); autoLabReqPop(); StartClock12(); setTimeout(() => window.scrollTo({ top:0, left:0}), 50);">
+<form method="post" action="" name="FormName" id="FormName" autocomplete="on">
+
+<div id="page1">
+	<img id="BGImage" src="" style="position:absolute; left:0px; top:0px; width:850px;">
+
+<!-- Hidden input for eForm title -->
+<input type="hidden" name="PatientNameL" id="PatientNameL" oscarDB=patient_nameL>
+
+<!-- Hidden input for normal order of user name, name="CurrentProviderDoctor" -->
+<input type="hidden" name="current_user" id="current_user" oscarDB=current_user>
+
+<!-- Hidden input for GBS screen, patients with Penicillin allergy -->
+<input type="hidden" name="Allergies" id="Allergies" oscarDB=allergies_des_no_archived>
+
+<!-- Hidden input for CheckCopyTo -->
+<input type="hidden" name="PatientMD" id="PatientMD" oscarDB=doctor>
+<input type="hidden" name="PatientMD_MSP" id="PatientMD_MSP" oscarDB=doctor_ohip_no>
+<input type="hidden" name="ReferralMD" id="ReferralMD" oscarDB=referral_name>
+<input type="hidden" name="ReferralMD_MSP" id="ReferralMD_MSP" oscarDB=referral_no>
+<input type="hidden" name="PhysicianName" id="PhysicianName" oscarDB=current_user>
+
+<input type="hidden" name="today" id="today" oscarDB=today>
+
+<!-- Hidden input for font size changer inputs -->
+<input type="hidden" name="AdditionalTestInstructions_fontsize" id="AdditionalTestInstructions_fontsize">
+<input type="hidden" name="PatientInstructions_fontsize" id="PatientInstructions_fontsize">
+<input type="hidden" name="AdditionalInfo_fontsize" id="AdditionalInfo_fontsize">
+
+<!-- Extra Lab Req Pop Code -->
+<input type="hidden" name="DMT" id="DMT" oscarDB=m$REBG#value>
+<input type="hidden" name="HBPT" id="HBPT" oscarDB=m$SODI#value>
+<input type="hidden" name="CHFT" id="CHFT" oscarDB=m$SOHF#value>
+<input type="hidden" name="BP" id="BP" oscarDB=m$BP#value>
+<input type="hidden" name="Meds" id="Meds" oscarDB=druglist_generic>
+<input type="hidden" name="counter" id="counter">
+<input type="hidden" name="BaseFee" id="BaseFee">
+<input type="hidden" name="history" id="history" oscarDB=Reminders>
+<input type="hidden" name="history1" id="history1" oscarDB=OngoingConcerns>
+<input type="hidden" name="history2" id="history2" oscarDB=Medical_History>
+<input type="hidden" name="history3" id="history3" oscarDB=Other_Medications_History>
+<input type="hidden" name="history4" id="history4" oscarDB=Social_Family_History>
+<input type="hidden" name="m$TVAL#value" id="targetValue">
+<input type="hidden" name="TSHvalue" id="TSHvalue" oscarDB=m$TSH#value>
+<input type="hidden" name="TSHdate" id="TSHdate" oscarDB=m$TSH#dateObserved>
+<input type="hidden" name="ACRvalue" id="ACRvalue" oscarDB=m$ACR#value>
+<input type="hidden" name="TCHLvalue" id="TCHLvalue" oscarDB=m$TCHL#value>
+<input type="hidden" name="TCHLdate" id="TCHLdate" oscarDB=m$TCHL#dateObserved>
+<input type="hidden" name="HDLvalue" id="HDLvalue" oscarDB=m$HDL#value>
+<input type="hidden" name="A1Cvalue" id="A1Cvalue" oscarDB=m$A1C#value>
+<input type="hidden" name="A1Cdate" id="A1Cdate" oscarDB=m$A1C#dateObserved>
+<input type="hidden" name="eGFRvalue" id="eGFRvalue" oscarDB=m$EGFR#value>
+<input type="hidden" name="eGFRdate" id="eGFRdate" oscarDB=m$EGFR#dateObserved>
+
+<input type="hidden" name="HIV_value" id="HIV_value" oscarDB=m$HIVA#value>
+<input type="hidden" name="HIV_date" id="HIV_date" oscarDB=m$HIVA#dateObserved>
+
+<input type="hidden" name="HAV_value" id="HAV_value" oscarDB=m$HAGM#value>
+<input type="hidden" name="HAV_date" id="HAV_date" oscarDB=m$HAGM#dateObserved>
+
+<input type="hidden" name="dailySmokes" id="dailySmokes" oscarDB=m$NOSK#value>
+<input type="hidden" name="PacksPerDay" id="PacksPerDay" oscarDB=m$POSK#value>
+<input type="hidden" name="smoker" id="smoker" oscarDB=m$SKST#value>
+
+<input type="hidden" name="m$SKST#value" id="ReturnSmokingStatus">
+
+<!--	
+	<input type="hidden" name="m$FHCV#value" id="ReturnFHCVD">
+	<input type="hidden" name="FHCVD" id="FHCVD" oscarDB=m$FHCV#value>
+-->
+
+<input type="hidden" name="m$FRAM#value" id="m$FRAM#value" oscarDB=m$FRAM#value>
+<input type="hidden" name="m$FRAM#dateObserved" id="m$FRAM#dateObserved" oscarDB=m$FRAM#dateObserved>
+<input type="hidden" name="dxlist" id="dxlist" oscarDB=dxregistry>
+<input type="hidden" name="PatientAge" id="PatientAge" oscarDB=age>
+<input type="hidden" name="curr_user" id="curr_user" oscarDB=current_user>
+<input type="hidden" name="user_ohip" id="user_ohip" oscarDB=current_user_ohip_no>
+<input type="hidden" name="user_cpsid" id="user_cpsid" oscarDB=current_user_cpsid>
+<input type="hidden" name="PatientGender" id="PatientGender" oscarDB=sex>
+
+<!-- Hidden inputs needed for Tickler generator (loop closer) -->
+<input type="hidden" name="patient_id" id="patient_id" oscarDB=patient_id />
+<input type="hidden" name="current_user_id" id="current_user_id" oscarDB=current_user_id />
+
+<!-- Lab references -->
+<div id="AdditionalLabInfo" style="position:absolute; left:897px; top:10px; width:310px;">
+	<span class="DoNotPrint" style="position:absolute; left:0px; top:0px; font-size:14px;">Additional Lab Information:</span>
+	<a id="BGImage2" class="DoNotPrint" style="position:absolute; left:0px; top:20px; font-size:14px;" href="" target="_blank">BC Children&#47;Women&apos;s Hospital</a>
+	<a id="BGImage3" class="DoNotPrint" style="position:absolute; left:0px; top:40px; font-size:14px;" href="" target="_blank">Fraser Health Hospitals</a>
+	<a id="BGImage4" class="DoNotPrint" style="position:absolute; left:0px; top:60px; font-size:14px;" href="" target="_blank">Vancouver Coastal&#47;Providence Health sites</a>
+	<a name="LifeLabs" class="DoNotPrint" href="http://locations.lifelabs.com/" style="position:absolute; left:0px; top:80px; font-size:14px;" target="_blank" title="Weblink for locations">LifeLabs</a>
+	<a id="BGImage6" class="DoNotPrint" style="position:absolute; left:70px; top:80px; font-size:14px;" href="" target="_blank" title="PDF for print">Lower Mainland Locations</a>
+	<a name="PHSA" class="DoNotPrint" href="http://lmlabs.phsa.ca/find-a-lab" style="position:absolute; left:0px; top:100px; font-size:14px;" target="_blank" title="Weblink for Provincial Health Services Association, Lower Mainland Labs">PHSA&#47;LM Labs</a>
+</div>
+
+<!-- All textfields/checkboxes/textareas go here... -->
+<!-- LabLocation -->
+<textarea name="LabLocation" id="LabLocation" type="text" class="noborder" style="position:absolute; left:4px; top:5px; width:293px; height:63px; font-size:12px; background:white;" oscarDB=e$last#LabLocation></textarea>
+<textarea name="LabHours" id="LabHours" type="text" class="noborder" wrap="virtual" style="position:absolute; left:305px; top:5px; width:252px; height:63px; font-size:12px; background:white;" oscarDB=e$last#LabHours></textarea>
+
+<!-- Dummy Xbox -->
+<input name="BlueTickBox" id="BlueTickBox" type="text" class="box2" style="left:284px; top:86px; width:7px; height:9px; background:#b3d0ea;">
+
+<!-- Guideline Reference: see specific sections for the guideline webpage info -->
+<!-- Use format below for all references -->
+<a href="http://www.bcguidelines.ca/gpac/submenu_diagnostics_lab.html" style="position:absolute; left:435px; top:100px; font-weight:bold; font-size:9px;" target="_blank"></a>
+
+<!-- Bill to: -->
+<input name="BillTo_MSP" id="BillTo_MSP" type="text" class="box2" style="left:60px; top:124px;" onclick="Radio_Box3(this.id);" onkeypress="Radio_Box3(this.id)">
+<input name="BillTo_ICBC" id="BillTo_ICBC" type="text" class="box2" style="left:113px; top:124px;" onclick="Radio_Box3(this.id);" onkeypress="Radio_Box3(this.id)">
+<input name="BillTo_WSBC" id="BillTo_WSBC" type="text" class="box2" style="left:165px; top:124px; " onclick="Radio_Box3(this.id);" onkeypress="Radio_Box3(this.id)">
+<input name="BillTo_Patient" id="BillTo_Patient" type="text" class="box2" style="left:257px; top:124px;" onclick="Radio_Box3(this.id);" onkeypress="Radio_Box3(this.id)">
+<input name="BillTo_Other" id="BillTo_Other" type="text" class="box2" style="left:330px; top:124px;" onclick="Radio_Box3(this.id);" onkeypress="Radio_Box3(this.id)">
+<input name="BillToOtherText" type="text" class="noborder" style="position:absolute; left:380px; top:120px; width:177px; font-size:14px; background:transparent;">
+
+<!-- Patient Demographics -->
+<input name="PHN" type="text" class="noborder" style="position:absolute; left:7px; top:159px; width:270px; font-size:14px; background:transparent;" oscardb=HIN>
+<input name="ICBC_WSBC_RCMPNumber" type="text" class="noborder" style="position:absolute; left:288px; top:159px; width:269px; font-size:14px; background:transparent;">
+<input name="Surname" id="Surname" type="text" class="noborder" style="position:absolute; left:7px; top:193px; width:270px; font-size:14px; background:transparent;" oscarDB=patient_nameL>
+<input name="FirstName" id="FirstName" type="text" class="noborder" style="position:absolute; left:288px; top:193px; width:269px; font-size:14px; background:transparent;" oscarDB=patient_nameF>
+<input name="dobc2" id="dobc2" type="text" class="noborder" style="position:absolute; left:7px; top:232px; width:160px; font-size:13px; text-align:center; background:white;" oscardb=dobc2>
+<input name="gender" type="text" class="noborder" style="position:absolute; left:182px; top:229px; width:92px; font-size:14px; text-align:center; background:white;" oscardb=sex>
+
+<input name="Pregnant_Yes" id="Pregnant_Yes" type="text" class="box2" style="left:343px; top:232px;" onclick="Radio_Box1(this.id)" onkeypress="Radio_Box1(this.id)">
+<input name="Pregnant_No" id="Pregnant_No" type="text" class="box2" style="left:378px; top:232px;" onclick="Radio_Box1(this.id)" onkeypress="Radio_Box1(this.id)">
+<input name="Fasting_box" id="Fasting_box" type="text" class="box2" style="left:430px; top:232px;">
+<input name="FastingTime" type="text" class="noborder" style="position:absolute; left:485px; top:225px; width:40px; font-size:16px; text-align:center; background:transparent;">
+
+<input name="PatientPhone" type="text" class="noborder" style="position:absolute; left:7px; top:262px; width:174px; font-size:14px; background:transparent;" oscardb=phone>
+<input name="PatientPhone2" type="text" class="noborder" style="position:absolute; left:195px; top:262px; width:174px; font-size:14px; background:transparent;" oscardb=phone2>
+<input name="Patient_cell" type="text" class="noborder" style="position:absolute; left:382px; top:262px; width:175px; font-size:14px; background:transparent;" oscardb=cell>
+
+<input name="Address" type="text" class="noborder" style="position:absolute; left:7px; top:299px; width:550px; font-size:14px; background:white;" oscardb=addressLine>
+
+<!-- Ordering Physician(s) info -->
+<input name="CurrentProviderDoctor" id="CurrentProviderDoctor" type="text" class="noborder" style="position:absolute; left:568px; top:27px; width:265px; font-size:13px; font-weight:bold;">
+<textarea name="clinic_label" class="noborder" style="position:absolute; left:568px; top:47px; width:265px; height:90px; font-size:14px; font-weight:bold;" oscarDB=clinic_label></textarea>
+<input name="LocumName" type="text" class="noborder" style="position:absolute; left:568px; top:159px; width:265px; font-size:14px; background:transparent;">
+<input name="StatPhone" id="StatPhone" type="text" class="noborder" style="position:absolute; left:568px; top:194px; width:265px; font-size:14px; background:transparent;" title="Stat Phone needed?" placeholder="Provide stat contact phone # if needed">
+
+<input name="STATContact" type="text" class="noborder" style="position:absolute; left:568px; top:232px; width:265px; font-size:14px; background:transparent;">
+<textarea name="CopyTo" id="CopyTo" type="text" class="noborder" style="position:absolute; left:568px; top:270px; width:265px; height:42px; font-size:14px; background:white;"></textarea>
+
+<!-- Diagnosis; onblur adds indication to subject line -->
+<input name="DiagnosisAndIndications" id="DiagnosisAndIndications" type="text" style="position:absolute; left:7px; top:336px; width:405px; font-size:14px; background:transparent;"class="noborder"; onblur="document.FormName.subject.value=DiagnosisAndIndications.value;">
+
+<!-- Current Meds/Patient Instructions -->
+<input name="CurrentMedicationsLastDose" id="CurrentMedicationsLastDose" type="text" class="noborder" style="position:absolute; left:425px; top:335px; width:408px; font-size:14px; background:transparent;">
+
+<!-- Hematology -->
+<input name="HematologyProfile" id="HematologyProfile" type="text" class="box2" style="left:4px; top:377px;">
+
+<input name="PTINR" id="PTINR" type="text" class="box2" style="left:4px; top:392px;">
+<a href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/warfarin-therapy" style="position:absolute; left:40px; top:395px; font-weight:bold; font-size:9px;text-decoration: none;" target="_blank" title="Warfarin Therapy Guidelines">PT-INR</a>
+
+<input name="Warfarin_Yes" id="Warfarin_Yes" type="text" class="box2" style="left:215px; top:377px;" onclick="Radio_Box1(this.id)" onkeypress="Radio_Box1(this.id)">
+<input name="Warfarin_No" id="Warfarin_No" type="text" class="box2" style="left:248px; top:377px;" onclick="Radio_Box1(this.id)" onkeypress="Radio_Box1(this.id)">
+<input name="Anticoag_text" id="Anticoag_text" type="text" class="noborder" style="position:absolute; left:175px; top:389px; width:100px; font-size:14px; background:transparent;">
+
+<input name="Ferritin" id="Ferritin" type="text" class="box2" style="left:4px; top:406px;">
+
+<input name="HFEconfirmDx_Yes" id="HFEconfirmDx_Yes" type="text" class="box2" style="left:20px; top:439px; background:#b3d0ea;" onclick="Radio_Box1(this.id)" onkeypress="Radio_Box1(this.id)">
+<input name="HFEconfirmDx_No" id="HFEconfirmDx_No" type="text" class="box2" style="left:20px; top:453px; background:#b3d0ea;" onclick="Radio_Box1(this.id)" onkeypress="Radio_Box1(this.id)">
+
+<!-- Urine Tests -->
+<a name="Urine Tests" href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/urological-system" style="position:absolute; left:390px; top:359px; width:70px; height:13px;" target="_blank" title="GPAC guidelines"></a>
+<a name="microscopic" href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/hematuria" style="position:absolute; left:413px; top:413px; width:53px; height:13px; " target="_blank" class="DoNotPrint" title="click for guideline"></a>
+
+<input name="UrineMacroscopicMicroscopicIfDipstickPositive" id="UrineMacroscopicMicroscopicIfDipstickPositive" type="text" class="box2" style="left:290px; top:382px; background:#b3d0ea;">
+
+<input name="UrineMacroscopicCultureIfPyuriaOrNitrate" id="UrineMacroscopicCultureIfPyuriaOrNitrate" type="text" class="box2" style="left:290px; top:398px; background:#b3d0ea;" 
+	onclick="
+		if(UrineMacroscopicCultureIfPyuriaOrNitrate.value != 'X') {
+			document.FormName.DiagnosisAndIndications.value += 'UTI? ';
+			document.FormName.subject.value += 'UTI, ';
+		} else {
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('UTI? ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('UTI, ','');
+		}"
+	onkeypress="
+		if(UrineMacroscopicCultureIfPyuriaOrNitrate.value != 'X') {
+			document.FormName.DiagnosisAndIndications.value += 'UTI? ';
+			document.FormName.subject.value += 'UTI, ';
+		} else {
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('UTI? ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('UTI, ','');}">
+
+<!-- Add Fosfomycin sensitivity -->
+<span class="DoNotPrint" style="position:absolute; left:475px; top:412px; font-size:12px; color:green;">Add Fosfomycin</span>
+<input name="AddFosfomycin" id="AddFosfomycin" type="text" class="DoNotPrint box2" style="left:520px; top:398px; background:lightgreen;"
+	onclick="
+		if(AddFosfomycin.value != 'X') {
+			document.FormName.AdditionalTestInstructions.value += 'Add Fosfomycin sensitivity for urine culture ';
+		} else {
+			document.FormName.AdditionalTestInstructions.value = document.FormName.AdditionalTestInstructions.value.replace('Add Fosfomycin sensitivity for urine culture ','');
+		}"
+	onkeypress="
+		if(AddFosfomycin.value != 'X') {
+			document.FormName.AdditionalTestInstructions.value += 'Add Fosfomycin sensitivity for urine culture ';
+		} else {
+			document.FormName.AdditionalTestInstructions.value = document.FormName.AdditionalTestInstructions.value.replace('Add Fosfomycin sensitivity for urine culture ','');}">
+
+<input name="UrineMacroscopicOnly" id="UrineMacroscopicOnly" type="text" class="box2" style="left:290px; top:414px; background:#b3d0ea;">
+
+<input name="UrineMicroscopicOnly" id="UrineMicroscopicOnly" type="text" class="box2" style="left:397px; top:414px; background:#b3d0ea;"
+	onclick="
+		if(UrineMicroscopicOnly.value != 'X') {
+			document.FormName.Urine_text.style.background='yellow';
+		} else {
+			document.FormName.Urine_text.style.background='transparent';
+		}"
+	onkeypress="
+		if(UrineMicroscopicOnly.value != 'X') {
+			document.FormName.Urine_text.style.background='yellow';
+		} else {
+			document.FormName.Urine_text.style.background='transparent';}">
+
+<input name="Urine_text" id="Urine_text" type="text" class="noborder" style="position:absolute; left:290px; top:446px; width:265px; font-size:14px; background:transparent;">
+
+<!-- Chemistry -->
+<input name="GlucoseFasting" id="GlucoseFasting" type="text" class="box2" style="left:570px; top:377px;" 
+	onclick="
+		if(GlucoseFasting.value != 'X') {
+			document.FormName.PatientInstructions.value += 'Nothing to eat or drink, except for water, for 10 hours prior to test. ';
+			document.FormName.FastingTime.value += '10';
+		} else {
+			document.FormName.PatientInstructions.value = document.FormName.PatientInstructions.value.replace('Nothing to eat or drink, except for water, for 10 hours prior to test. ','');
+			document.FormName.FastingTime.value = '';
+		}"
+	onkeypress="
+		if(GlucoseFasting.value != 'X') {
+			document.FormName.PatientInstructions.value += 'Nothing to eat or drink, except for water, for 10 hours prior to test. ';
+			document.FormName.FastingTime.value += '10';
+		} else {
+			document.FormName.PatientInstructions.value = document.FormName.PatientInstructions.value.replace('Nothing to eat or drink, except for water, for 10 hours prior to test. ','');
+			document.FormName.FastingTime.value = '';}">
+
+<input name="GlucoseRandom" id="GlucoseRandom" type="text" class="box2" style="left:570px; top:391px;" 
+	onclick="
+		if(GlucoseRandom.value != 'X') {
+			document.FormName.PatientInstructions.value += 'No fasting required, ';
+		} else {
+		document.FormName.PatientInstructions.value = document.FormName.PatientInstructions.value.replace('No fasting required, ','');
+		}"
+	onkeypress="
+		if(GlucoseRandom.value != 'X') {
+			document.FormName.PatientInstructions.value += 'No fasting required, ';
+		} else {
+			document.FormName.PatientInstructions.value = document.FormName.PatientInstructions.value.replace('No fasting required, ','');}">
+
+<!-- GTT GDM screen -->
+<span style="position:absolute; left:585px; top:405px; width:245px; height:12px;" title="Complete at 26-28 wks"></span>
+<input name="GTTGDMScreen" id="GTTGDMScreen" type="text" class="box2" style="left:570px; top:405px;" 
+	onclick="
+		if(document.getElementById('GTTGDMScreen').value != 'X') {
+			document.FormName.Pregnant_Yes.value='X';
+			document.FormName.DiagnosisAndIndications.value += 'Gestational DM screen ';
+			document.FormName.subject.value += 'Gestational DM screen ';
+			document.FormName.PatientInstructions.value +=  'No fasting or appointment required. This is a 1 hour test and you will be required to remain at the lab for the duration of the test. ';
+		} else {
+			document.FormName.Pregnant_Yes.value='';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Gestational DM screen ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('Gestational DM screen ','');
+			document.FormName.PatientInstructions.value = document.FormName.PatientInstructions.value.replace('No fasting or appointment required. This is a 1 hour test and you will be required to remain at the lab for the duration of the test. ','');
+		}"
+		onkeypress="
+			if(document.getElementById('GTTGDMScreen').value != 'X') {
+				document.FormName.Pregnant_Yes.value='X';
+				document.FormName.DiagnosisAndIndications.value += 'Gestational DM screen ';
+				document.FormName.subject.value += 'Gestational DM screen ';
+				document.FormName.PatientInstructions.value +=  'No fasting or appointment required. This is a 1 hour test and you will be required to remain at the lab for the duration of the test. ';
+			} else {
+				document.FormName.Pregnant_Yes.value='';
+				document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Gestational DM screen ','');
+				document.FormName.subject.value = document.FormName.subject.value.replace('Gestational DM screen ','');
+				document.FormName.PatientInstructions.value = document.FormName.PatientInstructions.value.replace('No fasting or appointment required. This is a 1 hour test and you will be required to remain at the lab for the duration of the test. ','');}">
+
+<!-- GTT GDM confirmation -->
+<input name="GTTGDMConfirmation" id="GTTGDMConfirmation" type="text" class="box2" style="left:570px; top:419px;" 
+	onclick="
+		if(document.getElementById('GTTGDMConfirmation').value != 'X') {
+			document.FormName.Pregnant_Yes.value='X';
+			document.FormName.FastingTime.value='8';
+			document.FormName.DiagnosisAndIndications.value += 'Abnormal Gestational DM screen ';
+			document.FormName.subject.value += 'Abn GDM screen ';
+			document.FormName.AdditionalTestInstructions.value +=  'Nothing to eat or drink, except for water, for 8 hours prior to test. This is a 2 hour test and you will be required to remain at the lab for the duration of the test.  Please call and book your appointment. ';
+		} else {
+			document.FormName.Pregnant_Yes.value='';
+			document.FormName.FastingTime.value='';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Abnormal Gestational DM screen ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('Abn GDM screen ','');
+			document.FormName.AdditionalTestInstructions.value = document.FormName.PatientInstructions.value.replace('Nothing to eat or drink, except for water, for 8 hours prior to test. This is a 2 hour test and you will be required to remain at the lab for the duration of the test.  Please call and book your appointment. ','');
+		}"
+	onkeypress="
+		if(document.getElementById('GTTGDMConfirmation').value != 'X') {
+			document.FormName.Pregnant_Yes.value='X';
+			document.FormName.FastingTime.value='8';
+			document.FormName.DiagnosisAndIndications.value += 'Abnormal Gestational DM screen ';
+			document.FormName.subject.value += 'Abn GDM screen ';
+			document.FormName.AdditionalTestInstructions.value +=  'Nothing to eat or drink, except for water, for 8 hours prior to test. This is a 2 hour test and you will be required to remain at the lab for the duration of the test.  Please call and book your appointment. ';
+		} else {
+			document.FormName.Pregnant_Yes.value='';
+			document.FormName.FastingTime.value='';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Abnormal Gestational DM screen ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('Abn GDM screen ','');
+			document.FormName.AdditionalTestInstructions.value = document.FormName.PatientInstructions.value.replace('Nothing to eat or drink, except for water, for 8 hours prior to test. This is a 2 hour test and you will be required to remain at the lab for the duration of the test.  Please call and book your appointment. ','');}">
+
+<!-- GTT non-gestational -->
+<input name="GTT_nonGest" id="GTT_nonGest" type="text" class="box2" style="left:570px; top:445px;"
+	onclick="
+		if(document.getElementById('GTT_nonGest').value != 'X') {
+			document.FormName.Pregnant_No.value='X';
+			document.FormName.FastingTime.value='8';
+			document.FormName.DiagnosisAndIndications.value += 'Query DM, ';
+			document.FormName.subject.value += 'DM? ';
+			document.FormName.AdditionalTestInstructions.value +=  'Nothing to eat or drink, except for water, for 8 hours prior to test. This is a 2 hour test and you will be required to remain at the lab for the duration of the test.  Please call and book your appointment. ';
+		} else {
+			document.FormName.Pregnant_No.value='';
+			document.FormName.FastingTime.value='';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Query DM, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('DM? ','');
+			document.FormName.AdditionalTestInstructions.value = document.FormName.PatientInstructions.value.replace('Nothing to eat or drink, except for water, for 8 hours prior to test. This is a 2 hour test and you will be required to remain at the lab for the duration of the test.  Please call and book your appointment. ','');
+		}"
+ 	onkeypress="
+		if(document.getElementById('GTT_nonGest').value != 'X') {
+			document.FormName.Pregnant_No.value='X';
+			document.FormName.FastingTime.value='8';
+			document.FormName.DiagnosisAndIndications.value += 'Query DM, ';
+			document.FormName.subject.value += 'DM? ';
+			document.FormName.AdditionalTestInstructions.value +=  'Nothing to eat or drink, except for water, for 8 hours prior to test. This is a 2 hour test and you will be required to remain at the lab for the duration of the test.  Please call and book your appointment. ';
+		} else {
+			document.FormName.Pregnant_No.value='';
+			document.FormName.FastingTime.value='';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Query DM, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('DM? ','');
+			document.FormName.AdditionalTestInstructions.value = document.FormName.PatientInstructions.value.replace('Nothing to eat or drink, except for water, for 8 hours prior to test. This is a 2 hour test and you will be required to remain at the lab for the duration of the test.  Please call and book your appointment. ','');}">
+
+<input name="A1c" id="A1c" type="text" class="box2" style="left:570px; top:459px;">
+<input name="ACR" id="ACR" type="text" class="box2" style="left:570px; top:473px;">
+
+<!-- Microbiology -->
+<!-- Routine Culture -->
+<input name="Strep_Link" id="Strep_Link" type="button" class="DoNotPrint" style="position:absolute; left:85px; top:491px; font-size:10px; color:green;" oscarOPEN="Strep Throat Risk" title="Modified Centor Pharyngitis Risk Score eForm" value="Strep Throat Risk">
+
+<input name="OnAntibiotics_Yes" id="OnAntibiotics_Yes" type="text" class="box2" style="left:69px; top:511px;" 
+	onclick="
+		Radio_Box1(this.id);
+		if(OnAntibiotics_Yes.value != 'X') {
+			document.FormName.OnAntibiotics_text.style.background='yellow';
+		} else {
+			document.FormName.OnAntibiotics_text.style.background='transparent';
+		}"
+	onkeypress="
+		Radio_Box1(this.id);
+		if(OnAntibiotics_Yes.value != 'X') {
+			document.FormName.OnAntibiotics_text.style.background='yellow';
+		} else {
+			document.FormName.OnAntibiotics_text.style.background='transparent';
+		}">
+
+<input name="OnAntibiotics_No" id="OnAntibiotics_No" type="text" class="box2" style="left:102px; top:511px;" 
+	onclick="
+		Radio_Box1(this.id); 
+		document.FormName.OnAntibiotics_text.style.background='transparent'; 
+		document.FormName.OnAntibiotics_text.value='';"
+	onkeypress="
+		Radio_Box1(this.id); 
+		document.FormName.OnAntibiotics_text.style.background='transparent'; 
+		document.FormName.OnAntibiotics_text.value='';">
+
+<input name="OnAntibiotics_text" type="text" class="noborder" style="position:absolute; left:175px; top:503px; width:100px; font-size:14px; background:transparent;">
+
+<!-- Throat swab -->
+<input name="Throat" id="Throat" type="text" class="box2" style="left:4px; top:528px;" 
+	onclick="
+		if(document.getElementById('Throat').value != 'X') {
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.DiagnosisAndIndications.value += 'Sore throat, ';
+			document.FormName.subject.value += 'Pharyngitis, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value = '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Sore throat, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('Pharyngitis, ','');
+		}"
+	onkeypress="
+		if(document.getElementById('Throat').value != 'X') {
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.DiagnosisAndIndications.value += 'Sore throat, ';
+			document.FormName.subject.value += 'Pharyngitis, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value = '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Sore throat, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('Pharyngitis, ','');}">
+
+<a href="http://www.topalbertadoctors.org/download/368/acute_pharyngitis_guideline.pdf" style="position:absolute; left:20px; width:25px; top:528px; height:12px;" target="_blank"></a>
+
+<input name="Sputum" id="Sputum" type="text" class="box2" style="left:61px; top:528px;">
+<input name="Blood" id="Blood" type="text" class="box2" style="left:120px; top:528px;">
+
+<!-- Urine Culture -->
+<input name="Urine_CS" id="Urine_CS" type="text" class="box2" style="left:173px; top:528px;" 
+	onclick="
+		if(document.getElementById('Urine_CS').value != 'X') {
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.DiagnosisAndIndications.value += 'UTI, ';
+			document.FormName.subject.value += 'UTI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value = '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('UTI, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('UTI, ','');
+		}"
+	onkeypress="
+		if(document.getElementById('Urine_CS').value != 'X') {
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.DiagnosisAndIndications.value += 'UTI, ';
+			document.FormName.subject.value += 'UTI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value = '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('UTI, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('UTI, ','');}">
+
+<input name="SuperficialWound" id="SuperficialWound" type="text" class="box2" style="left:4px; top:546px;" 
+	onclick="
+		if(SuperficialWound.value != 'X') {
+			document.FormName.SuperficialWound_text.style.background='yellow';
+		} else {
+			document.FormName.SuperficialWound_text.style.background='transparent';
+		}"
+	onkeypress="
+		if(SuperficialWound.value != 'X') {
+			document.FormName.SuperficialWound_text.style.background='yellow';
+		} else {
+			document.FormName.SuperficialWound_text.style.background='transparent';}">
+
+<input name="SuperficialWound_text" id="SuperficialWound_text" type="text" class="noborder" style="position:absolute; left:115px; top:538px; width:160px; font-size:14px; background:transparent;">
+
+<input name="DeepWound" id="DeepWound" type="text" class="box2" style="left:4px; top:562px;" 
+	onclick="
+		if(DeepWound.value != 'X') {
+			document.FormName.DeepWound_text.style.background='yellow';
+		} else {
+			document.FormName.DeepWound_text.style.background='transparent';
+		}"
+	onkeypress="
+		if(DeepWound.value != 'X') {
+			document.FormName.DeepWound_text.style.background='yellow';
+		} else {
+			document.FormName.DeepWound_text.style.background='transparent';}">
+
+<input name="DeepWound_text" id="DeepWound_text" type="text" class="noborder" style="position:absolute; left:95px; top:554px; width:180px; font-size:14px; background:transparent;">
+
+<input name="OtherWound" id="OtherWound" type="text" class="box2" style="left:4px; top:578px;" 
+	onclick="
+		if(OtherWound.value != 'X') {
+			document.FormName.OtherWound_text.style.background='yellow';
+		} else {
+			document.FormName.OtherWound_text.style.background='transparent';
+		}"
+	onkeypress="
+		if(OtherWound.value != 'X') {
+			document.FormName.OtherWound_text.style.background='yellow';
+		} else {
+			document.FormName.OtherWound_text.style.background='transparent';}">
+
+<input name="OtherWound_text" id="OtherWound_text" type="text" class="noborder" style="position:absolute; left:50px; top:572px; width:225px; font-size:14px; background:transparent;">
+
+<!-- Genital -->
+<a href="http://www.bccdc.ca/resource-gallery/Documents/Communicable-Disease-Manual/Chapter%205%20-%20STI/CPS_BC_STI_Treatment_Guidelines_20112014.pdf" style="position:absolute; left:60px; top:597px; font-size:10px;" target="_blank" class="DoNotPrint" title="STI Rx Guideline 2014">STI Treatment Guidelines</a>
+<a href="https://smartsexresource.com/" style="position:absolute; left:190px; top:597px; font-size:10px;" target="_blank" class="DoNotPrint" title="Patient Resource">Pt Info</a>
+
+<!-- Vaginitis - initial -->
+<input name="VaginitisInitial" id="VaginitisInitial" type="text" class="box2" style="left:4px; top:607px;" 
+	onclick="
+		if(document.getElementById('VaginitisInitial').value != 'X') {
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.DiagnosisAndIndications.value += 'Vaginitis, ';
+			document.FormName.subject.value += 'Vaginitis, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value = '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Vaginitis, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('Vaginitis, ','');
+		}"
+	onkeypress="
+		if(document.getElementById('VaginitisInitial').value != 'X') {
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.DiagnosisAndIndications.value += 'Vaginitis, ';
+			document.FormName.subject.value += 'Vaginitis, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value = '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Vaginitis, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('Vaginitis, ','');}">
+
+<!-- Vaginitis - chronic -->
+<input name="VaginitisChronic" id="VaginitisChronic" type="text" class="box2" style="left:4px; top:620px;" 
+	onclick="
+		if(document.getElementById('VaginitisChronic').value != 'X') {
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.DiagnosisAndIndications.value += 'Chronic vaginitis, ';
+			document.FormName.subject.value += 'Chronic vaginitis, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value = '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Chronic vaginitis, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('Chronic vaginitis, ','');
+		}"
+	onkeypress="
+		if(document.getElementById('VaginitisChronic').value != 'X') {
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.DiagnosisAndIndications.value += 'Chronic vaginitis, ';
+			document.FormName.subject.value += 'Chronic vaginitis, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value = '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Chronic vaginitis, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('Chronic vaginitis, ','');}">
+
+<!-- Trichomonas -->
+<input name="Trichomonas" id="Trichomonas" type="text" class="box2" style="left:4px; top:633px;" 
+	onclick="
+		if(document.getElementById('Trichomonas').value != 'X') {
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.DiagnosisAndIndications.value += 'Trichomonas, ';
+			document.FormName.subject.value += 'Trichomonas, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value = '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Trichomonas, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('Trichomonas, ','');
+		}"
+	onkeypress="
+		if(document.getElementById('Trichomonas').value != 'X') {
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.DiagnosisAndIndications.value += 'Trichomonas, ';
+			document.FormName.subject.value += 'Trichomonas, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value = '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('Trichomonas, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('Trichomonas, ','');}">
+
+<span style="position:absolute; left:5px; top:650px; width:165px; height:12px;" title="Complete at 35-37 wks; consider CBC too"></span>
+<input name="VaginoAnoRectalGBS" id="VaginoAnoRectalGBS" type="text" class="box2" style="left:4px; top:662px;" 
+	onclick="
+		if(document.getElementById('VaginoAnoRectalGBS').value != 'X') {
+			document.FormName.Pregnant_Yes.value = 'X';
+			document.FormName.Pregnant_No.value = '';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.DiagnosisAndIndications.value += 'GBS screen, ';
+			document.FormName.subject.value += 'GBS screen, ';
+			CheckAllergyWarning();
+		} else {
+			document.FormName.Pregnant_Yes.value = '';
+			document.FormName.Pregnant_No.value = '';
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value = '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('GBS screen, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('GBS screen, ','');
+			document.FormName.PenicillinAllergy.value = '';
+		}"
+	onkeypress="
+		if(document.getElementById('VaginoAnoRectalGBS').value != 'X') {
+			document.FormName.Pregnant_Yes.value = 'X';
+			document.FormName.Pregnant_No.value = '';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.DiagnosisAndIndications.value += 'GBS screen, ';
+			document.FormName.subject.value += 'GBS screen, ';
+			CheckAllergyWarning();
+		} else {
+			document.FormName.Pregnant_Yes.value = '';
+			document.FormName.Pregnant_No.value = '';
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value = '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('GBS screen, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('GBS screen, ','');
+			document.FormName.PenicillinAllergy.value = '';}">
+
+<input name="PenicillinAllergy" id="PenicillinAllergy" type="text" class="box2" style="left:131px; top:662px;" title="Penicillin allergy requires C+S to confirm choice of alternate Abx">
+
+<!-- Chlamydia (CT) and Gonorrhea (GC) by NAAT/PCR-->
+<!-- CT/GC urethra -->
+<input name="CTGC_Urethra" id="CTGC_Urethra" type="text" class="box2" style="left:53px; top:690px;" 
+	onclick="
+		if(document.getElementById('CTGC_Urethra').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value += 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');
+		}"
+	onkeypress="
+		if(document.getElementById('CTGC_Urethra').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value += 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');}">
+
+<!-- CT/GC cervix -->
+<input name="CTGC_Cervix" id="CTGC_Cervix" type="text" class="box2" style="left:105px; top:690px;" 
+	onclick="
+		if(document.getElementById('CTGC_Cervix').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value = 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');
+		}"
+	onkeypress="
+		if(document.getElementById('CTGC_Cervix').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value = 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');}">
+
+<!-- CT/GC cervix -->
+<input name="CTGC_Urine" id="CTGC_Urine" type="text" class="box2" style="left:157px; top:690px;" 
+	onclick="
+		if(document.getElementById('CTGC_Urine').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value = 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');
+		}"
+	onkeypress="
+		if(document.getElementById('CTGC_Urine').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value = 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');}">
+
+<!-- CT/GC vagina -->
+<input name="CTGC_Vagina" id="CTGC_Vagina" type="text" class="box2" style="left:53px; top:703px;" 
+	onclick="
+		if(document.getElementById('CTGC_Vagina').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value = 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');
+		}"
+	onkeypress="
+		if(document.getElementById('CTGC_Vagina').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value = 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');}">
+
+<!-- CT/GC throat -->
+<input name="CTGC_Throat" id="CTGC_Throat" type="text" class="box2" style="left:105px; top:703px;" 
+	onclick="
+		if(document.getElementById('CTGC_Throat').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value = 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');
+		}"
+	onkeypress="
+		if(document.getElementById('CTGC_Throat').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value = 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');}">
+
+<!-- CT/GC rectum -->
+<input name="CTGC_Rectum" id="CTGC_Rectum" type="text" class="box2" style="left:157px; top:703px;" 
+	onclick="
+		if(document.getElementById('CTGC_Rectum').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value = 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');
+		}"
+	onkeypress="
+		if(document.getElementById('CTGC_Rectum').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value = 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');}">
+
+<input name="CTGC_OtherSite_Text" type="text" class="noborder" style="position:absolute; left:85px; top:713px; width:190px; font-size:14px; background:transparent;">
+
+<!-- GC Culture -->
+<input name="GC_Cervix" id="GC_Cervix" type="text" class="box2" style="left:53px; top:749px; background:white;"
+	onclick="
+		if(document.getElementById('GC_Cervix').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value = 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');
+		}"
+	onkeypress="
+		if(document.getElementById('GC_Cervix').value != 'X') {
+			document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+			document.FormName.CollectionTime.value = The12Time;
+			document.FormName.CollectionDate.value = document.getElementById('today').value;
+			document.FormName.subject.value = 'STI, ';
+		} else {
+			document.FormName.CollectionTime.value = '';
+			document.FormName.CollectionDate.value =  '';
+			document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+			document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');}">
+
+				<input name="GC_Urethra" id="GC_Urethra" type="text" class="box2" style="left:105px; top:749px;"
+					onclick="
+						if(document.getElementById('GC_Urethra').value != 'X') {
+							document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+							document.FormName.CollectionTime.value = The12Time;
+							document.FormName.CollectionDate.value = document.getElementById('today').value;
+							document.FormName.subject.value = 'STI, ';
+						} else {
+							document.FormName.CollectionTime.value = '';
+							document.FormName.CollectionDate.value =  '';
+							document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+							document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');
+						}"
+					onkeypress="
+						if(document.getElementById('GC_Urethra').value != 'X') {
+							document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+							document.FormName.CollectionTime.value = The12Time;
+							document.FormName.CollectionDate.value = document.getElementById('today').value;
+							document.FormName.subject.value = 'STI, ';
+						} else {
+							document.FormName.CollectionTime.value = '';
+							document.FormName.CollectionDate.value =  '';
+							document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+							document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');
+						}">
+
+				<input name="GC_Throat" id="GC_Throat" type="text" class="box2" style="left:157px; top:749px;"
+					onclick="
+						if(document.getElementById('GC_Throat').value != 'X') {
+							document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+							document.FormName.CollectionTime.value = The12Time;
+							document.FormName.CollectionDate.value = document.getElementById('today').value;
+							document.FormName.subject.value = 'STI, ';
+						} else {
+							document.FormName.CollectionTime.value = '';
+							document.FormName.CollectionDate.value =  '';
+							document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+							document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');
+						}"
+					onkeypress="
+						if(document.getElementById('GC_Throat').value != 'X') {
+							document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+							document.FormName.CollectionTime.value = The12Time;
+							document.FormName.CollectionDate.value = document.getElementById('today').value;
+							document.FormName.subject.value = 'STI, ';
+						} else {
+							document.FormName.CollectionTime.value = '';
+							document.FormName.CollectionDate.value =  '';
+							document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+							document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');
+						}">
+
+				<input name="GC_Rectum" id="GC_Rectum" type="text" class="box2" style="left:205px; top:749px;"
+					onclick="
+						if(document.getElementById('GC_Rectum').value != 'X') {
+							document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+							document.FormName.CollectionTime.value = The12Time;
+							document.FormName.CollectionDate.value = document.getElementById('today').value;
+							document.FormName.subject.value = 'STI, ';
+						} else {
+							document.FormName.CollectionTime.value = '';
+							document.FormName.CollectionDate.value =  '';
+							document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+							document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');
+						}"
+					onkeypress="
+						if(document.getElementById('GC_Rectum').value != 'X') {
+							document.FormName.DiagnosisAndIndications.value = 'STI check, ';
+							document.FormName.CollectionTime.value = The12Time;
+							document.FormName.CollectionDate.value = document.getElementById('today').value;
+							document.FormName.subject.value = 'STI, ';
+						} else {
+							document.FormName.CollectionTime.value = '';
+							document.FormName.CollectionDate.value =  '';
+							document.FormName.DiagnosisAndIndications.value = document.FormName.DiagnosisAndIndications.value.replace('STI check, ','');
+							document.FormName.subject.value = document.FormName.subject.value.replace('STI, ','');
+						}">
+
+				<input name="GC_OtherSite_Text" type="text" class="noborder" style="position:absolute; left:85px; top:761px; width:190px; font-size:14px; background:transparent;">
+
+<!-- Stool Specimens -->
+<a href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/infectious-diarrhea" style="position:absolute; left:4px; top:787px; font-weight:bold; font-size:9px; background:white;" target="_blank" title="Guideline for ordering Stool Specimens">STOOL SPECIMENS</a>
+<input name="HxBloodyStools" id="HxBloodyStools" type="text" class="box2" style="left:105px; top:798px; background:#b3d0ea;">
+
+<input name="CDToxin" id="CDToxin" type="text" class="box2" style="left:4px; top:810px; background:#b3d0ea;">
+<input name="StoolCS" id="StoolCS" type="text" class="box2" style="left:92px; top:810px; background:#b3d0ea;">
+<input name="StoolOP" id="StoolOP" type="text" class="box2" style="left:166px; top:810px; background:#b3d0ea;">
+
+<input name="StoolOPHighRisk" id="StoolOPHighRisk" type="text" class="box2" style="left:4px; top:825px; background:#b3d0ea;">
+
+<!-- Dermatophytes -->
+<input name="DermatophyteCulture" id="DermatophyteCulture" type="text" class="box2" style="left:4px; top:853px;">
+<input name="FungusKOHPrep" id="FungusKOHPrep" type="text" class="box2" style="left:128px; top:853px;">
+<input name="SpecimenSkin" id="SpecimenSkin" type="text" class="box2" style="left:70px; top:866px;">
+<input name="SpecimenNail" id="SpecimenNail" type="text" class="box2" style="left:128px; top:866px;">
+<input name="SpecimenHair" id="SpecimenHair" type="text" class="box2" style="left:190px; top:866px;">
+<input name="DermatophyteSite" type="text" class="noborder" style="position:absolute; left:40px; top:878px; width:235px; font-size:14px; background:transparent;">
+
+<!-- Mycology -->
+<input name="YeastCulture" id="YeastCulture" type="text" class="box2" style="left:4px; top:915px;">
+<input name="FungusCulture" id="FungusCulture" type="text" class="box2" style="left:73px; top:915px;">
+<input name="YeastFungusSpecimen_Site" type="text" class="noborder" style="position:absolute; left:150px; top:908px; width:125px; font-size:14px; background:transparent;">
+
+				<!-- Hepatitis Serology -->
+				<a href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/hepatitis" style="position:absolute; left:290px; top:494px; font-weight:bold; font-size:9px; background:white;" target="_blank" title="Guidelines for Viral Hepatitis Testing">HEPATITIS SEROLOGY</a>
+				<input name="AcuteViralHepatitis" id="AcuteViralHepatitis" type="text" class="box2" style="left:290px; top:506px; background:#b3d0ea;">
+
+				<input name="ChronicViralHepatitis" id="ChronicViralHepatitis" type="text" class="box2" style="left:290px; top:566px; background:#b3d0ea;">
+
+				<input name="HepatitisAImmuneStatus" id="HepatitisAImmuneStatus" type="text" class="box2" style="left:290px; top:628px; background:#b3d0ea;">
+				<input name="HepatitisBImmuneStatus" id="HepatitisBImmuneStatus" type="text" class="box2" style="left:290px; top:640px; background:#b3d0ea;">
+
+				<input name="HBsAg" id="HBsAg" type="text" class="box2" style="left:290px; top:677px; background:#b3d0ea;">
+
+				<input name="HIVNominal" id="HIVNominal" type="text" class="box2" style="left:290px; top:715px;">
+				<span style="position:absolute; left:310px; top:715px; width:100px; height:13px;" title="Consider checking: Q5 yr if 18-70 yo, in general; annually for 18-70 yo if MSM, PWID, sex trade, endemic countries, indigenous; once if 70+ yo and HIV status unknown"></span>
+				<input name="HIVNonNominal" id="HIVNonNominal" type="text" class="box2" style="left:314px; top:752px;">
+
+				<!-- Lipids -->
+			<div name="LIPID1" id="LIPID1">
+				<a href="https://www2.gov.bc.ca/assets/gov/health/practitioner-pro/bc-guidelines/cvd_appendix_c.pdf" id="lipidHeader" style="position:absolute; left:572px; top:491px; font-weight:bold; font-size:9px; background:white;" target="_blank" title="Guideline for Lipid Testing in Primary Prevention">LIPIDS</a>
+
+				<script type="text/javascript">
+					function checkLipids(ElementId) {
+						document.FormName.PatientInstructions.value = document.FormName.PatientInstructions.value.replace('No fasting required. ','');
+						if(document.FormName.PatientInstructions.value.indexOf('Nothing to eat') === -1) {
+							if(document.getElementById(ElementId).value != 'X') {
+								document.FormName.PatientInstructions.value +=  'No fasting required. ';
+							}
+						}
+					}
+				</script>
+
+				<input name="Lipid_full" id="Lipid_full" type="text" class="box2" style="left:570px; top:567px; background:#b3d0ea;" 
+					onclick="
+						checkLipids(this.id); 
+						Radio_Box2(this.id);"
+					onkeypress="
+						javascript:Radio_Box2(this.id); 
+						checkLipids(this.id);">
+
+				<input name="Lipid_FU" id="Lipid_FU" type="text" class="box2" style="left:570px; top:593px; background:#b3d0ea;" 
+					onclick="
+						Radio_Box2(this.id); 
+						checkLipids(this.id);"
+					onkeypress="
+						javascript:Radio_Box2(this.id); 
+						checkLipids(this.id);">
+
+				<input name="Lipid_ApoB" id="Lipid_ApoB" type="text" class="box2" style="left:570px; top:607px; background:#b3d0ea;" 
+					onclick="
+						Radio_Box2(this.id); 
+						checkLipids(this.id);"
+					onkeypress="
+						javascript:Radio_Box2(this.id); 
+						checkLipids(this.id);">
+			</div>
+
+				<!-- Thyroid Function -->
+				<a href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/thyroid-testing" style="position:absolute; left:572px; top:638px; font-weight:bold; font-size:9px; background:white;"
+				target="_blank" title="Guideline to Thyroid Function Tests">THYROID FUNCTION</a>
+
+				<!-- Monitor Thyroid Replacement Therapy -->
+				<input name="MonitorThyroidRx" id="MonitorThyroidRx" type="text" class="box2" style="left:570px; top:678px; background:#b3d0ea;" 
+					onclick="
+						var DiagnosisAndIndicationsValue = 'Hypothyroidism, ';
+						var SubjectValue = 'Hypothyroid, ';
+						var CurrentMedicationsLastDoseValue = 'Thyroxin ';
+						ToggleDiagnosisAndSubject(this.id, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleCurrentMedications(this.id, CurrentMedicationsLastDoseValue);"
+					onkeypress="
+						var DiagnosisAndIndicationsValue = 'Hypothyroidism, ';
+						var SubjectValue = 'Hypothyroid, ';
+						var CurrentMedicationsLastDoseValue = 'Thyroxin ';
+						ToggleDiagnosisAndSubject(this.id, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleCurrentMedications(this.id, CurrentMedicationsLastDoseValue);">
+
+				<!-- Suspect Hypothyroidism -->
+				<input name="TSH" id="TSH" type="text" class="box2" style="left:570px; top:690px; background:#b3d0ea;"
+					onclick="
+						var DiagnosisAndIndicationsValue = ' Hypothyroid? ';
+						var SubjectValue = 'Suspect hypothyroid ';
+						ToggleDiagnosisAndSubject(this.id, DiagnosisAndIndicationsValue, SubjectValue);"
+					onkeypress="
+						var DiagnosisAndIndicationsValue = ' Hypothyroid? ';
+						var SubjectValue = 'Suspect hypothyroid ';
+						ToggleDiagnosisAndSubject(this.id, DiagnosisAndIndicationsValue, SubjectValue);">
+
+				<!-- SuspectHyperthyroidism -->
+				<input name="SuspectHyperthyroidism" id="SuspectHyperthyroidism" type="text" class="box2" style="left:570px; top:702px; background:#b3d0ea;"
+					onclick="
+						var DiagnosisAndIndicationsValue = 'Hyperthyroid? ';
+						var SubjectValue = 'Suspect hyperthyroid ';
+						ToggleDiagnosisAndSubject(this.id, DiagnosisAndIndicationsValue, SubjectValue);"
+					onkeypress="
+						var DiagnosisAndIndicationsValue = 'Hyperthyroid? ';
+						var SubjectValue = 'Suspect hyperthyroid ';
+						ToggleDiagnosisAndSubject(this.id, DiagnosisAndIndicationsValue, SubjectValue);">
+
+<!-- Other Chemistry Tests -->
+<input name="Sodium" id="Sodium" type="text" class="box2" style="left:568px; top:731px;">
+<input name="Potassium" id="Potassium" type="text" class="box2" style="left:568px; top:743px;">
+<input name="Albumin" id="Albumin" type="text" class="box2" style="left:568px; top:755px;">
+<input name="AlkPhos" id="AlkPhos" type="text" class="box2" style="left:568px; top:767px;">
+<input name="ALT" id="ALT" type="text" class="box2" style="left:568px; top:779px;">
+<input name="B12" id="B12" type="text" class="box2" style="left:568px; top:791px;">
+<input name="Bilirubin" id="Bilirubin" type="text" class="box2" style="left:568px; top:803px;">
+<input name="GGT" id="GGT" type="text" class="box2" style="left:568px; top:816px;">
+<input name="TProtein" id="TProtein" type="text" class="box2" style="left:568px; top:828px;">
+
+<input name="CreatinineGFR" id="CreatinineGFR" type="text" class="box2" style="left:663px; top:731px;">
+<input name="Calcium" id="Calcium" type="text" class="box2" style="left:663px; top:744px;">
+<input name="CreatineKinase" id="CreatineKinase" type="text" class="box2" style="left:663px; top:757px;">
+
+<input name="PSAbillMSP_Yes" id="PSAbillMSP_Yes" type="text" class="box2" style="left:663px; top:770px;" onclick="Radio_Box1(this.id)" onkeypress="Radio_Box1(this.id)">
+<input name="PSAbillMSP_No" id="PSAbillMSP_No" type="text" class="box2" style="left:663px; top:795px;" onclick="Radio_Box1(this.id)" onkeypress="Radio_Box1(this.id)">
+
+<input name="PregnancyTest" id="PregnancyTest" type="text" class="box2" style="left:663px; top:809px;">
+<input name="bHCG" id="bHCG" type="text" class="box2" style="left:663px; top:823px;">
+
+<!-- Other Tests -->
+<input name="ECG" id="ECG" type="text" class="box2" style="left:287px; top:797px;">
+
+<input name="Holter" id="Holter" type="text" class="DoNotPrint box2" style="left:394px; top:797px;"
+	onclick="
+		var AdditionalTestInstructionsValue = '24 Hr Holter ';
+		var PatientInstructionsValue = 'Call to schedule an appointment Mon - Fri from 9am - 5pm, 604-412-4495 or Toll Free 1-855-412-4495 ';
+		ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+		TogglePatientInstructions(this.id, PatientInstructionsValue);"
+	onkeypress="
+		var AdditionalTestInstructionsValue = '24 Hr Holter ';
+		var PatientInstructionsValue = 'Call to schedule an appointment Mon - Fri from 9am - 5pm, 604-412-4495 or Toll Free 1-855-412-4495 ';
+		ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+		TogglePatientInstructions(this.id, PatientInstructionsValue);">
+<a href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/ambulatory-ecg-monitoring" class="DoNotPrint" style="position:absolute; left:410px; top:797px; font-weight:bold; font-size:12px;" target="_blank" title="Guideline for Holter Monitoring">Holter</a>
+
+<input name="FIT_CSP" id="FIT_CSP" type="text" class="box2" style="left:287px; top:811px;">
+<a href="http://www.bccancer.bc.ca/screening/Documents/COLON_GuidelinesManual-FITDecisionTable.pdf" style="position:absolute; left:303px; top:811px; width:260px; height:10px;" target="_blank" title="FIT Decision Table"></a>
+
+<input name="FIT_Other" id="FIT_Other" type="text" class="box2" style="left:287px; top:825px;">
+
+<div class="DoNotPrint" id="ColonoscopyData">
+	<span class="labBox" style="position:absolute; left:290px; top:845px; font-size:11px;" title="Indicate when colonoscopy is due next - check Prevention or documents; FIT ineligible if colonoscopy recommended"><b>Colonoscopy Due:</b></span>
+	<input id="FUYear" name="FUYear" type="text" style="position:absolute; left:390px; top:843px; width:70px; height:16px; border:1px solid #000000; font-weight:bold; font-size:12px; text-align:center; background:transparent;" title="Year colonoscopy is due" oscarDB=e$last#FUYear>
+	<input name="prevention_link" id="prevention_link" type="Button" style="position:absolute; left:475px; top:843px; font-size:10px; color:green;" Value="Prevention" onclick="onBodyLoad(); prevention();" title="To Prevention Module">
+</div>
+
+<!-- Remove ColonoscopyData - as it seems to greatly slow down eForm load.  Consider alternate means of capturing
+	Colonoscopy observed date and next due
+
+<div class="DoNotPrint" id="ColonoscopyData">
+	<span class="labBox" style="position:absolute; left:290px; top:845px;"><b>FU FIT</b></span>
+	<input id="FUFITCB" name="FUFITCB" type="text" class="labBox box2" style="position:absolute; left:332px; top:844px;" onkeypress="javascript:return displayKeyCode(event,this.id); clearColo();" onmousedown="clearColo();" oscarDB=e$last#FUFITCB>
+	<span class="labBox" style="position:absolute; left:350px; top:845px;"><b>Colonoscopy</b></span>
+	<input id="FUColonoscopyCB" name="FUColonoscopyCB" type="text" class="labBox box2" style="position:absolute; left:425px; top:844px;" onkeypress="javascript:return displayKeyCode(event,this.id); clearFit();" onmousedown="clearFit();" oscarDB=e$last#FUColonoscopyCB>
+	<input name="Due" id="Due" type="text" class="labBox" style="position:absolute; cursor:pointer; left:448px; top:843px; width:28px; height:16px; font-weight:bold; font-size:12px; text-align:center; background:transparent;" onclick="clearDate();" value="Due" Title="Click to clear date">
+	<input id="FUYear" name="FUYear" type="text" class="date-picker-year" style="position:absolute; left:476px; top:843px; width:40px; height:16px; border:1px solid #000000; font-weight:bold; font-size:12px; text-align:center; background:transparent;" oscarDB=e$last#FUYear> 
+</div>
+-->
+
+<a href="http://www.bccancer.bc.ca/screening/Documents/Colon-Screening-Program-Fact-Sheet.pdf" class="DoNotPrint" style="position:absolute; left:545px; top:847px; font-weight:bold; font-size:12px;" target="_blank" title="MD CSP fact sheet">Fact Sheet</a>
+
+<a href="http://www.bccancer.bc.ca/screening/colon" class="DoNotPrint" style="position:absolute; left:615px; top:847px; font-weight:bold; font-size:12px;" target="_blank" title="Colorectal CA screening resource">CSP</a>
+
+<!-- Additional test/instructions -->
+<textarea name="AdditionalTestInstructions" id="AdditionalTestInstructions" wrap="virtual" class="noborder" style="position:absolute; left:285px; top:860px; width:555px; height:54px; font-size:14px; background:transparent;"></textarea>
+	<span type="text" class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:848px; top:860px;" onclick="changeFontSize('AdditionalTestInstructions', 2);">&#9650;&#9650;</span>
+	<span type="text" class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:848px; top:875px;" onclick="changeFontSize('AdditionalTestInstructions', 1);">&#9650;</span>
+	<span type="text" class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:848px; top:890px;" onclick="changeFontSize('AdditionalTestInstructions', -1);">&#9660;</span>
+	<span type="text" class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:848px; top:905px;" onclick="changeFontSize('AdditionalTestInstructions', -2);">&#9660;&#9660;</span>
+
+<!-- Signoff -->
+<span style="position:absolute; left:305px; top:938px; font-size:14px; font-style:italic; font-weight:bold;">"Electronically signed"</span>
+<input name="LabreqDate" id="LabreqDate" type="text" class="noborder" style="position:absolute; left:700px; top:936px; width:140px; font-size:14px; background:transparent;" oscardb=today>
+
+<!-- Collection Detail -->
+<input name="CollectionDate" id="CollectionDate" type="text" class="noborder" style="position:absolute; left:4px; top:972px; width:120px; font-size:14px; background:transparent;" onclick="document.FormName.CollectionDate.value = document.getElementById('today').value;">
+<input name="CollectionTime" id="CollectionTime" type="text" class="noborder" style="position:absolute; left:140px; top:972px; width:135px; font-size:14px; background:transparent;" onclick="document.FormName.CollectionTime.value = The12Time;">
+
+<input name="Phlebotomist" id= "Phlebotomist" type="text" class="noborder" style="position:absolute; left:290px; top:972px; width:250px; font-size:14px; background:transparent;">
+<input name="TelephoneRequisitionReceivedBy" type="text" class="noborder" style="position:absolute; left:555px; top:972px; width:285px; font-size:14px; background:transparent;">
+
+<!-- Patient Instructions -->
+<textarea name="PatientInstructions" id="PatientInstructions" wrap="virtual" class="noborder" style="position:absolute; left:4px; top:1004px; width:838px; height:38px; font-size:12px; background:white;"></textarea>
+	<span type="text" class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:850px; top:1000px;" onclick="changeFontSize('PatientInstructions', 2);">&#9650;&#9650;</span>
+	<span type="text" class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:850px; top:1015px;" onclick="changeFontSize('PatientInstructions', 1);">&#9650;</span>
+	<span type="text" class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:850px; top:1030px;" onclick="changeFontSize('PatientInstructions', -1);">&#9660;</span>
+	<span type="text" class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:850px; top:1045px;" onclick="changeFontSize('PatientInstructions', -2);">&#9660;&#9660;</span>
+
+<!-- Tickler Reminders (aka loop closer) -->
+<div name="SetTickler" id="SetTickler" style="position:absolute; left:900px; top:1350px; width:370px; font-size:14px;" class="DoNotPrint">
+	<span style="width:430px; font-size:12px; color:green;">Choose Tickler reminder date</span>
+	<input name="Tickler_date" id="Tickler_date" type="text" class="noborder" style="width:75px; font-size:14px; text-align:center; background:transparent;" onblur="calculateTicklerDays();">
+	<input name="Four_weeks" id="Four_weeks" type="checkbox" 
+		onclick="
+			document.getElementById('Eight_weeks').checked = false;
+			addDays(28); // need to add extra day for proper calculation
+			calculateTicklerDays();">4 wk
+	<input name="Eight_weeks" id="Eight_weeks" type="checkbox" 
+		onclick="
+			document.getElementById('Four_weeks').checked = false;
+			addDays(56); // need to add extra day for proper calculation
+			calculateTicklerDays();">8 wk
+	<br>
+	<input name="Tickler_msg" id="Tickler_msg" type="text" class="noborder" style="width:360px; font-size:14px; background:transparent;" placeholder="Optional Tickler msg here">
+	<br>
+	<input name="ResetTickler" id="ResetTickler" type="button" style="font-size:12px; color:red;" onclick="document.getElementById('Tickler_date').value = ''; document.getElementById('Four_weeks').checked = false; document.getElementById('Eight_weeks').checked = false; addDays(0);" value="Reset">
+	<input value="Set Tickler" name="Tickler" id="Tickler" type="button" class="link"  style="font-size:12px; color:green; background:yellow;" title="Set tickler reminder for chosen future date" onclick="ticklerReminder();">
+	<br>
+</div>
+</div>
+
+<!-- The submit/print/reset buttons -->
+<div class="DoNotPrint" id="BottomButtons" style="position:absolute; left:4px; top:1060px; width:850px; font-size:14px;">
+	<table><tr><td style="background:#e5f2ff;">
+		<input type="hidden" id="newForm" name="newForm" value="True" />
+		Subject: <input name="subject" id="subject" size="70" type="text" style="font-size:14px;">
+		<input value = "Reset" name="ResetButton" id="ResetButton" type="reset" style="color:red;" onclick="history.go(0);"> 
+		<input value = "Print" name="PrintButton" id="PrintButton" type="button" style="color:green;" onclick="printLetter();"> 
+		<input value = "Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick="submission();">
+		<input value="Print and Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="printSubmit();">
+<br>
+		<input name="subject2" class="labBox" size="70" type="text">
+		Approximate cost of todays lab work: &nbsp;&nbsp; <b>$</b>
+		<input name="Costs" id= "Costs" type="text" style="width:40px; text-align:center; font-weight:bold; font-size:14px; background:transparent;" class="noborder labBox">
+	</td></tr></table><br>
+
+<!-- jQuery Xbox function to be placed after the last Xbox input -->
+<script>
+	$(".box2").on("keypress", function(event) {
+	displayKeyCode(event, this.id);
+	return false;
+	});
+
+	$(".box2").on("click", function() {
+	changeValue(this.id);
+	return false;
+	});
+</script>
+
+<!-- Copy Left -->
+<a rel="licence" href="https://creativecommons.org/licenses/by-sa/3.0/deed.en_US" target="blank"><img alt="Creative Commons License" id="CreativeCommons" style="border:0px;" src="" /></a>
+<span> SOPLR - Standard Out Patient Lab Requisition by Drs. John Yap, Herb Chang, John Robertson, David Page, Chris Chan (toggle function) and Lab Engine by Daniel Schwarz and Framingham Calculator by Dr. Peter Hutten-Czapski, is licensed under a</span> 
+<a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.en_US" target="_blank">GPL.</a>
+&nbsp; Update V35_Sep19_2022 by John Yap. 
+<br>
+<span style="color:forestgreen;">Please consider supporting </span><a href="https://oscarbc.ca/" target="_blank">oscarbc.ca.</a> |
+<a id="emailLnk1" style="cursor:pointer;" onclick="javascript:window.open('mailto:info@oscarbc.ca', 'mail'); event.preventDefault();" title="Email to OSCAR BC">Email: info@oscarbc.ca/</a> |
+<a href="https://www.facebook.com/pg/OSCARBCcommunity" target="_blank">Facebook</a> | 
+<a href="https://twitter.com/OSCARBCemr" target="_blank">Twitter</a> | 
+<a href="https://www.linkedin.com/company/oscarbc/" target="_blank">LinkedIn</a> |
+<br><br>
+
+<span> References: </span>
+	<li><a href="https://www.acc.org/~/media/Non-Clinical/Files-PDFs-Excel-MS-Word-etc/Guidelines/2018/Guidelines-Made-Simple-Tool-2018-Cholesterol.pdf" target="_blank" title="Web reference">ACC/AHA 2018 Lipid Guidelines</a></li>
+	<li><a href="https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2018/11/09/14/28/2018-guideline-on-management-of-blood-cholesterol" target="_blank" title="Top Ten Take Home Messages">2018 Lipid Guidelines Summary</a></li>
+	<li><a href="https://www.nice.org.uk/guidance/cg181/chapter/1-Recommendations" target="_blank" title="Weblink">NICE Guide to CV disease management 2016</a></li>
+	<li><a href="http://www.nhs.uk/news/2014/02February/Pages/NICE-publishes-new-draft-guidelines-on-statins-use.aspx" target="_blank" title="Weblink">Review of the NICE Lipid Guidelines</a></li>
+	<li><a href="https://ccs.ca/app/uploads/2021/10/CCS-Dyslipidemia-At-A-Glance-.pdf" target="_blank" title="Canadian Cardiovascular Society updated guideline">CCS 2021 Dyslipidemia Guidelines</a></li>
+	<li><a href="https://www.cadth.ca/initiatives-optimize-utilization-laboratory-tests" target="_blank" title="Weblink">Laboratory medicine cost in Canada (2014)</a></li>
+	<li><a href="https://www2.gov.bc.ca/assets/gov/health/practitioner-pro/laboratory-services/laboratory_services_schedule_of_fees.pdf" target="_blank" title="PDF download">MSP Laboratory Medicine fee guide 2018</a></li>
+<br><br>
+</div>
+
+<!-- Quick Pick Menu Items -->
+<div id="LabQuickSelect" class="DoNotPrint" style="position:relative; left:890px; top:130px; width:370px; background:lightyellow; border-style:solid; border-color:black; border-width:1px; font-size:10px;">
+<br>
+
+<!-- Lab Locations -->
+<b>&nbsp;LOCATION:</b>
+<br>
+<select onchange="setLabLocation(this.value)" id="LabList">
+	<option>Choose a location</option>
+	<!-- cluster for New Westminster -->
+	<option value="LifeLabNW5Ave">LifeLabs-NW 5th Ave</option>
+	<option value="LifeLabNWSapperton">LifeLabs-NW Sapperton</option>
+	<option value="LifeLabBbySquare">LifeLabs-Bby Square</option>
+	<option value="RoyalColumbianHospital">Royal Columbian Hospital</option>
+	<option value="EagleRidgeHospital">Eagle Ridge Hospital</option>
+	<option value="JimPattisonOutpatient">Jim Patisson Outpatient</option>
+	<option value="SurreyMemorialHospital">Surrey Memorial Hospital</option>
+	<option value="DeltaHospital">Delta Hospital</option>
+	<option value="BurnabyHospital">Burnaby Hospital</option>
+	<option value="LowerMainlandMob">Mobile Lab - Lower Mainland****</option>
+	<!-- cluster for TriCities -->
+	<option value="LifeLabCoqAustin">LifeLabs-Coq&#8217;m-Austin</option>
+	<option value="LifeLabCoqNorthRd">LifeLabs-Coq&#8217;m-North Road</option>
+	<option value="LifeLabCoqGordon">Lifelabs-Coq&#8217;m-Gordon</option>
+	<option value="LifeLabCoqLansdowne">LifeLabs-Coq&#8217;m-Lansdowne</option>
+	<option value="LifeLabPtMoodyStJohns">LifeLabs-Port Moody-St. John&#8217;s</option>
+	<option value="LifeLabPocoWilson">LifeLabs-PoCo Wilson</option>
+	<option value="LifeLabPocoSalisbury">LifeLabs-PoCo Salisbury</option>
+	<!-- cluster for Ridge Meadows, Mission -->
+	<option value="LifeLabPittMeadows">LifeLabs-Pitt Meadows</option>
+	<option value="LifeLabMapleRidge">LifeLabs-Maple Ridge</option>
+	<option value="RidgeMeadowsHospital">Ridge Meadows Hospital</option>
+	<option value="LifeLabMission">LifeLabs-Mission</option>
+	<option value="MissionMemorialHospital">Mission Memorial Hospital</option>
+	<!-- cluster for Burnaby -->
+	<option value="LifeLabBbyMetrotown">LifeLabs-Bby Metrotown</option>
+	<option value="LifeLabBbyKensington">LifeLabs-Bby Kensington Sq</option>
+	<option value="LifeLabBbyNorburn">LifeLabs-Bby Norburn</option>
+	<option value="LifeLabBbyCentralPark">Lifelabs-Bby Central Park</option>
+	<option value="LifeLabBbyHastings">Lifelabs-Bby Hastings Gilmore</option>
+	<option value="BurnabyHospital">Burnaby Hospital</option>
+	<!-- cluster for Delta -->
+	<option value="LifeLabDel84">LifeLabs-Delta 84th</option>
+	<option value="LifeLabDel63">LifeLabs-Delta Sunwood 63rd</option>
+	<option value="LifeLabDelHarvest">Lifelabs-Ladner</option>
+	<option value="LifeLabDel56">Lifelabs-Tsawwassen</option>
+	<option value="DeltaHospital">Delta Hospital</option>
+	<!-- cluster for Surrey -->
+	<option value="LifeLabCloverdale">Lifelabs-Cloverdale</option>
+	<option value="LifeLabSurSatnam">Lifelabs-Surrey Satnam</option>
+	<option value="LifeLabSurNordel">Lifelabs-Surrey Nordel</option>
+	<option value="LifeLabSurCentral">LifeLabs-Surrey Central</option>
+	<option value="LifeLabSurGuildford">LifeLabs-Surrey Guildford</option>
+	<option value="LifeLabSurNewton">LifeLabs-Surrey Newton</option>
+	<option value="LifeLabSurCityCentre">LifeLabs-Surrey City Centre 2</option>
+	<option value="LifeLabSurFleetwood">LifeLabs-Surrey Fleetwood 152nd</option>
+	<option value="LifeLabSurHazelwood">LifeLabs-Surrey Hazelwood 84th</option>
+	<option value="LifeLabSurMorganCreek">LifeLabs-S. Surrey Morgan Creek</option>
+	<!-- cluster for White Rock -->
+	<option value="LifelabWhiteRockMartin">Lifelabs-White Rock Martin Dr</option>
+	<option value="LifeLabWRPeaceArch">LifeLabs-White Rock Peace Arch</option>
+	<option value="PeaceArchHospital">Peace Arch Hospital</option>
+	<!-- cluster for Langley -->
+	<option value="LifeLabLanDouglas">LifeLabs-Langley Douglas Cres</option>
+	<option value="LifeLabLanWillowbrook">LifeLabs-Langley Willowbrook</option>
+	<option value="LifeLabLanBrookswood">LifeLabs-Langley Brookswood</option>
+	<option value="LifeLabLanWalnutGrove">LifeLabs-Langley Walnut Grove</option>
+	<option value="LangleyMemorialHospital">Langley Memorial Hospital</option>
+	<!-- cluster for Vancouver -->
+	<option value="LifeLabVanDiscovery">Lifelabs-Van Discovery</option>
+	<option value="LifeLabVanKerrisdale">Lifelabs-Van Kerrisdale</option>
+	<option value="LifeLabVanDunbar">Lifelabs-Van Dunbar</option>
+	<option value="LifeLabVanRegent">Lifelabs-Van Regent-Kitsilano</option>
+	<option value="LifeLabVanLaurel">Lifelabs-Van Laurel St</option>
+	<option value="LifeLabVanFairmont">Lifelabs-Van Fairmont</option>
+	<option value="LifeLabVanWestBroadway">Lifelabs-Van W Broadway</option>
+	<option value="MtStJosephHospital">Mt St Joseph Hospital</option>
+	<option value="LifeLabVanSouthill">Lifelabs-Van South Fraser</option>
+	<option value="LifeLabVanSunset">Lifelabs-Van Sunset</option>
+	<option value="LifeLabVanVictoriaDr">Lifelabs-Van Victoria Dr</option>
+	<option value="LifeLabVanChamplainSq">Lifelabs-Van Champlain Square</option>
+	<option value="LifeLabVanCommercial">LifeLabs-Van Commercial</option>
+	<option value="LifeLabVan3Pillars">Lifelabs-Van 3 Pillars</option>
+	<option value="LifeLabVanKeefer">Lifelabs-Van Keefer</option>
+	<option value="LifeLabVanEHastings">LifeLabs-Van E Hastings</option>
+	<option value="LifeLabVanMarpole">Lifelabs-Van Marpole</option>
+	<option value="LifeLabVanWoodridge">Lifelabs-Van Woodridge</option>
+	<option value="LifeLabVanKingEdward">LifeLabs-Van King Edward</option>
+	<option value="LifeLabVanLittleMountain">Lifelabs-Van Little Mountain</option>
+	<option value="LifeLabVanBurrard">LifeLabs-Van St. Paul&#8217;s</option>
+	<option value="StPaulsHospital">St. Paul&#8217;s Hospital</option>
+	<option value="LifeLabVanCityCentre">Lifelabs-Van City Centre Burrard</option>
+	<option value="LifeLabVanWGeorgia">Lifelabs-Van W Georgia</option>
+	<option value="LifeLabVanCityView">Lifelabs-Van Cityview</option>
+	<option value="LifeLabVanYaletown">LifeLabs-Van-Yaletown</option>
+	<!-- cluster for North Vancouver -->
+	<option value="LifeLabNVanLonsdale">Lifelabs-N. Van-Lonsdale</option>
+	<option value="LifeLabNVanLynnValley">Lifelabs-N. Van-Lynn Valley</option>
+	<option value="LifeLabNVanParkgate">Lifelabs-N. Van-Parkgate</option>
+	<option value="LifeLabNVanMarineDr">Lifelabs-N. Van-Marine Dr</option>
+	<option value="LionsGateHospital">Lions Gate Hospital</option>
+	<!-- cluster for West Vancouver -->
+	<option value="LifeLabWVanHollyburn">Lifelabs-W. Van-Hollyburn</option>
+	<option value="LifeLabWVanDundarave">Lifelabs-W. Van-Dundarave</option>
+	<!-- cluster for Richmond -->
+	<option value="LifeLabRichBuswell">Lifelabs-Richmond-Buswell</option>
+	<option value="LifeLabRich2Rd">Lifelabs-Richmond-No. 2 Rd</option>
+	<option value="LifeLabRichAberdeen">LifeLabs-Richmond-Aberdeen Ctr</option>
+	<option value="LifeLabRichSteveston">Lifelabs-Richmond-Steveston</option>
+	<option value="LifeLabRichCrestwood">Lifelabs-Richmond-Crestwood</option>
+	<option value="LifeLabRichCessna">Lifelabs-Richmond-Cessna</option>
+	<option value="LifeLabRich3Rd">Lifelabs-Richmond-No. 3 Rd</option>
+	<option value="LifeLabAldergrove">LifeLabs-Aldergrove</option>
+	<!-- cluster for Chilliwack -->
+	<option value="LifeLabChill">LifeLabs-Chilliwack</option>
+	<option value="Sardis">Satellite Lab Sardis</option>
+	<option value="ChilliwackGeneralHospital">Chilliwack General Hospital</option>
+	<!-- cluster for Agassiz -->
+	<option value="LifeLabAgassiz">LifeLabs-Aggasiz</option>
+	<!-- cluster for Abbotsford -->
+	<option value="LifeLabAbbMac">LifeLabs-Abbotsford-McCallum</option>
+	<option value="LifeLabAbbSim">LifeLabs-Abbotsford-Simon</option>
+	<option value="LifeLabAbbCle">LifeLabs-Abbotsford-Clearbrook</option>
+	<option value="AbbotsfordRegionalHospital">Abbotsford Regional Hospital</option>
+	<!-- Other Hospital Sites -->
+	<option value="FraserCanyonHospital">Fraser Canyon (Hope) Hospital</option>
+	<!-- Mobile Labs -->
+	<option value="KamloopsMob">Mobile Lab - Kamloops****</option>
+	<option value="PrinceGeorgeMob">Mobile Lab - Prince George****</option>
+	<option value="VictoriaSookeMob">Mobile Lab - Victoria/Sooke****</option>
+	<option value="NanaimoLantzvilleMob">Mobile Lab - Central Nanaimo/Lantsville****</option>
+	<option value="SouthNanaimoMob">Mobile Lab - South Nanaimo/etc****</option>
+	<option value="ParksvilleEtcMob">Mobile Lab - Parksville/etc****</option>
+	<option value="CourtenayMob">Mobile Lab - Courtenay****</option>
+	<option value="CampbellRiverMob">Mobile Lab - Campbell River****</option>
+</select>
+<br>
+
+<!-- Copy to Patient -->
+<input type="checkbox" name="PatientCopy" id="PatientCopy" onclick="
+	var CopyToValue = 'Patient, '
+	ToggleCopyTo(this.id, CopyToValue);">
+Copy to Patient
+
+<!-- Indicate that locum ordering test -->
+<input type="checkbox" name="Locum" onclick="
+	document.FormName.LocumName.value = document.getElementById('PatientMD').value;">
+Locum Order
+
+<!-- No Fasting needed -->
+<input type="checkbox" name="NoFastingInfo" id="NoFastingInfo" onclick="
+	var PatientInstructionsValue = 'No fasting required. '
+	document.FormName.FastingTime.value= '';
+	TogglePatientInstructions(this.id, PatientInstructionsValue);">
+No Fasting Required
+<br>
+
+<!-- Fasting instructions -->
+<input type="checkbox" name="FastingInfo" id="FastingInfo" onclick="
+	var FastingTimeHours = '8';
+	ToggleFasting(this.id, FastingTimeHours);">
+Fasting Instructions
+
+<!-- Time Stamp -->
+<input type="checkbox" name="TimeStamp" id="TimeStamp" onclick="
+	var today = document.getElementById('today').value;
+	if(document.getElementById('TimeStamp').checked == true) {
+	document.FormName.CollectionTime.value = The12Time;
+	document.FormName.CollectionDate.value = today;
+	} else {
+	document.FormName.CollectionTime.value = '';
+	document.FormName.CollectionDate.value = '';}">
+Time Stamp
+<br><br>
+
+<div name="Framingham1" id="Framingham1">
+<input name="CVDRisk" id="Framtitle" type="text" class="labBox" style="cursor:pointer; text-decoration:none; font-weight:bold;" value=" FRAMINGHAM 10YR RISK:" oscarOPEN="CVD V3 Risk Calculator" title="to eFORM">
+<input name="Framrisk" class="labBox" id="Framrisk" type="text" style="text-align:center; border-style:hidden; background:lightyellow; width:25px; font-weight:bold; font-size:12px;">
+<input type="checkbox" name="SmokingStatus" id="SmokingStatus" onclick="decisionSupport();" title="check if active smoker">Smoker
+<input type="checkbox" name="FamilyHistory" id="FamilyHistory" onclick="decisionSupport();" title="check if postive FHx of premature CAD">FH
+<a title="2021 CCS Guideline for Dyslipidemia Management " href="https://ccs.ca/app/uploads/2021/10/CCS-Dyslipidemia-At-A-Glance-.pdf" style="color:green;" target="_blank">&nbsp; &nbsp; Reference&nbsp; &nbsp;</a>
+<br><br>
+
+<div name="Therapeutic1" id="Therapeutic1">
+<span id="TheraDM"><b>&nbsp;Therapeutic Monitoring + Quick Pick Menu:</b></span>
+</div>
+
+<table style="width:100%; font-size:10;">
+<!-- Start Column 1 -->
+<tr><td width=50%>
+
+<!-- General Screening bloodwork -->
+<div name="general" id="general">
+General
+</div>
+<!-- General screening age < 40 -->
+<!-- <input type="checkbox" id="generalBefore40" name = "generalBefore40" onclick="
+	var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'ALT', 'B12', 'CreatinineGFR'];
+var DiagnosisAndIndicationsValue = 'General baseline bloodwork, ';
+var SubjectValue = 'General baseline bloodwork, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">Age<40 -->
+
+<!-- General screening age > 40 -->
+<input type="checkbox" id="generalAfter40" name = "generalAfter40" onclick="
+	var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'ALT', 'B12', 'CreatinineGFR', 'Lipid_full'];
+var DiagnosisAndIndicationsValue = 'General baseline bloodwork, ';
+var SubjectValue = 'General baseline bloodwork, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">Age>40
+<!-- General screening age > 50 -->
+<input type="checkbox" id="generalAfter50" name = "generalAfter50" onclick="
+	var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'ALT', 'B12', 'CreatinineGFR', 'Lipid_full', 'FIT_CSP'];
+var DiagnosisAndIndicationsValue = 'General baseline bloodwork, ';
+var SubjectValue = 'General baseline bloodwork, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">Age>50
+
+<!-- GI -->
+<div name="Gastro1" id="Gastro1">
+GI:
+</div>
+<!-- Dyspepsia -->
+<input type="checkbox" id = "Dyspepsia" name="Dyspepsia" title="Consider Abdo U/S. See also: Dyspepsia algorithm in Pathways." onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'ALT', 'GGT', 'Bilirubin', 'FIT_Other'];
+var DiagnosisAndIndicationsValue = 'Dyspepsia, ';
+var SubjectValue = 'Dyspepsia, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+var AdditionalTestInstructionsValue = 'anti TTG, lipase, urea breath test';
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Dyspepsia
+<!-- Lower Abdo pain -->
+<input type="checkbox" id = "LowerAbdoPain" name="LowerAbdoPain" title="Consider imaging, such as Abdo CT or U/S." onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'FIT_Other'];
+var DiagnosisAndIndicationsValue = 'Lower Abdo Pain, ';
+var SubjectValue = 'Lower Abdo Pain, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">Lower Abdo Pain<br>
+<!-- Diarrhea -->
+<input type="checkbox" id = "Diarrhea" name="Diarrhea" onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'TSH', 'StoolCS', 'StoolOP', 'CDToxin', 'FIT_Other'];
+var DiagnosisAndIndicationsValue = 'Diarrhea, ';
+var SubjectValue = 'Diarrhea, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+var AdditionalTestInstructionsValue = 'anti TTG, CRP, ';
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Diarrhea
+<!-- Constipation -->
+<input type="checkbox" id = "Constipation" name="Constipation" title="See also: Constipation algorithm in Pathways." onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'TSH', 'Calcium', 'FIT_Other'];
+var DiagnosisAndIndicationsValue = 'Constipation, ';
+var SubjectValue = 'Constipation, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">Constipation<br>
+<!-- GI Bleed -->
+<input type="checkbox" id = "GIBleed" name="GIBleed" onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'FIT_Other'];
+var DiagnosisAndIndicationsValue = 'GI Bleed, ';
+var SubjectValue = 'GI Bleed, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">GI Bleed<br>
+
+<!-- CHF -->
+<div name="CHF1" id="CHF1">
+<a href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/heart-failure-chronic" id= "CHFtitle" target="_blank">CHF:</a>
+</div>
+<!-- CHF suspect -->
+<input type="checkbox" id="CHFSuspect" name = "CHFSuspect" title="Consider CXR, Echo" onclick="
+	var BoxesToCheck = ['HematologyProfile', 'Sodium', 'Potassium', 'CreatinineGFR', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'A1c', 'TSH', 'ECG', 'ECG', ];
+var DiagnosisAndIndicationsValue = 'CHF, ';
+var SubjectValue = 'CHF Suspect, ';
+var AdditionalTestInstructionsValue = 'NT-BNP'
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">Suspect
+<!-- CHF etiology -->
+<input type="checkbox" id="CHFEtiology" name ="CHFEtiology" title="Consider Echo" onclick="
+var BoxesToCheck = ['HematologyProfile', 'CreatinineGFR', 'Ferritin', 'TSH', 'ECG'];
+var DiagnosisAndIndicationsValue = 'CHF, ';
+var SubjectValue = 'CHF etiology, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+var AdditionalTestInstructionsValue = 'NT-BNP'
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Etiology<br>
+<!-- CHF follow-up -->
+<input type="checkbox" id="CHFFollowUp" name ="CHFFollowUp" onclick="
+var BoxesToCheck = ['Sodium', 'Potassium', 'CreatinineGFR'];
+var DiagnosisAndIndicationsValue = 'CHF, ';
+var SubjectValue = 'CHF f/u, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">Follow-Up
+<!-- CHF SO q6mo -->
+<input type="checkbox" id="CHFFollowUpStandingQ6months" name="CHFFollowUpStandingQ6months" onclick="
+var BoxesToCheck = [];
+var DiagnosisAndIndicationsValue = 'CHF, ';
+var SubjectValue = 'CHF SO, ';
+var AdditionalTestInstructionsValue = 'Standing Order: Na, K, Cr/eGFR repeat Q6 months for 2 yr. '
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Standing Order<br>
+
+<!-- CKD -->
+<div name="CKD1" id="CKD1">
+<a href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/chronic-kidney-disease" id="CKDtitle" target="_blank">CKD:</a>
+</div>
+<!-- CKD etiology -->
+<input type="checkbox" id = "CKDEtiology" name="CKDEtiology" title="Consider U/S" onclick="
+var BoxesToCheck = ['Sodium', 'Potassium', 'CreatinineGFR', 'A1c', 'ACR', 'HematologyProfile', 'Ferritin', 'Calcium', 'Albumin','UrineMacroscopicOnly', 'UrineMicroscopicOnly'];
+var DiagnosisAndIndicationsValue = 'Chronic Kidney Disease, ';
+var SubjectValue = 'CKD Etiology, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+var AdditionalTestInstructionsValue = 'Phosphate, SPEP, UPEP';
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Etiology
+<!-- CKD annual -->
+<input type="checkbox" id = "CKDAnnual" name="CKDAnnual" onclick="
+var BoxesToCheck = ['Sodium', 'Potassium', 'CreatinineGFR', 'A1c', 'ACR', 'HematologyProfile', 'Ferritin', 'Calcium', 'Albumin'];
+var DiagnosisAndIndicationsValue = 'Chronic Kidney Disease, ';
+var SubjectValue = 'Annual Chronic Kidney Disease BW, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+var AdditionalTestInstructionsValue = 'Phosphate';
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Annual<br>
+<!-- CKD standing order -->
+<input type="checkbox" id="CKDQ6months" name="CKDQ6months" onclick="
+var BoxesToCheck = [];
+var DiagnosisAndIndicationsValue = 'Chronic Kidney Disease, ';
+var SubjectValue = 'SO eGFR, ';
+var AdditionalTestInstructionsValue = 'Standing Order: Cr/eGFR and ACR Q6 months for 2 yr. '
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Standing Order
+
+<!-- DM -->
+<div name="DM1" id="DM1">
+<a href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/diabetes" id="DMtitle" target="_blank">DM:</a>
+</div>
+<!-- DM annual -->
+<input type="checkbox" id ="DMAnnual" name="DMAnnual" onclick="
+var BoxesToCheck = ['A1c', 'ACR', 'CreatinineGFR', 'Lipid_full'];
+var DiagnosisAndIndicationsValue = 'Diabetes Mellitus, ';
+var SubjectValue = 'Annual DM BW, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">Annual
+<!-- DM A1c standing order -->
+<input type="checkbox" id="DMStandingQ3months" name="DMStandingQ3months" onclick="
+var BoxesToCheck = [];
+var DiagnosisAndIndicationsValue = 'Diabetes Mellitus, ';
+var SubjectValue = 'SO A1C, ' ;
+var AdditionalTestInstructionsValue = 'Standing Order: A1C q3 months for 1 yr. ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Standing Order A1C<br>
+
+<!-- HTN -->
+<div name="HBP1" id="HBP1">
+<a href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/hypertension" id="HBPtitle" target="_blank">HYPERTENSION:</a>
+</div>
+<!-- HTN initial -->
+<input type="checkbox" id="HypertensionInitial" name="HypertensionInitial" onclick="
+var BoxesToCheck = ['A1c', 'Sodium', 'Potassium', 'CreatinineGFR', 'Lipid_full', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'ECG'];
+var DiagnosisAndIndicationsValue = 'HTN, ';
+var SubjectValue = 'Initial HTN BW, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">Initial
+<!-- HTN annual -->
+<input type="checkbox" id="HypertensionAnnual" name="HypertensionAnnual" onclick="
+var BoxesToCheck = ['A1c', 'Sodium', 'Potassium', 'CreatinineGFR', 'Lipid_full'];
+var DiagnosisAndIndicationsValue = 'HTN, ';
+var SubjectValue = 'Annual HTN BW, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">Annual<br>
+<!-- ACE/ARB Follow-up -->
+<input type="checkbox" id="ACEARBFollowUp" name="ACEARBFollowUp" onclick="
+var BoxesToCheck = ['Sodium', 'Potassium', 'CreatinineGFR'];
+var DiagnosisAndIndicationsValue = 'ACE/ARB adjustment, ';
+var SubjectValue = 'Cr, Lytes, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+var PatientInstructionsValue = 'To be done 2 weeks after starting/increasing medication. ';
+TogglePatientInstructions(this.id, PatientInstructionsValue);
+">ACE/ARB f/u
+<!-- ABPM -->
+<input type="checkbox" name="ABPM" id ="ABPM" title="Ambulatory BP monitoring" onclick="
+var BoxesToCheck = [];
+var DiagnosisAndIndicationsValue = 'HTN, ';
+var SubjectValue = 'ABPM, ';
+var AdditionalTestInstructionsValue = 'Ambulatory Blood Pressure Monitoring is not an MSP-insured service. The cost is $65.00. ABPM is done by appointment only. Please call 604-412-4495 (LifeLabs) to book an appointment. ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Amb BP<br>
+
+<!-- Dyslipidemia -->
+DYSLIPIDEMIA:<br>
+<!-- Dyslipidemia lipid panel, FBS -->
+<input type="checkbox" id="CholesterolFBS" name="CholesterolFBS" onclick="
+var BoxesToCheck = ['GlucoseFasting', 'Lipid_full']
+var DiagnosisAndIndicationsValue = 'Dyslipidemia, ';
+var SubjectValue = 'Lipid profile, ';
+var FastingTimeHours = '10';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleFasting(this.id, FastingTimeHours);
+">Cholesterol & FBS<br>
+<!-- Dyslipidemia follow-up -->
+<input type="checkbox" id="DyslipidemiaOnStatin" name="DyslipidemiaOnStatin" onclick="
+var BoxesToCheck = ['Lipid_FU']
+var DiagnosisAndIndicationsValue = 'Dyslipidemia, ';
+var SubjectValue = 'Lipid FU, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+var PatientInstructionsValue = 'No fasting required. ';
+TogglePatientInstructions(this.id, PatientInstructionsValue);
+var CurrentMedicationsLastDoseValue = 'Statin ';
+ToggleCurrentMedications(this.id, CurrentMedicationsLastDoseValue);
+">Dyslipidemia FU: On Statin<br>
+
+<!-- Osteoporosis -->
+<a href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/osteoporosis" name="Osteoprosis" target="_blank" title="GPAC guidelines">OSTEOPOROSIS:</a><br>
+
+<!-- Osteoporosis female -->
+<input type="checkbox" id="FemaleOsteoporosis" name="FemaleOsteoporosis" title="Consider SPEP if hyperCa or vertebral fracture. Consider PTH, anti TTG." onclick="
+var BoxesToCheck = ['HematologyProfile', 'TSH', 'CreatinineGFR', 'AlkPhos', 'ALT'];
+var DiagnosisAndIndicationsValue = 'Osteoporosis ';
+var SubjectValue = 'Osteoporosis, ';
+var AdditionalTestInstructionsValue = 'Phosphate, 25-Hydroxyvitamin D, corrected Calcium';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Female
+<!-- Osteoporosis male -->
+<input type="checkbox" id="MaleOsteoporosis" name="MaleOsteoporosis" onclick="
+var BoxesToCheck = ['HematologyProfile', 'TSH', 'CreatinineGFR', 'AlkPhos', 'ALT'];
+var DiagnosisAndIndicationsValue = 'Male Osteoporosis ';
+var SubjectValue = 'Osteoporosis, ';
+var AdditionalTestInstructionsValue = 'Phosphate, 25-Hydroxyvitamin D, corrected Calcium, total testosterone, ';
+var PatientInstructionsValue = 'Do blood work in the morning, before 10:00 a.m. ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+TogglePatientInstructions(this.id, PatientInstructionsValue);
+">Male<br>
+OTHERS:<br>
+<!-- Dysuria -->
+<input type="checkbox" id="Dysuria" name="Dysuria" title="Consider vaginal swab in female patients." onclick="
+var BoxesToCheck = ['UrineMacroscopicMicroscopicIfDipstickPositive', 'Urine_CS', 'CTGC_Urine'];
+var DiagnosisAndIndicationsValue = 'Dysuria ';
+var SubjectValue = 'Dysuria ';
+var AdditionalTestInstructionsValue = 'Urine trichomonas';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Dysuria
+
+<!-- UTI -->
+<input type="checkbox" id="UTI" name="UTI" onclick="
+var BoxesToCheck = ['UrineMacroscopicCultureIfPyuriaOrNitrate'];
+var DiagnosisAndIndicationsValue = 'UTI, ';
+var SubjectValue = 'UTI, ';
+// var AdditionalTestInstructionsValue = 'Add Fosfomycin sensitivity for urine culture. ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">UTI<br>
+
+<!-- PCOS -->
+<input type="checkbox" title="Polycystic Ovary Syndrome" id="PCOS_workup" name="PCOS_workup" onclick="
+var BoxesToCheck = ['HematologyProfile', 'TSH', 'bHCG', 'Ferritin'];
+var DiagnosisAndIndicationsValue = '?PCOS ';
+var SubjectValue = 'PCOS? ';
+var AdditionalTestInstructionsValue = 'FSH, Prolactin, Total testosterone, 17-OHP';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">PCOS workup<br>
+
+<!-- Stool -->
+<input type="checkbox" id="Stool" name="Stool" onclick="
+var BoxesToCheck = ['StoolCS', 'StoolOP'];
+var DiagnosisAndIndicationsValue = 'Diarrhea ';
+var SubjectValue = 'Stool check, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">Stool O+P, C+S<br>
+
+<!-- Thrombosis -->
+<input type="checkbox" id="Thrombosis_screen" name="Thrombosis_screen" onclick="
+var BoxesToCheck = ['HematologyProfile', 'PTINR', 'TSH', 'Warfarin_No'];
+var DiagnosisAndIndicationsValue = 'Thrombosis Screen, ';
+var SubjectValue = 'Thrombosis Screen ';
+var AdditionalTestInstructionsValue = 'Factor 5 Leiden, Protein C, Protein S, Antithrombin 3, DRVVT, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Thrombosis screen<br>
+
+
+
+<!-- H Pylori UBT -->
+<input type="checkbox" name="HP_Breath_Test" id="HP_Breath_Test" onclick="
+var BoxesToCheck = [];
+var DiagnosisAndIndicationsValue = 'Query peptic ulcer disease, ';
+var SubjectValue = 'HP Breath Test, ';
+var AdditionalTestInstructionsValue = 'HP Breath Test, ';
+var PatientInstructionsValue = 'Do not smoke or eat anything for 4 hr before test.  Do not drink any fluids for 1 hr before test. Testing may take up to 40 minutes. ***No antibiotics x 4 weeks, no Pepto-bismol x 2 weeks, no PPI x 7 days, no Zantac x 1 day, no antacids x 2 days before the test. ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+TogglePatientInstructions(this.id, PatientInstructionsValue);
+"><a href="http://www.lifelabs.com/sites/content_authoring/patients/Patient%20Test%20Instructions/H.%20Pylori%20Breath%20Test%20Instructions%20English.pdf" target="_blank" title="Patient Instructions">HP Breath Test</a><br>
+
+<!-- CTD work-up -->
+<input type="checkbox" id="CTDSerology" name="CTDSerology" onclick="
+var BoxesToCheck = ['HematologyProfile'];
+var DiagnosisAndIndicationsValue = '?Connective tissue disease, ';
+var SubjectValue = 'CTD screen, ';
+var AdditionalTestInstructionsValue = 'RF, ANA, ENA, hs CRP, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">CTD Serology
+<a href="http:/www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/ana-testing" target="_blank" title="GPAC guidelines">ANA, </a>
+<a href="http://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/bc-guidelines/rheumatoid-arthritis" target="_blank" title="GPAC guidelines">RF</a><br>
+
+<!-- Celiac Disease -->
+<input type="checkbox" id="Celiac" name="Celiac" 
+	onclick="
+		var BoxesToCheck = [];
+		var DiagnosisAndIndicationsValue = 'Query celiac disease, ';
+		var SubjectValue = 'Celiac? ';
+		var AdditionalTestInstructionsValue = 'anti-TTG for celiac disease, ';
+		ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+		ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);">
+<span style="cursor:pointer; color:black; text-decoration:underline;" 
+	onclick="
+		document.getElementById('SupplementalInfo').style.visibility='visible';
+		document.AdditionalInformation.AdditionalInfo.value = 'IgA anti-TTG is generally considered to be the test of choice to screen patients for celiac disease (see Physicians Newsletter April 2002) because of its sensitivity (>90-96%) and specificity (>95%). Selective IgA deficiency, which is more common in celiac disease patients than the general population (1 in 40 vs. 1 in 400), may lead to false negative IgA anti-TTG tests. Many, but not all, IgA deficient patients can be identified using the optical density of the IgA anti-TTG result such that low optical density results suggest the possibility of IgA deficiency. BC Biomedical Laboratories will continue with the practice of reflexing an IgA quantitation on samples with a low optical density anti-TTG result. However, since this protocol will only identify about 90% of IgA deficient patients, physicians should be aware that some IgA deficient celiac patients may still be missed. The IgA quantitation will not be billed to MSP as the new billing rule does not allow submission of simultaneous claims for both tests collected together.Reference:BC Bio Physicians Newsletter Volume 12, Issue 3 ';" title="Click for more info">
+Celiac disease</span><br>
+
+						<!-- Alpha-1 anti-trypsin disease -->
+						<input type="checkbox" id="A1AT" name="A1AT" title="Consider if young, severe COPD pt" onclick="
+						var BoxesToCheck = [];
+						var DiagnosisAndIndicationsValue = '?alpha-1 AT deficiency, ';
+						var SubjectValue = 'A1AT? ';
+						var AdditionalTestInstructionsValue = 'Genetic testing for A1AT deficiency, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						">Alpha-1 Antitrypsin deficiency<br>
+
+						<!-- Urine Drug Screen UDS -->
+						<input type="checkbox" id="UDS" name="UDS" title="Please note what opioid patient is prescribed." onclick="
+						var BoxesToCheck = [];
+						var DiagnosisAndIndicationsValue = 'Long-term opioid therapy, ';
+						var SubjectValue = 'UDS, ';
+						var AdditionalTestInstructionsValue = 'Urine Drug Screen: please include Methadone, Oxycodone, and Fentanyl, ';
+						document.FormName.CurrentMedicationsLastDose.style.background ='yellow';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						">Urine Drug Screen<br>
+
+						ANEMIA:</u><br>
+						<!-- Anemia - initial -->
+						<input type="checkbox" id="Anemia_basic" name="Anemia_basic" onclick="
+						var BoxesToCheck = ['HematologyProfile', 'Ferritin'];
+						var DiagnosisAndIndicationsValue = 'Anemia, ';
+						var SubjectValue = 'Anemia - basic, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						">Anemia - initial<br>
+
+						<!-- Anemia - basic -->
+						<input type="checkbox" name="Anemia_advanced" id ="Anemia_advanced" title="refractory anemia" onclick="
+						var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'ChronicViralHepatitis', 'ALT', 'Bilirubin', 'GGT', 'PTINR', 'Warfarin_No', 'CreatinineGFR', 'UrineMacroscopicOnly', 'FIT_Other', 'HIVNominal'];
+						var DiagnosisAndIndicationsValue = 'Anemia, ';
+						var SubjectValue = 'Anemia - advanced, ';
+						var AdditionalTestInstructionsValue = 'LDH, serum protein electrophoresis, Haptoglobin, reticulocyte, TTG, serum iron, TIBC, saturation, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						">Anemia - advanced
+					</td>
+
+<!-- Start Column 2 -->
+					<td>
+						INFERTILITY:<br>
+						<!-- Infertility female -->
+						<input type="checkbox" id="Infertility_Female" name="Infertility_Female" onclick="
+						var BoxesToCheck = ['HematologyProfile', 'TSH', 'HBsAg', 'HIVNominal'];
+						var DiagnosisAndIndicationsValue = 'Infertility, ';
+						var SubjectValue = 'Infertility, ';
+						var AdditionalTestInstructionsValue = 'Cycle day 3 FSH, LH, DHEAS, Testosterone, Estradiol, Prolactin, Rubella, Blood group, Rh and Antibody Screen, anti-HCV, T. pall EIA, serum AMH, ';
+						var PatientInstructionsValue = 'Do blood work in the 3rd day of your cycle/period. ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						TogglePatientInstructions(this.id, PatientInstructionsValue);
+							if (document.getElementById('Infertility_Female').checked == true) {
+						document.getElementById('PatientInstructions').style.background = 'yellow';
+							} else {
+						document.getElementById('PatientInstructions').style.background = 'white';
+							}
+						">Female
+						<!-- Infertility male -->
+						<input type="checkbox" id="Infertility_Male" name="Infertility_Male" onclick="
+						var BoxesToCheck = [];
+						var DiagnosisAndIndicationsValue = 'Male infertility, ';
+						var SubjectValue = 'Infertility, ';
+						var AdditionalTestInstructionsValue = 'Semen analysis, ';
+						var PatientInstructionsValue = 'Appointment required. Call 1-855-412-4495 to book. ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						TogglePatientInstructions(this.id, PatientInstructionsValue);
+							if (document.getElementById('Infertility_Male').checked == true) {
+						document.getElementById('PatientInstructions').style.background = 'yellow';
+							} else {
+						document.getElementById('PatientInstructions').style.background = 'white';
+							}
+							">Male<br>
+						<!-- Infertility male with abn semen analysis-->
+						<input type="checkbox" id="AbnSA" name="AbnSA" onclick="
+						var BoxesToCheck = ['HematologyProfile', 'HIVNominal', 'TSH'];
+						var DiagnosisAndIndicationsValue = 'Infertility, abn semen analysis, ';
+						var SubjectValue = 'Infertility, ';
+						var AdditionalTestInstructionsValue = 'FSH, LH, Prolactin, Testosterone, ';
+						var PatientInstructionsValue = 'Appointment required. Call 1-855-412-4495 to book. ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						TogglePatientInstructions(this.id, PatientInstructionsValue);
+						">Abn Semen Analysis<br>
+
+						ELEVATED LFTs<br>
+						<!-- Acute elevated LFT-->
+						<input type="checkbox" id="Acute_Elevated_LFT" name="Acute_Elevated_LFT" onclick="
+						var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'TProtein', 'AcuteViralHepatitis'];
+						var DiagnosisAndIndicationsValue = 'Acute elevated LFT, ';
+						var SubjectValue = 'Acute LFTs, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						">Acute
+						<!-- Chronic elevated LFT-->
+						<input type="checkbox" id="Chronic_Elevated_LFT" name="Chronic_Elevated_LFT" onclick="
+						var BoxesToCheck = ['Ferritin', 'ChronicViralHepatitis'];
+						var DiagnosisAndIndicationsValue = 'Chronic elevated LFT, ';
+						var SubjectValue = 'Chronic LFTs, ';
+						var AdditionalTestInstructionsValue = 'ANA, anti-mitochondrial AB, ceruloplasmin, alpha-1 antitrypsin, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						">Chronic<br>
+						<!-- All LE/LFT tests -->
+						<input type="checkbox" id="LFT" name="LFT" title="Liver enzymes and function tests" onclick="
+						var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'TProtein'];
+						var DiagnosisAndIndicationsValue = '';
+						var SubjectValue = 'LE/LFTs, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						">Liver Enzymes/LFTs<br>
+						<!-- Chronic HBV infection follow-up -->
+						<input type="checkbox" id="Chronic_HBV_FU" name="Chronic_HBV_FU" title="Chronic HBV infection" onclick="
+						var BoxesToCheck = ['ALT'];
+						var DiagnosisAndIndicationsValue = 'Chronic HBV infection, ';
+						var SubjectValue = 'Chronic HBV, ';
+						var AdditionalTestInstructionsValue = 'HBeAg, anti-HBeAg, HBV DNA, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);">
+							<a href="http://www.hepatology.ca/wp-content/uploads/2012/06/2012HepBGuidelines_CJG.pdf"
+							target="_blank" title="Web reference">
+						Chronic HBV FU</a><br>
+						<!-- STI Investigations -->
+						<input type="checkbox" id="STI_Investigation" name="STI_Investigation" title="STI screen" onclick="
+						var BoxesToCheck = ['HIVNominal', 'ChronicViralHepatitis', 'CTGC_Urine'];
+						var DiagnosisAndIndicationsValue = 'STI screen, ';
+						var SubjectValue = 'STI screen, ';
+						var AdditionalTestInstructionsValue = 'T pall EIA, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);">
+							STI investigations<br>
+
+<!-- Other -->
+OTHERS:<br>
+
+<!-- First Prenatal labs -->
+<input type="checkbox" id="Prenatal" name="Prenatal" 
+	onclick="
+		var BoxesToCheck = ['HematologyProfile', 'Urine_CS', 'CTGC_Urine', 'HIVNominal', 'Pregnant_Yes', 'ChronicViralHepatitis', 'A1c', 'TSH', 'Ferritin'];
+		var DiagnosisAndIndicationsValue = 'Prenatal labs, ';
+		var SubjectValue = 'Prenatal labs - first, ';
+		var AdditionalTestInstructionsValue = 'Rubella IgG (if first pregnancy), T. pall EIA, Varicella IgG, ABO/Rh blood group, antibody screen, Hemoglobin electrophoresis (if NOT Japanese, Korean, Northern European Caucasian, First Nations or Inuit)';
+		ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+		ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+		ToggleCopyTo(this.id, CopyToValue);">
+<span style="cursor:pointer; color:black; text-decoration:underline;" 
+	onclick="
+		document.getElementById('SupplementalInfo').style.visibility='visible';
+		document.AdditionalInformation.AdditionalInfo.value = 'Consider referral to Best Beginnings through Fraser Health. Direct link https&colon;&sol;&sol;bestbeginnings.fraserhealth.ca&sol;default.aspx.  If First Nations, consider checking A1c and RBS on first labs as there is higher incidence of GDM.';" title="Click for more info">
+First Prenatal Labs</span>
+<a href="https://pathwaysbc.ca/content_items/348" id="BestBeginnings_Pathways" target="_blank" title="Pathways Link">&nbsp;(Pathways)&nbsp;</a><br>
+<a href="https://www.maternityhub.ca/" id="MaternityHub" target="_blank" title="Maternity Hub">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(maternityhub.ca)&nbsp;</a><br>
+
+						<!-- NIPT - use other eForm -->
+						<input name="NIPT_link" id="NIPT_link" value="to NIPT eForm" type="button" style="font-size:10px; color:green;" oscarOpen="LifeLabs_Panorama_NIPT" title="Private Panorama NIPT"><br>
+
+						<!-- PGS - use other eForm -->
+						<input id="PGS_link" name="PGS_link" value="to PGS eForm" type="button" style="font-size:10px; color:green;" oscarOpen="Prenatal Genetic Screening" title="Prenatal Genetic Screening, aka SIPS"><br>
+
+						<!-- Pre-Eclampsia Toxemia -->
+						<input type="checkbox" id="PreEclampsiaToxemia" name="PreEclampsiaToxemia" onclick="
+						var BoxesToCheck = ['Pregnant_Yes', 'HematologyProfile', 'PTINR', 'Warfarin_No', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'ACR', 'Sodium', 'Potassium', 'CreatinineGFR', 'Calcium', 'Albumin', 'ALT', 'Bilirubin', 'GGT'];
+						var DiagnosisAndIndicationsValue = 'Antepartum Gestational Hypertension, ';
+						var SubjectValue = 'Toxemia, ';
+						var AdditionalTestInstructionsValue = 'BUN, HCO3-, Mg2+, Uric Acid, AST, LDH, Fibrinogen, 24Hr Urine For Protein and Creatinine Clearance, ';
+						// var CopyToValue = 'Caseroom, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						ToggleCopyTo(this.id, CopyToValue);
+						">Gestational Hypertension<br>
+
+						<!-- Recurrent Pregnancy Loss/RPL -->
+						<input type="checkbox" id="RPL" name="RPL" onclick="
+						var BoxesToCheck = ['HematologyProfile','PTINR', 'TSH', 'HBsAg', 'HIVNominal'];
+						var DiagnosisAndIndicationsValue = 'Recurrent Pregnancy Loss, ';
+						var SubjectValue = 'Recurrent Pregnancy Loss, ';
+						var AdditionalTestInstructionsValue = 'Cycle day 3 FSH, LH, DHEAS, Testosterone, Estradiol, Prolactin, Rubella; Blood group, Rh and Antibody Screen; anti-HCV, T pall EIA, Lupus Anticoagulant/DRVVT, Cardiolipin Ab, Beta 2 Glycoprotein 1, ';
+						var PatientInstructionsValue = 'Do blood work in the 3rd day of your cycle/period. ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						TogglePatientInstructions(this.id, PatientInstructionsValue);
+						if (document.getElementById('RPL').checked == true) {
+						document.getElementById('PatientInstructions').style.background = 'yellow';
+						} else {
+						document.getElementById('PatientInstructions').style.background = 'white';
+						}
+						">Recurrent pregnancy loss<br>
+
+						<!-- Rh negative -->
+						<input type="checkbox" id="RhNegative" name="RhNegative" onclick="
+						var BoxesToCheck = ['Pregnant_Yes']
+						var DiagnosisAndIndicationsValue = 'Rh neg, ';
+						var SubjectValue = 'Rh neg, ';
+						var AdditionalTestInstructionsValue = 'Rh antibodies, ';
+						// var CopyToValue = 'Caseroom, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						ToggleCopyTo(this.id, CopyToValue);
+						">Rh negative<br>
+
+						<!-- Dementia -->
+						<input type="checkbox" id="Dementia" name="Dementia" onclick="
+						var BoxesToCheck = ['HematologyProfile', 'GlucoseRandom', 'A1c', 'TSH', 'Sodium', 'Potassium', 'CreatinineGFR', 'Calcium', 'Albumin', 'B12', 'HIVNominal', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'UrineMacroscopicCultureIfPyuriaOrNitrate']
+						var DiagnosisAndIndicationsValue = 'Dementia, ';
+						var SubjectValue = 'Dementia, ';
+						var AdditionalTestInstructionsValue = 'T pall EIA, ';
+						var PatientInstructionsValue = 'No fasting required. ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						TogglePatientInstructions(this.id, PatientInstructionsValue);
+						">Dementia<br>
+
+						<!-- Eating Disorder -->
+						<input type="checkbox" id="Eating_disorder_workup" name="Eating_disorder_workup" onclick="
+						var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'GlucoseRandom', 'Lipid_full', 'TSH', 'Sodium', 'Potassium', 'CreatinineGFR', 'Calcium', 'Albumin', 'ALT', 'GGT', 'AlkPhos', 'TProtein', 'ECG', 'UrineMacroscopicOnly', 'UrineMicroscopicOnly']
+						var DiagnosisAndIndicationsValue = 'Eating disorder, ';
+						var SubjectValue = 'Eating disorder, ';
+						var AdditionalTestInstructionsValue = 'Mg, PO4, BUN, ESR, ';
+						var PatientInstructionsValue = 'No fasting required. ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						TogglePatientInstructions(this.id, PatientInstructionsValue);
+						">Eating disorder<br>
+
+						<!-- Fatigue -->
+						<input type="checkbox" id="Fatigue" name="Fatigue" onclick="
+						var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'TSH', 'Sodium', 'Potassium', 'CreatinineGFR', 'ALT', 'B12']
+						var DiagnosisAndIndicationsValue = 'Fatigue, ';
+						var SubjectValue = 'Fatigue, ';
+						var PatientInstructionsValue = 'No fasting required. ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						TogglePatientInstructions(this.id, PatientInstructionsValue);
+						">Fatigue<br>
+
+						<!-- Gynecological CA -->
+						<input type="checkbox" id="Gyn_Ca" name="Gyn_Ca" onclick="
+						var BoxesToCheck = []
+						var DiagnosisAndIndicationsValue = 'Gyn CA workup, ';
+						var SubjectValue = 'Gyn CA, ';
+						var AdditionalTestInstructionsValue = 'CA125, CEA, CA19-9, CA15-3, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						">Gyn Cancer<br>
+
+						<!-- IV Contrast Protocol -->
+						<input type="checkbox" id="RenalFunctionsRadiology" name="RenalFunctionsRadiology" title="Identify which site to copy results" onclick="
+						var BoxesToCheck = ['CreatinineGFR']
+						var DiagnosisAndIndicationsValue = 'For IV contrast imaging study, ';
+						var SubjectValue = 'eGFR, ';
+						var AdditionalTestInstructionsValue = 'eGFR within 30 days prior to test and repeat after if required, ';
+						var PatientInstructionsValue = 'Do blood work within 30 days BEFORE procedure and repeat 48 hrs after, if required. ';
+						var CopyToValue = 'Radiology Department, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						TogglePatientInstructions(this.id, PatientInstructionsValue);
+						ToggleCopyTo(this.id, CopyToValue);
+							if (document.getElementById('RenalFunctionsRadiology').checked == true) {
+						document.getElementById('CopyTo').style.background = 'yellow';
+							} else {
+						document.getElementById('CopyTo').style.background = 'white';
+							}
+						">IV Contrast Protocol<br>
+
+						<!-- INR standing order -->
+						<input type="checkbox" id="INR_SO" name="INR_SO" onclick="
+						var BoxesToCheck = ['PTINR', 'Warfarin_Yes']
+						var DiagnosisAndIndicationsValue = 'On Warfarin, ';
+						var SubjectValue = 'INR SO, ';
+						var AdditionalTestInstructionsValue = 'Standing Order: INR PRN for 2 yr. ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+							if (document.getElementById('INR_SO').checked == true) {
+						document.getElementById('Anticoag_text').value = 'Warfarin';
+							} else {
+						document.getElementById('Anticoag_text').value = '';
+							}
+						">INR Standing Order<br>
+
+						<!-- TSH standing order -->
+						<input type="checkbox" id="TSH_SO" name="TSH_SO" onclick="
+						var BoxesToCheck = ['MonitorThyroidRx'];
+						var DiagnosisAndIndicationsValue = 'Hypothyroidism, ';
+						var SubjectValue = 'TSH SO, ';
+						var CurrentMedicationsLastDoseValue = 'Thyroxin ';
+						var AdditionalTestInstructionsValue = 'Standing Order: TSH PRN for 2 yr. ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						ToggleCurrentMedications(this.id, CurrentMedicationsLastDoseValue);
+						">TSH Standing Order<br>
+
+						<!-- Plasma K+ -->
+						<input type="checkbox" id="Kpl" name="Kpl" title="Plasma potassium" onclick="
+						var BoxesToCheck = [];
+						var DiagnosisAndIndicationsValue = 'Plasma potassium required, ';
+						var SubjectValue = 'Plasma K, ';
+						var AdditionalTestInstructionsValue = 'Please do Plasma K+ ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						">Plasma K+<br>
+
+						<!-- PrEP baseline -->
+						<input type="checkbox" id="PrEP_Base" name="PrEP_Base" title="Pre-Exposure Prophylaxis for HIV Baseline" onclick="
+						var BoxesToCheck = ['UrineMacroscopicOnly', 'ACR', 'CreatinineGFR', 'CTGC_Urine', 'ChronicViralHepatitis', 'HepatitisAImmuneStatus', 'HIVNominal'];
+						var DiagnosisAndIndicationsValue = 'Pre-Exposure Prophylaxis Baseline Order, ';
+						var SubjectValue = 'PrEP baseline, ';
+						var AdditionalTestInstructionsValue = 'HIV Ab/Ag EIA, T. pallidum EIA, Gonorrhea/Chlamydia NAAT (throat or rectal prn). (Preg test if female) ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						">PrEP Baseline
+
+						<!-- PrEP 1 mo F/U -->
+						<input type="checkbox" id="PrEP_first" name="PrEP_first" title="Pre-Exposure Prophylaxis for HIV 1 mo F/U" onclick="
+						var BoxesToCheck = ['UrineMacroscopicOnly', 'ACR', 'CreatinineGFR', 'CTGC_Urine', 'HIVNominal'];
+						var DiagnosisAndIndicationsValue = 'Pre-Exposure Prophylaxis 1 mo follow-up, ';
+						var SubjectValue = 'PrEP 1 mo FU, ';
+						var AdditionalTestInstructionsValue = 'HIV Ab/Ag EIA (Preg test if female) '
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						">PrEP 1 mo<br>
+
+						<!-- PrEP q3mo -->
+						<input type="checkbox" id="PrEP_SO" name="PrEP_SO" title="Pre-Exposure Prophylaxis for HIV Standing Order" onclick="
+						var BoxesToCheck = [];
+						var DiagnosisAndIndicationsValue = 'Pre-Exposure Prophylaxis regular follow-up, ';
+						var SubjectValue = 'PrEP q3mo SO, ';
+						var AdditionalTestInstructionsValue = 'Standing Order: q3mo for 2 yr: Cr/eGFR, urinalysis, ACR, HIV Ab/Ag EIA, T. pallidum EIA, Gonorrhea/Chlamydia NAAT (urine). Standing Order: q6mo for 2 yr: anti-HCV (Pregnancy test if female) ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						">PrEP q3mo Standing Order<br><br><br><br>
+					</td></tr>
+				</table>
+<br>
+
+<span id="AdditionalInfoTesting"><b>&nbsp;ADDITIONAL TESTS:</b></span>
+<table style="width:365px; font-size:10px;">
+	<tr><td width="33%">
+		<input id="TROP1" type="button" value="TROP1" class="LabP10 DoNotPrint labButton2" style="width:35px;" onclick="ZTROPTF();">
+		<input type="hidden" id="ZTROPTF_choose" value="unchoose">
+		<input id="TROP1Date" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="TROP1Val" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZTROP();" title="Troponin 1">
+		</td>
+		<td>
+		<input id="TROPhs" type="button" value="TROPhs" class="LabP10 DoNotPrint labButton2" style="width:35px;" onclick="ZTROPTF();">
+		<input id="TROPhsDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="TROPhsVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZTROP2();" title="Troponin high-sensitivity">
+		</td>
+		<td>
+		<input id="BNPC" type="button" value="BNP" class="LabP10 DoNotPrint labButton2" onclick="ZBNPTF();">
+		<input type="hidden" id="ZBNPTF_choose" value="unchoose">
+		<input id="BNPDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="BNPVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZBNP();">
+	</td></tr>
+
+	<tr><td>
+		<input id="URICC" type="button" value="URIC" class="LabP10 DoNotPrint labButton2" onclick="ZURICTF();">
+		<input type="hidden" id="ZURICTF_choose" value="unchoose">
+		<input id="URICDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="URICVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZURIC();" title="Uric acid">
+		</td>
+		<td>
+		<input id="ASTC" type="button" value="AST" class="LabP10 DoNotPrint labButton2" onclick="ZASTTF();">
+		<input type="hidden" id="ZASTTF_choose" value="unchoose">
+		<input id="ASTDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="ASTVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZAST();">
+	</td></tr>
+
+	<tr><td>
+		<input id="CRPC" type="button" value="CRP" class="LabP10 DoNotPrint labButton2" onclick="ZCRPTF();">
+		<input type="hidden" id="ZCRPTF_choose" value="unchoose">
+		<input id="CRPDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="CRPVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZCRP();" title="C-reactive Protein; cannot be ordered concurrently with ESR.">
+		</td>
+		<td>
+		<input id="ESRC" type="button" value="ESR" class="LabP10 DoNotPrint labButton2" onclick="ZESRTF();">
+		<input type="hidden" id="ZESRTF_choose" value="unchoose">
+		<input id="ESRDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="ESRVal" type="button" class="LabP12 DoNotPrint labButton2"onclick="onBodyLoad(); ZESR();" title="Erythrocyte Sedimentation Rate; cannot be ordered concurrently with CRP.">
+		</td>
+		<td>
+		<input id="RFC" type="button" value="RF" class="LabP10 DoNotPrint labButton2" onclick="ZRFTF();" title="Rheumatoid Factor">
+		<input type="hidden" id="ZRFTF_choose" value="unchoose">
+		<input id="RFDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="RFVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZRF();" title="Rheumatoid Factor">
+	</td></tr>
+
+	<tr><td>
+		<input id="ANAC" type="button" value="ANA" class="LabP10 DoNotPrint labButton2" onclick="ZANATF();">
+		<input type="hidden" id="ZANATF_choose" value="unchoose">
+		<input id="ANADate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="ANAVal" type="button" class="LabP12 DoNotPrint labButton2"onclick="onBodyLoad(); ZANA();">
+		</td>
+		<td>
+		<input id="CCPC" type="button" value="CCP" class="LabP10 DoNotPrint labButton2" onclick="ZCCPTF();">
+		<input type="hidden" id="ZCCPTF_choose" value="unchoose">
+		<input id="CCPDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="CCPVal" type="button" class="LabP12 DoNotPrint labButton2"onclick="onBodyLoad(); ZCCP();" title="Cyclic Citrullinated Peptide Ab, for RA, private pay $55">
+		</td>
+		<td>
+		<input id="TGbC" type="button" value="TGB" class="LabP10 DoNotPrint labButton2" onclick="ZTGbTF();">
+		<input type="hidden" id="ZTGbTF_choose" value="unchoose">
+		<input id="TGbDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="TGbVal" type="button" class="LabP12 DoNotPrint labButton2"onclick="onBodyLoad(); ZTGb();" title="Thyroglobulin, for thyroid CA, auto-immune thyroid dz">
+	</td></tr>
+
+	<tr><td>
+		<input id="CEAC" type="button" value="CEA" class="LabP10 DoNotPrint labButton2" onclick="ZCEATF();">
+		<input type="hidden" id="ZCEATF_choose" value="unchoose">
+		<input id="CEADate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="CEAVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZCEA();" title="CarcinoEmbryonic Antigen">
+		</td>
+		<td>
+		<input id="AFPC" type="button" value="AFP" class="LabP10 DoNotPrint labButton2" onclick="ZAFPTF();" title="Alpha-fetoprotein">
+		<input type="hidden" id="ZAFPTF_choose" value="unchoose">
+		<input id="AFPDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="AFPVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZAFP();" title="Alpha-fetoprotein">
+		</td>
+		<td>
+		<input id="A1ATC" type="button" value="A1AT" class="LabP10 DoNotPrint labButton2" onclick="document.getElementById('A1AT').click();">
+		<input type="hidden" id="ZA1ATTF_choose" value="unchoose">
+		<input id="A1ATDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="A1ATVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZA1AT();" title="Alpha-1 antitrypsin">
+	</td></tr>
+
+	<tr><td>
+		<input id="FCALC" type="button" value="FCAL" class="LabP10 DoNotPrint labButton2" onclick="ZFCALTF();" title="MSP-covered if dx is IBD, cost $110; avoid NSAIDs and COXIBs for 2 weeks pre-test.">
+		<input type="hidden" id="ZFCALTF_choose" value="unchoose">
+		<input id="FCALDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="FCALVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZFCAL();" title="Fecal Calprotectin, for IBD">
+		</td>
+		<td>
+		<input id="TTGC" type="button" value="TTG" class="LabP10 DoNotPrint labButton2" onclick="ZTTGTF();">
+		<input type="hidden" id="ZTTGTF_choose" value="unchoose">
+		<input id="TTGDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="TTGVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZTTG();" title="Tissue TransGlutaminase for Celiac disease">
+		</td>
+		<td>
+		<input id="VitDC" type="button" value="Vit D" class="LabP10 DoNotPrint labButton2" onclick="ZVitDTF();">
+		<input type="hidden" id="ZVitDTF_choose" value="unchoose">
+		<input id="VitDDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="VitDVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZVitD();" title="25-Hydroxyvitamin D. MSP-covered only if ordered by specialist.">
+	</td></tr>
+
+	<tr><td>
+		<input id="DIGC" type="button" value="DIG" class="LabP10 DoNotPrint labButton2" onclick="ZDIGTF();">
+		<input type="hidden" id="ZDIGTF_choose" value="unchoose">
+		<input id="DIGDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="DIGVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZDIG();" title="Digoxin level">
+		</td>
+		<td>
+		<input id="DILC" type="button" value="DIL" class="LabP10 DoNotPrint labButton2" onclick="ZDILTF();">
+		<input type="hidden" id="ZDILTF_choose" value="unchoose">
+		<input id="DILDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="DILVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZDIL();" title="Dilantin level">
+		</td>
+		<td>
+		<input id="LITHC" type="button" value="LITH" class="LabP10 DoNotPrint labButton2" onclick="ZLITHTF();">
+		<input type="hidden" id="ZLITHTF_choose" value="unchoose">
+		<input id="LITHDate" type="button" class="LabP11 DoNotPrint labButton3">
+		<input id="LITHVal" type="button" class="LabP12 DoNotPrint labButton2" onclick="onBodyLoad(); ZLITH();" title="Lithium level">
+	</td></tr>
+</table> 
+<br>
+
+<!-- Base Info -->
+<b>&nbsp;CONDITIONS:</b><br>
+<textarea name="searchbox" id="searchbox" type="text" class="noborder" style="font-size:12px; width:362px; height:50px; resize:vertical;" onblur="decisionSupport();"></textarea><br><br>
+<b>&nbsp;CURRENT MEDS:</b><br>
+<textarea name="searchboxRx" id="searchboxRx" type="text" class="noborder" style="font-size:12px; width:362px; height:50px; resize:vertical;" onblur="decisionSupport();"></textarea><br>
+<br>
+&nbsp; <input value="Reset" name="reset" type="reset" style="font-size:10px; color:red;">
+&nbsp; <input value="Close" name="Close" type="button"  style="font-size:10px; color:green;" onclick="javascript:closebar(); return false">
+&nbsp; Refresh (F5) to re-open menu
+<br><br>
+</form>
+</div>
+
+<!-- Supplemental Information - part of therapeutic monitoring functionality;
+	currently only used for celiac pop-up -->
+<div id="SupplementalInfo" id="SupplementalInfo" class="DoNotPrint" style="position:fixed; visibility:hidden; left:330px; top:20px; padding-top:3px; width:400px; height:25px; border-style:solid; border-color:black; border-width:1px; background:lightyellow; font-size:10px;">
+	<form name="AdditionalInformation">
+		<input type="button" value="Close" onclick="document.getElementById('SupplementalInfo').style.visibility = 'hidden';" style="position:relative; left:10px; font-size:10px; color:red;">
+		<span class="FontSizeChange" title="Increase Font Size" style="position:relative; left:15px; background:lightgreen;" onclick="changeFontSize('AdditionalInfo', 1);">&#9650;</span>
+		<span class="FontSizeChange" title="Decrease Font Size" style="position:relative; left:15px; background:lightgreen;" onclick="changeFontSize('AdditionalInfo', -1);">&#9660;</span>
+		<span style="position:relative; left:20px; width:250px; font-size:14px;">Drag bottom right corner to enlarge</span>
+		<textarea name="AdditionalInfo" id="AdditionalInfo" class="noborder" wrap="virtual" style="position:relative; top:5px; height:200px; width:400px; background:lightyellow; font-size:10px; resize:both;"></textarea>
+	</form>
+</div>
+
+</form>
+
+<script type="text/javascript">
+	Calendar.setup({inputField:"CollectionDate", ifFormat:"%Y-%m-%d", showsTime:false, button:"CollectionDate"});
+	Calendar.setup({inputField:"LabreqDate", ifFormat:"%Y-%m-%d", showsTime:false, button:"LabreqDate"});
+	Calendar.setup({inputField:"Tickler_date", ifFormat:"%Y-%m-%d", showsTime:false, button:"Tickler_date"});
+</script>
+
+</body></html>

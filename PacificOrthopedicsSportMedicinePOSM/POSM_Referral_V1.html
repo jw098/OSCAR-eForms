@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="Pacific Orthopedics & Sports Medicine Central Patient Referral" />
+<meta name="keywords" content="Sport Medicine, Orthopedics, North Vancouver, Injection, Bracing, Arthritis" />
+<meta name="robots" content="nofollow" />
+<meta http-equiv="author" content="John Yap" />
+
+<!-- Pacific Orthopedics and Sports Medicine (POSM): Brace and Orthoses Referral -->
+
+<!-- V1_Dec25_2017: John Yap -->
+<!-- V2_Oct2_2022: update to Centralized Patient Referral form, as per FNAPCN; John Yap -->
+<!-- v1_forkV2_Oct2_2022: updated to include family doctor -->
+
+<!-- Do not use apostrophes in text, only in html-required coding - they do not allow for proper eForm zip inside Oscar.  Instead, use: &#8217; -->
+<!-- Do not use \n to create line-feeds.  It does not allow for proper unzipping of html; such code needs to be hived off to js file in image library. -->
+
+<!-- eForm DISCLAIMER: As is: eForms are shared as-is, free of charge on a share-alike basis with absolutely no guarantee or warranty.
+ No Quality Control: The author does not vet any eForms and does not purport to apply any manner of quality control.
+ Responsibility: The responsibility for the clinical and medical-legal consequences of any and all eForms, rest with the clinical OSCAR end-users themselves, not with the author of the eForm.
+ This applies to both eForms shared by others, and those created by users themselves.
+ Attribution: eForms are shared freely among the user community, with attribution to the original author of the eForm.
+ Free: eForms so shared may not be sold or purchased.
+ Provincial validation:  eForms are optional and non-essential add-ons, separate from OSCAR, and with their own license terms.
+ eForms are not part of the OSCAR core program functionality and code base.
+ For this reason eForms are not subject to provincial validation testing and conformance criteria. 
+ eForms are also not subject to the ISO production process for OSCAR. -->
+
+<script>
+// For OSCAR to detect what files to include in the generated ZIP, the
+// filename must appear in the HTML document within quotation marks, with the ${oscar_image_path} in front of it;
+// this serves as a workaround to force the files to be included for ZIP exports.
+// Allows for appropriate import of all png files that are not referenced by BGImage tags
+// Place any needed image or js file names within the script tabs, and to the right of the double slashes
+// "${oscar_image_path}POSM_Centralized_Referral_v3_4_1.png"
+// "${oscar_image_path}POSM_XR.png"
+// "${oscar_image_path}CreativeCommonsIcon.png" // for Copy Left footer
+</script>
+
+<!-- Files for testing outside of OSCAR: comment out this section on upload to Oscar to prevent 404 errors 
+<script type="text/javascript" src="jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="jSignature.min.js"></script>
+<script language="javascript1.2" type="text/javascript" src="onBodyLoad_Dec2019.js"></script>
+End of files for testing outside of OSCAR -->
+
+<!-- OSCAR based files for greater functionality -->
+<script type="text/javascript" src="${oscar_image_path}jquery-1.12.0.min.js"></script>
+
+<!-- Freeform Signatures -->
+<script type="text/javascript" src="${oscar_image_path}jSignature.min.js"></script>
+
+<!-- Enable Links to other areas of Oscar -->
+<script language="javascript" src="${oscar_image_path}onBodyLoad_Dec2019.js"></script>
+
+<!-- main calendar program -->
+<script type="text/javascript" src="../share/calendar/calendar.js"></script>
+<script type="text/javascript" src="../share/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="../share/calendar/calendar-setup.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="../share/calendar/calendar.css" title="win2k-cold-1" />
+
+<style type="text/css" media="screen">
+*{font-family: Helvetica, Arial, sans-serif;}
+input {
+	-moz-box-sizing: content-box;
+	-webkit-print-color-adjust: exact;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box
+}
+
+input#SubmitButton { 
+	color: white;
+	text-shadow: 0px 1px 1px #ffffff;
+	border-bottom: 2px solid #b2b2b2;
+	background: #229ece;
+	background: -webkit-gradient(linear, left top, left bottom, from(#6bb5d2), to(#229ece));
+	background: -moz-linear-gradient(top, #6bb5d2, #229ece);
+	background: -o-linear-gradient(top, #6bb5d2, #229ece);
+	background: -ms-linear-gradient(top, #6bb5d2, #229ece);}
+
+input#SubmitButton:hover {
+	color: #333333;
+	border: 1px solid #a4a4a4;
+	border-top: 2px solid #b2b2b2;
+	background-color: #a0dbc4;
+	background: -webkit-gradient(linear, left top, left bottom, from(#229ece), to(#F2EFFB));
+	background: -moz-linear-gradient(top, #229ece, #6bb5d2);
+	background: -o-linear-gradient(top, #229ece, #6bb5d2);
+	background: -ms-linear-gradient(top, #229ece, #6bb5d2);}
+
+.attn {
+	animation-name: lookHere;
+	animation-duration: 5s;
+	animation-timing-function: linear;
+	animation-iteration-count: 3;
+	animation-direction: alternate;
+}
+
+@keyframes lookHere {
+  0%   {border-color:#ced5e3;
+box-shadow: 0 0 5px #ced5e3;}
+  25%  {border-color:#364460;
+box-shadow: 0 0 20px #364460;}
+  50%  {border-color:#a21d22;
+box-shadow: 0 0 5px #a21d22;}
+  75%  {border-color:#f7977b;
+box-shadow: 0 0 20px #f7977b;}
+  100% {border-color:#ced5e3;
+box-shadow: 0 0 5px #ced5e3;}
+}
+
+.Show {
+	visibility:visible;
+	display:inline;
+ }
+.Hide {
+	visibility:hidden;
+	display:none;
+}
+
+.sig {
+	border: 2px dotted blue;
+	background: lightgrey;
+}
+
+a {text-decoration: none;} 
+a:hover {border: 1px solid #000000; border-style: outset; background: pink; opacity: 0.6;}
+a:active {border: 3px solid #000000; border-style: inset;}
+
+::placeholder {
+	color: rebeccapurple;
+	font-style: italic;
+	opacity: 1;
+}
+
+textarea{resize: none;}
+</style>
+
+<style type="text/css" media="print">
+*{font-family: Helvetica, Arial, sans-serif;}
+input {
+	-moz-box-sizing: content-box;
+	-webkit-print-color-adjust: exact;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box
+}
+
+.DoNotPrint {display: none;}
+.noborder {
+	border: 0px;
+	background: transparent;
+	scrollbar-3dlight-color: transparent;
+	scrollbar-arrow-color: transparent;
+	scrollbar-base-color: transparent;
+	scrollbar-darkshadow-color: transparent;
+	scrollbar-face-color: transparent;
+	scrollbar-highlight-color: transparent;
+	scrollbar-shadow-color: transparent;
+	scrollbar-track-color: transparent;
+	overflow: hidden;
+}
+.sig {
+	background: transparent;
+}
+
+.Show {
+	visibility: visible;
+	display: inline;
+}
+.Hide {
+	visibility:hidden;
+	display:none;
+}
+
+/* hide placeholders */
+::placeholder {
+	color: transparent;
+} 
+</style>
+
+<!-- Xbox styling -->
+<style type="text/css">
+.box1 {
+	position: absolute;
+	width: 12px;
+	height: 14px;
+	font-size: 14px;
+	font-family: Arial;
+	border: 1px solid #000000;
+	cursor: pointer;
+	font-weight: bold;
+	text-align: center;
+	background: aquamarine;
+}
+
+.box2 {
+	position: absolute;
+	width: 8px;
+	height: 10px;
+	font-size: 10px;
+	font-family: Arial;
+	border: 1px solid #000000;
+	cursor: pointer;
+	font-weight: bold;
+	text-align: center;
+	background: aquamarine;
+}
+
+.box3 {
+	position: absolute;
+	width: 10px;
+	height: 11px;
+	font-size: 11px;
+	font-family: Arial;
+	border: 1px solid #000000;
+	cursor: pointer;
+	font-weight: bold;
+	text-align: center;
+	background: aquamarine;
+}
+
+.FontSizeChange {
+	position:absolute;
+	width: 16px;
+	height: 15px;
+	font-size: 13px;
+	cursor: pointer;
+	background: yellow;
+	text-align: center;
+	border: 1px solid #000000;
+}
+</style>
+
+<script language="javascript" type="text/javascript">
+	/****************************
+		startup functions 
+	****************************/
+	function startUp() {
+		// new off-line architecture as per K Yap
+		setDocumentTitle('POSM_central_intake',document.getElementById('PatientNameL').value);
+		changeImage("POSM_Centralized_Referral_v3_4_1.png", "BGImage1");
+		changeImage("POSM_XR.png", "BGImage2");
+		changeImage("CreativeCommonsIcon.png", "CreativeCommons"); // for Copy Left footer
+		loadFontSize();
+		setDefaults();
+		//optimize window size/width
+		top.window.resizeTo(950, screen.availHeight);
+	}
+
+	function resourceLink(resource, extension) {
+		// Takes two arguments -- the base filename and its extension -- and
+		// returns a string depending on whether the page has been opened
+		// locally or if it has been uploaded to OSCAR.
+		//
+		// Example usage: resourceLink('image1', 'png')
+		// Return value: 'image1.png' or '${oscar_image_path}image1.png'
+		var prefix = (window.location.href.toLowerCase().indexOf("http") != -1) ? '${oscar_image_path}' : '';
+		if (typeof extension === "undefined") {
+			var extension = '';
+		} else {
+			var extension = '.' + extension;
+		}
+		return prefix + resource + extension;
+	}
+
+	function changeImage(img, imgId) {
+		// Changes the src value of an <img>.
+		document.getElementById(imgId).src = resourceLink(img)
+		document.getElementById(imgId).href = resourceLink(img)
+	}
+
+	function setDocumentTitle(Title, PatientNameL) {
+		// set document title
+		document.title = Title + '_' + PatientNameL;
+	}
+
+	function setDefaults() {
+		// check the newform flag to ensure this is the initial load of the form
+		if (document.getElementById('newForm').value == 'True') {
+			parseName('current_user');
+			//document.getElementById('FamilyPhysician').value = 'Same as above';
+			contactChoice('home_choice'); // default contact phone is home
+			document.getElementById('Stamp').click(); // use Stamp as default signature
+		//	document.getElementById('Wet').click(); // use Wet signature as default signature
+		} else { // actions if eForm is reopened
+			loadSig();
+			reloadSignature();
+		}
+	}
+	/****************************
+		Create name in proper order 
+	****************************/
+	function parseName(id) {
+		// Get the name
+		var fullName = document.getElementById(id).value;
+		// Split the value
+		var splitName = fullName.split(",");
+		var firstName = "";
+		var lastName  = "";
+		// Check for last name
+		if(splitName.length >= 1) {
+			lastName = splitName[0].trim();
+		}
+		if(splitName.length >= 2) {
+			firstName = splitName[1].trim();
+		}
+		var First_Last_Name = firstName + " " + lastName;
+		// Show the fields on the page
+		document.getElementById(id).value = First_Last_Name;
+	}
+
+	/****************************
+		submit and print functions 
+	****************************/
+	function printLetter() {
+		// Save reminder; allows for validity testing
+		document.getElementById('SubmitButton').classList.toggle('attn');
+		document.getElementById('ResetButton').style.color = 'black';
+		document.getElementById('SubmitButton').style.border = '2px solid red';
+		alert("eFORM has NOT been submitted.  If needed, cancel print and complete required fields.  Ensure you click SUBMIT after print.");
+		window.print();
+	} 
+
+	function submission() { // requires type="submit" in submit button input to allow for validity testing
+		// ensure all inputs completed
+		setFlag();
+		releaseDirtyFlag();
+	}
+
+	function setFlag() {
+		// indicate that the form has been submitted
+		if (document.getElementById('newForm').value == 'True')
+			document.getElementById('newForm').value = 'False';
+	}
+
+	/****************************
+		Checkbox functions 
+	****************************/
+	$(document).ready(function() {
+		$( ".Xbox" ).click(function() {
+		var st = $( this ).val();
+		if (st=="X") {
+		$( this ).val("");
+		}
+		else {
+			$( this ).val("X");
+		}
+	});
+
+	$( ".Xbox" ).keypress(function(event) {
+		// any key press except tab will constitute a value change to the checkbox
+		if (event.which != 0) {
+			$( this ).click();
+			return false;
+			}
+		});
+	});
+
+	/****************************
+		Scripts to confirm closing of window if have not saved yet
+		Keypress events trigger dirty flag
+	****************************/
+	var needToConfirm = false;
+	document.onkeyup=setDirtyFlag;
+
+	function setDirtyFlag() {
+	needToConfirm = true;
+	}
+
+	function releaseDirtyFlag() {
+	needToConfirm = false;
+		//Call this function if does not require an alert.
+		//this could be called when save button is clicked
+	}
+	window.onbeforeunload = confirmExit;
+
+	function confirmExit() {
+		if (needToConfirm) {
+			return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+		}
+	}
+
+	/****************************
+		script to Increase or Decrease the Font Size
+		name = input name/id, delta = increase (+) or decrease (-) increment #
+		Requires loadFontSize(); in startUp, or in onload line
+	****************************/
+	function changeFontSize(name, delta) {
+		var element = $("#" + name)
+		var oldSize = parseInt(element.css("font-size"));
+		var newSize = oldSize + delta;
+		// Save new font size into "value" field of hidden element
+		$("#" + name + "_fontsize").attr('value', newSize);
+		// Set font size
+		element.css({'font-size': newSize + 'px'});
+	}
+
+	// Retains altered font size when eForm is reopened; 
+	// Requires hidden inputs with format for each field using this feature: 
+	// <input type="hidden" name="Input_fontsize" id="Input_fontsize">
+	function loadFontSize() {
+		$.each($("input[name*='_fontsize'"), function(index, element) {
+			var fontSize = element.value;
+			if (!!fontSize) {
+				var name = element.name.split('_')[0];
+				$("#" + name).css({'font-size': fontSize + 'px'});
+			}
+		});
+	}
+
+	/****************************
+		Radio-XBox functions 
+		Changes function of X_boxes to radio_boxes when the id of the radiobox is passed as x 
+		and is named in the convention name_X where X appears in the string defined in scales
+		Ensure that the list is sequential. Do no skip numbers. An input can be hidden if appropriate.
+	****************************/
+	function Radio_Box(x) {
+		var scales = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+		var partA = x.substring(0, x.indexOf("_"));
+		var i = x.substring(x.indexOf("_"));
+		var j = i.substr(1);
+		for (var n in scales) {
+			if ( j == scales[n]) {
+				for (var m in scales){
+					if (m != n) { document.getElementById(partA+"_"+scales[m]).value = ''; }
+				}
+			}
+		}
+	return false;
+	}
+
+	/****************************
+			Additional Hx Info
+	****************************/
+	function Add_PMHx() {
+		document.getElementById('History').value += document.getElementById('PMHx_Hx').value + '\n';
+	}
+	function Add_Meds() {
+		document.getElementById('History').value += 'Meds: ' + document.getElementById('PMHx_Meds').value +  '\n';
+	}
+	function Add_Allergy() {
+		document.getElementById('History').value += 'Allergies: ' + document.getElementById('PMHx_allergies').value + '\n';
+	}
+	function Restart() {
+		document.getElementById('History').value = '';
+	}
+
+	/****************************
+		scripts to add Medication chosen to subject input
+	****************************/
+	function addSubject(i) {
+		var subject = document.getElementById(i).name;
+		document.FormName.subject.value = subject;
+	}
+
+	/****************************
+		Copy to Clipboard
+	****************************/
+	$(document).ready(function() {
+		var y = document.getElementsByClassName('copyable');
+		$(y).click(function() {
+			this.select();
+			document.execCommand('copy');
+			$(this).css('background-color', 'pink').fadeIn("slow");
+			})
+		})
+
+	/****************************
+		script for contact phone number choice
+	****************************/
+	function contactChoice(i) {
+		var choice = i.substring(0, i.indexOf("_"));
+		document.FormName.phone.value = document.getElementById(choice).value + ', ' + choice;
+	}
+
+	/****************************
+		Script to trigger required filed with name id_text 
+		where id is the triggering X-box input field.
+	****************************/
+	function changeAndCheck(id) {
+		// Subsequent text field must be name of Xbox + _text so Other and Other_text
+		var id2 = id + '_text';
+		if (document.getElementById(id).value != 'X') {
+			document.getElementById(id2).required = true; 
+			document.getElementById(id2).reportValidity();
+		} else {
+			document.getElementById(id2).required = false;
+			document.getElementById(id2).value = '';
+		}
+	}
+
+	/****************************
+		script to set Tickler reminder for future date (aka loop closer)
+	****************************/
+	Date.prototype.addDays = function(days) {
+		var dat = new Date(this.valueOf());
+		dat.setDate(dat.getDate() + days);
+		return dat;
+	}
+
+	Date.prototype.addMonths = function(months) {
+		var dat = new Date(this.valueOf());
+		dat.setMonth(dat.getMonth() + months);
+		return dat;
+	}
+		
+	function addMonths(months) {
+		var d = new Date();
+		d = d.addMonths(months);
+		var mth = ((d.getMonth()+1)<10)? ("0"+(d.getMonth()+1)) : (d.getMonth()+1);
+		var day =  d.getDate() > 10 ? d.getDate() : ("0" + d.getDate());
+		var newD = d.getFullYear() + "-" + mth + "-" + day;
+		document.FormName.Tickler_date.value = newD;
+	}
+
+	function addDays(numDays) {
+		var d = new Date();
+		d = d.addDays(numDays);  
+		var mth = ((d.getMonth()+1)<10)? ("0"+(d.getMonth()+1)) : (d.getMonth()+1);
+		var day =  d.getDate() > 10 ? d.getDate() : ("0" + d.getDate());
+		var newD = d.getFullYear() + "-" + mth + "-" + day;
+		document.FormName.Tickler_date.value = newD;
+	}
+
+	ticklerReminder = function() {
+		// adds Tickler details to appropriate input fields
+		var patient_id = document.getElementById('patient_id').value;
+		var user_id = document.getElementById('current_user_id').value;
+		var ticklerDate = $( '#Tickler_date' ).val();
+		var ticklerMsg = "Review referral request. " + $( '#Tickler_msg' ).val();  // preset message + optional message
+
+		sendTickler(patient_id, ticklerMsg, user_id, ticklerDate);
+
+		if (ticklerDate == '') { // non-WELL systems may not have fail-safe input of today when Tickler Date is null
+			return("ERROR: Tickler reminder date is blank.  Please correct before proceeding.");
+			return;
+		}
+	} 
+
+	sendTickler = function(demographicNo, message, taskAssignedTo, ticklerDate) {
+		var ticklerToSend = {};
+
+		ticklerToSend.demographicNo = demographicNo;
+		ticklerToSend.message = message;
+		ticklerToSend.taskAssignedTo = taskAssignedTo;
+		ticklerToSend.serviceDate = ticklerDate ;
+
+	jQuery.ajax( {
+		type: "POST",
+		url:  '../ws/rs/tickler/add',
+		dataType:'json',
+		contentType:'application/json',
+		data: JSON.stringify(ticklerToSend),
+		success: processTicklerCallBack
+		});
+	}
+
+	processTicklerCallBack = function(data) {
+		if(data.success) {
+			alert("SA reminder Tickler created and assigned to you.");
+		} else {
+			alert("ERROR: Tickler failed. Please create tickler manually.");
+		}
+	}
+
+	calculateTicklerDays = function() {
+		if(jQuery.trim($('#Tickler_date').val()).length > 0) {
+		// calculate future date for Tickler
+			var t = new Date(); // today
+			var d = new Date(Date.parse(jQuery.trim($('#Tickler_date').val()))); // chosen date or (today + add) - days
+			var i = ((Math.floor((d - t)/(1000 * 60 * 60 * 24))) +2); // days forward from today
+			d.setDate(d.getDate());
+			$( "#Tickler_date" ).val(d.toISOString().substring(0,10));
+			var NewTickler = document.getElementById('Tickler_date').value;
+		//	alert("Once you click Set Tickler button, a reminder will be set for " + i + " day(s) from today.  Expect SA reply by " +  $( '#Tickler_date' ).val() + ". Click the Set Tickler button to create reminder now.");
+		}
+	}
+
+	/****************************
+		Chrome Compatible drop-down menu as per P Mehta
+	****************************/
+	function SetSpecialist(i) {
+	switch(i) {
+		default:
+		Specialist = "";
+		subject = "";
+		break;
+
+		case "Baggoo":
+		Specialist = 'Alan Baggoo';
+		subject = i; 
+		break;
+
+		case "Jando":
+		Specialist = 'Victor Jando';
+		subject = i; 
+		break;
+
+		case "McConkey":
+		Specialist = 'Mark McConkey';
+		subject = i; 
+		break;
+
+		case "Nadeau":
+		Specialist = 'Rick Nadeau';
+		subject = i; 
+		break;
+
+		case "Panagiotopoulos":
+		Specialist = 'Kostas Panagiotopoulos';
+		subject = i; 
+		break;
+
+		case "Samler":
+		Specialist = 'Shannon Samler';
+		subject = i; 
+		break;
+
+		case "Sidky":
+		Specialist = 'Adam Sidky';
+		subject = i; 
+		break;
+
+		case "Zarkadas":
+		Specialist = 'Peter Zarkadas';
+		subject = i; 
+		break;
+
+		case "Crookham":
+		Specialist = 'Jason Crookham';
+		subject = i; 
+		break;
+
+		case "Brousson":
+		Specialist = 'Michelle Brousson';
+		subject = i; 
+		break;
+		}
+		document.FormName.Consultant_2_text.value = Specialist;
+		document.FormName.subject.value = subject; 
+	}
+</script>
+</head>
+
+<body onload="startUp();" onbeforeprint="document.forms['FormName'].reportValidity();">
+<form method="post" action="" name="FormName" id="FormName">
+
+<div id="page1" style="position:relative; left:0px; top:0px; width:850px; page-break-after:always;">
+	<img id="BGImage1" src="">
+
+<!-- Hidden input for eForm title -->
+<input type="hidden" name="PatientNameL" id="PatientNameL" oscarDB=patient_nameL>
+
+<!-- Hidden inputs needed for Tickler generator (loop closer) -->
+<input type="hidden" name="patient_id" id="patient_id" oscarDB=patient_id />
+<input type="hidden" name="current_user_id" id="current_user_id" oscarDB=current_user_id />
+
+<!-- Hidden input for font size changer inputs-->
+<input type="hidden" name="addressline_fontsize" id="addressline_fontsize">
+<input type="hidden" name="History_fontsize" id="History_fontsize">
+
+<!-- Hidden input for adding PMHx -->
+<input type="hidden" name="PMHx_Hx" id="PMHx_Hx" oscarDB=medical_history>
+<input type="hidden" name="PMHx_allergies" id="PMHx_allergies" oscarDB=allergies_des_no_archived>
+<input type="hidden" name="PMHx_Meds" id="PMHx_Meds" oscarDB=druglist_line>
+
+<!-- Hidden Inputs for contact phone -->
+<input type="hidden" name="home" id="home" oscarDB=phone>
+<input type="hidden" name="cell" id="cell" oscarDB=cell>
+<input type="hidden" name="work" id="work" oscarDB=phone2>
+
+<!-- Website -->
+<a name="Website" class="DoNotPrint" style="position:absolute; left:45px; top:55px; width:335px; height:60px;" href="http://www.pacificortho.ca" target="_blank" title="Link to Website"></a>
+<!-- Copy Fax number to clipboard -->
+<input name="Copy_Fax" id="Copy_Fax1" type="text" class="DoNotPrint copyable" style="position:absolute; left:590px; top:92px; width:112px; font-size:18px; cursor:pointer; border:0px; background:white;" title="click to copy" value="604-914-2521">
+
+<!-- Section A -->
+<input name="today" id="today" type="text" class="noborder" style="position:absolute; left:80px; top:145px; width:130px; font-size:16px; background:transparent;" oscardb=today>
+
+<!-- Section B - WSBC -->
+<input name="WSBC_claim" id="WSBC_claim" type="text" class="noborder" style="position:absolute; left:500px; top:145px; width:100px; font-size:16px; background:transparent;">
+<input name="WSBC_DOI" id="WSBC_DOI" type="text" class="noborder" style="position:absolute; left:700px; top:145px; width:85px; font-size:16px; background:transparent;">
+
+<!-- C. Patient Information -->
+<input name="PatientSurname" id="PatientSurname" type="text" class="noborder" style="position:absolute; left:140px; top:200px; width:270px; font-size:16px; background:transparent;" oscarDB=patient_nameL>
+<input name="PatientFirstName" id="PatientFirstName" type="text" class="noborder" style="position:absolute; left:140px; top:224px; width:270px; font-size:16px; background:transparent;" oscarDB=patient_nameF>
+<input name="dobc2" id="dobc2" type="text" class="noborder" style="position:absolute; left:140px; top:248px; width:270px; font-size:16px; background:transparent;" oscardb=dobc2>
+<input name="age" id="age" type="text" class="noborder" style="position:absolute; left:140px; top:272px; width:270px; font-size:16px; background:transparent;" oscardb=age>
+<input name="HIN" id="HIN" type="text" class="noborder" style="position:absolute; left:140px; top:296px; width:270px; font-size:16px; background:transparent;" oscardb=HIN>
+
+<input name="sex" id="sex" type="text" class="noborder" style="position:absolute; left:500px; top:200px; width:285px; font-size:16px; background:white;" oscardb=sex>
+<input name="email" id="email" type="text" class="noborder" style="position:absolute; left:500px; top:224px; width:285px; font-size:16px; background:transparent;" oscardb=email>
+
+<span class="DoNotPrint" style="position:absolute; left:417px; top:251px; font-size:40px; color:green;">&#42;</span>
+<input name="phone" id="phone" type="text" class="noborder" style="position:absolute; left:500px; top:248px; width:285px; font-size:16px; background:transparent;">
+<div id="Default_phone" class="DoNotPrint" style="position:absolute; left:805px; top:245px; width:250px; font-size:12px; color:green;">
+	<span style="position:absolute; font-size:40px;">&#42; </span>
+	<span style="position:absolute; left:15px;">Default contact # is home. Click to choose alternate contact phone #</span>
+	<br><br>
+	<select style="color:green; font-size:12px;">
+		<option>Default is home</option>
+		<option name="work_choice" id="work_choice" onclick="contactChoice(this.id);">Work</option>
+		<option name="cell_choice" id="cell_choice" onclick="contactChoice(this.id);">Cell</option>
+		<option name="home_choice" id="home_choice" onclick="contactChoice(this.id);">Home</option>
+	</select>
+</div>
+
+<input name="cell" id="cell" type="text" class="noborder" style="position:absolute; left:500px; top:272px; width:285px; font-size:16px; background:transparent;" oscardb=cell>
+
+<input name="addressline" id="addressline" class="noborder" style="position:absolute; left:430px; top:296px; width:355px; font-size:16px; background:white;" oscarDB=addressline>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:801px; top:295px" onclick="changeFontSize('addressline', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:801px; top:310px;" onclick="changeFontSize('addressline', -1);">&#9660;</span>
+
+<!-- D. Referring Physician -->
+<input name="current_user" id="current_user" type="text" class="noborder" style="position:absolute; left:350px; top:325px; width:255px; font-size:16px; background:transparent;" oscarDB=current_user>
+<input name="current_user_ohip_no" id="current_user_ohip_no" type="text" class="noborder" style="position:absolute; left:685px; top:325px; width:100px; font-size:16px; background:transparent;" oscarDB=current_user_ohip_no>
+<span style="position:absolute; left:75px; top:353px; font-size:16px;">Fax: </span>
+<input name="clinic_fax" id="clinic_fax" type="text" class="noborder" style="position:absolute; left:110px; top:350px; width:170px; font-size:16px; background:transparent;" oscarDB=clinic_fax>
+
+<input name="FamilyPhysician" id="FamilyPhysician" type="text" class="noborder" style="position:absolute; left:510px; top:350px; width:275px; font-size:16px; background:transparent;" oscarDB=doctor>
+
+<!-- E. Body Region -->
+<input name="shoulder_arm" id="shoulder_arm" type="text" class="Xbox box1" style="left:53px; top:405px;">
+<input name="Elbow_forearm" id="Elbow_forearm" type="text" class="Xbox box1" style="left:235px; top:405px;">
+<input name="Wrist" id="Wrist" type="text" class="Xbox box1" style="left:423px; top:405px;">
+
+<input name="Hip_pelvis" id="Hip_pelvis" type="text" class="Xbox box1" style="left:53px; top:432px;">
+<input name="Knee_pelvis" id="Knee_pelvis" type="text" class="Xbox box1" style="left:235px; top:432px;">
+<input name="Foot_ankle" id="Foot_ankle" type="text" class="Xbox box1" style="left:423px; top:432px;">
+
+<input name="Left" id="Left" type="text" class="Xbox box1" style="left:646px; top:432px;">
+<input name="Right" id="Right" type="text" class="Xbox box1" style="left:712px; top:432px;">
+
+<!-- F. Reason for referral -->
+<input name="Urgent" id="Urgent" type="text" class="Xbox box1" style="left:53px; top:487px;">
+<input name="Follow Up" id="Follow_up" type="text" class="Xbox box1" style="left:53px; top:532px;" onclick="changeAndCheck(this.id);">
+	<input name="Follow_up_text" id="Follow_up_text" type="text" class="noborder" style="position:absolute; left:540px; top:530px; width:245px; font-size:16px; background:transparent;">
+<input name="Non-Urgent" id="Non_urgent" type="text" class="Xbox box1" style="left:53px; top:559px;">
+<input name="Injection" id="Injection" type="text" class="Xbox box1" style="left:424px; top:559px;">
+<input name="Arthritis" id="Arthritis" type="text" class="Xbox box1" style="left:53px; top:586px;">
+<input name="Bracing" id="Bracing" type="text" class="Xbox box1" style="left:424px; top:586px;">
+<input name="Other" id="Other" type="text" class="Xbox box1" style="left:53px; top:612px;" onclick="changeAndCheck(this.id);">
+	<input name="Other_text" id="Other_text" type="text" class="noborder" style="position:absolute; left:125px; top:610px; width:660px; font-size:16px; background:transparent;">
+
+<!-- G. Relevant History -->
+<input name="Sx_duration" id="Sx_duration" type="text" class="noborder" style="position:absolute; left:220px; top:668px; width:140px; font-size:16px; background:transparent;" placeholder="details required">
+
+<input name="Mild" id="Severity_1" type="text" class="Xbox box1" style="left:586px; top:670px;" onclick="Radio_Box(this.id);">
+<input name="Moderate" id="Severity_2" type="text" class="Xbox box1" style="left:652px; top:670px;" onclick="Radio_Box(this.id);">
+<input name="Severe" id="Severity_3" type="text" class="Xbox box1" style="left:718px; top:670px;" onclick="Radio_Box(this.id);">
+
+<textarea name="History" id="History" class="noborder" style="position:absolute; left:52px; padding-left:5px; top:695px; height:127px; width:733px; font-size:16px; background:transparent;"></textarea>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:801px; top:697px" onclick="changeFontSize('History', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:801px; top:712px;" onclick="changeFontSize('History', -1);">&#9660;</span>
+
+<!-- Additional Info -->
+<div id="Reference_links" class="DoNotPrint" style="position:absolute; left:830px; top:635px;">
+	<input name="PCP_Summary_Link" id="PCP_Summary_Link" type="button" style="width:140px; font-size:12px; color:rebeccapurple; cursor:pointer;" value="Patient Summary eFORM" oscarOPEN="PCP Patient Summary" title="to eForm"><br><br>
+	<input name="PMHx_Buttons" type="button" style="width:140px; font-size:12px; color:green;" value="Add PMHx" onclick="Add_PMHx();"><br>
+	<input name="PMHx_Buttons" type="button" style="width:140px; font-size:12px; color:green;" value="Add Meds" onclick="Add_Meds();"><br>
+	<input name="PMHx_Buttons" type="button" style="width:140px; font-size:12px; color:green;" value="Add Allergy" onclick="Add_Allergy();"> <br>
+	<input name="PMHx_Buttons" type="button" style="width:140px; font-size:12px; color:red;" value="Restart" onclick="Restart();" title="CAUTION: deletes all input in field"><br><br>
+	<input name="Consult" type="Button" style="width:140px; cursor:pointer; color:green;" value="Consult" title="to Consult module" onclick="onBodyLoad(); consult();"><br>
+	<input name="ConsultReports_link" type="button" style="width:140px; cursor:pointer; color:green" value="Documents" onclick="onBodyLoad(); documents_all();" title="to Document Library" /><br>
+	<input name="Labs" type="button" style="width:140px; cursor:pointer; color:green;" value="Labs & Reports" title="to InBox" onclick="onBodyLoad(); labs();"><br>
+	<input name="LabSummary" type="button" style="width:140px; cursor:pointer; color:green;" value="Lab Row Display" title="to Lab Summary" onclick="onBodyLoad(); labRow();"><br>
+	<input name="Rx_module" type="button" style="width:140px; cursor:pointer; color:green;" value="Medications" title="to Medication Module" onclick="onBodyLoad(); Rx();">
+</div>
+
+<!-- H. X-ray requirement -->
+<a name="Reference" id="BGImage2" style="position:absolute; left:53px; top:834px; width:200px; height:20px;" href="" target="_blank" title="XR reference"></a>
+
+<input name="Ultrasound" id="Ultrasound" type="text" class="Xbox box1" style="left:223px; top:864px;">
+<input name="CT" id="CT" type="text" class="Xbox box1" style="left:402px; top:864px;">
+<input name="MRI" id="MRI" type="text" class="Xbox box1" style="left:547px; top:864px;">
+<input name="NuclearMed" id="NuclearMed" type="text" class="Xbox box1" style="left:665px; top:864px;">
+
+<!-- I. Requested consultant -->
+<input name="First Available" id="Consultant_1" type="text" class="Xbox box1" style="left:53px; top:918px;" 
+	onclick="
+		document.getElementById('Consultant_2_text').required = false;
+		document.getElementById('Consultant_2_text').value = '';
+		Radio_Box(this.id);">
+<input name="Specific" id="Consultant_2" type="text" class="Xbox box1" style="left:403px; top:918px;" 
+	onclick="
+		changeAndCheck(this.id);
+		Radio_Box(this.id);">
+<input name="Consultant_2_text" id="Consultant_2_text" type="text" class="noborder" style="position:absolute; left:595px; top:916px; width:190px; font-size:16px; background:transparent;">
+
+<select class="DoNotPrint"style="position:absolute; left:830px; top:918px; width:215px; color:green;">
+	<option name="Blank" onclick="document.getElementById('Consultant_2_text').value = ''; document.FormName.subject.value = '';">Select specific physician</option>
+	<option name="Baggoo" id="Baggoo" onclick="SetSpecialist(this.id);" title="Trauma, hip, knee, foot, ankle, reconstruction">Baggoo</option>
+	<option name="Jando" id="Jando" onclick="SetSpecialist(this.id);" title="trauma, hip/knee reconstruction, arthroscopy">Jando</option>
+	<option name="McConkey" id="McConkey" onclick="SetSpecialist(this.id);" title="Trauma, knee, hip, shoulder reconstruction">McConkey</option>
+	<option name="Nadeau" id="Nadeau" onclick="SetSpecialist(this.id);" title="trauma, hip, knee reconstruction, arthroscopy">Nadeau</option>
+	<option name="Panagiotopoulos" id="Panagiotopoulos" onclick="SetSpecialist(this.id);" title="Trauma, hip/knee reconstruction, ACL repair">Panagiotopoulos</option>
+	<option name="Samler" id="Samler" onclick="SetSpecialist(this.id);" title="Shoulder, elbow, knee reconstruction, trauma">Samler</option>
+	<option name="Sidky" id="Sidky" onclick="SetSpecialist(this.id);" title="Hip, knee ACL reconstruction, trauma">Sidky</option>
+	<option name="Zarkadas" id="Zarkadas" onclick="SetSpecialist(this.id);" title="Shoulder, elbow, knee reconstruction, trauma">Zarkadas</option>
+	<option name="Crookham" id="Crookham" onclick="SetSpecialist(this.id);" title="US-guided injections, shoulder, elbow, hip, knee, ankle, PRP">Crookham SportMed</option>
+	<option name="Brousson" id="Brousson" onclick="SetSpecialist(this.id);" title="Foot, ankle">Brousson SportMed</option>
+</select>
+
+<!-- The submit/print/reset buttons -->
+<div class="DoNotPrint" id="BottomButtons" style="position:absolute; left:50px; top:1080px; width:800px; font-size:13px;">
+	<table><tr><td style="background-color:#e5f2ff;">
+		<input type="hidden" id="newForm" name="newForm" value="True" />
+		Subject: <input name="subject" id="subject" size="40" type="text">
+		<input value="Reset" name="ResetButton" id="ResetButton" type="reset" style="color:red;" onclick="history.go(0);"> 
+		<input value="Print" name="PrintButton" id="PrintButton" type="button" style="color:green;" onclick="printLetter();"> 
+		<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick="submission();">
+	</td></tr></table>
+<!-- Tickler Reminders (aka loop closer) -->
+<span style="font-size:12px; color:green;">Choose Tickler reminder date</span>
+<input name="Tickler_date" id="Tickler_date" type="text" class="noborder" style="width:75px; font-size:14px; text-align:center; background:transparent;" onblur="calculateTicklerDays();">
+<input name="Four_weeks" id="Four_weeks" type="checkbox" 
+	onclick="
+		document.getElementById('Eight_weeks').checked = false;
+		addDays(28); 
+		calculateTicklerDays();">4 wk
+<input name="Eight_weeks" id="Eight_weeks" type="checkbox" 
+	onclick="
+		document.getElementById('Four_weeks').checked = false;
+		addDays(56); 
+		calculateTicklerDays();">8 wk
+<input name="ResetTickler" id="ResetTickler" type="button" style="font-size:10px; color:red;" onclick="document.getElementById('Tickler_date').value = ''; document.getElementById('Four_weeks').checked = false; document.getElementById('Eight_weeks').checked = false; addDays(0);" value="Reset">
+<input name="Tickler_msg" id="Tickler_msg" type="text" class="noborder" style="width:230px; font-size:14px; background:transparent;" placeholder="Optional Tickler msg here.">
+<input value="Set Tickler" name="Tickler" id="Tickler" type="button" class="link"  style="color:green; background:yellow;" title="Set tickler reminder for chosen future date" onclick="ticklerReminder();">
+<br>
+<!-- Copy Left -->
+<a rel="licence" href="https://creativecommons.org/licenses/by-sa/3.0/deed.en_US" target="blank"><img alt="Creative Commons License" id="CreativeCommons" style="border:0px;" src="" /></a>
+<span> Pacific Orthopedics & Sports Medicine (POSM) eFORM, update V2_Oct2_2022, by Dr. John Yap is licensed under a </span> 
+<a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.en_US" target="_blank">GPL.</a><br>
+<span style="color:forestgreen;">Please consider supporting </span><a href="https://oscarbc.ca/" target="_blank">oscarbc.ca.</a> |
+<a id="emailLnk1" style="cursor:pointer;" onclick="javascript:window.open('mailto:info@oscarbc.ca', 'mail'); event.preventDefault();" title="Email to OSCAR BC">Email: info@oscarbc.ca/</a> |
+<a href="https://www.facebook.com/pg/OSCARBCcommunity" target="_blank">Facebook</a> | 
+<a href="https://twitter.com/OSCARBCemr" target="_blank">Twitter</a> | 
+<a href="https://www.linkedin.com/company/oscarbc/" target="_blank">LinkedIn</a> |
+<br><br>
+</div>
+
+</div>
+
+</form>
+
+<script type="text/javascript">
+	Calendar.setup({ inputField:"today", ifFormat: "%Y-%m-%d", showsTime:false, button:"today", singleClick:true, step:1 });
+	Calendar.setup({ inputField:"Tickler_date", ifFormat: "%Y-%m-%d", showsTime:false, button:"Tickler_date", singleClick:true, step:1 });
+	Calendar.setup({ inputField:"WSBC_DOI", ifFormat: "%Y-%m-%d", showsTime:false, button:"WSBC_DOI", singleClick:true, step:1 });
+</script>
+
+</body></html>

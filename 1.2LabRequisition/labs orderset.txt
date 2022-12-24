@@ -1,0 +1,75 @@
+General:
+  - age > 40: HematologyProfile', 'Ferritin', 'A1c', 'ALT', 'B12', 'CreatinineGFR', 'Lipid_full'
+  - age > 50: 'HematologyProfile', 'Ferritin', 'A1c', 'ALT', 'B12', 'CreatinineGFR', 'Lipid_full', 'FIT_CSP'
+  
+CHF:
+ - suspect: CBC, Electrolytes, Cr, urinalysis, glucose, TSH, ECG, BNP. consider CXR, echo.
+ - etiology: CBC, Cr, ferritin, TSH, BNP, ECG. consider echo.
+ - monitoring: lytes, Cr
+ 
+CKD:
+  - etiology: CBC, ferritin, A1c, Cr, Electrolytes, Ca, Phos, urinalysis and microscopy, ACR, SPEP, UPEP
+    - consider U/S
+  - standing order: Cr q6 months, ACR q6-12 months
+  - annual: annual CBC, iron, Ca, Phos, albumin
+  
+DM  
+  - q3 months A1c
+  - q1 year: ACR, eGFR, lipids
+  - q3-5y: ECG
+
+HTN:
+ - initial: urinalysis, Cr, Electrolytes, A1c, cholesterol, ECG
+ - annual: electrolytes, Cr, fasting lipids, A1c
+ - ACEi f/u: electrolytes, Cr, 
+ 
+Dyslipidemia
+
+Osteoporosis
+- 'HematologyProfile', 'TSH', 'CreatinineGFR', 'AlkPhos', 'ALT', 'Phosphate, 25-Hydroxyvitamin D, corrected Calcium, total testosterone,
+
+PCOS
+- CBC, TSH, bHCG< ferritin, FSH, prolactin, testosterone, 17 OHP
+
+Stool
+
+Thrombosis
+
+Celiac
+
+Anemia
+
+Infertility
+
+Elevated LFTs
+
+First Prenatal labs: 'HematologyProfile', 'Urine_CS', 'CTGC_Urine', 'HIVNominal', 'Pregnant_Yes', 'ChronicViralHepatitis', 'A1c', 'TSH', 'Ferritin', Rubella IgG (if first pregnancy), T. pall EIA, Varicella IgG, blood group, Rh factor and antibody screen, Hemoglobin electrophoresis
+
+
+Gestational HTN
+
+Recurrent pregnancy loss
+
+Dementia NYD
+ - CBC, TSH, Ca, glucose, A1c, B12, Cr, VDRL, HIV
+ - UA, lytes
+
+Eating Disorder
+Fatigue
+
+
+
+Depression
+Antipsychotics
+
+GI: 
+- dyspepsia, upper abdo pain: CBC, ferritin, Anti TTG, ALT, ALT, GGT, bilirubin, lipase, urea breath test, FIT test
+  - abdo U/S
+- lower abdo pain: CBC, ferritin, , FIT test
+  - U/S
+- diarrhea: CBC, ferritin, CRP, TSH, stool C/S, C. diff, O&P, anti TTG,, FIT test
+- constipation: CBC, ferritin, TSH, Ca, FIT test
+- GI blood loss: CBC< ferritin, imaging, FIT test
+
+Dysuria
+- 'UrineMacroscopicMicroscopicIfDipstickPositive', 'Urine_CS', 'CTGC_Urine', Urine trichomonas';

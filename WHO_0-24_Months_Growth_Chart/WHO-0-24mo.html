@@ -1,0 +1,1214 @@
+<html>
+<head>
+<title>WHO 0-24 Month Growth Chart</title>
+<!-- 
+	Description: Automatically graphs the patient's height, weight, head circumference, based on values entered in "Measurements" in the E-chart. 
+-->
+<style type="text/css" >
+ .noborder {
+	 border : 0px;
+	 background: transparent;
+	 background: transparent;
+	 overflow: hidden;
+ }
+
+</style>
+
+<style type="text/css" media="print">
+ .DoNotPrint {
+	 display: none;
+ }
+</style>
+
+<!-- wz_jsgraphics.js -->
+<script type="text/javascript" src="${oscar_javascript_path}eforms/jsgraphics.js"></script>
+
+<script language="javascript">
+function formPrint()
+{
+	window.print();
+} 
+</script>
+
+<!-- scripts to confirm closing of window if it hadn't been saved yet -->
+<script language="javascript">
+//keypress events trigger dirty flag
+var needToConfirm = false;
+
+document.onkeyup=setDirtyFlag;
+
+function setDirtyFlag()
+{
+	needToConfirm = true;
+}
+function releaseDirtyFlag()
+{
+	needToConfirm = false; //Call this function if doesn't requires an alert.
+	//this could be called when save button is clicked
+}
+
+window.onbeforeunload = confirmExit;
+
+function confirmExit()
+{
+	if (needToConfirm)
+	{
+		return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+	}
+}
+
+</script>
+<script language="javascript">
+
+//create global vars
+
+kAboutThisEForm = 'Name:' + unescape('%09') + 'WHO 0-24 months EForm' + unescape('%0A') +
+				  'Version:' + unescape('%09') + '0.7' + unescape('%0A') +
+				  'Date:' + unescape('%09') + 'May 14, 2015' + unescape('%0A') +
+				  unescape('%0A') + 'Author(s):' + unescape('%09') + 'Modified by Selwyn Wan (swan@deepbluesoftware.com)' + unescape('%0A') +
+				  unescape('%0A') + 'Comments:' + unescape('%0A') +
+				  'Fixed on-load Weight/Height importing from measurments. This version will find and replace values that have been altered in measurements.' + unescape('%0A') +
+				  unescape('%0A') +
+				  'Version:' + unescape('%09') + '0.6' + unescape('%0A') +
+				  'Date:' + unescape('%09') + 'March 27, 2015' + unescape('%0A') +
+				  unescape('%0A') + 'Author(s):' + unescape('%09') + 'Created by Selwyn Wan (swan@deepbluesoftware.com)' + unescape('%0A') +
+				  unescape('%0A') + 'Comments:' + unescape('%0A') +
+				  'Based on the EForm "WHO" v10.0 by Peter Hutten-Czapski' + unescape('%0A') +
+				  unescape('%0A') + 'Associated Files:' + unescape('%0A') +
+				  'jsgraphics.js' + unescape('%0A') + 'LFA-0-24_BOYS.png' + unescape('%0A') + 'HC-0-24_BOYS.png' + unescape('%0A') + 'LFA-0-24_GIRLS.png' + unescape('%0A') + 'HC-0-24_GIRLS.png' + unescape('%0A') +
+				  unescape('%0A') + 'Copyrights:' + unescape('%0A') +
+				  'Images Copyright ' + unescape('%A9') + ' 2010 by Dieticians of Canada licensed for non commercial use.' + unescape('%0A') +
+				  'Copyright ' + unescape('%A9') + ' 2010 by Peter Hutten-Czapski' + unescape('%0A') +
+				  'Copyright ' + unescape('%A9') + ' 2015 by Selwyn Wan (swan@deepbluesoftware.com)' + unescape('%0A') +
+				  'All rights reserved.' + unescape('%0A') +
+				  unescape('%0A') + 'Sponsored By:' + unescape('%0A') +
+				  'Dr Nina Bansal, Dr Alice Ho' + unescape('%0A');
+
+var monthsPerMilliSec=1/1000/60/60/24/30.4375;//convert ms to months
+var yearsPerMilliSec=1/1000/60/60/24/365;//convert ms to years
+var sex;
+
+var kNumInputRows = 9;
+
+function checkGender()
+{
+	sex=document.getElementById('PatientGender').value;
+	if (sex == 'F')
+	{
+		document.getElementById('BGImage').src="${oscar_image_path}LFA-0-24_GIRLS.png";
+	}
+}
+
+function checkAge(){
+	const b = document.getElementById('dob').value;
+	const birthdate = new Date(b);
+	const todayDate = new Date();
+	const age = (todayDate - birthdate) * monthsPerMilliSec;
+
+	// console.log(age);
+	// console.log(b);
+		
+	if (age > 24){
+		confirm("This patient is not 0-24 months old.");
+	}
+}
+
+var curDisplayMode = 1;
+
+function toggleDisplayMode()
+{
+	var modeButton = document.getElementById('b');
+//	var bwButton = document.getElementById('bw');
+//	var cButton = document.getElementById('c');
+	
+	if (curDisplayMode == 2)
+	{
+		lwize();
+		modeButton.value = "Head Circ.";
+		document.getElementById('table2').style.display = 'none'; 
+		document.getElementById('table1').style.display = 'block';
+		document.getElementById('PlotLW').disabled = false; 
+		document.getElementById('PlotHCb').disabled = true;
+//		bwButton.disabled = false;
+//		cButton.disabled = false;
+		curDisplayMode = 1;
+		getLW(); 
+		jg.clear(); 
+		plotHeightAndWeight();	
+	}
+	else
+	{
+		hcize();
+		modeButton.value = "Length & Weight";
+		document.getElementById('table2').style.display = 'block'; 
+		document.getElementById('table1').style.display = 'none';
+		document.getElementById('PlotHCb').disabled = false; 
+		document.getElementById('PlotLW').disabled = true;
+//		bwButton.disabled = true;
+//		bwButton.disabled = true;
+		curDisplayMode = 2;
+		getHC(); 
+		jg.clear(); 
+		plotHC();	
+	}
+}
+
+//function black()
+//{
+//	if (curDisplayMode == 1)
+//	{
+//		if (sex == 'F')
+//			document.getElementById('BGImage').src="${oscar_image_path}WHO_girls_2_19bw.png";
+//		else 
+//			document.getElementById('BGImage').src="${oscar_image_path}WHO_boys_2_19bw.png";
+//	}
+//	else
+//	{
+//		if (sex == 'F')
+//			document.getElementById('BGImage').src="${oscar_image_path}BMI_2-19_GIRLS.png";
+//		else 
+//			document.getElementById('BGImage').src="${oscar_image_path}BMI_2-19_BOYS.png";
+//	}
+//}
+//
+//function colour()
+//{
+//	if (curDisplayMode == 1)
+//	{
+//		if (sex == 'F')
+//			document.getElementById('BGImage').src="${oscar_image_path}LFA-WFA_Birth-24_GIRLS_SET-2_EN.png";
+//		else
+//			document.getElementById('BGImage').src="${oscar_image_path}LFA-WFA_Birth-24_BOYS_SET-2_EN.png";
+//	}
+//	else
+//	{
+//		if (sex == 'F')
+//			document.getElementById('BGImage').src="${oscar_image_path}BMI_2-19_GIRLS.png";
+//		else 
+//			document.getElementById('BGImage').src="${oscar_image_path}BMI_2-19_BOYS.png";
+//	}
+//}
+
+function lwize()
+{
+	if (sex == 'F')
+		document.getElementById('BGImage').src="${oscar_image_path}LFA-0-24_GIRLS.png";
+	else
+		document.getElementById('BGImage').src="${oscar_image_path}LFA-0-24_BOYS.png";
+}
+
+function hcize()
+{
+	if (sex == 'F')
+		document.getElementById('BGImage').src="${oscar_image_path}HC-0-24_GIRLS.png";
+	else
+		document.getElementById('BGImage').src="${oscar_image_path}HC-0-24_BOYS.png";
+}
+
+
+// given age, return x-coordinates for weight in kg
+function getX(y)
+{
+	// 24 months = 634px
+	// 0 months = 154px
+	var age = Number(y);
+	var pix = 154 + (((634.0 - 154.0) / 24.0) * age);
+	
+	pix = sanityCheck(pix , 634);
+	
+	return pix;
+}
+
+function getXhc(y)
+{
+	// 24 months = 634px
+	// 0 months = 154px
+	
+	var age = Number(y);
+	var pix = 154 + (((634.0 - 154.0) / 24.0) * age);
+	
+	pix=sanityCheck(pix,634);
+	
+	return pix;
+}
+
+function getXlen(y)
+{
+	var length = Number(y);
+	var pix = 154 + ((length - 45.0) * (634.0 - 154.0) / (110.0 - 45.0));
+	
+	pix=sanityCheck(pix, 634);
+	
+	return pix;
+}
+
+function getYht(y)
+{
+	// 276/2 =138px = 200cm   1900/2= 950 = 50cm
+	var ht = Number(y);
+	var pix = 676.0 - ((ht - 15.0) * (676.0 - 127.0) / (102.0 - 15.0));
+	
+	pix = sanityCheck(pix, 676);
+	
+	return pix;
+}
+
+function getYwt(y)
+{
+	// 870/2 =435px = 100kg   1900/2= 950 = 5kg
+	var wt = Number(y);
+	var pix = 864.0 - ((wt - 1.0) * (864.0 - 328.0) / (18.0 - 1.0));
+	
+	pix = sanityCheck(pix,864);
+	
+	return pix;
+}
+
+function getYhc(y)
+{
+	// 212/2 =106px = 41   1842/2= 921 = 10
+	var hc = Number(y);
+	var pix = 0;
+	var limit = 0;
+	
+	if (sex == "F")
+	{
+		pix = 427.0 - ((hc - 28.0) * (427.0 - 134.0) / (54.0 - 28));
+		limit = 427;
+	}
+	else
+	{
+		pix = 433.0 - ((hc - 30.0) * (433.0 - 141.0) / (56.0 - 30));
+		limit = 433;
+	}
+	
+	pix = sanityCheck(pix, limit);
+	
+	return pix;
+}
+
+function getYlen(y)
+{
+	var wt = Number(y);
+	var pix = 0;
+	var limit = 0;
+	
+	if (sex == "F")
+	{
+		pix = 843.0 - ((wt - 2.0) * (843.0 - 296.0) / (25.0 - 2.0));
+		limit = 843;
+	}
+	else
+	{
+		pix = 841.0 - ((wt - 2.0) * (841.0 - 319.0) / (24.0 - 2.0));
+		limit = 841;
+	}
+	
+	pix = sanityCheck(pix, limit);
+	
+	return pix;
+}
+
+function sanityCheck(x, ubound)
+{
+	//pixels need to be on the chart
+	x=Number(x);
+	
+	if(isNaN(x))
+		x=0;
+		
+	if (x > ubound)
+		x=ubound;
+		
+	if (x < 10)
+		x=10;
+		
+	return x;
+}
+
+function importMeasures()
+{
+	var dWt=document.getElementById('m$WT#dateObserved').value.substring(0,10);
+	var dHt=document.getElementById('m$HT#dateObserved').value.substring(0,10);
+	
+	if ((dWt.length==0)&&(dHt.length==0))
+		return; //nothing to add
+		
+//	var inputElements = document.getElementById("inputForm").elements; 
+	var theField = inputElements.getElementById("date1");
+	var fieldIdx = 0;
+	
+	// the 14th element is the 1st date
+    for(var i = 0; i < 9; i++) 
+    {
+		var tmp = theField.value;
+		
+		if ((tmp == dWt) || (tmp == dHt)) 
+			return; // the date and measurement(s) are already charted
+			
+		if (tmp.length < 10) 
+		{
+			fieldIdx == i + 1;
+			break;
+		}
+			
+		theField = theField.nextSibling.nextSibling;
+	}
+	
+	//i should be now at an empty date of the grid
+	if (fieldIdx <= kNumInputRows && theField != null && theField.name.indexOf("date") > -1) 
+	{
+		//add measurements at row i
+		if (dHt.length > 0)
+		{
+			document.getElementById("date" + fieldIdx).value = dHt;
+			document.getElementById("height" + fieldIdx).value = document.getElementById('m$HT#value').value;
+			
+			if (dWt == dHt)  
+				document.getElementById("weight" + fieldIdx).value = document.getElementById('m$WT#value').value;
+			else
+			{ //different date
+				if (fieldIdx < kNumInputRows)
+				{
+					document.getElementById("date" + (fieldIdx + 1)).value = dWt;		
+					document.getElementById("weight" + fieldIdx).value = document.getElementById('m$WT#value').value;
+				}
+			} 
+		} 
+		else 
+		{ //only dWt is > 0
+			document.getElementById("date" + fieldIdx).value = dWt;		
+			document.getElementById("weught" + fieldIdx).value=document.getElementById('m$WT#value').value;
+		}
+	}
+}
+
+function calculateAgesLW()
+{
+	var inputElements = document.getElementById("inputForm").elements; 
+	var b = document.getElementById('dob').value;
+	var birthdate = new Date(b);
+	
+	var dateField = document.getElementById("date1");
+	var ageField = document.getElementById("age1");
+	
+	// the 14th element is the 1st date
+	
+    for(var i = 0; i < kNumInputRows; i++) 
+    {
+		var tmp = dateField.value;
+		
+		if (tmp.length >= 10)
+		{
+			var di = new Date(tmp.substring(0,10));
+			var age = (di - birthdate) * monthsPerMilliSec;
+			
+			age = Math.round(age*10) / 10;
+			ageField.value = age;
+		}
+		
+		// There is a #text object between each field for some reason
+		dateField = dateField.nextSibling.nextSibling;
+		ageField = ageField.nextSibling.nextSibling;
+	}
+}
+
+
+function getLW()
+{
+	//loads values from Table 2
+	var inputElements = document.getElementById("inputForm").elements; 
+	// the 59th element is the 1st date
+	
+	var dateFieldA = document.getElementById("date1");
+	var dateFieldB = document.getElementById("dateb1");
+	var weightFieldA = document.getElementById("weight1");
+	var weightFieldB = document.getElementById("wtb1");
+	var heightFieldA = document.getElementById("height1");
+	var heightFieldB = document.getElementById("htb1");
+
+	document.getElementById("gaab").value = document.getElementById("gaabb").value;
+	
+    for(var i = 0; i < kNumInputRows; i++) 
+    {
+		var tmp = dateFieldB.value;
+		
+		if (tmp.length >= 10) 
+		{
+			dateFieldA.value = tmp;
+			
+			var wti = weightFieldB.value;
+			
+			if (wti.length > 0)
+				weightFieldA.value = wti;			
+				
+			var hti = heightFieldB.value;
+			
+			if (hti.length > 0)
+				heightFieldA.value=hti;				
+		}
+		dateFieldA = dateFieldA.nextSibling.nextSibling;
+		dateFieldB = dateFieldB.nextSibling.nextSibling;
+		weightFieldA = weightFieldA.nextSibling.nextSibling;
+		weightFieldB = weightFieldB.nextSibling.nextSibling;
+		heightFieldA = heightFieldA.nextSibling.nextSibling;
+		heightFieldB = heightFieldB.nextSibling.nextSibling;
+	}
+}
+
+
+function plotHeightAndWeight()
+{ 
+//	var inputElements = document.getElementById("inputForm").elements;
+	var Yht = new Array();	
+	var Xht = new Array();
+	var Ywt = new Array();
+	var Xwt = new Array();
+	
+	var dateField = document.getElementById("date1");
+	var ageField = document.getElementById("age1");
+	var heightField = document.getElementById("height1");
+	var weightField = document.getElementById("weight1");
+	
+	jg.setColor("maroon");
+	jg.setFont("arial","15px",Font.PLAIN);
+	// calculateAgesLW();
+	
+	// the 14th element is the 1st date
+    for(var i = 0; i < kNumInputRows; i++) 
+    {
+		var age=ageField.value;
+		
+		if (age < 0 || age > 24)
+			continue;
+			
+		var hti = heightField.value;
+		
+		if (hti.length > 0)
+		{
+			jg.drawString("X",(getX(age)-5),(getYht(hti)-8));
+			Yht.push(getYht(hti));
+			Xht.push(getX(age));
+		}
+		
+		var wti = weightField.value;
+		
+		if (wti.length > 0)
+		{
+			jg.drawString("O",(getX(age)-5),(getYwt(wti)-8));
+			Ywt.push(getYwt(wti));
+			Xwt.push(getX(age));			
+		}
+		ageField = ageField.nextSibling.nextSibling;
+		heightField = heightField.nextSibling.nextSibling;
+		weightField = weightField.nextSibling.nextSibling;
+	}
+	if (Xht.length > 0 && Yht.length > 0)
+		jg.drawPolyline(Xht,Yht);
+	if (Xwt.length > 0 && Ywt.length > 0)
+		jg.drawPolyline(Xwt,Ywt);
+		
+	jg.paint();
+
+}
+
+
+function calculateAgesHC()
+{
+//	var inputElements = document.getElementById("inputForm").elements; 
+	var b = document.getElementById('dob').value;
+	var birthdate = new Date(b);
+	
+	var dateField = document.getElementById("dateb1");
+	var ageField = document.getElementById("ageb1");
+	
+	// the 14th element is the 1st date
+	
+    for(var i = 0; i < kNumInputRows; i++) 
+    {
+		var tmp = dateField.value;
+		
+		if (tmp.length >= 10)
+		{
+			var di = new Date(tmp.substring(0,10));
+			var age = (di - birthdate) * monthsPerMilliSec;
+			
+			age = Math.round(age*10) / 10;
+			ageField.value = age;
+		}
+		
+		// There is a #text object between each field for some reason
+		dateField = dateField.nextSibling.nextSibling;
+		ageField = ageField.nextSibling.nextSibling;
+	}
+}
+
+function getHC()
+{
+	//loads values from Table 1
+//	var inputElements = document.getElementById("inputForm").elements; 
+	var b= document.getElementById('dob').value;
+	var birthdate= new Date(b);
+	
+	var dateFieldA = document.getElementById("date1");
+	var dateFieldB = document.getElementById("dateb1");
+	var ageFieldB = document.getElementById("ageb1");
+	var weightFieldA = document.getElementById("weight1");
+	var weightFieldB = document.getElementById("wtb1");
+	var heightFieldA = document.getElementById("height1");
+	var heightFieldB = document.getElementById("htb1");
+	
+	document.getElementById("gaabb").value = document.getElementById("gaab").value;
+	
+    for(var i = 0; i < kNumInputRows; i++) 
+    {
+		var tmp = dateFieldA.value;
+		
+		if (tmp.length >= 10)
+		{
+			dateFieldB.value = tmp;
+			
+			var di = new Date(tmp.substring(0,10));
+			var age = (di - birthdate) * monthsPerMilliSec;
+			
+			age = Math.round(age * 100) / 100;
+			
+			// the 23rd element is the first age
+			ageFieldB.value = age;
+			
+			var hti = heightFieldA.value;
+			
+			if (hti.length > 0)
+				heightFieldB.value = hti;			
+				
+			var wti = weightFieldA.value;
+			
+			if (wti.length > 0)
+				weightFieldB.value = wti;				
+		}
+		dateFieldA = dateFieldA.nextSibling.nextSibling;
+		dateFieldB = dateFieldB.nextSibling.nextSibling;
+		ageFieldB = ageFieldB.nextSibling.nextSibling;
+		weightFieldA = weightFieldA.nextSibling.nextSibling;
+		weightFieldB = weightFieldB.nextSibling.nextSibling;
+		heightFieldA = heightFieldA.nextSibling.nextSibling;
+		heightFieldB = heightFieldB.nextSibling.nextSibling;
+	}
+}
+
+function plotHC()
+{ 
+	jg.setColor("maroon");
+	jg.setFont("arial","15px",Font.PLAIN);
+	
+//	var inputElements = document.getElementById("inputForm").elements;
+	var Xhc = new Array();	
+	var Yhc = new Array();	
+	var Xlen = new Array();	
+	var Ylen = new Array();	
+	
+	var dateField = document.getElementById("dateb1");
+	var ageField = document.getElementById("ageb1");
+	var heightField = document.getElementById("htb1");
+	var weightField = document.getElementById("wtb1");
+	var hcField = document.getElementById("hcb1");
+	
+	// calculateAgesHC();
+	
+	// the 59th element is the 1st date
+    for(var i = 0; i < 9; i++) 
+    {
+		var tmp = dateField.value;
+		
+		if (tmp.length >= 10)
+		{
+			// the 23rd element is the first age
+			var age = ageField.value;
+			var wti = weightField.value;
+			var hti = heightField.value;
+			var hc = hcField.value;
+			
+			if (hc != "")
+			{
+				jg.drawString("X", (getXhc(age) - 5), (getYhc(hc) - 8));
+				Yhc.push(getYhc(hc));
+				Xhc.push(getXhc(age));			
+			}
+			
+			if (wti != "" && hti != "")
+			{
+				jg.drawString("O", (getXlen(hti) - 5), (getYlen(wti) - 8));
+				Ylen.push(getYlen(wti));
+				Xlen.push(getXlen(hti));			
+			}
+		}
+		
+		dateField = dateField.nextSibling.nextSibling;
+		ageField = ageField.nextSibling.nextSibling;
+		weightField = weightField.nextSibling.nextSibling;
+		heightField = heightField.nextSibling.nextSibling;
+		hcField = hcField.nextSibling.nextSibling;
+	}
+	if (Xhc.length > 0 && Yhc.length > 0)
+		jg.drawPolyline(Xhc,Yhc);
+	if (Xlen.length > 0 && Ylen.length > 0)
+		jg.drawPolyline(Xlen, Ylen);
+		
+	jg.paint();
+}
+
+function exportme()
+{ 
+//	var inputElements = document.getElementById("inputForm").elements; 
+	var currentdate= document.getElementById('today').value;
+	
+	var dateField = document.getElementById("date1");
+	var heightField = document.getElementById("height1");
+	var weightField = document.getElementById("weight1");
+	
+	// the 14th element is the 1st date
+    for(var i = 0; i < kNumInputRows; i++) 
+    {
+		var tmp = dateField.value;
+		
+		if (currentdate == tmp) 
+		{ 
+			var hti = heightField.value;
+			
+			if (hti > 0) 
+			{
+				document.getElementById('m$HT#dateObserved').value = currentdate; 
+				document.getElementById('m$HT#value').value = hti ;
+				document.getElementById('m$HT#comments').value = "WHO 0-24mo form " + hti;
+			}
+			
+			var wti = weightField.value;
+			
+			if (wti > 0) 
+			{
+				document.getElementById('m$WT#dateObserved').value = currentdate; 
+				document.getElementById('m$WT#value').value = wti;
+				document.getElementById('m$WT#comments').value = "WHO 0-24mo form " + wti;
+			}
+			break;
+		}
+		dateField = dateField.nextSibling.nextSibling;
+		heightField = heightField.nextSibling.nextSibling;
+		weightField = weightField.nextSibling.nextSibling;
+	}
+}
+
+function isNumber(ss)
+{
+	var s = ss.value;
+    var i;
+    
+    for (i = 0; i < s.length; i++)
+    {
+        // Check that current character is number.
+        var c = s.charAt(i);
+        
+		if (c == '.')
+			continue;
+		else if (((c < "0") || (c > "9"))) 
+		{
+            alert('Invalid '+s+' in field ' + ss.name);
+            ss.focus();
+            return false;
+		}
+    }
+    // All characters are numbers.
+    return true;
+}
+	
+function wtEnglish2Metric(obj) 
+{
+	if(isNumber(obj) ) 
+	{
+		weight = obj.value;
+		weightM = Math.round(weight * 10 * 0.4536) / 10 ;
+		if(confirm("Are you sure you want to change " + weight + " pounds to " + weightM +"kg?") ) 
+			obj.value = weightM;
+	}
+}
+
+
+function htEnglish2Metric(obj) 
+{
+	height = obj.value;
+	
+	if(height.length > 1 && height.indexOf("'") > 0 ) 
+	{
+		feet = height.substring(0, height.indexOf("'"));
+		inch = height.substring(height.indexOf("'"));
+		if(inch.length == 1)
+			inch = 0;
+		else 
+		{
+			inch = inch.charAt(inch.length-1)=='"' ? inch.substring(0, inch.length-1) : inch;
+			inch = inch.substring(1);
+		}
+		
+		height = Math.round((feet * 30.48 + inch * 2.54) * 10) / 10 ;
+		
+		if(confirm("Are you sure you want to change " + feet + " feet " + inch + " inch(es) to " + height +"cm?") ) 
+			obj.value = height;
+	}
+}
+
+async function loadAndPlot(){
+	await loadInputFields();
+	plotHeightAndWeight();
+
+}
+
+function inputData(data, property){
+	const inputFieldList = document.querySelectorAll(`input.${property}`);
+	// console.log(inputFieldList);
+	// console.log(property);
+	// console.log(data);
+	for (let i = 0; i < inputFieldList.length; i++){
+		if (i >= data.length){
+			break;
+		}
+		const inputField = inputFieldList[i];
+		let dataItem = data[i][property];
+		if(dataItem == null){
+			dataItem = "";
+		}
+		inputField.value = dataItem;
+		// console.log(inputField);
+		// console.log(dataItem);
+	}
+}
+
+
+async function loadInputFields()
+{
+	var inputElements = document.getElementById("inputForm").elements; 
+	var dwt;
+	var dht;
+	var b= document.getElementById('dob').value;
+	var birthdate= new Date(b);
+	var j=0;
+	
+	var dateField = document.getElementById("date1");
+	var weightField;
+	var heightField;
+	
+	var bFound = false;
+
+	const weightArray = await getMeasures("WT");
+	const heightArray = await getMeasures("HT");
+	const headCircumfArray = await getMeasures("HEAD");
+	const mergedArrays = mergeKSortedArrays([weightArray, heightArray, headCircumfArray]);
+
+	inputData(mergedArrays, 'date');
+	inputData(mergedArrays, 'age');
+	inputData(mergedArrays, 'HT');
+	inputData(mergedArrays, 'WT');
+	inputData(mergedArrays, 'HEAD');
+	
+}
+
+
+/*
+- returns a promise that returns the xmlhttp response text
+*/
+function getXMLHTTP(theURL){
+	let myPromise = new Promise(function (resolve, reject){
+		let xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", theURL, true);
+		
+		xmlhttp.onload = function(){
+			if (xmlhttp.status == 200) {
+				resolve(xmlhttp.responseText);
+      		} 
+			else {
+				reject("File not Found");
+      		}
+		};
+		xmlhttp.send();
+	});
+
+	return myPromise;
+}
+
+
+/* 
+- returns array of objects = {date: date, [measureType]: measureVal}
+ */
+ async function getMeasures(measureType) 
+{
+	// xmlhttp=new XMLHttpRequest();
+	var pathArray = window.location.pathname.split( '/' );
+	var newURL = window.location.protocol + "//" + window.location.host +"/" + pathArray[1] + "/oscarEncounter/oscarMeasurements/SetupDisplayHistory.do?type=" + measureType;
+
+	const theMeasureXMLText = await getXMLHTTP(newURL);
+	// console.log(newURL);
+	const theMeasureHTML = new DOMParser().parseFromString(theMeasureXMLText, "text/html");
+	// console.log(theMeasureHTML);
+	const dataRowList = theMeasureHTML.querySelectorAll("tr.data");
+
+	let measureAndDateList = [];
+	for (i = 0; i < dataRowList.length; i++){
+		const dataRow = dataRowList[i];
+		const dataCellList = dataRow.children;
+		const measureVal = dataCellList[4].innerText;
+		const dateVal = dataCellList[6].innerText;
+
+		const b = document.getElementById('dob').value;
+		const birthdate = new Date(b);
+		const date = new Date(dateVal.substring(0,10));
+		let age = (date - birthdate) * monthsPerMilliSec;
+		age = Math.round(age*10) / 10;
+
+		// console.log(measureVal);
+		// console.log(measureDate);
+		const measureAndDate = {
+			date: dateVal,
+			age: age,
+			[measureType]: measureVal
+		}
+
+		measureAndDateList.push(measureAndDate);
+	}
+
+	return measureAndDateList;
+
+}
+
+/* 
+- return a single merged, sorted array. sorted by date with latest date first.
+- assume given K number of arrays that are already sorted
+ */
+ function mergeKSortedArrays(arrayOfArray){
+	// console.log(arrayOfArray);
+	const arrayOfArraySize = arrayOfArray.length;
+	if(arrayOfArraySize == 1){
+		return arrayOfArray[0];
+	}
+	else if (arrayOfArraySize == 2){
+		return mergeTwoSortedArrays(arrayOfArray[0], arrayOfArray[1]);
+	}
+	else {
+		// console.log(arrayOfArraySize);
+		const arrayOfArrayHalfSize = Math.ceil(arrayOfArraySize/2);
+		const arrayOfArrayFirstHalf = arrayOfArray.slice(0, arrayOfArrayHalfSize);
+		const arrayOfArrayLastHalf = arrayOfArray.slice(arrayOfArrayHalfSize, arrayOfArraySize);
+		
+		const newArrayOfArray = [];
+		const mergedFirstHalf = mergeKSortedArrays(arrayOfArrayFirstHalf);
+		const mergedLastHalf = mergeKSortedArrays(arrayOfArrayLastHalf);
+		newArrayOfArray.push(mergedFirstHalf);
+		newArrayOfArray.push(mergedLastHalf);
+		return mergeKSortedArrays(newArrayOfArray);
+	}
+}
+
+
+/* 
+- return a merged, sorted array. sorted by date with latest date first.
+- assume given arrays are already sorted
+- also assume the object properties (i.e. measurement types) between array1 and array2 are unique, except for date. Otherwise, values will be overwritten.
+ */
+ function mergeTwoSortedArrays(array1,  array2){
+
+	// console.log(array1);
+	// console.log(array2);
+	const array1Size = array1.length;
+	const array2Size = array2.length;
+
+	let mergedArray = [];
+	var indexArray1 = 0, indexArray2 = 0, indexMergedArray = 0;
+
+	// Traverse both array
+	while (indexArray1 < array1Size && indexArray2 < array2Size) {
+		/* 
+		- if dates are the same: the merged objects will contain properties of both objects from each array
+		- else the merged object takes only properties from the object with the later date.
+		*/
+		const object1 = array1[indexArray1];
+		const object2 = array2[indexArray2];
+		const dateOfObject1 = object1.date;
+		const dateOfObject2 = object2.date;
+
+		if (dateOfObject1 == dateOfObject2){
+			const mergedObject = {};
+			Object.assign(mergedObject, object1);
+			Object.assign(mergedObject, object2);
+
+			mergedArray[indexMergedArray] = mergedObject;
+			indexMergedArray++;
+			indexArray1++;
+			indexArray2++;
+		}
+		else if (dateOfObject1 > dateOfObject2){
+			const mergedObject = {};
+			Object.assign(mergedObject, object1);
+			mergedArray[indexMergedArray] = mergedObject;
+			indexMergedArray++;
+			indexArray1++;
+		}
+		else { // dateOfWeight < dateOfHeight
+			const mergedObject = {};
+			Object.assign(mergedObject, object2);
+			mergedArray[indexMergedArray] = mergedObject;
+			indexMergedArray++;
+			indexArray2++;
+		}
+	}
+
+	const remainingArray1 = array1.slice(indexArray1);
+	const remainingArray2 = array2.slice(indexArray2);
+
+	// add any remaining elements from array 1 and 2 to the merged array
+	mergedArray = mergedArray.concat(remainingArray1, remainingArray2);
+
+	return mergedArray;
+}
+
+
+</script>
+
+<script type="text/javascript">
+<!--
+function myDrawFunction(){
+	var jg = new jsGraphics("myCanvas");
+	jg.setColor("black");
+	//draw in missing percentile lines
+	//var Xpoints = new Array(getX(10),getX(11),getX(12),getX(13));
+	//var Ypoints = new Array(getYwt(31.2),getYwt(35),getYwt(39),getYwt(44));
+	//jg.drawPolyline(Xpoints,Ypoints);
+	//var Xpoints = new Array(getX(15),getX(16),getX(17),getX(18),getX(19));
+	//var Ypoints = new Array(getYwt(57),getYwt(62),getYwt(65),getYwt(67.8),getYwt(69.5));
+	//jg.drawPolyline(Xpoints,Ypoints);
+	//jg.paint();
+}
+
+//-->
+</script> 
+
+<!-- main calendar program -->
+
+<script type="text/javascript" src="../share/calendar/calendar.js"></script>
+
+<!-- language for the calendar -->
+
+<script type="text/javascript"	src="../share/calendar/lang/calendar-en.js"></script>
+
+<!-- the following script defines the Calendar.setup helper function -->
+
+<script type="text/javascript" src="../share/calendar/calendar-setup.js"></script>
+
+<!-- calendar stylesheet -->
+
+<link rel="stylesheet" type="text/css" media="all" href="../share/calendar/calendar.css" title="win2k-cold-1" />
+
+</head>
+
+<body onload="checkGender(); myDrawFunction(); checkAge(); loadAndPlot(); ">
+<img id='BGImage' src="${oscar_image_path}LFA-0-24_BOYS.png" style="position: absolute; left: 0px; top: 0px; width:750px">
+<div id="myCanvas"
+	style="position:absolute; left: 0px; top:0px; width: 750px; height: 1018px;" > 
+</div>
+<form method="post" action="" name="inputForm" id="inputForm" >
+
+<input name="PatientGender" id="PatientGender" type="hidden" oscarDB=sex>
+<input name="today" id="today" type="hidden" oscarDB=today> <!-- 2013-11-25 -->
+
+<input name="m$WT#value" id="m$WT#value" type="hidden"  oscarDB=m$WT#value>
+<input name="m$WT#dateObserved" id="m$WT#dateObserved" type="hidden" oscarDB=m$WT#dateObserved>  <!-- 2013-02-25 00:00:00 -->
+<input name="m$WT#comments" id="m$WT#comments" type="hidden" oscarDB=m$WT#comments>
+<input name="m$HT#value" id="m$HT#value" type="hidden"  oscarDB=m$HT#value>
+<input name="m$HT#dateObserved" id="m$HT#dateObserved" type="hidden" oscarDB=m$HT#dateObserved>  <!-- 2013-02-25 00:00:00 -->
+<input name="m$HT#comments" id="m$HT#comments" type="hidden" oscarDB=m$HT#comments>
+
+<script type="text/javascript">
+<!--
+var cnv = document.getElementById("myCanvas");
+var jg = new jsGraphics(cnv);
+//-->
+</script> 
+<input name="patient_name" id="patient_name" type="text" class="noborder" style="position:absolute; left:490px; top:64px; width:210px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=patient_name>
+<input name="dob" id="dob" type="text" class="noborder" style="position:absolute; left:480px; top:80px; width:105px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=dobc2> <!-- dobc2 2013/02/25 -->
+<input name="patient_id" id="patient_id" type="text" class="noborder" style="position:absolute; left:643px; top:80px; width:55px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=patient_id>
+
+<div id="table1" >
+<input name="momht" id="momht" type="text" class="noborder" style="position:absolute; left:391px; top:739px; width:113px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:left; background-color:transparent;" value="">
+<input name="dadht" id="dadht" type="text" class="noborder" style="position:absolute; left:391px; top:754px; width:113px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:left; background-color:transparent;" value="">
+<input name="gaab" id="gaab" type="text" class="noborder" style="position:absolute; left:617px; top:754px; width:60px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="date1" id="date1" type="text" class="noborder date" onchange="calculateAgesLW();" style="position:absolute; left:314px; top:787px; width:68px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=1 placeholder='click!' value="">
+<input name="date2" id="date2" type="text" class="noborder date" onchange="calculateAgesLW();" style="position:absolute; left:314px; top:803px; width:68px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white; " tabindex=6  value="">
+<input name="date3" id="date3" type="text" class="noborder date" onchange="calculateAgesLW();" style="position:absolute; left:314px; top:819px; width:68px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=11  value="">
+<input name="date4" id="date4" type="text" class="noborder date" onchange="calculateAgesLW();" style="position:absolute; left:314px; top:835px; width:68px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=16  value="">
+<input name="date5" id="date5" type="text" class="noborder date" onchange="calculateAgesLW();" style="position:absolute; left:314px; top:851px; width:68px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=21  value="">
+<input name="date6" id="date6" type="text" class="noborder date" onchange="calculateAgesLW();" style="position:absolute; left:314px; top:867px; width:68px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=26  value="">
+<input name="date7" id="date7" type="text" class="noborder date" onchange="calculateAgesLW();" style="position:absolute; left:314px; top:883px; width:68px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=31  value="">
+<input name="date8" id="date8" type="text" class="noborder date" onchange="calculateAgesLW();" style="position:absolute; left:314px; top:899px; width:68px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=36  value="">
+<input name="date9" id="date9" type="text" class="noborder date" onchange="calculateAgesLW();" style="position:absolute; left:314px; top:915px; width:68px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=41  value="">
+
+
+<input name="age1" id="age1" type="text" class="noborder age" style="position:absolute; left:383px; top:787px; width:71px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=2 placeholder='yr' value="">
+<input name="age2" id="age2" type="text" class="noborder age" style="position:absolute; left:383px; top:803px; width:71px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=7  value="">
+<input name="age3" id="age3" type="text" class="noborder age" style="position:absolute; left:383px; top:819px; width:71px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=12  value="">
+<input name="age4" id="age4" type="text" class="noborder age" style="position:absolute; left:383px; top:835px; width:71px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=17  value="">
+<input name="age5" id="age5" type="text" class="noborder age" style="position:absolute; left:383px; top:851px; width:71px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=22  value="">
+<input name="age6" id="age6" type="text" class="noborder age" style="position:absolute; left:383px; top:867px; width:71px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=27  value="">
+<input name="age7" id="age7" type="text" class="noborder age" style="position:absolute; left:383px; top:883px; width:71px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=32  value="">
+<input name="age8" id="age8" type="text" class="noborder age" style="position:absolute; left:383px; top:899px; width:71px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=37  value="">
+<input name="age9" id="age9" type="text" class="noborder age" style="position:absolute; left:383px; top:915px; width:71px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=42  value="">
+
+
+<input name="height1" id="height1" type="text" class="noborder HT" title="doubleclick to convert ft and in to cm" onDblClick="htEnglish2Metric(this)"  onchange="jg.clear(); plotHeightAndWeight();"  style="position:absolute; left:455px; top:787px; width:70px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=3 placeholder='cm' value="">
+<input name="height2" id="height2" type="text" class="noborder HT" title="doubleclick to convert ft and in to cm" onDblClick="htEnglish2Metric(this)"  onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:455px; top:803px; width:70px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=8  value="">
+<input name="height3" id="height3" type="text" class="noborder HT" title="doubleclick to convert ft and in to cm" onDblClick="htEnglish2Metric(this)"  onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:455px; top:819px; width:70px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=13  value="">
+<input name="height4" id="height4" type="text" class="noborder HT" title="doubleclick to convert ft and in to cm" onDblClick="htEnglish2Metric(this)"  onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:455px; top:835px; width:70px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=18  value="">
+<input name="height5" id="height5" type="text" class="noborder HT" title="doubleclick to convert ft and in to cm" onDblClick="htEnglish2Metric(this)"  onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:455px; top:851px; width:70px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=23  value="">
+<input name="height6" id="height6" type="text" class="noborder HT" title="doubleclick to convert ft and in to cm" onDblClick="htEnglish2Metric(this)"  onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:455px; top:867px; width:70px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=28  value="">
+<input name="height7" id="height7" type="text" class="noborder HT" title="doubleclick to convert ft and in to cm" onDblClick="htEnglish2Metric(this)"  onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:455px; top:883px; width:70px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=33  value="">
+<input name="height8" id="height8" type="text" class="noborder HT" title="doubleclick to convert ft and in to cm" onDblClick="htEnglish2Metric(this)"  onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:455px; top:899px; width:70px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=38  value="">
+<input name="height9" id="height9" type="text" class="noborder HT" title="doubleclick to convert ft and in to cm" onDblClick="htEnglish2Metric(this)"  onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:455px; top:915px; width:70px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=43  value="">
+
+
+<input name="weight1" id="weight1" type="text" class="noborder WT" title="doubleclick to convert lbs to kg"  onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:526px; top:787px; width:72px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=4  placeholder='kg' value="">
+<input name="weight2" id="weight2" type="text" class="noborder WT" title="doubleclick to convert lbs to kg"  onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:526px; top:803px; width:72px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=9  value="">
+<input name="weight3" id="weight3" type="text" class="noborder WT" title="doubleclick to convert lbs to kg"  onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:526px; top:819px; width:72px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=14  value="">
+<input name="weight4" id="weight4" type="text" class="noborder WT" title="doubleclick to convert lbs to kg"  onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:526px; top:835px; width:72px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=19  value="">
+<input name="weight5" id="weight5" type="text" class="noborder WT" title="doubleclick to convert lbs to kg"  onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:526px; top:851px; width:72px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=24  value="">
+<input name="weight6" id="weight6" type="text" class="noborder WT" title="doubleclick to convert lbs to kg"  onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:526px; top:867px; width:72px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=29  value="">
+<input name="weight7" id="weight7" type="text" class="noborder WT" title="doubleclick to convert lbs to kg"  onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:526px; top:883px; width:72px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=34  value="">
+<input name="weight8" id="weight8" type="text" class="noborder WT" title="doubleclick to convert lbs to kg"  onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:526px; top:899px; width:72px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=39  value="">
+<input name="weight9" id="weight9" type="text" class="noborder WT" title="doubleclick to convert lbs to kg"  onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); plotHeightAndWeight();" style="position:absolute; left:526px; top:915px; width:72px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=44  value="">
+
+
+<input name="comment1" id="comment1" type="text" class="noborder" style="position:absolute; left:599px; top:787px; width:100px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=5 placeholder='comment' value="">
+<input name="comment2" id="comment2" type="text" class="noborder" style="position:absolute; left:599px; top:803px; width:100px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=10  value="">
+<input name="comment3" id="comment3" type="text" class="noborder" style="position:absolute; left:599px; top:819px; width:100px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=15  value="">
+<input name="comment4" id="comment4" type="text" class="noborder" style="position:absolute; left:599px; top:835px; width:100px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=20 value="">
+<input name="comment5" id="comment5" type="text" class="noborder" style="position:absolute; left:599px; top:851px; width:100px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=25  value="">
+<input name="comment6" id="comment6" type="text" class="noborder" style="position:absolute; left:599px; top:867px; width:100px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=30  value="">
+<input name="comment7" id="comment7" type="text" class="noborder" style="position:absolute; left:599px; top:883px; width:100px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=35  value="">
+<input name="comment8" id="comment8" type="text" class="noborder" style="position:absolute; left:599px; top:899px; width:100px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=40  value="">
+<input name="comment9" id="comment9" type="text" class="noborder" style="position:absolute; left:599px; top:915px; width:100px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:center; background-color:transparent;" tabindex=45  value="">
+</div>
+
+<div style="display:none;" id="table2" >
+
+<input name="gaabb" id="gaabb" type="text" class="noborder" style="position:absolute; left:439px; top:794px; width:60px; height:10px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:8px; text-align:left; background-color:transparent;" value="">
+
+<input name="dateb1" id="dateb1" type="text" class="noborder" style="position:absolute; left:325px; top:816px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onchange="calculateAgesHC();" tabindex=1 placeholder='click!' value="">
+<input name="dateb2" id="dateb2" type="text" class="noborder" style="position:absolute; left:325px; top:830px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onchange="calculateAgesHC();" tabindex=7 value="">
+<input name="dateb3" id="dateb3" type="text" class="noborder" style="position:absolute; left:325px; top:844px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onchange="calculateAgesHC();" tabindex=14 value="">
+<input name="dateb4" id="dateb4" type="text" class="noborder" style="position:absolute; left:325px; top:858px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onchange="calculateAgesHC();" tabindex=21 value="">
+<input name="dateb5" id="dateb5" type="text" class="noborder" style="position:absolute; left:325px; top:872px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onchange="calculateAgesHC();" tabindex=28 value="">
+<input name="dateb6" id="dateb6" type="text" class="noborder" style="position:absolute; left:325px; top:886px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onchange="calculateAgesHC();" tabindex=35 value="">
+<input name="dateb7" id="dateb7" type="text" class="noborder" style="position:absolute; left:325px; top:900px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onchange="calculateAgesHC();" tabindex=42 value="">
+<input name="dateb8" id="dateb8" type="text" class="noborder" style="position:absolute; left:325px; top:914px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onchange="calculateAgesHC();" tabindex=49 value="">
+<input name="dateb9" id="dateb9" type="text" class="noborder" style="position:absolute; left:325px; top:928px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onchange="calculateAgesHC();" tabindex=56 value="">
+
+<input name="ageb1" id="ageb1" type="text" class="noborder" style="position:absolute; left:387px; top:816px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=2 placeholder='age' value="">
+<input name="ageb2" id="ageb2" type="text" class="noborder" style="position:absolute; left:387px; top:830px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=9 value="">
+<input name="ageb3" id="ageb3" type="text" class="noborder" style="position:absolute; left:387px; top:844px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=16 value="">
+<input name="ageb4" id="ageb4" type="text" class="noborder" style="position:absolute; left:387px; top:858px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=23 value="">
+<input name="ageb5" id="ageb5" type="text" class="noborder" style="position:absolute; left:387px; top:872px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=30 value="">
+<input name="ageb6" id="ageb6" type="text" class="noborder" style="position:absolute; left:387px; top:886px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" tabindex=37 value="">
+<input name="ageb7" id="ageb7" type="text" class="noborder" style="position:absolute; left:387px; top:900px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" tabindex=44 value="">
+<input name="ageb8" id="ageb8" type="text" class="noborder" style="position:absolute; left:387px; top:914px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" tabindex=51 value="">
+<input name="ageb9" id="ageb9" type="text" class="noborder" style="position:absolute; left:387px; top:928px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" tabindex=58 value="">
+
+<input name="htb1" id="htb1" type="text" class="noborder" style="position:absolute; left:450px; top:816px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=3 placeholder='cm' value="">
+<input name="htb2" id="htb2" type="text" class="noborder" style="position:absolute; left:450px; top:830px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=10 value="">
+<input name="htb3" id="htb3" type="text" class="noborder" style="position:absolute; left:450px; top:844px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=17 value="">
+<input name="htb4" id="htb4" type="text" class="noborder" style="position:absolute; left:450px; top:858px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=24 value="">
+<input name="htb5" id="htb5" type="text" class="noborder" style="position:absolute; left:450px; top:872px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=31 value="">
+<input name="htb6" id="htb6" type="text" class="noborder" style="position:absolute; left:450px; top:886px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=38 value="">
+<input name="htb7" id="htb7" type="text" class="noborder" style="position:absolute; left:450px; top:900px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=45 value="">
+<input name="htb8" id="htb8" type="text" class="noborder" style="position:absolute; left:450px; top:914px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=52 value="">
+<input name="htb9" id="htb9" type="text" class="noborder" style="position:absolute; left:450px; top:928px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=59 value="">
+
+<input name="wtb1" id="wtb1" type="text" class="noborder" style="position:absolute; left:512px; top:816px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" placeholder='kg' tabindex=4 value="">
+<input name="wtb2" id="wtb2" type="text" class="noborder" style="position:absolute; left:512px; top:830px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=11 value="">
+<input name="wtb3" id="wtb3" type="text" class="noborder" style="position:absolute; left:512px; top:844px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=18 value="">
+<input name="wtb4" id="wtb4" type="text" class="noborder" style="position:absolute; left:512px; top:858px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=25 value="">
+<input name="wtb5" id="wtb5" type="text" class="noborder" style="position:absolute; left:512px; top:872px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=32 value="">
+<input name="wtb6" id="wtb6" type="text" class="noborder" style="position:absolute; left:512px; top:886px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=39 value="">
+<input name="wtb7" id="wtb7" type="text" class="noborder" style="position:absolute; left:512px; top:900px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=46 value="">
+<input name="wtb8" id="wtb8" type="text" class="noborder" style="position:absolute; left:512px; top:914px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=53 value="">
+<input name="wtb9" id="wtb9" type="text" class="noborder" style="position:absolute; left:512px; top:928px; width:61px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onDblClick="wtEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=60 value="">
+
+<input name="hcb1" id="hcb1" type="text" class="noborder HEAD" style="position:absolute; left:575px; top:816px; width:59px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" placeholder='cm' tabindex=5 value="">
+<input name="hcb2" id="hcb2" type="text" class="noborder HEAD" style="position:absolute; left:575px; top:830px; width:59px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=12 value="">
+<input name="hcb3" id="hcb3" type="text" class="noborder HEAD" style="position:absolute; left:575px; top:844px; width:59px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=19 value="">
+<input name="hcb4" id="hcb4" type="text" class="noborder HEAD" style="position:absolute; left:575px; top:858px; width:59px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=26 value="">
+<input name="hcb5" id="hcb5" type="text" class="noborder HEAD" style="position:absolute; left:575px; top:872px; width:59px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=33 value="">
+<input name="hcb6" id="hcb6" type="text" class="noborder HEAD" style="position:absolute; left:575px; top:886px; width:59px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=40 value="">
+<input name="hcb7" id="hcb7" type="text" class="noborder HEAD" style="position:absolute; left:575px; top:900px; width:59px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=47 value="">
+<input name="hcb8" id="hcb8" type="text" class="noborder HEAD" style="position:absolute; left:575px; top:914px; width:59px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=54 value="">
+<input name="hcb9" id="hcb9" type="text" class="noborder HEAD" style="position:absolute; left:575px; top:928px; width:59px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" onDblClick="htEnglish2Metric(this)" onchange="jg.clear(); getHC(); plotHC();" tabindex=61 value="">
+
+<input name="commentb1" id="commentb1" type="text" class="noborder" style="position:absolute; left:637px; top:816px; width:62px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" placeholder='comment' tabindex=6 value="">
+<input name="commentb2" id="commentb2" type="text" class="noborder" style="position:absolute; left:637px; top:830px; width:62px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=13 value="">
+<input name="commentb3" id="commentb3" type="text" class="noborder" style="position:absolute; left:637px; top:844px; width:62px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=20 value="">
+<input name="commentb4" id="commentb4" type="text" class="noborder" style="position:absolute; left:637px; top:858px; width:62px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=27 value="">
+<input name="commentb5" id="commentb5" type="text" class="noborder" style="position:absolute; left:637px; top:872px; width:62px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:white;" tabindex=34 value="">
+<input name="commentb6" id="commentb6" type="text" class="noborder" style="position:absolute; left:637px; top:886px; width:62px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" tabindex=41 value="">
+<input name="commentb7" id="commentb7" type="text" class="noborder" style="position:absolute; left:637px; top:900px; width:62px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" tabindex=48 value="">
+<input name="commentb8" id="commentb8" type="text" class="noborder" style="position:absolute; left:637px; top:914px; width:62px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" tabindex=55 value="">
+<input name="commentb9" id="commentb9" type="text" class="noborder" style="position:absolute; left:637px; top:928px; width:62px; height:12px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:11px; text-align:center; background-color:transparent;" tabindex=62 value="">
+ 
+</div>
+ 
+<input name="m$BMI#value" id="m$BMI#value" type="hidden"  oscarDB=m$BMI#value>
+<input name="m$BMI#dateObserved" id="m$BMI#dateObserved" type="hidden" oscarDB=m$BMI#dateObserved>  <!-- 2013-02-25 00:00:00 -->
+<input name="m$BMI#comments" id="m$BMI#comments" type="hidden" oscarDB=m$BMI#comments>
+
+<div class="DoNotPrint" style="position: absolute; top:940px; left:30px;" id="BottomButtons" >
+
+	 <table><tr><td>
+<font face="Arial,Helvetica,sans-serif" size="1" > * Images Copyright 2010 by Dieticians of Canada licensed for non commercial use.  <a onclick="alert(kAboutThisEForm);" style="cursor: hand; color: Blue;">About WHO 0-24mo EForm</a></font> <br><br>
+		 Subject: <input name="subject" size="40" type="text"> <br>
+			<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick="exportme(); releaseDirtyFlag();">
+			<input value="Plot Length & Weight" name="PlotLW" id="PlotLW" type="button" onclick="jg.clear(); plotHeightAndWeight();"> 
+			<input value="Plot Head Circ." name="PlotHCb" id="PlotHCb" type="button" disabled onclick="jg.clear(); plotHC();">
+<!--		<input value="B&W" name="bw" id="bw" type="button" onclick="black();jg.clear(); document.getElementById('table1').style.display='block'; document.getElementById('table2').style.display='none'; plotDates(); document.getElementById('PlotBMIb').disabled=true; document.getElementById('PlotHW').disabled=false;"> -->
+<!--		<input value="Colour" name="c" id="c" type="button" onclick="colour();jg.clear(); document.getElementById('table1').style.display='block'; document.getElementById('table2').style.display='none'; plotDates(); document.getElementById('PlotBMIb').disabled=true; document.getElementById('PlotHW').disabled=false;"> -->
+			<input value="Head Circ." name="b" id="b" type="button" onclick="toggleDisplayMode();">
+<!-- <input value="BMI" name="b" id="b" type="button" onclick="bmize(); jg.clear(); document.getElementById('table2').style.display='block'; document.getElementById('table1').style.display='none'; getBMI(); plotBMI(); document.getElementById('PlotBMIb').disabled=false; document.getElementById('PlotHW').disabled=true;"> -->
+<!-- <input value="Export Todays Measurements" name="export" id="export" type="button" onclick="exportme(); alert('Values will be saved when you submit the eform')"> -->
+			<input value="Clear Graph" name="clean" id="clean" type="button" onclick="jg.clear();">  
+			<input value="Clear Table" name="ResetButton" id="ResetButton" type="reset"> 
+			<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();"> 
+<!-- 			<input value="Try" name="try" id="try" type="button" onclick="test();"> -->
+	 </td></tr></table>
+ </div>
+ </form>
+
+<script type="text/javascript">
+Calendar.setup({ inputField : "date1", ifFormat : "%Y-%m-%d", showsTime :false, button : "date1", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "date2", ifFormat : "%Y-%m-%d", showsTime :false, button : "date2", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "date3", ifFormat : "%Y-%m-%d", showsTime :false, button : "date3", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "date4", ifFormat : "%Y-%m-%d", showsTime :false, button : "date4", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "date5", ifFormat : "%Y-%m-%d", showsTime :false, button : "date5", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "date6", ifFormat : "%Y-%m-%d", showsTime :false, button : "date6", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "date7", ifFormat : "%Y-%m-%d", showsTime :false, button : "date7", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "date8", ifFormat : "%Y-%m-%d", showsTime :false, button : "date8", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "date9", ifFormat : "%Y-%m-%d", showsTime :false, button : "date9", singleClick : true, step : 1 });
+
+Calendar.setup({ inputField : "dateb1", ifFormat : "%Y-%m-%d", showsTime :false, button : "dateb1", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "dateb2", ifFormat : "%Y-%m-%d", showsTime :false, button : "dateb2", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "dateb3", ifFormat : "%Y-%m-%d", showsTime :false, button : "dateb3", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "dateb4", ifFormat : "%Y-%m-%d", showsTime :false, button : "dateb4", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "dateb5", ifFormat : "%Y-%m-%d", showsTime :false, button : "dateb5", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "dateb6", ifFormat : "%Y-%m-%d", showsTime :false, button : "dateb6", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "dateb7", ifFormat : "%Y-%m-%d", showsTime :false, button : "dateb7", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "dateb8", ifFormat : "%Y-%m-%d", showsTime :false, button : "dateb8", singleClick : true, step : 1 });
+Calendar.setup({ inputField : "dateb9", ifFormat : "%Y-%m-%d", showsTime :false, button : "dateb9", singleClick : true, step : 1 });
+</script>
+
+
+</body>
+</html>
+

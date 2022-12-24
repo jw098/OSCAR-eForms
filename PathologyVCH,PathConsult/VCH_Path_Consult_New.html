@@ -1,0 +1,245 @@
+<html>
+<head>
+<title>VCH_Consult_Request</title>
+<style type="text/css" media="print">
+ .DoNotPrint {
+	 display: none;
+ }
+ .noborder {
+	 border : 0px;
+	 background: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-arrow-color: transparent;
+	 scrollbar-base-color: transparent;
+	 scrollbar-darkshadow-color: transparent;
+	 scrollbar-face-color: transparent;
+	 scrollbar-highlight-color: transparent;
+	 scrollbar-shadow-color: transparent;
+	 scrollbar-track-color: transparent;
+	 background: transparent;
+	 overflow: hidden;
+ }
+ </style>
+
+
+
+<!-- js graphics scripts -->
+<script type="text/javascript" src="${oscar_image_path}jsgraphics.js"></script>
+<script language="javascript">
+function formPrint(){
+	 if (document.getElementById('DrawCheckmark').checked){ 
+			printCheckboxes();
+	 }else{
+			window.print();
+	 } 
+} 
+</script>
+
+<!-- scripts to confirm closing of window if it hadn't been saved yet -->
+<script language="javascript">
+//keypress events trigger dirty flag
+var needToConfirm = false;
+document.onkeyup=setDirtyFlag;
+function setDirtyFlag(){
+		needToConfirm = true;
+}
+function releaseDirtyFlag(){
+		needToConfirm = false; //Call this function if doesn't requires an alert.
+//this could be called when save button is clicked
+}
+window.onbeforeunload = confirmExit;
+function confirmExit(){
+	 if (needToConfirm){
+		 return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+	 }
+}
+</script>
+
+<style type="Text/css">
+input.largerCheckbox {
+	-moz-transform:scale(1.3);         /*scale up image 1.3x - Firefox specific */ 
+	-webkit-transform:scale(1.3);      /*Webkit based browser eg Chrome, Safari */ 
+	-o-transform:scale(1.3);           /*Opera browser */ 
+}
+</style>
+<style type="text/css" media="print">
+input.largerCheckbox { 
+	-moz-transform:scale(1.8);         /*scale up image 1.8x - Firefox specific */ 
+	-webkit-transform:scale(1.3);      /*Webkit based browser eg Chrome, Safari */ 
+	-o-transform:scale(1.3);           /*Opera browser */ 
+} 
+</style>
+<!--[if IE]>
+<style type="text/css">
+input.largerCheckbox { 
+	height: 30px;                     /*30px checkboxes for IE 5 to IE 7 */ 
+	width: 30px; 
+} 
+</style> 
+<![endif]--> 
+
+</head>
+
+<body onload="">
+<img id='BGImage' src="${oscar_image_path}VCH_Pathology_Consult_New.png" style="position: absolute; left: 0px; top: 0px; width:750px">
+<div id="chkCanvas" style="position:absolute; left:0px; top:0px; width:750; height:750;" onmouseover="putInBack();"></div>
+
+<form method="post" action="" name="FormName" id="FormName" >
+
+<textarea name="label1" id="label1" class="noborder" style="position:absolute; left:398px; top:36px; width:289px; height:129px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=label></textarea>
+
+
+<input name="MSP" id="MSP" type="checkbox" class="largerCheckbox" style="position:absolute; left:388px; top:168px; " data-prechecked="true" checked="checked">
+
+
+<input name="WCB" id="WCB" type="checkbox" class="largerCheckbox" style="position:absolute; left:424px; top:168px; ">
+
+
+<input name="RCMP" id="RCMP" type="checkbox" class="largerCheckbox" style="position:absolute; left:465px; top:168px; ">
+
+
+<input name="SELF" id="SELF" type="checkbox" class="largerCheckbox" style="position:absolute; left:510px; top:168px; ">
+
+
+<input name="NON RES" id="NON RES" type="checkbox" class="largerCheckbox" style="position:absolute; left:559px; top:168px; ">
+
+<textarea name="clinicAddress" id="clinicAddress" class="noborder" style="position:absolute; left:60px; top:157px; width:323px; height:70px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:10px; text-align:left; background-color:transparent;" oscarDB=clinic_label></textarea>
+
+
+<input name="IntraOp" id="IntraOp" type="checkbox" class="largerCheckbox" style="position:absolute; left:59px; top:225px; ">
+
+
+<input name="Urgent" id="Urgent" type="checkbox" class="largerCheckbox" style="position:absolute; left:338px; top:225px; ">
+
+
+<input name="Lymph" id="Lymph" type="checkbox" class="largerCheckbox" style="position:absolute; left:400px; top:225px; ">
+
+
+<input name="Surg" id="Surg" type="checkbox" class="largerCheckbox" style="position:absolute; left:548px; top:225px; ">
+
+
+<input name="Cyt" id="Cyt" type="checkbox" class="largerCheckbox" style="position:absolute; left:59px; top:250px; ">
+
+
+<input name="Research" id="Research" type="checkbox" class="largerCheckbox" style="position:absolute; left:205px; top:250px; ">
+
+
+<input name="Spec" id="Spec" type="text" class="noborder" style="position:absolute; left:140px; top:326px; width:29px; height:19px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="A" id="A" type="text" class="noborder" style="position:absolute; left:225px; top:282px; width:470px; height:20px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="B" id="B" type="text" class="noborder" style="position:absolute; left:225px; top:308px; width:470px; height:20px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="C" id="C" type="text" class="noborder" style="position:absolute; left:225px; top:335px; width:470px; height:20px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="D" id="D" type="text" class="noborder" style="position:absolute; left:225px; top:359px; width:470px; height:20px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="E" id="E" type="text" class="noborder" style="position:absolute; left:225px; top:380px; width:470px; height:20px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="F" id="F" type="text" class="noborder" style="position:absolute; left:225px; top:404px; width:470px; height:20px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="no" id="no" type="checkbox" class="largerCheckbox" style="position:absolute; left:60px; top:453px; ">
+
+
+<input name="yes" id="yes" type="checkbox" class="largerCheckbox" style="position:absolute; left:60px; top:466px; ">
+
+
+<input name="cjd" id="cjd" type="checkbox" class="largerCheckbox" style="position:absolute; left:60px; top:480px; ">
+
+
+<input name="Submitting" id="Submitting" type="text" class="noborder" style="position:absolute; left:213px; top:543px; width:380px; height:20px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" oscarDB=current_user>
+
+<input name="SubmittingMSP" id="SubmittingMSP" type="text" class="noborder" style="position:absolute; left:593px; top:543px; width:110px; height:20px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" oscarDB=current_user_ohip_no>
+
+
+<input name="copy1" id="copy1" type="text" class="noborder" style="position:absolute; left:213px; top:580px; width:380px; height:15px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" oscarDB=doctor>
+
+<input name="copy1MSP" id="copy1MSP" type="text" class="noborder" style="position:absolute; left:593px; top:580px; width:110px; height:15px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" oscarDB=doctor_ohip_no>
+
+
+<input name="copy2" id="copy2" type="text" class="noborder" style="position:absolute; left:213px; top:605px; width:380px; height:15px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+<input name="copy2MSP" id="copy2MSP" type="text" class="noborder" style="position:absolute; left:593px; top:605px; width:110px; height:15px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="copy3" id="copy3" type="text" class="noborder" style="position:absolute; left:213px; top:631px; width:380px; height:15px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+<input name="copy3MSP" id="copy3MSP" type="text" class="noborder" style="position:absolute; left:593px; top:631px; width:110px; height:15px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<textarea name="clinical summary" id="clinical summary" class="noborder" style="position:absolute; left:226px; top:428px; width:464px; height:90px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" ></textarea>
+
+
+<input name="current_user" id="current_user" type="text" class="noborder" style="position:absolute; left:367px; top:522px; width:323px; height:14px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=current_user>
+
+
+
+
+ <div class="DoNotPrint" id="BottomButtons" style="position: absolute; top:1000px; left:0px;">
+	 <table><tr><td>
+		 Subject: <input name="subject" size="40" type="text"> 
+			<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick=" releaseDirtyFlag();"> 
+			<input value="Reset" name="ResetButton" id="ResetButton" type="reset"> 
+			<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();"> 
+			<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',1000);"> 
+			<input name="DrawCheckmark" id="DrawCheckmark" type="checkbox" data-prechecked="true" checked="checked"><span style="font-family:sans-serif; font-size:12px;">Draw Checkmarks</span> 
+	 </td></tr></table>
+ </div>
+ </form>
+
+<script type="text/javascript">
+<!-- Drawing in checkmarks -->
+var chkcnv = document.getElementById('chkCanvas');
+var chkjg = new jsGraphics(chkcnv);
+var chkcnvLeft = parseInt(chkcnv.style.left);
+var chkcnvTop = parseInt(chkcnv.style.top);
+chkjg.setPrintable(true);
+function drawCheckmark(x,y){
+var offset = 6;
+var x = parseInt(x) + offset;
+var y = parseInt(y) + offset;
+chkjg.setColor('black');
+chkjg.setStroke(3);
+		// draws checkmark
+		var x1 = x;
+		var y1 = y+4;
+		var x2 = x1 + 3;
+		var y2 = y1 + 4;
+		var x3 = x2 + 4;
+		var y3 = y2 - 12;
+		chkjg.drawLine(x1,y1,x2,y2);
+		chkjg.drawLine(x2,y2,x3,y3);
+		chkjg.paint();
+}
+function replaceCheckmarks(){
+var f = document.getElementById("FormName");
+		 for (var i=0;i<f.length;i++){
+				if ((f.elements[i].type == 'checkbox') && (f.elements[i].checked)){
+					var a = f.elements[i].style.left;
+					var b = f.elements[i].style.top;
+					drawCheckmark(a,b);
+				}
+		 }
+}
+function printCheckboxes(){
+		putInFront();
+		replaceCheckmarks();
+		window.print();
+}
+function putInFront(){
+		chkcnv.style.zIndex = "999999";	
+}
+function putInBack(){
+		chkcnv.style.zIndex = "-999999";	
+}
+</script>
+</body>
+</html>

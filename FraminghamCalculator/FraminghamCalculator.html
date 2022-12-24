@@ -1,0 +1,452 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+  
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+  
+  <meta http-equiv="Content-Language" content="en-us" />
+  <title>Framingham Risk Calculator</title>
+
+<!-- 2022-10-08: fixed start() function so that it runs. removed default check for male sex. JWong -->
+
+<script type="text/javascript" language="javascript">
+
+ function start(){
+
+	//first off is this calculator appropriate
+	var lert=""; 
+	//it would be better to tap into the billing database for codes but thats currently not available
+	var A1C=document.getElementById('A1C').value; 
+	if ((A1C*1)<1) {A1C=A1C*100};  //if stored as actual value convert to percent
+	if (A1C>5.9) {lert += " Your patient may be diabetic.  If so you may want the UKPDS calculator instead."};
+	var history = document.getElementById('history').value.toLowerCase();
+	if (history.indexOf('diabet')>-1){lert += " This patient appears to have a history of diabetes."};
+	if ((history.indexOf('heart')>-1)||(history.indexOf('stent')>-1)||(history.indexOf('coronary')>-1)){lert += " Your patient may already have a history of heart disease."};
+	if (history.indexOf('ischemi')>-1){lert += " Your patient may already have a history of ischemia."};
+	if (lert.length>0){alert("WARNING This form is meant for primary prevention in non diabetics.  While this algorithm is unreliable the calculator may be inappropriate for this patient." + lert)};
+
+	//second load the form with values that need to be derived
+	checkGender();
+	UpdateBP();
+	checkSmoker(); 
+	Update();
+ }
+
+ function checkGender(){
+ 	if (document.getElementById('PatientGender').value == 'M'){
+ 		document.getElementById('cMale').checked = true;
+ 	}else if (document.getElementById('PatientGender').value == 'F'){
+ 		document.getElementById('cFemale').checked = true;
+ 	}
+	return;
+ }
+
+ function checkSmoker(){
+	if ((document.getElementById('smoker').value == 'Y')|(document.getElementById('dailySmokes').value >0)){
+ 		document.getElementById('cCurSmoker').checked = true;
+ 	}
+	return;
+}
+
+ function UpdateBP(){
+	var ref=document.getElementById('BP').value.toString(); 
+	var mySplitResult = ref.split('/');
+	var x= mySplitResult[0];
+ 	document.getElementById('cSystolic').value = x;
+	return;
+ }
+
+ function Update(){
+	if ((document.getElementById('cSystolic').value > '')&&(document.getElementById('cCholesterol').value >0)){
+   		UpdateNonDiabetic();
+ 	}
+	return;
+ }
+
+</script>
+
+
+<script language="javascript" type="text/javascript" src="${oscar_image_path}js.js"></script>
+ 
+  <style type="text/css" media="print">
+.DoNotPrint {
+	display: none;
+}
+.noborder {
+	scrollbar-3dlight-color: transparent;
+	scrollbar-3dlight-color: transparent;
+	scrollbar-arrow-color: transparent;
+	scrollbar-base-color: transparent;
+	scrollbar-darkshadow-color: transparent;
+	scrollbar-face-color: transparent;
+	scrollbar-highlight-color: transparent;
+	scrollbar-shadow-color: transparent;
+	scrollbar-track-color: transparent;
+	background: transparent;
+	overflow: hidden;
+	border : 0px;
+}
+
+  </style>
+
+  <style type="text/css">
+
+*
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: /*"gill sans", helvetica,*/ arial, sans-serif;
+	text-align: left;
+	font-size: 13px;
+	line-height: 17px;
+}
+
+#content
+{
+	margin: 20px;
+}
+
+#content h1, h2, h3
+{
+	font-weight: normal;
+	font-size: 20px;
+	margin: 17px 0px;
+
+}
+
+#content h2
+{
+	font-size: 15px;
+	padding-top: 17px;
+	border-top: 1px dotted #127785;
+}
+
+#content h2.nobar
+{
+	border: 0;
+	padding-top: 0;
+}
+
+#content h3
+{
+	font-size: 13px;
+}
+
+#content input.bdr
+{
+	border: 1px solid #5c4d46;
+}
+
+#content input.btn
+{
+	background-color: #f7f4d7;
+	padding: 2px 5px;
+	border: 1px solid #5c4d46;
+}
+
+
+#content a
+{
+	color: #127785;
+}
+
+#content a:hover
+{
+	color: #5c4d46;
+}
+
+#content sup a
+{
+	font-size: 11px;
+	padding: 0 4px;
+	font-weight: bold;
+}
+
+#content table
+{
+	width: 520px;
+}
+
+#content table td
+{
+	padding: 5px 2px;
+}
+
+#content table td
+{
+	vertical-align: top;
+}
+
+#content table td.label
+{
+	text-align: right;
+}
+
+
+#content table#FraminghamChart, #content table#UKPDSChart, #content table#key
+{
+	border-collapse: collapse;
+	margin: 20px 0px;
+}
+
+#content table#key
+{
+	margin-top: 20px;
+}
+#content table#FraminghamChart
+{
+	margin-bottom: 20px;
+}
+
+#content table#FraminghamChart td, #content table#UKPDSChart td
+{
+	border: 1px solid #5c4d46;
+	text-align: center;
+	vertical-align: middle;
+}
+
+
+input.title {
+	font-family: Arial;
+	font-size: 30px;
+	font-weight: bolder;
+
+	background: #ffffff;
+	text-align: center;
+	width:100%;
+}
+
+.normaltext {
+	font-family: Arial;
+	font-size: 14px;
+}
+
+.smallertext {
+	font-family: Arial;
+	font-size: 14px;
+}
+.lettertext {
+	font-family: Arial;
+	font-size: 12px;
+
+}
+.noscreenborder {
+	scrollbar-3dlight-color: transparent;
+	scrollbar-3dlight-color: transparent;
+	scrollbar-arrow-color: transparent;
+	scrollbar-base-color: transparent;
+	scrollbar-darkshadow-color: transparent;
+	scrollbar-face-color: transparent;
+	scrollbar-highlight-color: transparent;
+	scrollbar-shadow-color: transparent;
+	scrollbar-track-color: transparent;
+	background: transparent;
+	overflow: hidden;
+	border : 0px;
+}
+
+  </style>
+
+
+
+</head>
+<body onload="start();">
+<form method="post" action="" name="Framingham">
+
+<input name="PatientGender" id="PatientGender" type="hidden" oscarDB=sex>
+<input name="BP" id="BP" type="hidden" oscarDB=m$BP#value>
+<input name="dailySmokes" id="dailySmokes" type="hidden" oscarDB=m$NOSK#value>
+<input name="smoker" id="smoker" type="hidden" oscarDB=m$SMK#value>
+<input name="A1C" id="A1C" type="hidden" oscarDB=m$A1C#value>
+<input name="history" id="history" type="hidden" oscarDB=medical_history>
+
+  <div id="wrapper">
+  <div id="header">
+<div style="text-align: center;">
+<input name="ClinicName" class="noborder title noscreenborder" style=" text-align: center;width: 600px;" oscardb=clinic_name type="text" /> <br>
+<input name="ClinicAddress" class="noborder smallertext noscreenborder" style=" text-align: center; width: 600px;" oscardb=clinic_address type="text" />  
+
+  </div>
+  <div id="content">
+  <h1>Your Details</h1>
+  <p>This calculator is for use only in <b>primary prevention</b>, and
+should not be used for individuals with known heart disease.&nbsp; For
+DIABETICS use the UKPDS calculator
+  </p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td class="label">Name:</td>
+        <td><input id="cName" class="noborder noscreenborder" size="20" name="cName" oscarDB=patient_name type="text" /></td>
+        <td class="label">Date:</td>
+        <td> <input id="cDate" class="noborder noscreenborder" name="cDate" oscarDB=today type="text" /></td>
+      </tr>
+      <tr>
+        <td class="label">Age now:</td>
+        <td><input id="cAge" class="bdr" size="5" onchange="Update()" name="cAge" oscarDB=age type="text" /></td>
+        <td class="label">Sex:</td>
+        <td> <input id="cMale" name="sex" onclick="Update()" type="radio" /> <label class="radio" for="cMale">Male</label><br />
+        <input id="cFemale" name="sex" onclick="Update()" type="radio" /> <label class="radio" for="cFemale">Female</label> </td>
+      </tr>
+      <tr>
+        <td class="label">Systolic BP:</td>
+        <td><input id="cSystolic" class="bdr" size="5" name="cSystolic" onchange="Update()" type="text" /> mmHg</td>
+        <td class="label"><font color='#FF0000'>*</font>&nbsp;BP Treated?</td>
+        <td> <input id="cUntreated" name="bptreated" onclick="Update()" checked="checked" type="radio" /> <label class="radio" for="cUntreated">Untreated BP</label><br />
+        <input id="cTreated" name="bptreated" onclick="Update()" type="radio" /> <label class="radio" for="cTreated">Treated BP</label> </td>
+      </tr>
+      <tr>
+      </tr>
+      <tr>
+        <td class="label">Total Cholesterol:</td>
+        <td><input id="cCholesterol" class="bdr" size="5" name="cCholesterol" onchange="Update()" type="text" oscarDB=m$TCHL#value /> mmol/L</td>
+        <td class="label">Smoker?</td>
+        <td> <input id="cNonSmoker" name="smoking" onclick="Update()" checked="checked" type="radio" /> <label class="radio" for="cNonSmoker">Non- or Ex-smoker</label><br />
+        <input id="cCurSmoker" name="smoking" onclick="Update()" type="radio" /> <label class="radio" for="cCurSmoker">Current Smoker</label> </td>
+      </tr>
+      <tr>
+        <td class="label">HDL:</td>
+        <td><input id="cHDL" class="bdr" size="5" name="cHDL" onchange="Update()" type="text" oscarDB=m$HDL#value /> mmol/L</td>
+        <td class="label">LDL:</td>
+        <td><input id="cHDL" class="noborder noscreenborder" size="5" name="cLDL" onchange="Update()" type="text" oscarDB=m$LDL#value /> mmol/L</td>
+      </tr>
+      <tr "DoNotPrint">
+        <td><br />
+        </td>
+        <td><br />
+	<input id="subject"  name="subject" type="hidden" />
+        </td>
+        <td><input class="btn DoNotPrint" value="Calculate" onclick="UpdateNonDiabetic()" type="button" />
+        </td>
+        <td><input value="Submit" class="btn DoNotPrint"  name="SubmitButton" type="submit" />
+	<input value="Print" class="btn DoNotPrint" name="PrintButton" type="button" onclick="window.print()" />
+	 </td></tr></table></td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+  <h1>Your Results</h1>
+  <table id="FraminghamChart">
+    <tbody>
+      <tr>
+        <td colspan="12">Framingham Ten-Year Coronary Heart Disease Risk</td>
+      </tr>
+      <tr>
+        <td rowspan="2">Systolic BP</td>
+        <td colspan="5">Total Cholesterol</td>
+      </tr>
+      <tr>
+        <td id="c1">4</td>
+        <td id="c2">5</td>
+        <td id="c3">6</td>
+        <td id="c4">7</td>
+        <td id="c5">8</td>
+      </tr>
+      <tr>
+        <td id="bp2"></td>
+        <td id="bp2c1"><br />
+        </td>
+        <td id="bp2c2"><br />
+        </td>
+        <td id="bp2c3"><br />
+        </td>
+        <td id="bp2c4"><br />
+        </td>
+        <td id="bp2c5"><br />
+        </td>
+      </tr>
+      <tr>
+        <td id="bp3">110</td>
+        <td id="bp3c1"><br />
+        </td>
+        <td id="bp3c2"><br />
+        </td>
+        <td id="bp3c3"><br />
+        </td>
+        <td id="bp3c4"><br />
+        </td>
+        <td id="bp3c5"><br />
+        </td>
+      </tr>
+      <tr>
+        <td id="bp4">120</td>
+        <td id="bp4c1"><br />
+        </td>
+        <td id="bp4c2"><br />
+        </td>
+        <td id="bp4c3"><br />
+        </td>
+        <td id="bp4c4"><br />
+        </td>
+        <td id="bp4c5"><br />
+        </td>
+      </tr>
+      <tr>
+        <td id="bp5">130</td>
+        <td id="bp5c1"><br />
+        </td>
+        <td id="bp5c2"><br />
+        </td>
+        <td id="bp5c3"><br />
+        </td>
+        <td id="bp5c4"><br />
+        </td>
+        <td id="bp5c5"><br />
+        </td>
+      </tr>
+      <tr>
+        <td id="bp6">140</td>
+        <td id="bp6c1"><br />
+        </td>
+        <td id="bp6c2"><br />
+        </td>
+        <td id="bp6c3"><br />
+        </td>
+        <td id="bp6c4"><br />
+        </td>
+        <td id="bp6c5"><br />
+        </td>
+      </tr>
+      <tr>
+        <td id="bp7">150</td>
+        <td id="bp7c1"><br />
+        </td>
+        <td id="bp7c2"><br />
+        </td>
+        <td id="bp7c3"><br />
+        </td>
+        <td id="bp7c4"><br />
+        </td>
+        <td id="bp7c5"><br />
+        </td>
+      </tr>
+      <tr>
+        <td id="bp8"></td>
+        <td id="bp8c1"><br />
+        </td>
+        <td id="bp8c2"><br />
+        </td>
+        <td id="bp8c3"><br />
+        </td>
+        <td id="bp8c4"><br />
+        </td>
+        <td id="bp8c5"><br />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="theScript"> </div>
+  </div>
+</form>
+
+</body></html>
+
