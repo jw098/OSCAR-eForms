@@ -67,8 +67,8 @@
 	return;
  }
 
- var min_age_fram = 20;
-var max_age_fram = 79;
+ var min_age_fram = 30;
+var max_age_fram = 74;
 
 var min_age = 30;
 var max_age = 75;
@@ -431,81 +431,81 @@ function GetFraminghamCHDRiskPoints(age, female, smoking, systolic, treated_bp, 
     var total_points = age_points + chol_points + smoking_points + hdl_points + systolic_points;
 
 
-    let chd_result;
+    let cvd_risk_points_method;
     if ( total_points <= -3 ){
-      chd_result = !female ? 0.009 : 0.009;
+      cvd_risk_points_method = !female ? 0.009 : 0.009;
     }
     else if ( total_points == -2 ){
-      chd_result =  !female ? 0.011 : 0.009;
+      cvd_risk_points_method =  !female ? 0.011 : 0.009;
     }
     else if ( total_points == -1 ){
-      chd_result = !female ? 0.014 : 0.01;
+      cvd_risk_points_method = !female ? 0.014 : 0.01;
     }
     else if ( total_points == 0 ){
-      chd_result = !female ? 0.016 : 0.012;
+      cvd_risk_points_method = !female ? 0.016 : 0.012;
     }
     else if ( total_points == 1 ){
-      chd_result = !female ? 0.019 : 0.015;
+      cvd_risk_points_method = !female ? 0.019 : 0.015;
     }
     else if ( total_points == 2 ){
-      chd_result = !female ? 0.023 : 0.017;
+      cvd_risk_points_method = !female ? 0.023 : 0.017;
     }
     else if ( total_points == 3 ){
-      chd_result = !female ? 0.028 : 0.020;
+      cvd_risk_points_method = !female ? 0.028 : 0.020;
     }
     else if ( total_points == 4 ){
-      chd_result = !female ? 0.033 : 0.024;
+      cvd_risk_points_method = !female ? 0.033 : 0.024;
     }	
     else if ( total_points == 5 ){
-      chd_result = !female ? 0.039 : 0.028;
+      cvd_risk_points_method = !female ? 0.039 : 0.028;
     }
     else if ( total_points == 6 ){
-      chd_result = !female ? 0.047 : 0.033;
+      cvd_risk_points_method = !female ? 0.047 : 0.033;
     }
     else if ( total_points == 7 ){
-      chd_result = !female ? 0.056 : 0.039;
+      cvd_risk_points_method = !female ? 0.056 : 0.039;
     }
     else if ( total_points == 8 ){
-      chd_result = !female ? 0.067 : 0.045;
+      cvd_risk_points_method = !female ? 0.067 : 0.045;
     }
     else if ( total_points == 9 ){
-      chd_result = !female ? 0.079 : 0.053;
+      cvd_risk_points_method = !female ? 0.079 : 0.053;
     }
     else if ( total_points == 10 ){
-      chd_result = !female ? 0.094 : 0.063;
+      cvd_risk_points_method = !female ? 0.094 : 0.063;
     }
     else if ( total_points == 11 ){
-      chd_result = !female ? 0.112 : 0.073;
+      cvd_risk_points_method = !female ? 0.112 : 0.073;
     }
     else if ( total_points == 12 ){
-      chd_result = !female ? 0.133 : 0.086;
+      cvd_risk_points_method = !female ? 0.133 : 0.086;
     }
     else if ( total_points == 13 ){
-      chd_result = !female ? 0.156 : 0.100;
+      cvd_risk_points_method = !female ? 0.156 : 0.100;
     }
     else if ( total_points == 14 ){
-      chd_result = !female ? 0.184 : 0.117;
+      cvd_risk_points_method = !female ? 0.184 : 0.117;
     }
     else if ( total_points == 15 ){
-      chd_result = !female ? 0.216 : 0.137;
+      cvd_risk_points_method = !female ? 0.216 : 0.137;
     }
     else if ( total_points == 16 ){
-      chd_result = !female ? 0.253 : 0.159;
+      cvd_risk_points_method = !female ? 0.253 : 0.159;
     }
     else if ( total_points == 17 ){
-      chd_result = !female ? 0.294 : 0.1851;
+      cvd_risk_points_method = !female ? 0.294 : 0.1851;
     }
     else if ( total_points == 18 ){
-      chd_result = !female ? 0.301 : 0.215;
+      cvd_risk_points_method = !female ? 0.301 : 0.215;
     }
     else if ( total_points == 19 ){
-      chd_result = !female ? 0.301 : 0.248;
+      cvd_risk_points_method = !female ? 0.301 : 0.248;
     }
     else if ( total_points == 20 ){
-      chd_result = !female ? 0.301 : 0.275;
+      cvd_risk_points_method = !female ? 0.301 : 0.275;
     }
     else { // >= 21
-      chd_result = !female ? 0.301 : 0.301;
+      cvd_risk_points_method = !female ? 0.301 : 0.301;
     }
 
     //age, female, smoking, systolic, treated_bp, chol, hdl_chol
@@ -516,10 +516,29 @@ function GetFraminghamCHDRiskPoints(age, female, smoking, systolic, treated_bp, 
     console.log("Systolic: " + systolic + ". Systolic points: " + systolic_points);
     console.log("Smoking: " + !!smoking + ". Smoking points: " + smoking_points);
     console.log("total points: " + total_points);
-    console.log("CHD result: " + chd_result*100 + "%");
-    
+    console.log("CHD result - points method: " + cvd_risk_points_method*100 + "%");
 
-    return chd_result;
+	convertCholesterolmmolperLTomgperdL = 38.67;
+	// testing: comparing to Cox model equation
+	let cvd_risk_cox_model_method;
+	if (!female){
+		const Hypertension_medication_factor = treated_bp ? 1.99881 : 1.93303;
+		const risk_factors = Math.log(age)*3.06117 + Math.log(chol*convertCholesterolmmolperLTomgperdL) * 1.12370 - (Math.log(hdl_chol * convertCholesterolmmolperLTomgperdL) * 0.93263) + (Math.log(systolic) * Hypertension_medication_factor) + 0.65451*smoking  - 23.9802;
+		cvd_risk_cox_model_method = (1-Math.pow(0.88936, Math.exp(risk_factors)));
+	}
+	else {
+		const Hypertension_medication_factor = treated_bp ? 2.82263 : 2.76157;
+		const risk_factors = Math.log(age)*2.32888 + Math.log(chol*convertCholesterolmmolperLTomgperdL) * 1.20904 - (Math.log(hdl_chol * convertCholesterolmmolperLTomgperdL) * 0.70833) + (Math.log(systolic) * Hypertension_medication_factor) + 
+		0.52873*smoking - 26.1931;
+		cvd_risk_cox_model_method = (1-Math.pow(0.95012, Math.exp(risk_factors)));
+	}
+
+	console.log(cvd_risk_cox_model_method);
+	return cvd_risk_cox_model_method;
+
+
+
+    // return cvd_risk_points_method;
       
   }
 
@@ -579,25 +598,39 @@ function UpdateFraminghamChart(female, smoking, systolic, treated_bp, total_chol
         systolic_offset -= 10;
     }
     
-    var total_chol_offset = total_chol - Math.floor(total_chol);
-    if ( total_chol_offset >  0.5 )
-    {
-        total_chol_offset -= 1;
-    }      
+	let chol_offset; // = 3;
+	if(total_chol >= 4 && total_chol < 9){
+		chol_offset = 3;
+	}
+	else if(total_chol < 4){
+		chol_offset = -1;
+	}
+	else if(total_chol >= 9){
+		chol_offset = 7;
+	}
+
+
+    var chol_fractional_offset = total_chol - Math.floor(total_chol);
+    // if ( chol_fractional_offset >  0.5 )
+    // {
+    //     chol_fractional_offset -= 1;
+    // }      
+
+
 	
 	//edges								
 	for (b = 2; b <= 8; ++b)
 	{        
-    var greater_less_than = (b==2)?"&le;":((b==8)?"&ge;":"");
+		var greater_less_than = (b==2)?"&le;":((b==8)?"&ge;":"");
 		var bp = 80 + b*10 + systolic_offset; //90, 100, 110...
-    document.getElementById("bp"+b).innerHTML = greater_less_than + bp.toFixed(1);	
+    	document.getElementById("bp"+b).innerHTML = greater_less_than + bp.toFixed(1);	
 		document.getElementById("bp"+b).style.fontWeight = "normal";
 		document.getElementById("bp"+b).style.fontSize = base_text_size;
 		document.getElementById("bp"+b).style.color = base_text_color;
 	}				
 	for (c = 1; c <= 5; ++c)
 	{
-        var chol = c + 3 + total_chol_offset; //4, 5, 6...
+        var chol = c + chol_offset + chol_fractional_offset; //4, 5, 6...
         document.getElementById("c"+c).innerHTML = chol.toFixed(1);	
 		document.getElementById("c"+c).style.fontWeight = "normal";
 		document.getElementById("c"+c).style.fontSize = base_text_size;
@@ -613,7 +646,7 @@ function UpdateFraminghamChart(female, smoking, systolic, treated_bp, total_chol
 		for (c = 1; c <= 5; ++c)
 		{		
             //var chol = 3.5 + c*0.5; //4, 4.5, 5, ...		
-			var chol = c + 3 + total_chol_offset; //4, 5, 6, ...		
+			var chol = c + chol_offset + chol_fractional_offset; //4, 5, 6, ...		
             
 			var cur_elem = "bp"+b+"c"+c;
 			var chd_result = GetFraminghamCHDRiskPoints(age_now, female, smoking, bp, treated_bp, chol, hdl_chol);
@@ -663,10 +696,16 @@ function UpdateFraminghamChart(female, smoking, systolic, treated_bp, total_chol
 	document.getElementById(bp).style.color = highlight_text_color;
     
 	var chol;
-	if ( total_chol <= 4.5 ) { chol = "c1"; }
-	else if ( total_chol <= 5.5 ) { chol = "c2"; }
-	else if ( total_chol <= 6.5 ) { chol = "c3"; }
-	else if ( total_chol <= 7.5 ) { chol = "c4"; }
+	// if ( total_chol <= 4.5 ) { chol = "c1"; }
+	// else if ( total_chol <= 5.5 ) { chol = "c2"; }
+	// else if ( total_chol <= 6.5 ) { chol = "c3"; }
+	// else if ( total_chol <= 7.5 ) { chol = "c4"; }
+	// else { chol = "c5"; }
+
+	if(total_chol <= (1 + chol_offset + chol_fractional_offset)) { chol = "c1"; }
+	else if(total_chol <= (2 + chol_offset + chol_fractional_offset)) { chol = "c2"; }
+	else if(total_chol <= (3 + chol_offset + chol_fractional_offset)) { chol = "c3"; }
+	else if(total_chol <= (4 + chol_offset + chol_fractional_offset)) { chol = "c4"; }
 	else { chol = "c5"; }
 	
 	document.getElementById(chol).style.fontWeight = "bold"; // highlight chol on edge
@@ -1088,7 +1127,31 @@ function WriteScript( age_now, female, smoking, systolic, treated_bp, total_chol
 	script += "<li> if your patient is \"dissimilar\" to the U.S. population studied, risk assessment is more inaccurate</li></ul>";
 	
 	script += "<p>Also, it is a common practice to enter post-treatment numbers into risk calculators, and then present the new risk numbers as post-treatment risk. This approach does not match the findings from clinical trials.</p>";
+
+	script += "<h2>Calculator Formula</h2>";
 	
+	script += "<p>This calculator uses the formula laid out in the 2008 Framingham study by D'agostino et al.</p>"
+
+	script += "<h3>Female formula</h3>";
+	script += "<li>10-year CVD risk = 1 - 0.95012^(e^(risk_factors))</li>"
+	script += "<li>risk_factors = ln(age)*2.32888 + ln(cholesterol_in_mg_per_dL)*1.20904 - ln(hdl_in_mg_per_dL)*0.70833 + ln(systolic_bp)*hypertension_medication_factor + 0.52873*is_smoking - 26.1931</li>"
+	script += "<li>hypertension_medication_factor equals 2.82263 if BP treated with medication. Else equals 2.76157.</li>"
+	script += "<li>is_smoking equals 1 if patient is a current smoker. Else equals 0 if Non- or Ex-smoker.</li>"
+
+	script += "<h3>Male formula</h3>";
+	script += "<li>10-year CVD risk = 1 - 0.88936^(e^(risk_factors))</li>"
+	script += "<li>risk_factors = ln(age)*3.06117 + ln(cholesterol_in_mg_per_dL)*1.12370 - ln(hdl_in_mg_per_dL)*0.93263 + ln(systolic_bp)*hypertension_medication_factor + 0.65451*is_smoking - 23.9802</li>"
+	script += "<li>hypertension_medication_factor equals 1.99881 if BP treated with medication. Else equals 1.93303.</li>"
+	script += "<li>is_smoking equals 1 if patient is a current smoker. Else equals 0 if Non- or Ex-smoker.</li>"
+
+	script += "<h2>Comparison To Other Framingham Risk Calculators</h2>";
+	script += "<p>There are several other Framingham Risk calculators on the internet and a lot of them seem to be giving slightly different answers. Part of the reason is that some calculators reference the <a href = \"https://pubmed.ncbi.nlm.nih.gov/9603539/\">1998 Framingham paper</a>, while others (such as this eForm calculator) reference the <a href = \"http://www.ncbi.nlm.nih.gov/pubmed/18212285\">2008 paper</a>. Another reason is that even within the 2008 paper, it suggests 2 different methods for calculating the CVD risk, one that uses a points system, and another that uses a formula. While these 2 different methods produce similar results, they aren't exactly the same. Below, are some popular calculators on the internet, and the method that they seem to be using</p>";
+	script += "<br>"
+	script += "<li>Uptodate (<a href=\"https://www.uptodate.com/contents/calculator-cardiovascular-risk-assessment-10-year-women-patient-education\">Women</a>, <a href=\"https://www.uptodate.com/contents/calculator-cardiovascular-risk-assessment-10-year-men-patient-education\">Men</a>): Uses the same formula that this eForm uses. It uses the formula from the 2008 Framingham paper.</li>"
+	script += "<li><a href=\"https://ccs.ca/app/uploads/2020/12/FRS_eng_2017_fnl1.pdf\">CCS Framingham Risk score chart</a>: This chart references the 2008 Framingham paper, but it uses the points system.</li>"
+	script += "<li><a href=\"https://www.mdcalc.com/calc/38/framingham-risk-score-hard-coronary-heart-disease\">MD Calc</a>: This calculator references the 1998 Framingham paper.</li>"
+	script += "<li><a href=\"https://cvdcalculator.com/\">cvdcalculator.com</a>: This calculator uses the formula from the 2008 Framingham paper. However, it produces slightly different numbers than this eForm (off by 0.1-0.2 percentage points) and I'm not sure why.</li>"
+
 	script += WriteFootnotes(false);	
 	
 	script += "<p>&nbsp;</p>";
