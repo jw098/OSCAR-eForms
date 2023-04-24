@@ -340,9 +340,10 @@ input {
 			const choice2_firstLetter = "(" + phoneChoice2.substring(0, 1).toUpperCase() + ")";
 
 			document.getElementById(phoneID).value = 
-				document.getElementById(choice1).value + ',' + choice1_firstLetter + ";" + 
-				document.getElementById(choice2).value + ',' + choice2_firstLetter;
+				choice1_firstLetter + ':' + document.getElementById(choice1).value + ";" + 
+				choice2_firstLetter + ':' + document.getElementById(choice2).value ;
 		}
+
 
 		/****************************
 			Create name in proper order 
@@ -546,7 +547,7 @@ input {
 <input name="dobc2" id="dobc2" type="text" class="noborder" style="position:absolute; left:165px; top:199px; width:85px; font-size:14px; text-align:center; background:transparent;" oscardb=dobc2>
 <input name="sex" id="sex" type="text" class="noborder" style="position:absolute; left:318px; top:199px; width:120px; font-size:14px; background:white;" oscardb=sex>
 
-<input name="phone" id="phone" type="text" class="noborder" style="position:absolute; left:237px; top:217px; width:201px; font-size:12px; background:transparent;" oscardb=phone>
+<input name="phone" id="phone" type="text" class="noborder" style="position:absolute; left:235px; top:217px; width:205px; font-size:12px; background:transparent;" oscardb=phone>
 <input name="email" id="email" type="text" class="noborder" style="position:absolute; left:100px; top:235px; width:338px; font-size:14px; background:transparent;" oscardb=email>
 
 <textarea name="addressline" id="addressline" class="noborder" style="position:absolute; left:185px; top:253px; height:33px; width:258px; resize:none; font-size:13px; background:white;" oscarDB=addressline></textarea>
