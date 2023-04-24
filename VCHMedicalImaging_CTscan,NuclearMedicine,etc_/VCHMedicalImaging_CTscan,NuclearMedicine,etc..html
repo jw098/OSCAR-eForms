@@ -1,0 +1,936 @@
+<html>
+<head>
+
+<!-- Update July 2014 with oscarOPEN links to Lab requisition named: 1.1 Lab Requisition; if your lab is named differently, oscarOPEN needs to be updated -->
+<!-- Updated Oct2014 with new server/desktop detection scripts; remove float from side menu; fix submit bar; subject line add -->
+<!-- V4: Update Mar2015 with oscarOPEN links, autofill subject; new, PDF background -->
+<!-- V5: Update Jun2016 with PHONE for appt warning until department gets their workflow sorted out -->
+<!-- V6_Apr23_2023: fixed default phone -JW -->
+
+<!-- eForm DISCLAIMER: As is: eForms are shared as-is, free of charge on a share-alike basis with absolutely no guarantee or warranty.
+ No Quality Control: The author does not vet any eForms and does not purport to apply any manner of quality control.
+ Responsibility: The responsibility for the clinical and medical-legal consequences of any and all eForms, rest with the clinical OSCAR end-users themselves, not with the author of the eForm.
+ This applies to both eForms shared by others, and those created by users themselves.
+ Attribution: eForms are shared freely among the user community, with attribution to the original author of the eForm.
+ Free: eForms so shared may not be sold or purchased.
+ Provincial validation:  eForms are optional and non-essential add-ons, separate from OSCAR, and with their own license terms.
+ eForms are not part of the OSCAR core program functionality and code base.
+ For this reason eForms are not subject to provincial validation testing and conformance criteria. 
+ eForms are also not subject to the ISO production process for OSCAR. -->
+
+<script>
+// For OSCAR to detect what files to include in the generated ZIP, the
+// filename must appear in the HTML document within quotation marks, with the ${oscar_image_path} in front of it;
+// this serves as a workaround to force the files to be included for ZIP exports.
+// Allows for appropriate import of all png files that are not referenced by BGImage tags
+// Place any needed image or js file names within the script tabs, inside double quotations, and to the right of the double slashes
+// "${oscar_image_path}VCH_Medical_Imaging_2010_Pg1.png"
+// "${oscar_image_path}VCH_Medical_Imaging_2010_Pg2.png"
+</script>
+
+
+<link rel="stylesheet" type="text/css" media="print" href="${oscar_image_path}JSMPC.css" />
+<script language="javascript" type="text/javascript" src="${oscar_image_path}datecalculator.js"></script>
+<script language="javascript" type="text/javascript" src="datecalculator.js"></script>
+<script language="javascript" type="text/javascript" src="${oscar_image_path}VCH_ImageLocations.js"></script>
+<script language="javascript" type="text/javascript" src="VCH_ImageLocations.js"></script>
+
+<!-- jQuery file for testing outside of OSCAR -->
+<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="jSignature.min.js"></script>
+<script language="javascript" type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<style>
+input {
+	-moz-box-sizing: content-box;
+	-webkit-print-color-adjust: exact;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box
+}
+
+.sig {
+	 border: 2px dotted blue;
+	 background: lightgrey;
+}
+</style>
+
+<style type="text/css" media="print">
+ .DoNotPrint {display: none;}
+ .noborder {
+	 border: 0px;
+	 background: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-arrow-color: transparent;
+	 scrollbar-base-color: transparent;
+	 scrollbar-darkshadow-color: transparent;
+	 scrollbar-face-color: transparent;
+	 scrollbar-highlight-color: transparent;
+	 scrollbar-shadow-color: transparent;
+	 scrollbar-track-color: transparent;
+	 overflow: hidden;
+}
+</style>
+
+<!-- Xbox styling -->
+<style type="text/css">
+.box1 {
+	position: absolute;
+	border: 1px solid #000000;
+	cursor: pointer;
+	font-weight: bold;
+	text-align: center;
+	background: yellow;
+	font-size: 14px;
+	width:16px;
+	height:16px;
+}
+.box2 {
+	position: absolute;
+	border: 1px solid #000000;
+	cursor: pointer;
+	font-weight: bold;
+	text-align: center;
+	background: yellow;
+	font-size: 10px;
+	width:12px;
+	height:12px;
+}
+</style>
+
+
+<script language="javascript" type="text/javascript">
+		/****************************
+		startup functions 
+		****************************/
+		function startUp() {			
+			setDocumentTitle('VCH Medical imaging',document.getElementById('PatientSurname').value);
+			changeImage('VCH_Medical_Imaging_2010_Pg1.png', 'BGImage1');
+			changeImage('VCH_Medical_Imaging_2010_Pg2.png', 'BGImage2');
+			setDefaults();
+			date();
+			CheckCopyTo();
+
+			//optimize window size/width
+			top.window.resizeTo(1190, screen.availHeight);
+		}
+
+		function resourceLink(resource, extension) {
+			// Takes two arguments -- the base filename and its extension -- and
+			// returns a string depending on whether the page has been opened
+			// locally or if it has been uploaded to OSCAR.
+			//
+			// Example usage: resourceLink('image1', 'png')
+			// Return value: 'image1.png' or '${oscar_image_path}image1.png'
+
+			var prefix = (window.location.href.toLowerCase().indexOf("http") != -1) ? '${oscar_image_path}' : '';
+
+			if (typeof extension === "undefined") {
+				var extension = '';
+			} else {
+				var extension = '.' + extension;
+			}
+
+			return prefix + resource + extension;
+		}
+
+		function selectorValue(selectId) {
+			return selectId.value;
+		}
+
+		function changeImage(img,imgId) {
+			// Changes the src value of an <img>.
+			document.getElementById(imgId).src = resourceLink(img)
+			document.getElementById(imgId).href = resourceLink(img)
+		}
+	
+		function setDocumentTitle(Title,PatientSurname) {
+			// set document title
+			document.title = Title + ' - ' + PatientSurname;							
+		}
+
+		function setDefaults() {	            
+			// check the newform flag to ensure this is the initial load of the form
+			if (document.getElementById("newForm").value == 'True') {
+				document.getElementById("Routine").value = 'X';
+				document.getElementById("ConsentYes").value = 'X';
+
+				contactChoice(getDefaultPhone()); // default contact phone is home
+				secondContactChoice(getSecondaryPhone());
+			}   
+		}
+
+
+		
+		/* 
+		- return default phone choice
+		- priority is: home, then cell, then work.
+		*/
+		function getDefaultPhone(){
+			const homePhone = document.getElementById("home").value;
+			const cellPhone = document.getElementById("cell").value;
+			const workPhone = document.getElementById("work").value;
+
+			if (homePhone != ""){
+				return "home_choice";
+			}
+			else if (cellPhone != ""){
+				return "cell_choice";
+			}
+			else if (workPhone != ""){
+				return "work_choice";
+			}
+			else { // all are empty strings
+				return "home_choice";
+			}
+		}
+
+		/* 
+		- return second phone choice, which is the preferred phone after the primary phone.
+		- priority is: home, then cell, then work.
+		*/
+
+		function getSecondaryPhone(){
+			const homePhone = document.getElementById("home").value;
+			const cellPhone = document.getElementById("cell").value;
+			const workPhone = document.getElementById("work").value;
+
+			if (homePhone != ""){ // primary phone is home phone
+				if (cellPhone != ""){
+					return "cell_choice";
+				}
+				else if (workPhone != ""){
+					return "work_choice";
+				}
+				else { // no secondary phone found
+					return "cell_choice";
+				}
+			}
+			else if (cellPhone != ""){ // primary phone is cell phone
+				if (workPhone != ""){
+					return "work_choice";
+				}
+				else { // no secondary phone found
+					return "home_choice";
+				}
+			}
+			else if (workPhone != ""){ // primary phone is work phone
+				return "home_choice";
+			}
+			else { // all are empty strings
+				return "home_choice";
+			}
+		}
+
+		/****************************
+			script for contact phone number choice
+		****************************/
+		function contactChoice(phoneChoice) {
+			const choice = phoneChoice.substring(0, phoneChoice.indexOf("_"));
+			const choice_firstLetter = "(" + phoneChoice.substring(0, 1).toUpperCase() + ")";
+			document.FormName.primaryPhone.value = document.getElementById(choice).value + ', ' + choice;
+		}
+
+		function secondContactChoice(phoneChoice) {
+			const choice = phoneChoice.substring(0, phoneChoice.indexOf("_"));
+			const choice_firstLetter = "(" + phoneChoice.substring(0, 1).toUpperCase() + ")";
+			document.FormName.secondaryPhone.value = document.getElementById(choice).value + ', ' + choice;
+		}
+
+		/****************************
+			submit and print functions 
+		****************************/
+		function printSubmit() {
+			// hide pop up items before print
+			printLetter();
+			releaseDirtyFlag();			
+			submission();
+		}
+
+		function printLetter() {
+			// hide the bottom buttons; disabled below
+			// if (document.getElementById('BottomButtons').style.display == '')
+				// document.getElementById('BottomButtons').style.display = 'none';
+			// print the letter
+			window.print();
+		} 
+
+		function submission() {
+			setFlag();
+			setTimeout('document.FormName.submit()',1000);			
+		}
+
+		function setFlag() {
+			// indicate that the form has been submitted
+		if (document.getElementById("newForm").value == 'True')
+			document.getElementById("newForm").value = 'False';
+		}
+		
+		function showButtons() {
+			//show the bottom buttons if they are hidden
+			if (document.getElementById("BottomButtons").style.display == 'none')
+				document.getElementById("BottomButtons").style.display = '';
+		}
+		
+		/****************************
+			checkbox functions 
+		****************************/
+		$( document ).ready(function() {
+			$('.XBox').prop("readonly","true");
+			$('.XBox').mousedown(function(evt) {
+				changeValue(evt.target);
+				});
+			$('.XBox').keydown(function(evt) {
+				displayKeyCode(evt);
+			});	
+		});
+
+		function changeValue(element) {
+			if (element.val == undefined) {
+			element = $(element); // Convert to jquery element
+		}
+			if (element.val() == '') {
+			element.val('X');
+			}
+			else {element.val('');}
+		}
+
+		function displayKeyCode(evt) {
+			var charCode = evt.which || evt.keyCode;
+			// any key press except tab will constitute a value change to the checkbox
+			if (charCode != 9) {
+				changeValue(evt.target);
+				return false;
+			}
+		}
+	
+		/****************************
+			Yes-No functions 
+		****************************/
+		function changeYes_No(x) {
+			if (document.getElementById(x).value == '')
+				document.getElementById(x).value = 'Y';
+			else if (document.getElementById(x).value == 'Y')
+				document.getElementById(x).value = 'N';
+			else
+				document.getElementById(x).value = '';
+		}
+	
+		/****************************
+			Circle function 
+		****************************/
+		function changeValueO(x) {
+			// to draw circles
+			if (document.getElementById(x).value == '')
+				document.getElementById(x).value = 'O';
+			else
+				document.getElementById(x).value = '';
+		}
+	
+		/****************************
+			scripts to confirm closing of window if it has not been saved yet
+		****************************/
+			//keypress events trigger dirty flag
+			var needToConfirm = false;
+			document.onkeyup=setDirtyFlag;
+		function setDirtyFlag() {
+			needToConfirm = true;
+		}
+	
+		function releaseDirtyFlag() {
+			needToConfirm = false; //Call this function if does not require an alert.
+			//this could be called when save button is clicked
+		}
+				window.onbeforeunload = confirmExit;
+	
+		function confirmExit() {
+			if (needToConfirm) {
+			return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+			}
+		}
+
+		/****************************
+			Check for gender 
+		****************************/
+		function checkGender() {
+			if (document.getElementById("Gender").value == 'M') {
+			document.getElementById("Male").value = 'X';
+			}
+			else if (document.getElementById("Gender").value == 'F') {
+			 document.getElementById("Female").value = 'X';
+			}
+		}
+
+		/****************************
+			Check for date of last test result
+		****************************/
+		function date() {
+			var digital = new Date();
+			var days = digital.getDate();
+			var months = (digital.getMonth()*1 +1)*30.4;
+			var years = (digital.getFullYear())*365;
+			var dToday = days+months+years;
+			var myString2= document.getElementById("eGFRDate").value; 	
+			if (myString2> "0") { 
+			var mySplitResult2 = myString2.split("-");
+			var aeGFR= mySplitResult2[0]*365;
+			var beGFR= mySplitResult2[1]*30.4;
+			var feGFR= mySplitResult2[2];
+			var geGFR= feGFR.split(" ");
+			var ceGFR= geGFR[0];
+			var deGFR= (aeGFR*1)+(beGFR*1)+(ceGFR*1);
+			var eeGFR= dToday - deGFR;
+			}	
+			// eeGFR = days since last eGFR test
+			if (eeGFR <= 90) {
+			document.getElementById("eGFRDate2").style.background='#9AFF9A';
+			document.getElementById("eGFRDate2").value = (Math.round(eeGFR));
+			}	
+			if (eeGFR >= 91) {
+			document.getElementById("eGFRDate2").style.background='#C6B5DE';
+			document.getElementById("eGFRDate2").value = (Math.round(eeGFR));
+			}	
+			if ((document.getElementById ("eGFR").value == "> 120") || (document.getElementById ("eGFR").value >= 60)) {
+			document.getElementById("eGFR2").style.background='#9AFF9A';
+			}	
+			if (document.getElementById ("eGFR").value <60) {
+			document.getElementById("eGFR2").style.background='#FF0000';
+			document.getElementById("labreq").style.background='#FF0000';
+			document.getElementById("CKD_Yes").style.background='#FF0000';
+			document.getElementById("CKD_Yes").value = 'X';
+			document.getElementById("CKD_No").value = '';
+			}
+		}
+
+		/****************************
+			scripts to copy regular GP if locum or other physician has ordered lab
+			also cc to referral doc for specialists
+		****************************/
+		function CheckCopyTo() {
+			if (document.getElementById("PhysicianName").value != document.getElementById("PatientMD").value)
+				(document.getElementById("CopyTo").value = document.getElementById("PatientMD").value + ' - ' + document.getElementById("PatientMD_MSP").value + ', ' + document.getElementById("ReferralMD").value + ' - ' + document.getElementById("ReferralMD_MSP").value);
+			else (document.getElementById("CopyTo").value = document.getElementById("ReferralMD").value + ' ' + document.getElementById("ReferralMD_MSP").value);
+		}	
+
+		function start() {
+			//Check to see if DM
+			if ((document.getElementById("DMT").value == '')) {
+			document.FormName.DiabeticNo.value='X';
+			document.FormName.DiabeticYes.value='';
+			}
+			if ((document.getElementById("DMT").value == 'No')||(document.getElementById("DMT").value == 'Yes')||(document.getElementByI	("DMT").value == 'NotApplicable')) {
+			document.FormName.DiabeticYes.value='X';
+			document.FormName.DiabeticNo.value='';
+			}
+			if (document.getElementById("A1C").value >6.2) {
+			document.FormName.DiabeticYes.value='X';
+			document.FormName.DiabeticNo.value='';
+			}	
+			//Check to see if Pregnant
+			if ((document.getElementById("EDD").value == '')) {
+			document.FormName.PregnantNo.value='X';
+			document.FormName.PregnantYes.value='';
+			}
+			if ((document.getElementById("EDD").value < document.getElementById("Today").value)) {
+			document.FormName.PregnantNo.value='X';
+			document.FormName.PregnantYes.value='';
+			}
+			if ((document.getElementById("EDD").value > document.getElementById("Today").value)) {
+			document.FormName.PregnantNo.value='';
+			document.FormName.PregnantYes.value='X';
+			document.FormName.CopyTo.value+=', Caseroom';
+			}	
+			var Drug = /METFORMIN/;
+			var string1 = document.getElementById("Meds").value;
+			var match = string1.search(Drug);
+			if (match != -1)
+			document.FormName.MetforminYes.value='X';
+			else
+			document.FormName.MetforminNo.value='X';	
+			var Drug2 = /WARFARIN/;
+			var string2 = document.getElementById("Meds").value;
+			var match = string2.search(Drug2);
+			if(match != -1) {
+			document.FormName.AnticoagulantNo.value='';
+			document.FormName.AnticoagulantYes.value='X';
+			}
+			else {
+			document.FormName.AnticoagulantNo.value='X';
+			document.FormName.AnticoagulantYes.value='';
+			}
+		}	
+
+		function orderUS() {
+			var EDD = Date.parse(document.getElementById("EDD").value);
+			var GA1 = parseInt(document.getElementById("GA1").value);
+			var GA2 = parseInt(document.getElementById("GA2").value);
+			var GA3 = parseInt(document.getElementById("GA3").value);	
+			if (GA1) {
+			var EDD1 = EDD.clone();
+			var USDate1 = EDD1.addWeeks(-40).addWeeks(GA1).toString('MMM dd, yyyy');
+			var Text1 = "For week " + GA1 + " ultrasound around " + USDate1 + ".";
+			document.getElementById("RelevantHistory").value += Text1;
+			}
+			if (GA2) {
+			var EDD2 = EDD.clone();
+			var USDate2 = EDD2.addWeeks(-40).addWeeks(GA2).toString('MMM dd, yyyy');
+			var Text2 = " For week " + GA2 + " ultrasound around " + USDate2 + ".";
+			document.getElementById("RelevantHistory").value += Text2;
+			}
+			if (GA3) {
+			var EDD3 = EDD.clone();
+			var USDate3 = EDD3.addWeeks(-40).addWeeks(GA3).toString('MMM dd, yyyy');
+			var Text3 = " For week " + GA3 + " ultrasound around " + USDate3 + ".";
+			document.getElementById("RelevantHistory").value += Text3;
+			}
+		}
+			//script to close quick select menu
+		var persistclose=0 //set to 0 or 1. 1 means once the bar is manually closed, it will remain closed for browser session	
+		function closebar() {
+			if (persistclose)
+			document.cookie="remainclosed=1"
+			document.getElementById("LabQuickSelect").style.visibility='hidden';
+			document.getElementById("LabQuickSelect").style.display='none';
+		}	
+
+		function addSubject() {
+			var Exam = document.FormName.ExamRequestedText.value;
+			var Site = document.FormName.HospitalSite.value;
+			if (Site == '') {
+			document.FormName.subject.value += Exam;
+			}
+			else
+			document.FormName.subject.value += Exam + '-' + Site;
+		}	
+</script>
+</head>
+
+<body onload="checkGender(); startUp(); start();" onMouseDown="showButtons();">
+<form method="post" action="" name="FormName" id="FormName">
+
+<div id="page1" style="position:relative; left:0px; top:0px; width:850px;" class="pagebreak">
+<img id="BGImage1" src="VCH_Medical_Imaging_2010_Pg1.png" style="position:relative; left:0px; top:0px;">	
+
+<!-- Hidden Inputs for contact phone -->
+<input type="hidden" name="home" id="home" oscarDB=phone>
+<input type="hidden" name="cell" id="cell" oscarDB=cell>
+<input type="hidden" name="work" id="work" oscarDB=phone2>
+
+<!-- CopyTo hidden tags -->
+<input type="hidden" name="PatientMD" id="PatientMD" oscarDB=doctor>
+<input type="hidden" name="PatientMD_MSP" id="PatientMD_MSP" oscarDB=doctor_ohip_no>
+<input type="hidden" name="ReferralMD" id="ReferralMD" oscarDB=referral_name>
+<input type="hidden" name="ReferralMD_MSP" id="ReferralMD_MSP" oscarDB=referral_no>
+<input type="hidden" name="PhysicianName" id="PhysicianName" oscarDB=current_user>
+
+<input type="hidden" name="PatientSurname" id="PatientSurname" oscarDB=patient_nameL>
+<input type="hidden" name="CKD" id="CKD" oscarDB=m$EGFR#value>
+<input type="hidden" name="DMT" id="DMT" oscarDB=m$DMME#value>
+<input type="hidden" name="A1C" id="A1C" oscarDB=m$A1C#value>
+<input type="hidden" name="Meds" id="Meds" oscarDB=druglist_generic>
+<input type="hidden" name="Today" id="Today" oscardb=today>
+<input type="hidden" name="Gender" id="Gender" oscarDB=sex>
+
+<input name="Location" id="Location" type="text" class="noborder" style="position:absolute; left:68px; top:-6px; width:765px; font-family:Arial; font-size:15px;" value="">
+
+<!-- Modality -->
+<input name="Xray" id="Xray" type="text" class="Xbox box1" style="left:224px; top:56px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.ExamRequestedText.value ='X-ray ';">
+
+<input name="CT" id="CT" type="text" class="Xbox box1" style="left:295px; top:56px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.ExamRequestedText.value ='CT ';">
+
+<input name="Ultrasound" id="Ultrasound" type="text" class="Xbox box1" style="left:347px; top:56px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.ExamRequestedText.value ='US ';">
+
+<input name="Echo" id="Echo" type="text" class="Xbox box1" style="left:442px; top:56px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.ExamRequestedText.value ='Echo ';">
+
+<input name="Angio_IR" id="Angio_IR" type="text" class="Xbox box1" style="left:505px; top:56px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.ExamRequestedText.value ='Angio-Interventional ';">
+
+<input name="Nuclear_Med" id="Nuclear_Med" type="text" class="Xbox box1" style="left:688px; top:56px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.ExamRequestedText.value ='Nuclear Medicine ';">
+
+<input name="AnySite" id="AnySite" type="text" class="Xbox box1" style="left:134px; top:85px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
+<input name="HospitalSite" id="HospitalSite" type="text" class="noborder" style="position:absolute; left:253px; top:83px; width:160px; font-family:Arial; font-size:14px; font-weight:bold; text-align:center; background:transparent;">
+
+<input name="ApptDate" type="text" class="noborder" style="position:absolute; left:543px; top:83px; width:160px; font-family:Arial; font-size:14px; font-weight:bold; background:transparent;" value="">
+<input name="ApptTime" type="text" class="noborder" style="position:absolute; left:753px; top:83px; width:80px; font-family:Arial; font-size:14px; font-weight:bold; background:transparent;" value="">
+
+<!-- top left label -->
+<input name="PHN" type="text" class="noborder" style="position:absolute; left:133px; top:104px; width:140px; font-family:Arial; font-size:14px; text-align:center; background:transparent;" oscardb=HIN>
+<input name="ICBC" type="text" class="noborder" style="position:absolute; left:315px; top:104px; width:140px; font-family:Arial; font-size:14px; text-align:center; background:transparent;">
+<input name="WSBC" type="text" class="noborder" style="position:absolute; left:133px; top:126px; width:140px; font-family:Arial; font-size:14px; text-align:center; background:transparent;">
+<input name="Other_Ins" type="text" class="noborder" style="position:absolute; left:315px; top:126px; width:140px; font-family:Arial; font-size:14px; text-align:center; background:transparent;">
+
+<input name="PatientName" id="PatientName" type="text" class="noborder" style="position:absolute; left:145px; top:147px; width:310px; font-family:Arial; font-size:14px; background:transparent;" oscarDB=patient_name>
+
+<textarea name="addressLine" type="text" class="noborder" style="position:absolute; left:160px; top:171px; width:295px; height:40px; font-family:Arial; font-size:14px; background:transparent; text-decoration:underline;" oscardb=addressLine></textarea>
+
+<input name="primaryPhone" id="primaryPhone" type="text" class="noborder" style="position:absolute; left:128px; top:215px; width:145px; font-family:Arial; font-size:14px; background:transparent;" >
+<input name="secondaryPhone" id="secondaryPhone" type="text" class="noborder" style="position:absolute; left:316px; top:215px; width:139px; font-family:Arial; font-size:14px; background:transparent;" >
+
+<input name="DateOfBirth" type="text" class="noborder" style="position:absolute; left:183px; top:236px; width:175px; font-family:Arial; font-size:14px; background:transparent; text-decoration:underline;" oscardb=dob>
+
+<input name="Male" id="Male" type="text" class="Xbox box1" style="left:397px; top:238px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
+<input name="Female" id="Female" type="text" class="Xbox box1" style="left:435px; top:238px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
+
+<input name="LocationOfPreviousFilm" type="text" class="noborder" style="position:absolute; left:268px; top:260px; width:187px; font-family:Arial; font-size:14px; background:transparent;" value="">
+
+<span name="warning" class="DoNotPrint" style="position:absolute; left:465px; top:110px; width:365px; height:110px; font-family:Arial; font-size:32px; font-weight:bold; color:red; background:yellow; ">Phone to book all appointments until further notice</span>
+
+
+<!-- Medical Imaging label and details -->
+<input name="Nurse" id="Nurse" type="text" class="Xbox box1" style="left:586px; top:222px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
+<input name="Porter" id="Porter" type="text" class="Xbox box1" style="left:674px; top:222px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
+<input name="Volunteer" id="Volunteer" type="text" class="Xbox box1" style="left:749px; top:222px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
+
+<input name="Wheelchair" id="Wheelchair" type="text" class="Xbox box1" style="left:586px; top:243px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
+<input name="Strethcer" id="Strethcer" type="text" class="Xbox box1" style="left:674px; top:243px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
+<input name="Bed" id="Bed" type="text" class="Xbox box1" style="left:749px; top:243px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
+
+<input name="Oxygen" id="Oxygen" type="text" class="Xbox box1" style="left:518px; top:265px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
+<input name="Isolation" id="Isolation" type="text" class="Xbox box1" style="left:586px; top:265px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
+<input name="Portable" id="Portable" type="text" class="Xbox box1" style="left:674px; top:265px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
+<input name="IV_Pump" id="IV_Pump" type="text" class="Xbox box1" style="left:749px; top:265px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
+
+<textarea name="ExamRequestedText" id="ExamRequestedText" type="text" style="position:absolute; left:104px; top:302px; width:630px; height:36px; font-family:Arial; font-size:14px; font-weight:bold; background:transparent;" class="noborder"></textarea>
+
+<input name="Routine" id="Routine" type="text" class="Xbox box1" style="left:744px; top:305px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.Urgent.value=''; document.FormName.Emergency.value='';">
+<input name="Urgent" id="Urgent" type="text" class="Xbox box1" style="left:744px; top:322px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.Routine.value=''; document.FormName.Emergency.value='';">
+<input name="Emergency" id="Emergency" type="text" class="Xbox box1" style="left:744px; top:339px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.Routine.value=''; document.FormName.Urgent.value='';">
+
+<input name="ConsentYes" id="ConsentYes" type="text" class="Xbox box1" style="left:230px; top:367px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.ConsentNo.value='';">
+<input name="ConsentNo" id="ConsentNo" type="text" class="Xbox box1" style="left:272px; top:367px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.ConsentYes.value='';">
+
+<!-- Hx Meds -->
+<input name="DiabeticYes" id="DiabeticYes" type="text" class="Xbox box1" style="left:192px; top:397px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.DiabeticNo.value='';">
+<input name="DiabeticNo" id="DiabeticNo" type="text" class="Xbox box1" style="left:238px; top:397px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.DiabeticYes.value='';">
+
+<input name="MetforminYes" id="MetforminYes" type="text" class="Xbox box1" style="left:192px; top:415px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.MetforminNo.value='';">
+<input name="MetforminNo" id="MetforminNo" type="text" class="Xbox box1" style="left:238px; top:415px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.MetforminYes.value='';">
+
+<input name="BreastFedYes" id="BreastFedYes" type="text" class="Xbox box1" style="left:192px; top:433px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.BreastFedNo.value='';">
+<input name="BreastFedNo" id="BreastFedNo" type="text" class="Xbox box1" style="left:238px; top:433px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.BreastFedYes.value='';">
+
+<input name="PregnantYes" id="PregnantYes" type="text" class="Xbox box1" style="left:192px; top:451px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.PregnantNo.value='';">
+<input name="PregnantNo" id="PregnantNo" type="text" class="Xbox box1" style="left:238px; top:451px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.PregnantYes.value='';">
+
+<input name="LMP" id="LMP" type="text" class="noborder" style="position:absolute; left:134px; top:464px; width:160px; font-family:Arial; font-size:14px; background:transparent; text-decoration:underline;" oscarDB=m$LMP#value>
+
+<input id="Gravida" name="m$G#value" type="text" class="noborder" style="position:absolute; left:119px; top:481px; width:30px; font-family:Arial; font-size:14px; text-align:center; background:transparent; text-decoration:underline;" oscardb=m$G#value>
+<input id="Para" name="m$P#value" type="text" class="noborder" style="position:absolute; left:184px; top:481px; width:30px; font-family:Arial; font-size:14px; text-align:center; background:transparent; text-decoration:underline;" oscardb=m$P#value>
+<input id="Abortio" name="m$OBA#value" type="text" class="noborder" style="position:absolute; left:249px; top:481px; width:30px; font-family:Arial; font-size:14px; text-align:center; background:transparent; text-decoration:underline;" oscardb=m$OBA#value>
+
+<input name="HT" id="HT" type="text" class="noborder" style="position:absolute; left:144px; top:498px; width:50px; font-family:Arial; font-size:14px; background:transparent; text-decoration:underline;" oscarDB=m$HT#value>
+<input name="WT" id="WT" type="text" class="noborder" style="position:absolute; left:244px; top:498px; width:50px; font-family:Arial; font-size:14px; background:transparent; text-decoration:underline;" oscarDB=m$WT#value>
+
+<textarea name="HxContrastAllergy" type="text" class="noborder" style="position:absolute; left:104px; top:534px; width:190px; height:90px; font-family:Arial; font-size:14px; font-weight:bold; background:transparent;"></textarea>
+
+<span style="position:absolute; left:635px; top:397px; font-family:sans-serif; font-size:14px;"><b>Request date:</b></span>
+<input name="ReqDate" type="text" class="noborder" style="position:absolute; left:740px; top:395px; width:90px; font-family:Arial; font-size:14px; font-weight:bold; background:transparent;" oscardb=today>
+
+<textarea name="RelevantHistory" id="RelevantHistory" type="text" class="noborder" style="position:absolute; left:305px; top:412px; width:525px; height:160px; font-family:Arial; font-size:14px; background:transparent;"></textarea>
+
+<!-- Physician Info -->
+<span style="position:absolute; left:308px; top:582px; font-family:sans-serif; font-size:14px;">Physician:</span>
+<input name="PhysicianName" id="PhysicianName" type="text" class="noborder" style="position:absolute; left:380px; top:580px; width:205px; font-family:Arial; font-size:14px; background:transparent;" oscardb=current_user>
+
+<span style="position:absolute; left:478px; top:607px; font-family:sans-serif; font-size:14px;">MSP:</span>
+<input name="BillingNumber" type="text" style="position:absolute; left:527px; top:605px; width:58px; font-family:Arial; font-size:14px; background:transparent;" class="noborder" oscarDB=current_user_ohip_no>
+
+<span style="position:absolute; left:600px; top:582px; font-family:sans-serif; font-size:14px;">Phone:</span>
+<input name="ClinicPhone" type="text" oscardb=clinic_phone style="position:absolute; left:655px; top:580px; width:175px; font-family:Arial; font-size:14px; background:transparent;" class="noborder">
+
+<span style="position:absolute; left:617px; top:607px; font-family:sans-serif; font-size:14px;">Fax:</span>
+<input name="ClinicFax" type="text" oscardb=clinic_fax style="position:absolute; left:655px; top:605px; width:175px; font-family:Arial; font-size:14px; background:transparent;" class="noborder">
+
+<span style="position:absolute; left:308px; top:607px; font-family:sans-serif; font-size:14px;"><b><i>"Electronically signed"</i></b></span>
+
+<input name="CopyTo" id="CopyTo" type="text" style="position:absolute; left:108px; top:640px; width:722px; font-family:Arial; font-size:14px; background:transparent;" class="noborder">
+
+<!-- CT Scan Info -->
+<input value="Lab Requisition" class="DoNotPrint" type="button" name="labreq" id="labreq" style="position:absolute; left:410px; top:660px; background:lightskyblue;" oscarOPEN="1.1 Lab Requisition">
+
+<input name="CKD_Yes" id="CKD_Yes" type="text" class="Xbox box1" style="left:266px; top:675px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.CKD_No.value='';">
+<input name="CKD_No" id="CKD_No" type="text" class="Xbox box1" style="left:309px; top:675px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.CKD_Yes.value='';">
+
+<input name="L_Sp_Sx_Yes" id="L_Sp_Sx_Yes" type="text" class="Xbox box1" style="left:566px; top:675px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.L_Sp_Sx_No.value='';">
+<input name="L_Sp_Sx_No" id="L_Sp_Sx_No" type="text" class="Xbox box1" style="left:611px; top:675px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.L_Sp_Sx_Yes.value='';">
+
+<input name="eGFR" id="eGFR" type="text" style="position:absolute; left:229px; top:714px; width:60px; font-family:Arial; font-size:14px; text-align:center; background:transparent;" class="noborder" oscarDB=m$EGFR#value>
+<input name="eGFR2" id="eGFR2" type="text" class="DoNotPrint" style="position:absolute; left:296px; top:714px; width:20px; height:16px;">
+<input name="eGFRDate" id="eGFRDate" type="text" style="position:absolute; left:384px; top:714px; width:77px; font-family:Arial; font-size:14px; background:transparent;" class="noborder" oscarDB=m$EGFR#dateObserved>
+<input name="eGFRDate2" id="eGFRDate2" type="text" class="DoNotPrint" style="position:absolute; left:474px; top:714px; width:35px; height:16px; font-family: Arial; font-size:14px; text-align:center; background:transparent;">
+<span class="DoNotPrint" style="position:absolute; left:519px; top:716px; font-family:Arial; font-size:12px; color:green; background:transparent;">(Days since last test)</span>
+
+<input name="Creatinine" type="text" class="noborder" style="position:absolute; left:229px; top:739px; width:60px; font-family:Arial; font-size:14px; text-align:center; background:transparent;" oscarDB=m$SCR#value>
+<input name="CreatinineDate" type="text" class="noborder" style="position:absolute; left:384px; top:739px; width:77px; font-family:Arial; font-size:14px; background:transparent;" oscarDB=m$SCR#dateObserved>
+
+<!-- Biopsy/Angio/IR procedure Info -->
+<input name="INR_Bx" id="INR_Bx" type="text" style="position:absolute; left:134px; top:779px; width:60px; font-family:Arial; font-size:14px; text-align:center; background:transparent;" class="noborder" oscarDB=m$INR#value>
+<input name="INRDate_Bx" id="INRDate_Bx" type="text" style="position:absolute; left:309px; top:779px; width:77px; font-family:Arial; font-size:14px; background:transparent;" class="noborder" oscarDB=m$INR#dateObserved>
+
+<input name="AnticoagulantYes" id="AnticoagulantYes" type="text" class="Xbox box1" style="left:748px; top:779px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.AnticoagulantNo.value='';">
+<input name="AnticoagulantNo" id="AnticoagulantNo" type="text" class="Xbox box1" style="left:790px; top:779px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.AnticoagulantYes.value='';">
+
+<input name="PTL_Bx" id="PTL_Bx" type="text" style="position:absolute; left:174px; top:798px; width:60px; font-family:Arial; font-size:14px; text-align:center; background:transparent;" class="noborder" oscarDB=m$PLT#value>
+<input name="PLTDate_Bx" id="PLTDate_Bx" type="text" style="position:absolute; left:309px; top:798px; width:77px; font-family:Arial; font-size:14px; background:transparent;" class="noborder" oscarDB=m$PLT#dateObserved>
+
+<input name="eGFR_Bx" id="eGFR_Bx" type="text" style="position:absolute; left:144px; top:817px; width:60px; font-family:Arial; font-size:14px; text-align:center; background:transparent;" class="noborder" oscarDB=m$EGFR#value>
+<input name="eGFR_Bx_2" id="eGFR_Bx_2" type="text" class="DoNotPrint" style="position:absolute; left:210px; top:817px; width:16px;">
+<input name="eGFRDate_Bx" id="eGFRDate_Bx" type="text" style="position:absolute; left:309px; top:817px; width:77px; font-family:Arial; font-size:14px; background:transparent;" class="noborder" oscarDB=m$EGFR#dateObserved>
+<input name="eGFRDate_Bx_2" id="eGFRDate_Bx_2" type="text" class="DoNotPrint" style="position:absolute; left:395px; top:817px; width:35px; font-family: Arial; font-size:14px; text-align:center; background:transparent;">
+<span class="DoNotPrint" style="position:absolute; left:444px; top:819px; font-family:Arial; font-size:12px; color:green; background:transparent;">(Days since last test)</span>
+
+<input name="Creatinine_Bx" type="text" class="noborder" style="position:absolute; left:169px; top:836px; width:60px; font-family:Arial; font-size:14px; text-align:center; background:transparent;" oscarDB=m$SCR#value>
+<input name="CreatinineDate_Bx" type="text" class="noborder" style="position:absolute; left:309px; top:836px; width:77px; font-family:Arial; font-size:14px; background:transparent;" oscarDB=m$SCR#dateObserved>
+</div>
+
+<!-- The submit/print/reset buttons -->
+<div class="DoNotPrint" id="BottomButtons" style="position:absolute; left:75px; top:1100px;">
+	<table><tr style="background:#e5f2ff;"><td>
+		<input type="hidden" id="newForm" name="newForm" value="True" />
+		Subject: <input name="subject" size="40" type="text">
+		<input value="Submit" name="SubmitButton" id="SubmitButton" type="button" onclick="addSubject(); releaseDirtyFlag(); document.FormName.submit()">
+		<input value="Reset" name="ResetButton" id="ResetButton" type="reset" onClick="history.go(0);">
+		<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="printLetter();">
+		<input value="Print and Submit" name="PrintSubmitButton" type="button" onClick="addSubject(); printSubmit();">
+	</td></tr></table>
+</div>
+
+<!-- Quick Select menu items -->
+<div id="LabQuickSelect" class="DoNotPrint" style="position:absolute; left:850px; top:2px; width:290px; background:LightYellow; border:solid black 1px; padding:2px; font-size:12;">
+<u>LOCATION:</u><br>
+
+<select id="LabList">
+	<option onClick="document.FormName.Location.value = '';">Choose a location</option>
+	<option onClick="Bella_Coola();">Bella Coola</option>
+	<option onClick="LGH_XR();">Lions Gate - XR</option>
+	<option onClick="LGH_CT();">Lions Gate - CT</option>
+	<option onClick="LGH_MRI();">Lions Gate - MRI</option>
+	<option onClick="LGH_NucMed_BMD();">Lions Gate - NucMed-BMD</option>
+	<option onClick="LGH_US_Echo();">Lions Gate - US-Echo</option>
+	<option onClick="LGH_SMP();">Lions Gate - SMP</option>
+	<option onClick="Pemberton();">Pemberton</option>
+	<option onClick="PRGH();">Powell River</option>
+	<option onClick="Richmond_XR_CT_etc();">Richmond - XR-CT-NucMed-US</option>
+	<option onClick="Richmond_Mammo();">Richmond - Diag Mammo</option>
+	<option onClick="Bella_Bella();">Bella Bella</option>
+	<option onClick="Squamish();">Squamish</option>
+	<option onClick="Sechelt();">Sechelt</option>
+	<option onClick="Sechelt_CT();">Sechelt - CT</option>
+	<option onClick="UBC_CT_XR_Angio_US();">UBC - CT-XR-Angio-US-Echo</option>
+	<option onClick="UBC_NucMed();">UBC - NucMed</option>
+	<option onClick="VGH_Angio_CT();">VGH - Angio-CT</option>
+	<option onClick="VGH_GI_GU_litho();">VGH - GI-GU-litho</option>
+	<option onClick="VGH_Diamond();">VGH Diamond Ctr</option>
+	<option onClick="VGH_NucMed_BMD();">VGH - NucMed-BMD</option>
+	<option onClick="VGH_US();">VGH - US</option>
+	<option onClick="VGH_XR();">VGH - XR</option>
+	<option onClick="Whistler();">Whistler</option>
+</select>
+
+&nbsp;<a id="BGImage2" href="" target="_blank">Print Locations</a><br>
+
+<b>TYPE OF PROCEDURES(s):</b><br>
+<u>Prenatal US:</u><br>
+	<input name="MatUS" type="checkbox"
+	onClick="orderUS();
+		document.FormName.PregnantYes.value='X';
+		document.FormName.PregnantNo.value='';
+		document.FormName.Ultrasound.value='X';
+		document.FormName.ExamRequestedText.value+='Prenatal Ultrasound ';
+		document.FormName.RelevantHistory.value+= ' Patient is pregnant';  
+	">Ultrasound for Week(s) #:<br>
+
+	<input type="text" name="GA1" id="GA1" style="width:25px; text-align:center;" value="18">
+	<input type="text" name="GA2" id="GA2" style="width:25px; text-align:center;">
+	<input type="text" name="GA3" id="GA3" style="width:25px; text-align:center;"><br>
+	Calculate using EDD of (yyyy-mm-dd):<br>
+	<input type="text" name="EDD" id="EDD" style="width:75px; text-align:center;" oscarDB=m$EDD#value><br>
+	<input name="Routine 18 week Obstetrical US" type="checkbox"
+	onClick="
+		orderUS();
+		document.FormName.Ultrasound.value='X';
+		document.FormName.ExamRequestedText.value+= 'Routine 18 week detailed Obstetrical Ultrasound ';
+		document.FormName.PregnantYes.value='X';
+		document.FormName.PregnantNo.value='';
+		document.FormName.RelevantHistory.value= 'For detailed second trimester scan. Please do the ultrasound on or around this date. Thank you. ';
+	">Routine 18 week Obstetrical US<br>
+<u>Modality:</u><br>
+	<input name="Xray_box" type="checkbox"
+	onClick="
+		document.FormName.Xray.value='X';
+		document.FormName.ExamRequestedText.value+= 'X-ray ';
+	">X-ray
+
+	<input name="CT_box" type="checkbox"
+	onClick="
+		document.FormName.CT.value='X';
+		document.FormName.ExamRequestedText.value+= 'CT ';
+	">CT
+
+	<input name="Ultrasound_box" type="checkbox"
+	onClick="
+		document.FormName.Ultrasound.value='X';
+		document.FormName.ExamRequestedText.value+= 'Ultrasound ';
+	">Ultrasound
+
+	<input name="SpecialProcedures_box" type="checkbox"
+	onClick="
+		document.FormName.Ultrasound.value='X';
+		document.FormName.ExamRequestedText.value+= 'Doppler ';
+	">Doppler<br>
+
+	<input name="BariumEnema_box" type="checkbox"
+	onClick="
+		document.FormName.Xray.value='X';
+		document.FormName.ExamRequestedText.value+= 'Barium Enema ';
+	">Barium Enema
+
+	<input name="ES&D_box" type="checkbox"
+	onClick="
+		document.FormName.Xray.value='X';
+		document.FormName.ExamRequestedText.value+= 'ES&D ';
+	">ES&D<br>
+
+<u>Side:</u><br>
+	<input name="Left" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'left ';">Left
+	<input name="Right" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'right ';">Right
+	<input name="bilateral" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'bilateral ';">Bilateral<br>
+
+<u>Body Part(s):</u><br>
+	<!-- Body Part -->
+	<input name="Head" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'head ';">Head
+	<input name="Sinuses" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'sinuses ';">Sinuses
+	<input name="Carotids" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'carotids ';">Carotids<br>
+
+	<input name="Chest" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'chest ';">Chest
+	<input name="Abdomen" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'abdomen ';">Abdomen
+	<input name="Pelvis" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'pelvis ';">Pelvis
+	<input name="Obstetrical" type="checkbox"
+	onClick="
+		document.FormName.ExamRequestedText.value+= 'Obstetrical ';
+		document.FormName.PregnantYes.value='X';
+		document.FormName.PregnantNo.value='';
+	">Obstetrical<br>
+
+	<input name="Cspine" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'C-spine ';">C-spine
+	<input name="Tspine" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'T-spine ';">T-spine
+	<input name="Lspine" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'L-spine ';">L-spine<br>
+
+	<input name="Shoulder" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'shoulder ';">Shoulder
+	<input name="Humerus" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'humerus ';">Humerus
+	<input name="Elbow" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'elbow ';">Elbow
+	<input name="forearm" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'forearm ';">Forearm<br>
+
+	<input name="Wrist" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'wrist ';">Wrist
+	<input name="Scaphoid" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'scaphoid ';">Scaphoid
+	<input name="Hand" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'hand ';">Hand<br>
+
+	<input name="Hip" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'hip ';">Hip
+	<input name="femur" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'femur ';">Femur
+	<input name="knee" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'knee ';">Knee<br>
+
+	<input name="LowerLeg" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'lower leg ';">Lower leg
+	<input name="ankle" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'ankle ';">Ankle
+	<input name="Foot" type="checkbox"
+	onClick="document.FormName.ExamRequestedText.value+= 'foot ';">Foot<br>
+
+<b>REASON FOR EXAMINATION:</b><br>
+	<input name="pain" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= 'pain ';">pain
+	<input name="Swollen" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= 'swollen ';">swollen
+	<input name="DecreasedROM" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= 'decreased ROM ';">decreased ROM	
+	<input name="fall" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= 'fall ';">fall<br>
+
+	<input name="FOOSH" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= 'FOOSH ';">FOOSH
+	<input name="Trauma" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= 'trauma ';">trauma
+	<input name="Fracture" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= '?fracture ';">?fracture
+	<input name="Dislocation" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= '?dislocation ';">?dislocation<br>
+
+	<input name="OA" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= '?OA ';">?OA
+	<input name="DVT" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= 'Rule out DVT ';">?DVT<br>
+
+	<input name="chronicCough" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= 'chronic cough ';">chronic cough
+	<input name="Pneumonia" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= '?pneumonia ';">?pneumonia
+	<input name="bruit" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= 'bruit ';">bruit<br>
+
+	<input name="GERD" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= 'GERD ';">GERD
+	<input name="ChangeInBM" type="checkbox"
+	onClick="document.FormName.RelevantHistory.value+= 'change in bowel habits ';">Change In Bowel Habits<br>
+
+<b>TEST PROTOCOL:</b><br>
+	<input name="US_Abdomen" type="checkbox" 
+	onClick="
+	document.FormName.RelevantHistory.value += 'INSTRUCTIONS: Have a fat free supper the night before. Nothing to eat or drink from midnight until after completion of exam.';
+	">US ABDOMEN<br>
+
+	<input name="US_Abd_Pel" type="checkbox" 
+	onClick="
+		document.FormName.RelevantHistory.value += 'INSTRUCTIONS: Have a fat free supper the night before. Nothing to eat or drink from midnight. Empty your bladder 2 hours before exam. Immediately drink four 8 oz. (250ml) glasses of fluid (not milk). Do not void until after exam.';
+	">US ABDOMEN AND PELVIC<br>
+
+	<input name="US_Renal" type="checkbox" 
+	onClick="
+		document.FormName.RelevantHistory.value += 'INSTRUCTIONS: Do not empty your bladder for 2 hrs. prior to exam.';
+	">US RENAL<br>
+
+    <input name="US_Pel_Obs" type="checkbox" 
+	onClick="
+		document.FormName.RelevantHistory.value += 'INSTRUCTIONS: Empty your bladder 2 hours before exam. Immediately drink four 8 oz. (250 ml) glasses of fluid (not milk). Do not void until after exam.';
+	">US PELVIC OR OBSTETRIC<br>
+
+	<input name="Hysterosalpingogram" type="checkbox" 
+	onClick="
+		document.FormName.RelevantHistory.value += 'INSTRUCTIONS: Abstain from sexual intercourse from the first day of menstrual period until the examination has been completed. Examination time is approx. 30 min.';
+	">HYSTEROSALPINGOGRAM<br>
+
+	<input name="US_Thyroid_Breast_Scrotal_Other" type="checkbox" 
+	onClick="
+		document.FormName.RelevantHistory.value += 'INSTRUCTIONS: No preparation required.';
+	">US THYROID-BREAST-SCROTAL
+<br>
+<!--
+	<input name="MucomystProtocol" type="checkbox" 
+	onClick="
+	document.FormName.RelevantHistory.value += 'Mucomyst prescription has been given to the patient.';
+	 ">MUCOMYST PRESCRIPTION<br>
+-->
+	<input value="Reset" name="reset" type="reset" onClick="history.go(0)"> 
+	<input value="Close" name="Close" type="button" onClick="javascript: closebar(); return false"> &nbsp F5 to reopen
+</form></div>
+
+</body></html>
