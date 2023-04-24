@@ -90,7 +90,7 @@ function captureposition(e) {
 *{font-family: Helvetica, Arial, sans-serif;}
 input {
 	-moz-box-sizing: content-box;
-	-webkit-print-color-adjust: exact;
+	/* -webkit-print-color-adjust: exact; */
 	-webkit-box-sizing: content-box;
 	box-sizing: content-box
 }
@@ -147,7 +147,7 @@ textarea {resize: none;}
 
 input {
 	-moz-box-sizing: content-box;
-	-webkit-print-color-adjust: exact;
+	/* -webkit-print-color-adjust: exact; */
 	-webkit-box-sizing: content-box;
 	box-sizing: content-box
 }
@@ -306,6 +306,10 @@ function checkGender(){
 	}
 }
 
+/****************************
+	script for contact phone number choice
+****************************/
+
 /* 
 - return default phone choice
 - priority is: home, then cell, then work.
@@ -366,59 +370,6 @@ function getSecondaryPhone(){
 	}
 }
 
-function getSecondaryPhone_old(){
-	const homePhone = document.getElementById("home").value;
-	const cellPhone = document.getElementById("cell").value;
-	const workPhone = document.getElementById("work").value;
-
-	const phoneChoiceList = ["home_choice", "cell_choice", "work_choice"];
-	let primaryPhone = null;
-	let secondaryPhone = null;
-	for (let i = 0; i < phoneChoiceList.length; i++){
-		const phoneChoice = phoneChoiceList[i];
-		const choice = phoneChoice.substring(0, phoneChoice.indexOf("_"));
-		const phone = document.getElementById(choice).value;
-
-		if(primaryPhone == null){
-			if (phone != ""){
-				primaryPhone = phoneChoice;
-				continue;	
-			}
-		}
-		else { // primaryPhone != null
-			if (phone != ""){
-				secondaryPhone = phoneChoice;
-				break;	
-			}
-		}
-	}
-
-	// default to home phone if all phone numbers are empty
-	if(primaryPhone == null){
-		primaryPhone = "home_choice";
-	}
-
-	// default to primary phone if no unique secondary phone can be found
-	if(secondaryPhone == null){
-		return primaryPhone;
-	}
-	else {
-		return secondaryPhone;
-	}
-}
-
-/****************************
-	script for contact phone number choice
-****************************/
-function contactChoice(phoneChoice) {
-	setPhoneContactChoice(phoneChoice, "primaryPhone");
-}
-
-// function secondaryContactChoice(phoneChoice) {
-// 	const choice = phoneChoice.substring(0, phoneChoice.indexOf("_"));
-// 	const choice_firstLetter = "(" + phoneChoice.substring(0, 1).toUpperCase() + ")";
-// 	document.FormName.secondaryPhone.value = document.getElementById(choice).value + ', ' + choice;
-// }
 
 function setPhoneContactChoice(phoneChoice, phoneID) {
 	const choice = phoneChoice.substring(0, phoneChoice.indexOf("_"));
@@ -433,8 +384,13 @@ function setPhone1and2ContactChoice(phoneChoice1, phoneChoice2, phoneID) {
 	const choice2_firstLetter = "(" + phoneChoice2.substring(0, 1).toUpperCase() + ")";
 
 	document.getElementById(phoneID).value = 
-		document.getElementById(choice1).value + ',' + choice1_firstLetter + ";" + 
-		document.getElementById(choice2).value + ',' + choice2_firstLetter;
+		choice1_firstLetter + ': ' + document.getElementById(choice1).value + "; " + 
+		choice2_firstLetter + ': ' + document.getElementById(choice2).value ;
+}
+
+
+function contactChoice(phoneChoice) {
+	setPhoneContactChoice(phoneChoice, "primaryPhone");
 }
 
 /****************************
