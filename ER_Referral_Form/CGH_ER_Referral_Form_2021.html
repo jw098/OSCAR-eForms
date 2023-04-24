@@ -1,0 +1,406 @@
+<html>
+<head>
+<title>ER_Referral_Form</title>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="CGH ED Referral Form, circa 2021"  />
+<meta name="keywords" content="BC, Fraser Health, CGH, Emergnecy Department"  />
+<meta name="robots" content="nofollow"  />
+<meta http-equiv="author" content="John Robertson"  />
+
+<!-- eForm DISCLAIMER: As is: eForms are shared as-is, free of charge on a share-alike basis with absolutely no guarantee or warranty.
+ No Quality Control: The author does not vet any eForms and does not purport to apply any manner of quality control.
+ Responsibility: The responsibility for the clinical and medical-legal consequences of any and all eForms, rest with the clinical OSCAR end-users themselves, not with the author of the eForm.
+ This applies to both eForms shared by others, and those created by users themselves.
+ Attribution: eForms are shared freely among the user community, with attribution to the original author of the eForm.
+ Free: eForms so shared may not be sold or purchased.
+ Provincial validation:  eForms are optional and non-essential add-ons, separate from OSCAR, and with their own license terms.
+ eForms are not part of the OSCAR core program functionality and code base.
+ For this reason eForms are not subject to provincial validation testing and conformance criteria. 
+ eForms are also not subject to the ISO production process for OSCAR. -->
+
+<!-- Do not use apostrophes - they do not allow for proper eForm zip inside Oscar.  Instead, use: &#8217; -->
+<style type="text/css" media="screen" >
+	input#SubmitButton {
+		color: #444444;
+		text-shadow: 0px 1px 1px #ffffff;
+		border-bottom: 2px solid #b2b2b2;
+		background-color: #b9e4e3;
+		background: -webkit-gradient(linear, left top, left bottom, from(#98f0c5), to(#008b46));
+		background: -moz-linear-gradient(top, #98f0c5, #008b46);
+		background: -o-linear-gradient(top, #98f0c5, #008b46);
+		background: -ms-linear-gradient(top, #98f0c5, #008b46);}
+	input#SubmitButton:hover {
+		color: #333333;
+		border: 1px solid #a4a4a4;
+		border-top: 2px solid #b2b2b2;
+		background-color: #a0dbc4;
+		background: -webkit-gradient(linear, left top, left bottom, from(#008b46), to(#98f0c5));
+		background: -moz-linear-gradient(top, #008b46, #98f0c5);
+		background: -o-linear-gradient(top, #008b46, #98f0c5);
+		background: -ms-linear-gradient(top, #008b46, #98f0c5);}
+ 
+	input#PrintSubmitButton {
+		color: white;
+		text-shadow: 0px 1px 1px #ffffff;
+		border-bottom: 2px solid #b2b2b2;
+		background-color: rebeccapurple;
+		background: -webkit-gradient(linear, left top, left bottom, from(rebeccapurple), to(#ea18d4));
+		background: -moz-linear-gradient(top, rebeccapurple, #ea18d4);
+		background: -o-linear-gradient(top, rebeccapurple, #ea18d4);
+		background: -ms-linear-gradient(top, rebeccapurple, #ea18d4);}
+	input#PrintSubmitButton:hover {
+		color: fcf4fc;
+		border: 1px solid #a4a4a4;
+		border-top: 2px solid #b2b2b2;
+		background-color: #ea18d4;
+		background: -webkit-gradient(linear, left top, left bottom, from(#ea18d4), to(rebeccapurple));
+		background: -moz-linear-gradient(top, #ea18d4, rebeccapurple);
+		background: -o-linear-gradient(top, #ea18d4, rebeccapurple);
+		background: -ms-linear-gradient(top, #ea18d4, rebeccapurple);}
+
+ input {
+	-moz-box-sizing: content-box;
+	-webkit-print-color-adjust: exact;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box
+ }
+/* Drawing the 'gripper' for touch-enabled devices */
+ html.touch #content {
+	float:left;
+	width:92%;
+}
+ html.touch #scrollgrabber {
+	float:right;
+	width:4%;
+	margin-right:2%;
+	background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAFCAAAAACh79lDAAAAAXNSR0IArs4c6QAAABJJREFUCB1jmMmQxjCT4T/DfwAPLgOXlrt3IwAAAABJRU5ErkJggg==)
+ }
+ html.borderradius #scrollgrabber {
+	border-radius: 1em;
+ }
+  textarea {
+    resize: none;
+}
+</style>
+<style type="text/css" media="print">
+ .DoNotPrint {
+	display: none;
+ }
+ .noborder {
+	border : 0px;
+	background: transparent;
+	background: transparent;
+	overflow: hidden;
+ }
+  textarea {
+    resize: none;
+}
+</style>
+
+
+<!-- Enable Links to other areas of Oscar -->
+<script language="javascript" src="${oscar_image_path}onBodyLoad_Oct2018.js"></script>
+<script language="javascript1.2" type="text/javascript" src="onBodyLoad_Oct2018.js"></script>
+
+
+<!-- jQuery for greater functionality -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>
+if (typeof jQuery === 'undefined') {
+	document.write(unescape('%3Cscript%20src%3D%22../js/jquery-1.7.1.min.js%22%3E%3C/script%3E'));
+}
+</script>
+<script>
+if (typeof jQuery === 'undefined') {
+	document.write(unescape('%3Cscript%20src%3D%22jquery-1.7.1.min.js%22%3E%3C/script%3E'));
+}
+</script>
+<!-- scripts for Xbox functions -->
+<script language="javascript">
+$(document).ready(function() {
+	$( ".Xbox" ).click(function() {
+		var st = $( this ).val();
+		if (st=="X") {
+			$( this ).val("");
+		} else {
+			$( this ).val("X");
+		}
+	});
+
+	$( ".Xbox" ).keypress(function(event) {
+	// any key press except tab will constitute a value change to the checkbox
+		if (event.which != 0){
+			$( this ).click();
+			return false;
+			}
+	});
+
+});
+</script>
+
+
+<script language="javascript" type="text/javascript">
+		/****************************
+		startup functions 
+		****************************/
+		function startUp(){
+			const medical_history = document.getElementById('medical_history').value;
+			const current_rx = document.getElementById('current_rx').value;
+			const druglist_generic = document.getElementById('druglist_generic').value;
+			const reminders = document.getElementById('reminders').value;
+			const ongoingconcerns = document.getElementById('ongoingconcerns').value;
+			const other_medications_history = document.getElementById('other_medications_history').value;
+			const social_family_history = document.getElementById('social_family_history').value;
+			console.log(medical_history);
+			console.log(current_rx);
+			console.log(druglist_generic);
+			console.log(reminders);
+			console.log(ongoingconcerns);
+			console.log(other_medications_history);
+			console.log(social_family_history);
+			setDocumentTitle('ER_Referral_Form',document.getElementById('patient_nameL').value);
+			setDefaults();
+			reImg();
+		}
+		
+		function setDocumentTitle(Title,patient_nameL)
+		{
+			// set document title
+			document.title = Title + ' - ' + patient_nameL;					
+							
+		}
+
+        function setDefaults() {
+            // check the newform flag to ensure this is the initial load of the form
+			if (document.getElementById("newForm").value == 'True') {
+  				parseName('doctor');
+              }
+}
+
+
+		function parseName(id) {
+			// Get the name
+			var fullName = document.getElementById(id).value;
+	
+			// Split the value
+			var splitName = fullName.split(",");
+			var firstName = "";
+			var lastName  = "";
+	
+			// Check for last name
+			if(splitName.length >= 1) {
+				lastName = splitName[0].trim();
+			}
+			if(splitName.length >= 2) {
+				firstName = splitName[1].trim();
+			}
+			var First_Last_Name = firstName + " " + lastName + " ";
+	
+			// Show the fields on the page
+			document.getElementById(id).value = First_Last_Name ;
+		}
+
+		/****************************
+			script to Increase or Decrease the Font Size
+			name = input name/id, delta = increase (+) or decrease (-) increment #
+			Requires loadFontSize(); in startUp, or in onload line
+		****************************/
+		function changeFontSize(name, delta) {
+			var element = $("#" + name)
+			var oldSize = parseInt(element.css("font-size"));
+			var newSize = oldSize + delta;
+	
+			// Save new font size into "value" field of hidden element
+			$("#" + name + "_fontsize").attr('value', newSize);
+	
+			// Set font size
+			element.css({'font-size': newSize + 'px'});
+		}
+
+		// Retains altered font size when eForm is reopened; 
+		// Requires hidden inputs with format for each field using this feature: 
+		// <input type="hidden" name="Input_fontsize" id="Input_fontsize" value="">
+		function loadFontSize() {
+			$.each($("input[name*='_fontsize'"), function(index, element) {
+				var fontSize = element.value;
+	
+				if (!!fontSize) {
+					var name = element.name.split('_')[0];
+					$("#" + name).css({'font-size': fontSize + 'px'});
+				}
+			});
+		}
+
+</script>
+
+
+
+	<!-- Xbox styling -->
+	<style type="text/css">
+		.box1 {
+			position: absolute;
+			border: 1px solid #000000;
+			cursor: pointer;
+			font-weight: bold;
+			text-align: center;
+			background: aqua;
+			font-size: 16px;
+			font-family:sans-serif;
+			width:16px;
+			height:16px;
+		}
+		.FontSizeChange {
+			position:absolute;
+			width:16px;
+			height:15px;
+			font-size:13px;
+			cursor:pointer;
+			background:yellow;
+			text-align:center;
+			border: 1px solid #000000;
+		}
+		
+	</style>
+	<!-- XBox styling -->
+
+<script language="javascript">
+function formPrint(){
+	window.print();
+} 
+</script>
+
+<!-- scripts to confirm closing of window if it hadnt been saved yet -->
+<script language="javascript">
+//keypress events trigger dirty flag
+var needToConfirm = false;
+document.onkeyup=setDirtyFlag;
+function setDirtyFlag(){
+	needToConfirm = true;
+}
+function releaseDirtyFlag(){
+	needToConfirm = false; //Call this function to prevent an alert.
+//this could be called when save button is clicked
+}
+window.onbeforeunload = confirmExit;
+function confirmExit(){
+	if (needToConfirm){
+		 return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+	 }
+}
+
+		function setFlag()
+		{
+		// indicate that the form has been submitted
+		if (document.getElementById("newForm").value == 'True')
+			document.getElementById("newForm").value = 'False';
+		}
+</script>
+
+
+<!-- main calendar program -->
+<script type="text/javascript" src="../share/calendar/calendar.js"></script>
+<script type="text/javascript" src="../share/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="../share/calendar/calendar-setup.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="../share/calendar/calendar.css" title="win2k-cold-1" />
+
+<script type="text/javascript">
+function reImg(){
+// for stand alone development without uploading to OSCAR
+	var strLoc = window.location.href.toLowerCase();
+	if(strLoc.indexOf("https") == -1) {
+		var src1 = document.getElementById("BGImage1").src;
+		document.getElementById("BGImage1").src = src1.replace("$%7Boscar_image_path%7D","");
+	}
+}
+</script>
+</head>
+
+<body onload="startUp();">
+<form method="post" action="" name="FormName" id="FormName" >
+<div id="page1" style="position:relative;" >
+<img id="BGImage1" src="${oscar_image_path}BlankPage.png" style="position: relative; left: 0px; top: 0px; width:750px">
+
+<!-- Hidden Inputs -->
+<input name="patient_nameL" id="patient_nameL" type="hidden"  oscarDB=patient_nameL>
+<input name="medical_history" id="medical_history" type="hidden"  oscarDB=medical_history>
+<input name="current_rx" id="current_rx" type="hidden"  oscarDB=current_rx>
+<input name="druglist_generic" id="druglist_generic" type="hidden"  oscarDB=druglist_generic>
+<input name="reminders" id="reminders" type="hidden"  oscarDB=reminders>
+<input name="ongoingconcerns" id="ongoingconcerns" type="hidden"  oscarDB=ongoingconcerns>
+<input name="other_medications_history" id="other_medications_history" type="hidden"  oscarDB=other_medications_history>
+<input name="social_family_history" id="social_family_history" type="hidden"  oscarDB=social_family_history>
+<input type="hidden" name="PtInfo_fontsize" id="PtInfo_fontsize" value="">
+
+<div style='position:absolute; left:0px; top:20px; width:750px; text-align:center; font-size:18px;'>
+	<b>Emergency Department Fax Referral</b></div>
+
+
+<div style='position:absolute; left:40px; top:80px; width:700px; text-align:left; font-size:14px;'>
+<b>Date: <input name="today" id="today"  type="text" class=" noborder" style="width:200px; font-size:14px; background:transparent;" oscarDB=today> Y-M-D</b><br>
+<hr>
+</div>
+<div style='position:absolute; left:40px; top:140px; width:700px; text-align:left; font-size:14px;'>
+<b>Referring MD:</b>
+</div>
+<div style='position:absolute; left:180px; top:140px; width:700px; text-align:left; font-size:14px;'>
+<b>Name: <input name="doctor" id="doctor"  type="text" class=" noborder" style="width:300px; font-size:14px; background:transparent;" oscarDB=current_user><br>
+MSP &#35;:<input name="current_user_ohip_no" id="current_user_ohip_no" type="text" class=" noborder" style="width:100px; font-size:14px; background:transparent;" oscarDB=current_user_ohip_no><br>
+Phone:<input name="clinic_phone" id="clinic_phone" type="text" class="noborder" style="width:100px; font-size:14px; background:transparent;" oscarDB=clinic_phone><br>
+Fax:<input name="clinic_fax" id="clinic_fax" type="text" class="noborder" style="width:100px; font-size:14px; background:transparent;" oscarDB=clinic_fax>
+</b></div>
+<div style='position:absolute; left:40px; top:240px; width:700px; text-align:left; font-size:14px;'>
+<b>Patient Info:</b>
+</div>
+<div style='position:absolute; left:180px; top:240px; width:700px; text-align:left; font-size:14px;'>
+<b>Name: <input name="patient_name" id="patient_name"  type="text" class=" noborder" style="width:400px; font-size:14px; background:transparent;" oscarDB=patient_name>(Last, First)<br>
+Age:<input name="age" id="age" type="text" class=" noborder" style="width:30px; font-size:14px; background:transparent;" oscarDB=age>, DOB:<input name="dob" id="dob" type="text" class=" noborder" style="width:150px; font-size:14px; background:transparent;" oscarDB=dob><br>
+PHN:<input name="hinc" id="hinc" type="text" class="noborder" style="width:100px; font-size:14px; background:transparent;" oscarDB=hinc>
+</b></div>
+<div style='position:absolute; left:40px; top:320px; width:700px; text-align:left; font-size:14px;'>
+<b>Reason for Referral:<input name="Reason" id="Reason" type="text" class="noborder" style="width:500px; font-size:14px; background:transparent;" ></b>
+</div>
+<div style='position:absolute; left:40px; top:350px; width:700px; text-align:left; font-size:14px;'>
+<b>Patient&#8217;s Relevent History and Physical:<br>
+	<textarea name="PtInfo" id="PtInfo" type="text" class=" noborder" style="width:680px; height:400px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:14px; text-align:left; background-color:transparent;" oscarDB=medical_history></textarea><br>
+	<input name="Attached" id="Attached" type="text" class="Xbox box1" > &nbsp; &nbsp; &nbsp; &nbsp; Please attach a copy of relevant clinical records if available.<br><br>
+<hr>
+<hr>
+</b>
+</div>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size PtInfo" style="left:740px; top:370px;" onclick="changeFontSize('PtInfo', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size PtInfo" style="left:740px; top:390px;" onclick="changeFontSize('PtInfo', -1);">&#9660;</span>
+
+<!-- Links to other parts of the chart -->
+
+<span class="DoNotPrint" style="position:absolute; left:740px; top:760px;">
+	<input type="button" style="cursor:pointer; color:blue" name="ConsultReports_link" onclick="onBodyLoad(); documents_all();" value="To Documents" title="link to document library"><br>
+	<input type="button" style="cursor:pointer; color:red;" name="ChooseLabs" onclick="onBodyLoad(); labRow();" value="Choose Labs left side menu"><br>
+	<input type="button" style="cursor:pointer; color:darkgreen;" name="LabSummary" onclick="onBodyLoad(); labGrid();" value="All Labs Grid Display" >
+</span>
+
+<!-- End Links -->
+
+
+<div class="DoNotPrint" id="BottomButtons" style="position: absolute; top:920px; left:0px;">
+	<table><tr><td>
+		<input type="hidden" name="newForm" id="newForm" value="True" />
+		Subject: <input name="subject" size="40" type="text"> <br> 
+		<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick=" releaseDirtyFlag(); setFlag();"> 
+		<input value="Reset" name="ResetButton" id="ResetButton" type="reset"> 
+		<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();"> 
+		<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag(); setFlag(); setTimeout('SubmitButton.click()',2000);"> 
+	</td></tr></table>
+
+<!-- Copy Left -->
+ <a rel="licence" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US" target="blank"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png" /></a><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title"> created February 5<sup>th</sup> 2021 by <a  href="https://giphy.com/gifs/jQVYFoAicMNIs9m4xZ/html5" target="_blank" >Dr. John Robertson</a>, </span>licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US" target="_blank">GPL</a>.<br> <span style="color:forestgreen;">Please consider supporting </span> <a href="http://oscarbc.ca/" target="_blank" >oscarbc.ca</a> | <a id="emailLnk1" style="cursor: pointer;" onclick="javascript:window.open('mailto:info@oscarbc.ca', 'mail'); event.preventDefault();" title="Email to OSCAR BC" >info@oscarbc.ca</a> |  <a href="https://www.facebook.com/pg/OSCARBCcommunity" target="_blank" >Facebook</a> |  <a href="https://twitter.com/OSCARBCemr" target="_blank" >Twitter </a>|  <a href="https://www.linkedin.com/company/oscarbc/" target="_blank" >LinkedIn </a> |<br>
+</div>
+</div>
+</form>
+<!-- Define Date Calendars -->
+<script type="text/javascript">
+	Calendar.setup( { inputField : "today", ifFormat : "%Y-%m-%d",  button : "today" } );
+</script>
+
+</body>
+</html>
+
