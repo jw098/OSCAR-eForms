@@ -332,9 +332,10 @@ input {
 			const choice2_firstLetter = "(" + phoneChoice2.substring(0, 1).toUpperCase() + ")";
 
 			document.getElementById(phoneID).value = 
-				document.getElementById(choice1).value + ',' + choice1_firstLetter + "; " + 
-				document.getElementById(choice2).value + ',' + choice2_firstLetter;
+				choice1_firstLetter + ': ' + document.getElementById(choice1).value + "; " + 
+				choice2_firstLetter + ': ' + document.getElementById(choice2).value ;
 		}
+
 
 		/****************************
 			Create name in conventional order 
