@@ -11,7 +11,9 @@
 
 <!-- V1_Dec25_2017: John Yap -->
 <!-- V2_Oct2_2022: update to Centralized Patient Referral form, as per FNAPCN; John Yap -->
-<!-- v1_forkV2_Oct2_2022: updated to include family doctor -->
+<!-- v3_Nov2_2022: updated to include family doctor. -JW -->
+<!-- v4_Mar5_2023: fixed default phone number. -JW -->
+<!-- v5_Mar5_2023: fixed secondary phone number. -JW -->
 
 <!-- Do not use apostrophes in text, only in html-required coding - they do not allow for proper eForm zip inside Oscar.  Instead, use: &#8217; -->
 <!-- Do not use \n to create line-feeds.  It does not allow for proper unzipping of html; such code needs to be hived off to js file in image library. -->
@@ -279,7 +281,8 @@ input {
 		if (document.getElementById('newForm').value == 'True') {
 			parseName('current_user');
 			//document.getElementById('FamilyPhysician').value = 'Same as above';
-			contactChoice('home_choice'); // default contact phone is home
+			contactChoice(getDefaultPhone()); // default contact phone is home
+			secondContactChoice(getSecondPhone());
 			document.getElementById('Stamp').click(); // use Stamp as default signature
 		//	document.getElementById('Wet').click(); // use Wet signature as default signature
 		} else { // actions if eForm is reopened
@@ -287,6 +290,73 @@ input {
 			reloadSignature();
 		}
 	}
+		/* 
+		- return default phone choice
+		- priority is: home, then cell, then work.
+		*/
+		function getDefaultPhone(){
+			const homePhone = document.getElementById("home").value;
+			const cellPhone = document.getElementById("cell").value;
+			const workPhone = document.getElementById("work").value;
+
+			if (homePhone != ""){
+				return "home_choice";
+			}
+			else if (cellPhone != ""){
+				return "cell_choice";
+			}
+			else if (workPhone != ""){
+				return "work_choice";
+			}
+			else { // all are empty strings
+				return "home_choice";
+			}
+		}
+
+		/* 
+		- return second phone choice, which is the preferred phone after the primary phone.
+		- priority is: home, then cell, then work.
+		*/
+		function getSecondPhone(){
+			const homePhone = document.getElementById("home").value;
+			const cellPhone = document.getElementById("cell").value;
+			const workPhone = document.getElementById("work").value;
+
+			const phoneChoiceList = ["home_choice", "cell_choice", "work_choice"];
+			let primaryPhone = null;
+			let secondaryPhone = null;
+			for (let i = 0; i < phoneChoiceList.length; i++){
+				const phoneChoice = phoneChoiceList[i];
+				const choice = phoneChoice.substring(0, phoneChoice.indexOf("_"));
+				const phone = document.getElementById(choice).value;
+
+				if(primaryPhone == null){
+					if (phone != ""){
+						primaryPhone = phoneChoice;
+						continue;	
+					}
+				}
+				else { // primaryPhone != null
+					if (phone != ""){
+						secondaryPhone = phoneChoice;
+						break;	
+					}
+				}
+			}
+
+			// default to home phone if all phone numbers are empty
+			if(primaryPhone == null){
+				primaryPhone = "home_choice";
+			}
+
+			// default to primary phone if no unique secondary phone can be found
+			if(secondaryPhone == null){
+				return primaryPhone;
+			}
+			else {
+				return secondaryPhone;
+			}
+		}
 	/****************************
 		Create name in proper order 
 	****************************/
@@ -468,9 +538,14 @@ input {
 	/****************************
 		script for contact phone number choice
 	****************************/
-	function contactChoice(i) {
-		var choice = i.substring(0, i.indexOf("_"));
+	function contactChoice(phoneChoice) {
+		var choice = phoneChoice.substring(0, phoneChoice.indexOf("_"));
 		document.FormName.phone.value = document.getElementById(choice).value + ', ' + choice;
+	}
+
+	function secondContactChoice(phoneChoice) {
+		var choice = phoneChoice.substring(0, phoneChoice.indexOf("_"));
+		document.FormName.secondPhone.value = document.getElementById(choice).value + ', ' + choice;
 	}
 
 	/****************************
@@ -705,7 +780,7 @@ input {
 	</select>
 </div>
 
-<input name="cell" id="cell" type="text" class="noborder" style="position:absolute; left:500px; top:272px; width:285px; font-size:16px; background:transparent;" oscardb=cell>
+<input name="secondPhone" id="secondPhone" type="text" class="noborder" style="position:absolute; left:500px; top:272px; width:285px; font-size:16px; background:transparent;" >
 
 <input name="addressline" id="addressline" class="noborder" style="position:absolute; left:430px; top:296px; width:355px; font-size:16px; background:white;" oscarDB=addressline>
 	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:801px; top:295px" onclick="changeFontSize('addressline', 1);">&#9650;</span>
