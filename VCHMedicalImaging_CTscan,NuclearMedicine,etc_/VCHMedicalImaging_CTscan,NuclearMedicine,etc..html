@@ -148,7 +148,7 @@ input {
 			document.title = Title + ' - ' + PatientSurname;							
 		}
 
-		function setDefaults() {	            
+		function setDefaults() {	   
 			// check the newform flag to ensure this is the initial load of the form
 			if (document.getElementById("newForm").value == 'True') {
 				document.getElementById("Routine").value = 'X';
@@ -242,8 +242,9 @@ input {
 		function printSubmit() {
 			// hide pop up items before print
 			printLetter();
-			releaseDirtyFlag();			
-			submission();
+			releaseDirtyFlag();	
+			setTimeout('submission()',500);	
+			// submission();
 		}
 
 		function printLetter() {
@@ -256,7 +257,8 @@ input {
 
 		function submission() {
 			setFlag();
-			setTimeout('document.FormName.submit()',1000);			
+			document.FormName.submit();
+			// setTimeout('document.FormName.submit()',1000);			
 		}
 
 		function setFlag() {
@@ -686,7 +688,7 @@ input {
 	<table><tr style="background:#e5f2ff;"><td>
 		<input type="hidden" id="newForm" name="newForm" value="True" />
 		Subject: <input name="subject" size="40" type="text">
-		<input value="Submit" name="SubmitButton" id="SubmitButton" type="button" onclick="addSubject(); releaseDirtyFlag(); document.FormName.submit()">
+		<input value="Submit" name="SubmitButton" id="SubmitButton" type="button" onclick="addSubject(); releaseDirtyFlag();submission()">
 		<input value="Reset" name="ResetButton" id="ResetButton" type="reset" onClick="history.go(0);">
 		<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="printLetter();">
 		<input value="Print and Submit" name="PrintSubmitButton" type="button" onClick="addSubject(); printSubmit();">

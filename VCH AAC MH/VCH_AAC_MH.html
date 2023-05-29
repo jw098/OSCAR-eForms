@@ -5,7 +5,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<!-- CUSTOM EFORM -->
+<!-- VCH Access and Assessment Center Referral EFORM -->
 
 
 <!-- eForm DISCLAIMER: As is: eForms are shared as-is, free of charge on a share-alike basis with absolutely no guarantee or warranty.
@@ -30,50 +30,6 @@
 <script type="text/javascript" src="../share/calendar/lang/calendar-en.js"></script>
 <script type="text/javascript" src="../share/calendar/calendar-setup.js"></script>
 <link rel="stylesheet" type="text/css" media="all" href="../share/calendar/calendar.css" title="win2k-cold-1" />
-
-
-<!-- SCRIPT GIVES THE MOUSE COORDINATES - Hold SHIFT and click two points for distance between -->
-<script type="text/javascript" language="javascript">
-var isIE = document.all?true:false;
-if (!isIE) document.captureEvents(Event.MOUSEMOVE);
-document.onmousemove = getMousePosition;
-document.onclick = captureposition;
-var capX = 0;
-var capY = 0;
-var sy = 0;
-var sx = 0;
-
-function getMousePosition(e) {
-var _x;
-var _y;
-if (!isIE) {
-_x = e.pageX;
-_y = e.pageY;
-}
-	document.title = _x + " " + _y;
-	return true;
-}
-function captureposition(e) {
-
-	if (e.shiftKey) {
-		if ((capX == 0) && (capY == 0)) {
-		capX = e.pageX;
-		capY = e.pageY;
-		} else {
-		var diffX = e.pageX-capX;
-		var diffY = e.pageY-capY;
-		if (Math.abs(diffX) > Math.abs(diffY)) {
-			alert('X-coordinate distance: ' + diffX + 'px');
-		} else {
-			alert('Y-coordinate distance: ' + diffY + 'px');
-		}
-		capX = 0;
-		capY = 0;
-		}
-	}
-}
-</script>
-<!-- ----------End coordinate script--------------------------------------------------------- -->
 
 
 <script>
@@ -214,8 +170,8 @@ input {
 	cursor: pointer;
 	font-weight: bold;
 	text-align: center;
-	/* background: aquamarine; */
-	background: transparent;
+	background: aquamarine;
+	/* background: transparent; */
 }
 
 .FontSizeChange {
@@ -244,8 +200,8 @@ input {
 	startup functions 
 ****************************/
 function startUp() {
-	setDocumentTitle('Custom eForm',document.getElementById('PatientNameL').value);
-	changeImage("customimage.png", "BGImage1");
+	setDocumentTitle('VCH AAC MH',document.getElementById('PatientNameL').value);
+	changeImage("VCH_AAC_MH.png", "BGImage1");
 	loadFontSize();
 	setDefaults();
 
@@ -623,48 +579,49 @@ function addSubject(i) {
 <input type="hidden" name="work" id="work" oscarDB=phone2>
 
 
-<input name="today" id="today" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:16px; background:transparent;" oscarDB=today>
+<input name="today" id="today" type="text" class="noborder" style="position:absolute; left:128px; top:118px; width:100px; font-size:14px; background:transparent;" oscarDB=today>
 
 <!-- <input name="copy_Fax" id="copy_Fax" class="copyable DoNotPrint" style="position:absolute; left:0px; padding-left:0px; top:0px; width:0px; font-size:18px; font-style:italic; border:0px; background:white;" title="click to copy" value="604-520-4871"> -->
 
 <!--  Patient Info  -->
 
 <!-- <input name="patient_name" id="patient_name" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:16px; background:transparent;" oscarDB=patient_name> -->
-<input name="patient_lastname" id="patient_lastname" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" oscarDB=patient_nameL>
-<input name="patient_firstname" id="patient_firstname" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" oscarDB=patient_nameF>
+<input name="patient_lastname" id="patient_lastname" type="text" class="noborder" style="position:absolute; left:29px; top:173px; width:190px; font-size:10px; background:transparent;" oscarDB=patient_nameL>
+<input name="patient_firstname" id="patient_firstname" type="text" class="noborder" style="position:absolute; left:229px; top:173px; width:190px; font-size:10px; background:transparent;" oscarDB=patient_nameF>
 
-<input name="primaryPhone" id="primaryPhone" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" oscardb=phone>
-<input name="secondaryPhone" id="secondaryPhone" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" oscardb=phone>
+<input name="PHN" id="PHN" type="text" class="noborder" style="position:absolute; left:458px; top:159px; width:110px; font-size:14px; background:transparent;" oscardb=HINc>
 
-<textarea name="patientAddress" id="patientAddress" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:10px; background:white;" oscarDB=addressline></textarea>
+<input name="dateOfBirthDMY" id="dateOfBirthDMY" type="text" class="noborder" style="position:absolute; left:612px; top:156px; width:102px; font-size:12px; background:transparent;" oscardb=dobc>
 
-<input name="dateOfBirth" id="dateOfBirth" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:10px; background:transparent;" oscardb=dobc2>
+<textarea name="patientAddress" id="patientAddress" type="text" class="noborder" style="position:absolute; left:78px; top:190px; width:295px; height:12px; font-size:10px; background:white;" oscarDB=addressline></textarea>
 
-<input name="PHN" id="PHN" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" oscardb=HINc>
 
-<input name="maleGenderBox" id="maleGenderBox" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="femaleGenderBox" id="femaleGenderBox" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="otherGenderBox" id="otherGenderBox" type="text" class="Xbox box3" style="left:0px; top:0px;">
+<input name="primaryPhone" id="primaryPhone" type="text" class="noborder" style="position:absolute; left:427px; top:190px; width:112px; font-size:12px; background:transparent;" oscardb=phone>
+<input name="secondaryPhone" id="secondaryPhone" type="text" class="noborder" style="position:absolute; left:427px; top:209px; width:112px; font-size:12px; background:transparent;" oscardb=phone>
 
-<textarea name="language" id="language" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:14px; background:white;"></textarea>
 
-<input name="yesInterpreterReq" id="yesInterpreterReq" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="noInterpreterReq" id="noInterpreterReq" type="text" class="Xbox box3" style="left:0px; top:0px;">
+<input name="maleGenderBox" id="maleGenderBox" type="text" class="Xbox box3" style="left:587px; top:193px;">
+<input name="femaleGenderBox" id="femaleGenderBox" type="text" class="Xbox box3" style="left:617px; top:193px;">
+<input name="otherGenderBox" id="otherGenderBox" type="text" class="Xbox box3" style="left:641px; top:193px;">
+
+<!-- Emergency Contact -->
+<input name="emergContactName" id="emergContactName" type="text" class="noborder" style="position:absolute; left:29px; top:240px; width:230px; font-size:12px; background:transparent;" >
+<input name="emergContactRelation" id="emergContactRelation" type="text" class="noborder" style="position:absolute; left:268px; top:240px; width:211px; font-size:12px; background:transparent;" >
+<input name="emergContactPhone1" id="emergContactPhone1" type="text" class="noborder" style="position:absolute; left:537px; top:225px; width:180px; font-size:12px; background:transparent;" >
+<input name="emergContactPhone2" id="emergContactPhone2" type="text" class="noborder" style="position:absolute; left:537px; top:244px; width:180px; font-size:12px; background:transparent;" >
+
+
+<textarea name="language" id="language" type="text" class="noborder" style="position:absolute; left:127px; top:260px; width:129px; height:29px; font-size:14px; background:white;"></textarea>
+
+<input name="yesInterpreterReq" id="yesInterpreterReq" type="text" class="Xbox box3" style="left:383px; top:263px;">
+<input name="noInterpreterReq" id="noInterpreterReq" type="text" class="Xbox box3" style="left:414px; top:263px;">
 
 <!-- <input name="email" id="email" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:16px; background:transparent;" oscardb=email> -->
 
-<!-- Emergency Contact -->
-<input name="emergContactName" id="emergContactName" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:10px; background:transparent;" >
-<input name="emergContactPhone" id="emergContactPhone" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:10px; background:transparent;" >
-<input name="emergContactRelation" id="emergContactRelation" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:10px; background:transparent;" >
+<input name="yesCanadianCitizen" id="yesCanadianCitizen" type="text" class="Xbox box3" style="left:593px; top:263px;">
+<input name="noCanadianCitizen" id="noCanadianCitizen" type="text" class="Xbox box3" style="left:617px; top:263px;">
+<input name="otherCitizen" id="otherCitizen" type="text" class="noborder" style="position:absolute; left:535px; top:278px; width:180px; font-size:12px; background:transparent;" >
 
-<!-- Other Agencies involved -->
-<input name="WSBC_involved" id="WSBC_involved" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="ICBC_involved" id="ICBC_involved" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="MCFD_involved" id="MCFD_involved" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="BC_MHSUS_involved" id="BC_MHSUS_involved" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="Corrections_involved" id="Corrections_involved" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="Other_involved" id="Other_involved" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:10px; background:transparent;" >
 
 <!-- Phone selector -->
 <div id="Default_phone" class="DoNotPrint" style="position:absolute; left:825px; top:252px; width:250px; font-size:14px; color:green;">
@@ -681,106 +638,98 @@ function addSubject(i) {
 
 
 <!-- Referring Doctor -->
-<input name="current_user" id="current_user" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscarDB=current_user>
-<input name="MSP" id="MSP" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscarDB=current_user_ohip_no>
+<input name="current_user" id="current_user" type="text" class="noborder" style="position:absolute; left:29px; top:310px; width:245px; font-size:12px; background:transparent;" oscarDB=current_user>
+<input name="currentUser_MSP" id="currentUser_MSP" type="text" class="noborder" style="position:absolute; left:280px; top:310px; width:86px; font-size:12px; background:transparent;" oscarDB=current_user_ohip_no>
+<textarea name="clinic_addressLineFull" id="clinic_addressLineFull" type="text" class="noborder" style="position:absolute; left:29px; top:331px; width:337px; height:12px; font-size:12px; background:white;" oscarDB=clinic_addressLineFull></textarea>
 
-<textarea name="clinic_addressLineFull" id="clinic_addressLineFull" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:12px; background:white;" oscarDB=clinic_addressLineFull></textarea>
 
-<input name="clinic_phone" id="clinic_phone" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscardb=clinic_phone>
-<input name="clinic_fax" id="clinic_fax" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscardb=clinic_fax>
-
-<textarea name="role" id="role" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:12px; background:white;"></textarea>
-
-<!-- Family Doctor -->
 <input name="familyDoctor" id="familyDoctor" type="text" class="noborder" style="position:absolute; left:377px; top:310px; width:245px; font-size:12px; background:transparent;" oscarDB=doctor>
 <input name="familyDoctor_MSP" id="familyDoctor_MSP" type="text" class="noborder" style="position:absolute; left:630px; top:310px; width:86px; font-size:12px; background:transparent;" oscarDB=doctor_ohip_no>
 
+
+<strong name="clinic_phoneText" id="clinic_phoneText" type="text" class="noborder" style="position:absolute; left:377px; top:333px; font-size:10px; background:transparent;" >Phone: </strong>
+<input name="clinic_phone" id="clinic_phone" type="text" class="noborder" style="position:absolute; left:412px; top:330px; width:111px; font-size:12px; background:transparent;" oscardb=clinic_phone>
+<strong name="clinic_faxText" id="clinic_faxText" type="text" class="noborder" style="position:absolute; left:537px; top:333px; font-size:10px; background:transparent;" >Fax: </strong>
+<input name="clinic_fax" id="clinic_fax" type="text" class="noborder" style="position:absolute; left:561px; top:330px; width:111px; font-size:12px; background:transparent;" oscardb=clinic_fax>
+
+
 <!-- Reason for Referral -->
-<textarea name="reasonForReferral" id="reasonForReferral" class="noborder" style="position:absolute; left:0px; top:0px; height:0px; width:0px; font-size:10px; background:transparent;"></textarea>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:0px; top:0px;" onclick="changeFontSize('reasonForReferral', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('reasonForReferral', -1);">&#9660;</span>
+<textarea name="reasonForReferral" id="reasonForReferral" class="noborder" style="position:absolute; left:29px; top:362px; height:30px; width:685px; font-size:10px; background:transparent;"></textarea>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:723px; top:365px;" onclick="changeFontSize('reasonForReferral', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:723px; top:380px;" onclick="changeFontSize('reasonForReferral', -1);">&#9660;</span>
 	<input type="hidden" name="reasonForReferral_fontsize" id="reasonForReferral_fontsize">
 
-<!-- Expectations for Referral -->
-<input name="expect_consult" id="expect_consult" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="expect_teamCare" id="expect_teamCare" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="expect_dxClarify" id="expect_dxClarify" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="expect_medReview" id="expect_medReview" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="expect_groupTherapy" id="expect_groupTherapy" type="text" class="Xbox box3" style="left:0px; top:0px;">
+<textarea name="presentingProblem" id="presentingProblem" class="noborder" style="position:absolute; left:29px; top:417px; height:30px; width:685px; font-size:10px; background:transparent;"></textarea>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:723px; top:418px;" onclick="changeFontSize('presentingProblem', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:723px; top:433px;" onclick="changeFontSize('presentingProblem', -1);">&#9660;</span>
+	<input type="hidden" name="presentingProblem_fontsize" id="presentingProblem_fontsize">
 
-
-<!-- Psych -->
-<input name="PHQ9" id="PHQ9" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" >
-<input name="GAD7" id="GAD7" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" >
-<input name="edinburghPostnatalDepressionScale" id="edinburghPostnatalDepressionScale" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" >
-
-<input name="yesPrevMHSU_Assessment" id="yesPrevMHSU_Assessment" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="noPrevMHSU_Assessment" id="noPrevMHSU_Assessment" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="yesPrevPsychConsult" id="yesPrevPsychConsult" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="noPrevPsychConsult" id="noPrevPsychConsult" type="text" class="Xbox box3" style="left:0px; top:0px;">
-
-<input name="depression" id="depression" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="anxiety" id="anxiety" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="schizophrenia" id="schizophrenia" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="psychosis" id="psychosis" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="bipolar" id="bipolar" type="text" class="Xbox box3" style="left:0px; top:0px;">
-
-<input name="psychosocial" id="psychosocial" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="suicidalIdeation" id="suicidalIdeation" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="substanceUse" id="substanceUse" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="personality" id="personality" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="perinatalDepressionAnxiety" id="perinatalDepressionAnxiety" type="text" class="Xbox box3" style="left:0px; top:0px;">
-
-<input name="PTSD" id="PTSD" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="eatingProblems" id="eatingProblems" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="otherPsychIssue" id="otherPsychIssue" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" >
-
-<!-- Past Medical History -->
-
-<textarea name="currentMedications" id="currentMedications" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:12px; background:transparent;"></textarea>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:0px; top:0px;" onclick="changeFontSize('currentMedications', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('currentMedications', -1);">&#9660;</span>
-	<input type="hidden" name="currentMedications_fontsize" id="currentMedications_fontsize">
-
-<textarea name="prevTriedMedications" id="prevTriedMedications" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:12px; background:transparent;"></textarea>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:0px; top:0px;" onclick="changeFontSize('prevTriedMedications', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('prevTriedMedications', -1);">&#9660;</span>	
-	<input type="hidden" name="prevTriedMedications_fontsize" id="prevTriedMedications_fontsize">
-
-<textarea name="adverseReactionsToMeds" id="adverseReactionsToMeds" class="noborder" style="position:absolute; left:0px; top:655px; width:0px; height:0px; font-size:12px; background:transparent;"></textarea>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:0px; top:0px;" onclick="changeFontSize('adverseReactionsToMeds', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('adverseReactionsToMeds', -1);">&#9660;</span>	
-	<input type="hidden" name="adverseReactionsToMeds_fontsize" id="adverseReactionsToMeds_fontsize">
-
-<textarea name="otherMedicalConditions" id="otherMedicalConditions" class="noborder" style="position:absolute; left:0px; top:691px; width:0px; height:0px; font-size:12px; background:transparent;"></textarea>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:0px; top:0px;" onclick="changeFontSize('otherMedicalConditions', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('otherMedicalConditions', -1);">&#9660;</span>
-	<input type="hidden" name="otherMedicalConditions_fontsize" id="otherMedicalConditions_fontsize">
-
-<textarea name="otherMedications" id="otherMedications" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:12px; background:transparent;"></textarea>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:0px; top:0px;" onclick="changeFontSize('otherMedications', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('otherMedications', -1);">&#9660;</span>
-	<input type="hidden" name="otherMedications_fontsize" id="otherMedications_fontsize">
 
 
 <!-- Risk -->
-<input name="priority_high" id="priority_high" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="priority_medium" id="priority_medium" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="priority_low" id="priority_low" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="priority_urgent" id="priority_urgent" type="text" class="Xbox box3" style="left:0px; top:0px;">
+<input name="selfHarm_yes" id="selfHarm_yes" type="text" class="Xbox box3" style="left:187px; top:472px;">
+<input name="selfHarm_no" id="selfHarm_no" type="text" class="Xbox box3" style="left:210px; top:472px;">
+<input name="selfHarm_details" id="selfHarm_details" type="text" class="noborder" style="position:absolute; left:360px; top: 470px;width:355px; font-size:10px; background:transparent;">
+<input name="selfHarm_history" id="selfHarm_history" type="text" class="noborder" style="position:absolute; left:393px; top:487px; width:325px; font-size:10px; background:transparent;">
+<input name="selfHarm_lethality" id="selfHarm_lethality" type="text" class="noborder" style="position:absolute; left:240px; top:505px; width:478px; font-size:10px; background:transparent;">
 
-<input name="selfHarm_high" id="selfHarm_high" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="selfHarm_medium" id="selfHarm_medium" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="selfHarm_low" id="selfHarm_low" type="text" class="Xbox box3" style="left:0px; top:0px;">
+<input name="aggressive_yes" id="aggressive_yes" type="text" class="Xbox box3" style="left:187px; top:524px;">
+<input name="aggressive_no" id="aggressive_no" type="text" class="Xbox box3" style="left:210px; top:524px;">
+<textarea name="aggressive_details" id="aggressive_details" type="text" class="noborder" style="position:absolute; left:360px; top: 522px; height:30px; width:355px; font-size:10px; background:transparent;"></textarea>
 
-<input name="harmOthers_high" id="harmOthers_high" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="harmOthers_medium" id="harmOthers_medium" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="harmOthers_low" id="harmOthers_low" type="text" class="Xbox box3" style="left:0px; top:0px;">
 
-<textarea name="riskDetails" id="riskDetails" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:20px; font-size:12px; background:transparent;"></textarea>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:0px; top:0px;" onclick="changeFontSize('riskDetails', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('riskDetails', -1);">&#9660;</span>
-	<input type="hidden" name="riskDetails_fontsize" id="riskDetails_fontsize">
+<input name="legalCharges_yes" id="legalCharges_yes" type="text" class="Xbox box3" style="left:187px; top:559px;">
+<input name="legalCharges_no" id="legalCharges_no" type="text" class="Xbox box3" style="left:210px; top:559px;">
+<textarea name="legalCharges_details" id="legalCharges_details" type="text" class="noborder" style="position:absolute; left:276px; top:557px; height:30px; width:440px; font-size:10px; background:transparent;"></textarea>
+
+<input name="substanceUse_yes" id="substanceUse_yes" type="text" class="Xbox box3" style="left:187px; top:595px;">
+<input name="substanceUse_no" id="substanceUse_no" type="text" class="Xbox box3" style="left:210px; top:595px;">
+<textarea name="substanceUse_details" id="substanceUse_details" type="text" class="noborder" style="position:absolute; left:276px; top:593px; height:30px; width:440px; font-size:10px; background:transparent;"></textarea>
+
+
+
+
+<!-- Past Medical History -->
+
+<input name="otherMedicalConditions_yes" id="otherMedicalConditions_yes" type="text" class="Xbox box3" style="left:303px; top:630px;">
+<input name="otherMedicalConditions_no" id="otherMedicalConditions_no" type="text" class="Xbox box3" style="left:329px; top:630px;">
+<textarea name="otherMedicalConditions_details" id="otherMedicalConditions_details" class="noborder" style="position:absolute; left:398px; top:627px; width:318px; height:30px; font-size:12px; background:transparent;"></textarea>
+
+
+<textarea name="currentMedications" id="currentMedications" class="noborder" style="position:absolute; left:240px; top:662px; width:477px; height:30px; font-size:10px; background:transparent;"></textarea>
+
+<textarea name="functionalConcerns" id="functionalConcerns" class="noborder" style="position:absolute; left:29px; top:713px; width:687px; height:30px; font-size:10px; background:transparent;"></textarea>
+
+<textarea name="socialHistory" id="socialHistory" class="noborder" style="position:absolute; left:29px; top:769px; width:687px; height:30px; font-size:10px; background:transparent;"></textarea>
+
+<!-- Hospital units only -->
+<input name="extendedLeave_yes" id="extendedLeave_yes" type="text" class="Xbox box3" style="left:139px; top:824px;">
+<input name="extendedLeave_no" id="extendedLeave_no" type="text" class="Xbox box3" style="left:164px; top:824px;">
+<input name="nextReviewDate" id="nextReviewDate" type="text" class="noborder" style="position:absolute; left:288px; top:823px; width:88px; font-size:10px; background:transparent;" >
+
+<input name="reviewPanelScheduled_yes" id="reviewPanelScheduled_yes" type="text" class="Xbox box3" style="left:564px; top:824px;">
+<input name="reviewPanelScheduled_no" id="reviewPanelScheduled_no" type="text" class="Xbox box3" style="left:586px; top:824px;">
+<input name="reviewPanelDate" id="reviewPanelDate" type="text" class="noborder" style="position:absolute; left:640px; top:823px; width:78px; font-size:10px; background:transparent;" >
+
+
+<input name="longActingDepot_yes" id="longActingDepot_yes" type="text" class="Xbox box3" style="left:139px; top:841px;">
+<input name="longActingDepot_no" id="longActingDepot_no" type="text" class="Xbox box3" style="left:164px; top:841px;">
+
+<input name="medication_depot" id="medication_depot" type="text" class="noborder" style="position:absolute; left:257px; top:839px; width:104px; font-size:10px; background:transparent;" >
+<input name="medLastAdministered" id="medLastAdministered" type="text" class="noborder" style="position:absolute; left:462px; top:839px; width:94px; font-size:10px; background:transparent;" >
+<input name="medNextDue" id="medNextDue" type="text" class="noborder" style="position:absolute; left:614px; top:839px; width:98px; font-size:10px; background:transparent;" >
+
+
+<input name="planG_yes" id="planG_yes" type="text" class="Xbox box3" style="left:139px; top:858px;">
+<input name="planG_no" id="planG_no" type="text" class="Xbox box3" style="left:164px; top:858px;">
+<input name="planG_expiry" id="planG_expiry" type="text" class="noborder" style="position:absolute; left:257px; top:857px; width:88px; font-size:10px; background:transparent;" >
+
+<input name="specialAuthority_yes" id="specialAuthority_yes" type="text" class="Xbox box3" style="left:470px; top:858px;">
+<input name="specialAuthority_no" id="specialAuthority_no" type="text" class="Xbox box3" style="left:493px; top:858px;">
+<input name="specialAuthority_medName" id="specialAuthority_medName" type="text" class="noborder" style="position:absolute; left:536px; top:874px; width:180px; font-size:10px; background:transparent;" >
+
+<input name="psychAssessmentAttached" id="psychAssessmentAttached" type="text" class="Xbox box3" style="left:301px; top:887px;">
+
 
 </div>
 
