@@ -6,6 +6,7 @@
 <!-- V4: Update Mar2015 with oscarOPEN links, autofill subject; new, PDF background -->
 <!-- V5: Update Jun2016 with PHONE for appt warning until department gets their workflow sorted out -->
 <!-- V6_Apr23_2023: fixed default phone -JW -->
+<!-- V7_May28_2023: fixed subject line -JW -->
 
 <!-- eForm DISCLAIMER: As is: eForms are shared as-is, free of charge on a share-alike basis with absolutely no guarantee or warranty.
  No Quality Control: The author does not vet any eForms and does not purport to apply any manner of quality control.
@@ -419,7 +420,7 @@ input {
 			document.FormName.DiabeticNo.value='X';
 			document.FormName.DiabeticYes.value='';
 			}
-			if ((document.getElementById("DMT").value == 'No')||(document.getElementById("DMT").value == 'Yes')||(document.getElementByI	("DMT").value == 'NotApplicable')) {
+			if ((document.getElementById("DMT").value == 'No')||(document.getElementById("DMT").value == 'Yes')||(document.getElementById("DMT").value == 'NotApplicable')) {
 			document.FormName.DiabeticYes.value='X';
 			document.FormName.DiabeticNo.value='';
 			}
@@ -498,10 +499,11 @@ input {
 			var Exam = document.FormName.ExamRequestedText.value;
 			var Site = document.FormName.HospitalSite.value;
 			if (Site == '') {
-			document.FormName.subject.value += Exam;
+				document.FormName.subject.value = Exam;
 			}
-			else
-			document.FormName.subject.value += Exam + '-' + Site;
+			else{
+				document.FormName.subject.value = Exam + '-' + Site;
+			}
 		}	
 </script>
 </head>
@@ -590,7 +592,7 @@ input {
 <input name="Portable" id="Portable" type="text" class="Xbox box1" style="left:674px; top:265px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
 <input name="IV_Pump" id="IV_Pump" type="text" class="Xbox box1" style="left:749px; top:265px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);">
 
-<textarea name="ExamRequestedText" id="ExamRequestedText" type="text" style="position:absolute; left:104px; top:302px; width:630px; height:36px; font-family:Arial; font-size:14px; font-weight:bold; background:transparent;" class="noborder"></textarea>
+<textarea name="ExamRequestedText" id="ExamRequestedText" type="text" style="position:absolute; left:104px; top:302px; width:630px; height:36px; font-family:Arial; font-size:14px; font-weight:bold; background:transparent;" onfocusout="addSubject();" class="noborder"></textarea>
 
 <input name="Routine" id="Routine" type="text" class="Xbox box1" style="left:744px; top:305px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.Urgent.value=''; document.FormName.Emergency.value='';">
 <input name="Urgent" id="Urgent" type="text" class="Xbox box1" style="left:744px; top:322px;" onkeypress="javascript:return displayKeyCode(event,this.id);" onmousedown="changeValue(this.id);" onClick="document.FormName.Routine.value=''; document.FormName.Emergency.value='';">
@@ -688,10 +690,10 @@ input {
 	<table><tr style="background:#e5f2ff;"><td>
 		<input type="hidden" id="newForm" name="newForm" value="True" />
 		Subject: <input name="subject" size="40" type="text">
-		<input value="Submit" name="SubmitButton" id="SubmitButton" type="button" onclick="addSubject(); releaseDirtyFlag();submission()">
+		<input value="Submit" name="SubmitButton" id="SubmitButton" type="button" onclick="releaseDirtyFlag();submission()">
 		<input value="Reset" name="ResetButton" id="ResetButton" type="reset" onClick="history.go(0);">
 		<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="printLetter();">
-		<input value="Print and Submit" name="PrintSubmitButton" type="button" onClick="addSubject(); printSubmit();">
+		<input value="Print and Submit" name="PrintSubmitButton" type="button" onClick="printSubmit();">
 	</td></tr></table>
 </div>
 
