@@ -2146,23 +2146,23 @@ General
 <!-- General screening age < 40 -->
 <!-- <input type="checkbox" id="generalBefore40" name = "generalBefore40" onclick="
 	var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'ALT', 'B12', 'CreatinineGFR'];
-var DiagnosisAndIndicationsValue = 'General baseline bloodwork, ';
-var SubjectValue = 'General baseline bloodwork, ';
+var DiagnosisAndIndicationsValue = 'General bloodwork, ';
+var SubjectValue = 'General bloodwork, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ">Age<40 -->
 
 <!-- General screening age > 40 -->
 <input type="checkbox" id="generalAfter40" name = "generalAfter40" onclick="
 	var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'ALT', 'B12', 'CreatinineGFR', 'Lipid_full'];
-var DiagnosisAndIndicationsValue = 'General baseline bloodwork, ';
-var SubjectValue = 'General baseline bloodwork, ';
+var DiagnosisAndIndicationsValue = 'General bloodwork, ';
+var SubjectValue = 'General bloodwork, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ">Age>40
 <!-- General screening age > 50 -->
 <input type="checkbox" id="generalAfter50" name = "generalAfter50" onclick="
 	var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'ALT', 'B12', 'CreatinineGFR', 'Lipid_full', 'FIT_CSP'];
-var DiagnosisAndIndicationsValue = 'General baseline bloodwork, ';
-var SubjectValue = 'General baseline bloodwork, ';
+var DiagnosisAndIndicationsValue = 'General bloodwork, FIT ';
+var SubjectValue = 'General bloodwork, FIT ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ">Age 50-74
 
@@ -2682,6 +2682,16 @@ First Prenatal Labs</span>
 						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 						">Normocytic Anemia <br>
 
+						<!-- Neutropenia -->
+						<input type="checkbox" name="neutropenia" id ="neutropenia" title="neutropenia" onclick="
+						var BoxesToCheck = ['HematologyProfile'];
+						var DiagnosisAndIndicationsValue = 'Neutropenia, ';
+						var SubjectValue = 'Neutropenia, ';
+						var AdditionalTestInstructionsValue = 'peripheral blood smear, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						">Neutropenia <br>
+
 						<!-- Iron Deficiency -->
 						<input type="checkbox" name="ironDeficiency" id ="ironDeficiency" title="Iron Deficiency" onclick="
 						var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'UrineMacroscopicCultureIfPyuriaOrNitrate', 'FIT_Other'];
@@ -2716,6 +2726,13 @@ First Prenatal Labs</span>
 
 <!-- OTHER -->
 OTHER:<br>
+	<!-- Mental health -->
+	<input type="checkbox" id="mentalHealth" name = "mentalHealth" title = "mental health. consider Bhcg, UA, urine tox" onclick="
+	var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'ALT', 'B12', 'CreatinineGFR', 'Lipid_full', 'TSH'];
+	var DiagnosisAndIndicationsValue = 'Mental health, ';
+	var SubjectValue = 'Mental health, ';
+	ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+	">Mental health<br>
 
 						<!-- Dementia -->
 						<input type="checkbox" id="Dementia" name="Dementia" onclick="
