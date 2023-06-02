@@ -2629,7 +2629,7 @@ First Prenatal Labs</span>
 						ABNORMAL LABS<br>
 						<!-- Acute elevated LFT-->
 						<input type="checkbox" id="Acute_Elevated_LFT" name="Acute_Elevated_LFT" onclick="
-						var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'Ferritin', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'TProtein', 'AcuteViralHepatitis'];
+						var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'Ferritin', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'AcuteViralHepatitis'];
 						var AdditionalTestInstructionsValue = 'TSAT, iron ';
 						var DiagnosisAndIndicationsValue = 'Elevated LFT, ';
 						var SubjectValue = 'Elevated LFTs, ';
@@ -2645,9 +2645,18 @@ First Prenatal Labs</span>
 						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 						">Chronic LFTs<br>
+						<!-- Elevated Bili -->
+						<input type="checkbox" id="elevated_bili" name="elevated_bili" onclick="
+						var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin'];
+						var AdditionalTestInstructionsValue = 'conjugated bilirubin, unconjugated bilirubin, ';
+						var DiagnosisAndIndicationsValue = 'Elevated Bilirubin, ';
+						var SubjectValue = 'Elevated Bilirubin, ';
+						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+						">Elevated Bili<br>
 						<!-- All LE/LFT tests -->
 						<input type="checkbox" id="LFT" name="LFT" title="Liver enzymes and function tests" onclick="
-						var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'TProtein'];
+						var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin'];
 						var DiagnosisAndIndicationsValue = '';
 						var SubjectValue = 'LE/LFTs, ';
 						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
