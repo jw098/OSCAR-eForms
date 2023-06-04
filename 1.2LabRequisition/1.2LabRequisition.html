@@ -473,6 +473,14 @@ a:visited {color: black}
 		}
 	}
 
+	function addPregTestIfFemale(BoxesToCheck){
+		const patientGender = document.getElementById("PatientGender").value;
+		console.log(patientGender);
+		if (patientGender == "F"){
+			BoxesToCheck.push("bHCG");
+		}
+	}
+
 	function ToggleBoxesAndDiagnosisAndSubject(ElementId,BoxesToCheck,DiagnosisAndIndicationsValue,SubjectValue) {
 		if(document.getElementById(ElementId).checked == true || (document.getElementById(ElementId).value != 'X' && document.getElementById(ElementId).classList.contains('box2'))) {
 			checkArray(BoxesToCheck)
@@ -2385,36 +2393,68 @@ ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndications
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 TogglePatientInstructions(this.id, PatientInstructionsValue);
 ">Male<br>
-OTHERS:<br>
+GU:<br>
+<!-- STI Investigations -->
+<input type="checkbox" id="STI_Investigation" name="STI_Investigation" title="STI screen" onclick="
+var BoxesToCheck = ['HIVNominal', 'ChronicViralHepatitis', 'CTGC_Urine'];
+var DiagnosisAndIndicationsValue = 'STI screen, ';
+var SubjectValue = 'STI screen, ';
+var AdditionalTestInstructionsValue = 'T pall EIA, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);">
+	STI investigations<br>
+
 <!-- Dysuria -->
 <input type="checkbox" id="Dysuria" name="Dysuria" title="Consider vaginal swab in female patients." onclick="
 var BoxesToCheck = ['UrineMacroscopicMicroscopicIfDipstickPositive', 'Urine_CS', 'CTGC_Urine'];
 var DiagnosisAndIndicationsValue = 'Dysuria ';
-var SubjectValue = 'Dysuria ';
+var SubjectValue = 'Dysuria, ';
 var AdditionalTestInstructionsValue = 'Urine trichomonas';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 ">Dysuria
+
+<!-- OAB -->
+<input type="checkbox" id="OAB" name="OAB" onclick="
+var BoxesToCheck = ['UrineMacroscopicMicroscopicIfDipstickPositive', 'Urine_CS', 'CTGC_Urine', 'CreatinineGFR', 'GlucoseRandom'];
+var DiagnosisAndIndicationsValue = 'Overactive bladder?, ';
+var SubjectValue = 'OAB?, ';
+var AdditionalTestInstructionsValue = '';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">OAB
 
 <!-- UTI -->
 <input type="checkbox" id="UTI" name="UTI" onclick="
 var BoxesToCheck = ['UrineMacroscopicCultureIfPyuriaOrNitrate'];
 var DiagnosisAndIndicationsValue = 'UTI, ';
 var SubjectValue = 'UTI, ';
-// var AdditionalTestInstructionsValue = 'Add Fosfomycin sensitivity for urine culture. ';
+var AdditionalTestInstructionsValue = '';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 ">UTI<br>
 
-<!-- PCOS -->
-<input type="checkbox" title="Polycystic Ovary Syndrome" id="PCOS_workup" name="PCOS_workup" onclick="
-var BoxesToCheck = ['HematologyProfile', 'TSH', 'bHCG', 'Ferritin'];
-var DiagnosisAndIndicationsValue = '?PCOS ';
-var SubjectValue = 'PCOS? ';
-var AdditionalTestInstructionsValue = 'FSH, Prolactin, Total testosterone, 17-OHP';
+<!-- Hematuria -->
+<input type="checkbox" id="hematuria" name="hematuria" title="hematuria. consider renal U/S." onclick="
+var BoxesToCheck = ['UrineMicroscopicOnly', 'UrineMacroscopicCultureIfPyuriaOrNitrate', 'CreatinineGFR'];
+var DiagnosisAndIndicationsValue = 'hematuria, ';
+var SubjectValue = 'hematuria, ';
+var AdditionalTestInstructionsValue = '';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-">PCOS workup<br>
+">Hematuria<br>
+
+OTHERS:<br>
+
+<!-- Fatigue -->
+<input type="checkbox" id="Fatigue" name="Fatigue" onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'TSH', 'Sodium', 'Potassium', 'CreatinineGFR', 'ALT', 'B12', 'Lipid_full']
+var DiagnosisAndIndicationsValue = 'Fatigue, ';
+var SubjectValue = 'Fatigue, ';
+var PatientInstructionsValue = 'No fasting required. ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+TogglePatientInstructions(this.id, PatientInstructionsValue);
+">Fatigue<br>
 
 <!-- Stool -->
 <input type="checkbox" id="Stool" name="Stool" onclick="
@@ -2485,16 +2525,74 @@ Celiac disease</span><br>
 						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 						">Alpha-1 Antitrypsin deficiency<br>
 
-						<!-- Urine Drug Screen UDS -->
-						<input type="checkbox" id="UDS" name="UDS" title="Please note what opioid patient is prescribed." onclick="
-						var BoxesToCheck = [];
-						var DiagnosisAndIndicationsValue = 'Long-term opioid therapy, ';
-						var SubjectValue = 'UDS, ';
-						var AdditionalTestInstructionsValue = 'Urine Drug Screen: please include Methadone, Oxycodone, and Fentanyl, ';
-						document.FormName.CurrentMedicationsLastDose.style.background ='yellow';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">Urine Drug Screen<br>
+
+
+
+<!-- Gynecological CA -->
+<input type="checkbox" id="Gyn_Ca" name="Gyn_Ca" onclick="
+var BoxesToCheck = []
+var DiagnosisAndIndicationsValue = 'Gyn CA workup, ';
+var SubjectValue = 'Gyn CA, ';
+var AdditionalTestInstructionsValue = 'CA125, CEA, CA19-9, CA15-3, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Gyn Cancer<br>
+
+<!-- IV Contrast Protocol -->
+<input type="checkbox" id="RenalFunctionsRadiology" name="RenalFunctionsRadiology" title="Identify which site to copy results" onclick="
+var BoxesToCheck = ['CreatinineGFR']
+var DiagnosisAndIndicationsValue = 'For IV contrast imaging study, ';
+var SubjectValue = 'eGFR, ';
+var AdditionalTestInstructionsValue = 'eGFR within 30 days prior to test and repeat after if required, ';
+var PatientInstructionsValue = 'Do blood work within 30 days BEFORE procedure and repeat 48 hrs after, if required. ';
+var CopyToValue = 'Radiology Department, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+TogglePatientInstructions(this.id, PatientInstructionsValue);
+ToggleCopyTo(this.id, CopyToValue);
+	if (document.getElementById('RenalFunctionsRadiology').checked == true) {
+document.getElementById('CopyTo').style.background = 'yellow';
+	} else {
+document.getElementById('CopyTo').style.background = 'white';
+	}
+">IV Contrast Protocol<br>
+
+<!-- INR standing order -->
+<input type="checkbox" id="INR_SO" name="INR_SO" onclick="
+var BoxesToCheck = ['PTINR', 'Warfarin_Yes']
+var DiagnosisAndIndicationsValue = 'On Warfarin, ';
+var SubjectValue = 'INR SO, ';
+var AdditionalTestInstructionsValue = 'Standing Order: INR PRN for 2 yr. ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+	if (document.getElementById('INR_SO').checked == true) {
+document.getElementById('Anticoag_text').value = 'Warfarin';
+	} else {
+document.getElementById('Anticoag_text').value = '';
+	}
+">INR Standing Order<br>
+
+<!-- TSH standing order -->
+<input type="checkbox" id="TSH_SO" name="TSH_SO" onclick="
+var BoxesToCheck = ['MonitorThyroidRx'];
+var DiagnosisAndIndicationsValue = 'Hypothyroidism, ';
+var SubjectValue = 'TSH SO, ';
+var CurrentMedicationsLastDoseValue = 'Thyroxin ';
+var AdditionalTestInstructionsValue = 'Standing Order: TSH PRN for 2 yr. ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+ToggleCurrentMedications(this.id, CurrentMedicationsLastDoseValue);
+">TSH Standing Order<br>
+
+<!-- Plasma K+ -->
+<input type="checkbox" id="Kpl" name="Kpl" title="Plasma potassium" onclick="
+var BoxesToCheck = [];
+var DiagnosisAndIndicationsValue = 'Plasma potassium required, ';
+var SubjectValue = 'Plasma K, ';
+var AdditionalTestInstructionsValue = 'Please do Plasma K+ ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Plasma K+<br>
 
 						
 					</td>
@@ -2503,24 +2601,33 @@ Celiac disease</span><br>
 					<td>
 
 						<!-- Sexual Health -->
-SEXUAL HEALTH:<br>
-
-<!-- STI Investigations -->
-<input type="checkbox" id="STI_Investigation" name="STI_Investigation" title="STI screen" onclick="
-var BoxesToCheck = ['HIVNominal', 'ChronicViralHepatitis', 'CTGC_Urine'];
-var DiagnosisAndIndicationsValue = 'STI screen, ';
-var SubjectValue = 'STI screen, ';
-var AdditionalTestInstructionsValue = 'T pall EIA, ';
+OBGYN:<br>
+<!-- AUB -->
+<input type="checkbox" title="Polycystic Ovary Syndrome" id="AUB" name="AUB" onclick="
+var BoxesToCheck = ['HematologyProfile', 'TSH', 'bHCG', 'PTINR', 'Warfarin_No', 'Ferritin', 'CTGC_Urine'];
+var DiagnosisAndIndicationsValue = 'Uterine bleeding, ';
+var SubjectValue = 'AUB, ';
+var AdditionalTestInstructionsValue = 'iron saturation, iron, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);">
-	STI investigations<br>
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">AUB<br>
+
+<!-- PCOS -->
+<input type="checkbox" title="Polycystic Ovary Syndrome" id="PCOS_workup" name="PCOS_workup" onclick="
+var BoxesToCheck = ['HematologyProfile', 'TSH', 'bHCG', 'Ferritin'];
+var DiagnosisAndIndicationsValue = '?PCOS ';
+var SubjectValue = 'PCOS? ';
+var AdditionalTestInstructionsValue = 'FSH, Prolactin, Total testosterone, 17-OHP, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">PCOS workup<br>
 
 <!-- First Prenatal labs -->
 <input type="checkbox" id="Prenatal" name="Prenatal" 
 	onclick="
 		var BoxesToCheck = ['HematologyProfile', 'Urine_CS', 'CTGC_Urine', 'HIVNominal', 'Pregnant_Yes', 'ChronicViralHepatitis', 'A1c', 'TSH', 'Ferritin'];
 		var DiagnosisAndIndicationsValue = 'Prenatal labs, ';
-		var SubjectValue = 'Prenatal labs - first, ';
+		var SubjectValue = 'First Prenatal labs, ';
 		var AdditionalTestInstructionsValue = 'Rubella IgG (if first pregnancy), T. pall EIA, Varicella IgG, ABO/Rh blood group, antibody screen, Hemoglobin electrophoresis (if NOT Japanese, Korean, Northern European Caucasian, First Nations or Inuit)';
 		ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 		ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
@@ -2529,12 +2636,12 @@ ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);">
 	onclick="
 		document.getElementById('SupplementalInfo').style.visibility='visible';
 		document.AdditionalInformation.AdditionalInfo.value = 'Consider referral to Best Beginnings through Fraser Health. Direct link https&colon;&sol;&sol;bestbeginnings.fraserhealth.ca&sol;default.aspx.  If First Nations, consider checking A1c and RBS on first labs as there is higher incidence of GDM.';" title="Click for more info">
-First Prenatal Labs</span>
-<a href="https://pathwaysbc.ca/content_items/348" id="BestBeginnings_Pathways" target="_blank" title="Pathways Link">&nbsp;(Pathways)&nbsp;</a><br>
+First Prenatal Labs</span><br>
+<a href="https://pathwaysbc.ca/content_items/348" id="BestBeginnings_Pathways" target="_blank" title="Pathways Link">&nbsp;(Pathways)&nbsp;</a>
 <a href="https://www.maternityhub.ca/" id="MaternityHub" target="_blank" title="Maternity Hub">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(maternityhub.ca)&nbsp;</a><br>
 
 						<!-- NIPT - use other eForm -->
-						<input name="NIPT_link" id="NIPT_link" value="to NIPT eForm" type="button" style="font-size:10px; color:green;" oscarOpen="LifeLabs_Panorama_NIPT" title="Private Panorama NIPT"><br>
+						<input name="NIPT_link" id="NIPT_link" value="to NIPT eForm" type="button" style="font-size:10px; color:green;" oscarOpen="LifeLabs_Panorama_NIPT" title="Private Panorama NIPT">
 
 						<!-- PGS - use other eForm -->
 						<input id="PGS_link" name="PGS_link" value="to PGS eForm" type="button" style="font-size:10px; color:green;" oscarOpen="Prenatal Genetic Screening" title="Prenatal Genetic Screening, aka SIPS"><br>
@@ -2625,135 +2732,204 @@ First Prenatal Labs</span>
 						TogglePatientInstructions(this.id, PatientInstructionsValue);
 						">Abn Semen Analysis<br>
 
-<!-- ABNORMAL LABS -->
-						ABNORMAL LABS<br>
-						<!-- Acute elevated LFT-->
-						<input type="checkbox" id="Acute_Elevated_LFT" name="Acute_Elevated_LFT" onclick="
-						var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'Ferritin', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'AcuteViralHepatitis'];
-						var AdditionalTestInstructionsValue = 'TSAT, iron ';
-						var DiagnosisAndIndicationsValue = 'Elevated LFT, ';
-						var SubjectValue = 'Elevated LFTs, ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">Elevated LFTs
-						<!-- Chronic elevated LFT-->
-						<input type="checkbox" id="Chronic_Elevated_LFT" name="Chronic_Elevated_LFT" onclick="
-						var BoxesToCheck = ['Ferritin', 'ChronicViralHepatitis'];
-						var DiagnosisAndIndicationsValue = 'Chronic elevated LFT, ';
-						var SubjectValue = 'Chronic LFTs, ';
-						var AdditionalTestInstructionsValue = 'ANA, anti-mitochondrial AB, ceruloplasmin, alpha-1 antitrypsin, ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">Chronic LFTs<br>
-						<!-- Elevated Bili -->
-						<input type="checkbox" id="elevated_bili" name="elevated_bili" onclick="
-						var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin'];
-						var AdditionalTestInstructionsValue = 'conjugated bilirubin, unconjugated bilirubin, ';
-						var DiagnosisAndIndicationsValue = 'Elevated Bilirubin, ';
-						var SubjectValue = 'Elevated Bilirubin, ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">Elevated Bili<br>
-						<!-- All LE/LFT tests -->
-						<input type="checkbox" id="LFT" name="LFT" title="Liver enzymes and function tests" onclick="
-						var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin'];
-						var DiagnosisAndIndicationsValue = '';
-						var SubjectValue = 'LE/LFTs, ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						">Liver Enzymes/LFTs<br>
-						<!-- Chronic HBV infection follow-up -->
-						<input type="checkbox" id="Chronic_HBV_FU" name="Chronic_HBV_FU" title="Chronic HBV infection" onclick="
-						var BoxesToCheck = ['ALT'];
-						var DiagnosisAndIndicationsValue = 'Chronic HBV infection, ';
-						var SubjectValue = 'Chronic HBV, ';
-						var AdditionalTestInstructionsValue = 'HBeAg, anti-HBeAg, HBV DNA, ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);">
-							<a href="http://www.hepatology.ca/wp-content/uploads/2012/06/2012HepBGuidelines_CJG.pdf"
-							target="_blank" title="Web reference">Chronic HBV FU</a><br>
-						
-						<!-- ANEMIA:</u><br> -->
-						<!-- Anemia initial -->
-						<!-- <input type="checkbox" id="Anemia_basic" name="Anemia_basic" onclick="
-						var BoxesToCheck = ['HematologyProfile', 'Ferritin'];
-						var DiagnosisAndIndicationsValue = 'Anemia, ';
-						var SubjectValue = 'Anemia - basic, ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						">Anemia initial -->
+<!-- LFTs -->
+LFTs:<br>
+<!-- Acute elevated LFT-->
+<input type="checkbox" id="Acute_Elevated_LFT" name="Acute_Elevated_LFT" onclick="
+var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'Ferritin', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'AcuteViralHepatitis'];
+var AdditionalTestInstructionsValue = 'TSAT, iron ';
+var DiagnosisAndIndicationsValue = 'Elevated LFT, ';
+var SubjectValue = 'Elevated LFTs, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Elevated LFTs
+<!-- Chronic elevated LFT-->
+<input type="checkbox" id="Chronic_Elevated_LFT" name="Chronic_Elevated_LFT" onclick="
+var BoxesToCheck = ['Ferritin', 'ChronicViralHepatitis'];
+var DiagnosisAndIndicationsValue = 'Chronic elevated LFT, ';
+var SubjectValue = 'Chronic LFTs, ';
+var AdditionalTestInstructionsValue = 'ANA, anti-mitochondrial AB, ceruloplasmin, alpha-1 antitrypsin, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Chronic LFTs<br>
+<!-- Elevated Bili -->
+<input type="checkbox" id="elevated_bili" name="elevated_bili" onclick="
+var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin'];
+var AdditionalTestInstructionsValue = 'conjugated bilirubin, unconjugated bilirubin, ';
+var DiagnosisAndIndicationsValue = 'Elevated Bilirubin, ';
+var SubjectValue = 'Elevated Bilirubin, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Elevated Bili<br>
+<!-- All LE/LFT tests -->
+<input type="checkbox" id="LFT" name="LFT" title="Liver enzymes and function tests" onclick="
+var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin'];
+var DiagnosisAndIndicationsValue = '';
+var SubjectValue = 'LE/LFTs, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">Liver Enzymes/LFTs<br>
+<!-- Chronic HBV infection follow-up -->
+<input type="checkbox" id="Chronic_HBV_FU" name="Chronic_HBV_FU" title="Chronic HBV infection" onclick="
+var BoxesToCheck = ['ALT'];
+var DiagnosisAndIndicationsValue = 'Chronic HBV infection, ';
+var SubjectValue = 'Chronic HBV, ';
+var AdditionalTestInstructionsValue = 'HBeAg, anti-HBeAg, HBV DNA, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);">
+	<a href="http://www.hepatology.ca/wp-content/uploads/2012/06/2012HepBGuidelines_CJG.pdf"
+	target="_blank" title="Web reference">Chronic HBV FU</a><br>
 
-						<!-- Normocytic Anemia -->
-						<input type="checkbox" name="normocytic_advanced" id ="normocytic_advanced" title="normocytic anemia" onclick="
-						var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'ChronicViralHepatitis', 'ALT', 'Bilirubin', 'GGT', 'PTINR', 'Warfarin_No', 'CreatinineGFR', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'UrineMacroscopicCultureIfPyuriaOrNitrate', 'FIT_Other', 'HIVNominal', 'B12'];
-						var DiagnosisAndIndicationsValue = 'Normocytic Anemia, ';
-						var SubjectValue = 'Normocytic Anemia, ';
-						var AdditionalTestInstructionsValue = 'LDH, serum protein electrophoresis, Haptoglobin, reticulocyte, anti-TTG, serum iron, TIBC, iron saturation, ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">Normocytic Anemia <br>
+HEME:<br>
 
-						<!-- Neutropenia -->
-						<input type="checkbox" name="neutropenia" id ="neutropenia" title="neutropenia" onclick="
-						var BoxesToCheck = ['HematologyProfile'];
-						var DiagnosisAndIndicationsValue = 'Neutropenia, ';
-						var SubjectValue = 'Neutropenia, ';
-						var AdditionalTestInstructionsValue = 'peripheral blood smear, ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">Neutropenia <br>
+<!-- ANEMIA:</u><br> -->
+<!-- Anemia initial -->
+<!-- <input type="checkbox" id="Anemia_basic" name="Anemia_basic" onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin'];
+var DiagnosisAndIndicationsValue = 'Anemia, ';
+var SubjectValue = 'Anemia - basic, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+">Anemia initial -->
 
-						<!-- Iron Deficiency -->
-						<input type="checkbox" name="ironDeficiency" id ="ironDeficiency" title="Iron Deficiency" onclick="
-						var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'UrineMacroscopicCultureIfPyuriaOrNitrate', 'FIT_Other'];
-						var DiagnosisAndIndicationsValue = 'Iron Deficiency, ';
-						var SubjectValue = 'Iron Deficiency, ';
-						var AdditionalTestInstructionsValue = 'anti-TTG, urea breath test, TSAT, iron, ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">Iron Deficiency<br>
+<!-- Normocytic Anemia -->
+<input type="checkbox" name="normocytic_advanced" id ="normocytic_advanced" title="normocytic anemia" onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'ChronicViralHepatitis', 'ALT', 'Bilirubin', 'GGT', 'PTINR', 'Warfarin_No', 'CreatinineGFR', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'UrineMacroscopicCultureIfPyuriaOrNitrate', 'FIT_Other', 'HIVNominal', 'B12'];
+var DiagnosisAndIndicationsValue = 'Normocytic Anemia, ';
+var SubjectValue = 'Normocytic Anemia, ';
+var AdditionalTestInstructionsValue = 'LDH, serum protein electrophoresis, Haptoglobin, reticulocyte, anti-TTG, serum iron, TIBC, iron saturation, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Normocytic Anemia <br>
 
-						
-						<!-- High Ferritin -->
-						<input type="checkbox" name="high_ferritin" id ="high_ferritin" title="high ferritin. may add CBC, lipids, Cr, A1c" onclick="
-						var BoxesToCheck = ['Ferritin', 'Sodium', 'Potassium', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'TSH', ];
-						var DiagnosisAndIndicationsValue = 'high ferritin, ';
-						var SubjectValue = 'high ferritin, ';
-						var AdditionalTestInstructionsValue = 'serum iron, TIBC, iron saturation, CRP, ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">High Ferritin <br>
+<!-- Neutropenia -->
+<input type="checkbox" name="neutropenia" id ="neutropenia" title="neutropenia" onclick="
+var BoxesToCheck = ['HematologyProfile'];
+var DiagnosisAndIndicationsValue = 'Neutropenia, ';
+var SubjectValue = 'Neutropenia, ';
+var AdditionalTestInstructionsValue = 'peripheral blood smear, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Neutropenia <br>
 
-						<!-- Low Platelets -->
-						<input type="checkbox" name="low_platelets" id ="low_platelets" title="low platelets" onclick="
-						var BoxesToCheck = ['HematologyProfile', 'HIVNominal', 'ChronicViralHepatitis'];
-						var DiagnosisAndIndicationsValue = 'low platelets, ';
-						var SubjectValue = 'low platelets, ';
-						var AdditionalTestInstructionsValue = 'peripheral blood smear, ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">Low Platelets <br>						
+<!-- Iron Deficiency -->
+<input type="checkbox" name="ironDeficiency" id ="ironDeficiency" title="Iron Deficiency" onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'UrineMacroscopicCultureIfPyuriaOrNitrate', 'FIT_Other'];
+var DiagnosisAndIndicationsValue = 'Iron Deficiency, ';
+var SubjectValue = 'Iron Deficiency, ';
+var AdditionalTestInstructionsValue = 'anti-TTG, urea breath test, TSAT, iron, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Iron Deficiency<br>
+
+
+<!-- High Ferritin -->
+<input type="checkbox" name="high_ferritin" id ="high_ferritin" title="high ferritin. may add CBC, lipids, Cr, A1c" onclick="
+var BoxesToCheck = ['Ferritin', 'Sodium', 'Potassium', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'TSH', ];
+var DiagnosisAndIndicationsValue = 'high ferritin, ';
+var SubjectValue = 'high ferritin, ';
+var AdditionalTestInstructionsValue = 'serum iron, TIBC, iron saturation, CRP, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">High Ferritin <br>
+
+<!-- Low Platelets -->
+<input type="checkbox" name="low_platelets" id ="low_platelets" title="low platelets" onclick="
+var BoxesToCheck = ['HematologyProfile', 'HIVNominal', 'ChronicViralHepatitis'];
+var DiagnosisAndIndicationsValue = 'low platelets, ';
+var SubjectValue = 'low platelets, ';
+var AdditionalTestInstructionsValue = 'peripheral blood smear, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Low Platelets <br>						
 
 
 <!-- OTHER -->
-OTHER:<br>
+MENTAL HEALTH:<br>
 	<!-- Mental health -->
 	<input type="checkbox" id="mentalHealth" name = "mentalHealth" title = "mental health. consider Bhcg, UA, urine tox" onclick="
 	var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'ALT', 'B12', 'CreatinineGFR', 'Lipid_full', 'TSH'];
+	addPregTestIfFemale(BoxesToCheck);
 	var DiagnosisAndIndicationsValue = 'Mental health, ';
 	var SubjectValue = 'Mental health, ';
+	var AdditionalTestInstructionsValue = 'urine drug screen, ';
 	ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+	ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 	">Mental health<br>
 
-						<!-- Dementia -->
-						<input type="checkbox" id="Dementia" name="Dementia" onclick="
-						var BoxesToCheck = ['HematologyProfile', 'GlucoseRandom', 'A1c', 'TSH', 'Sodium', 'Potassium', 'CreatinineGFR', 'Calcium', 'B12', 'HIVNominal', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'UrineMacroscopicCultureIfPyuriaOrNitrate', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', ]
-						var DiagnosisAndIndicationsValue = 'Dementia, ';
-						var SubjectValue = 'Dementia, ';
-						var AdditionalTestInstructionsValue = 'T pall EIA, ';
-						var PatientInstructionsValue = 'No fasting required. ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						TogglePatientInstructions(this.id, PatientInstructionsValue);
-						">Dementia<br>
+	<!-- Dementia -->
+	<input type="checkbox" id="Dementia" name="Dementia" onclick="
+	var BoxesToCheck = ['HematologyProfile', 'GlucoseRandom', 'A1c', 'TSH', 'Sodium', 'Potassium', 'CreatinineGFR', 'Calcium', 'B12', 'HIVNominal', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'UrineMacroscopicCultureIfPyuriaOrNitrate', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', ]
+	var DiagnosisAndIndicationsValue = 'Dementia, ';
+	var SubjectValue = 'Dementia, ';
+	var AdditionalTestInstructionsValue = 'T pall EIA, ';
+	var PatientInstructionsValue = 'No fasting required. ';
+	ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+	ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+	TogglePatientInstructions(this.id, PatientInstructionsValue);
+	">Dementia<br>
+
+	<!-- Antipsychotics baseline -->
+	<input type="checkbox" id="antipsychotics_start" name="antipsychotics_start" title="antipsychotics start." onclick="
+	var BoxesToCheck = ['HematologyProfile', 'Lipid_full', 'A1c', 'TSH', 'Sodium', 'Potassium', 'CreatinineGFR', 'B12', 'HIVNominal', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'UrineMacroscopicCultureIfPyuriaOrNitrate', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'PTINR', 'Warfarin_No', 'ECG'];
+	addPregTestIfFemale(BoxesToCheck);
+	var DiagnosisAndIndicationsValue = 'Neuroleptic start, ';
+	var SubjectValue = 'Neuroleptic start, ';
+	var AdditionalTestInstructionsValue = 'T pall EIA, prolactin, corrected Calcium, urine drug screen';
+	var PatientInstructionsValue = 'No fasting required. ';
+	ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+	ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+	TogglePatientInstructions(this.id, PatientInstructionsValue);
+	">Antipsychotics start<br>
+
+	<!-- Antipsychotics monitoring -->
+	<input type="checkbox" id="antipsychotics_monitoring" name="antipsychotics_monitoring" title="also check BMI, BP. q6-12 months" onclick="
+	var BoxesToCheck = ['Lipid_full', 'A1c']
+	var DiagnosisAndIndicationsValue = 'Neuroleptic monitoring, ';
+	var SubjectValue = 'Neuroleptic monitoring, ';
+	var AdditionalTestInstructionsValue = '';
+	var PatientInstructionsValue = 'No fasting required. ';
+	ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+	ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+	TogglePatientInstructions(this.id, PatientInstructionsValue);
+	">Antipsychotics monitoring<br>
+
+
+	<!-- Lithium baseline -->
+	<input type="checkbox" id="lithium_start" name="lithium_start" title="lithium start." onclick="
+	var BoxesToCheck = ['HematologyProfile', 'Lipid_full', 'A1c', 'TSH', 'Sodium', 'Potassium', 'CreatinineGFR', 'B12', 'HIVNominal', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'UrineMacroscopicCultureIfPyuriaOrNitrate', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'PTINR', 'Warfarin_No', 'ECG'];
+	addPregTestIfFemale(BoxesToCheck);
+	var DiagnosisAndIndicationsValue = 'Lithium start, ';
+	var SubjectValue = 'Lithium start, ';
+	var AdditionalTestInstructionsValue = 'T pall EIA, prolactin, corrected Calcium, urine drug screen';
+	var PatientInstructionsValue = 'No fasting required. ';
+	ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+	ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+	TogglePatientInstructions(this.id, PatientInstructionsValue);
+	">Lithium start<br>
+
+	<!-- Lithium monitoring -->
+	<input type="checkbox" id="Lithium_monitoring" name="Lithium_monitoring" title="also check BMI, BP. check lithium: 3-5 days ater initiation and when dose changed and q3-6 months" onclick="
+	var BoxesToCheck = ['CreatinineGFR', 'TSH', 'Calcium', 'Sodium']
+	var DiagnosisAndIndicationsValue = 'Lithium monitoring, ';
+	var SubjectValue = 'Lithium monitoring, ';
+	var AdditionalTestInstructionsValue = '12h trough lithium level (12h hours after last dose)';
+	var PatientInstructionsValue = 'No fasting required. ';
+	ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+	ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+	TogglePatientInstructions(this.id, PatientInstructionsValue);
+	">Lithium monitoring<br>
+
+	
+	<!-- Divalproex monitoring -->
+	<input type="checkbox" id="Divalproex_monitoring" name="Divalproex_monitoring" title="check q3-6 months" onclick="
+	var BoxesToCheck = ['HematologyProfile', 'CreatinineGFR', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin']
+	var DiagnosisAndIndicationsValue = 'Divalproex monitoring, ';
+	var SubjectValue = 'Divalproex monitoring, ';
+	var AdditionalTestInstructionsValue = '12h trough Divalproex level (12h hours after last dose)';
+	var PatientInstructionsValue = 'No fasting required. ';
+	ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+	ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+	TogglePatientInstructions(this.id, PatientInstructionsValue);
+	">Divalproex monitoring<br>
 
 						<!-- Eating Disorder -->
 						<input type="checkbox" id="Eating_disorder_workup" name="Eating_disorder_workup" onclick="
@@ -2766,112 +2942,49 @@ OTHER:<br>
 						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 						TogglePatientInstructions(this.id, PatientInstructionsValue);
 						">Eating disorder<br>
+OTHER:<br>
 
-						<!-- Fatigue -->
-						<input type="checkbox" id="Fatigue" name="Fatigue" onclick="
-						var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'TSH', 'Sodium', 'Potassium', 'CreatinineGFR', 'ALT', 'B12']
-						var DiagnosisAndIndicationsValue = 'Fatigue, ';
-						var SubjectValue = 'Fatigue, ';
-						var PatientInstructionsValue = 'No fasting required. ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						TogglePatientInstructions(this.id, PatientInstructionsValue);
-						">Fatigue<br>
+<!-- Urine Drug Screen UDS -->
+<input type="checkbox" id="UDS" name="UDS" title="Please note what opioid patient is prescribed." onclick="
+var BoxesToCheck = [];
+var DiagnosisAndIndicationsValue = 'Long-term opioid therapy, ';
+var SubjectValue = 'UDS, ';
+var AdditionalTestInstructionsValue = 'Urine Drug Screen: please include Methadone, Oxycodone, and Fentanyl, ';
+document.FormName.CurrentMedicationsLastDose.style.background ='yellow';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Urine Drug Screen<br>
 
-						<!-- Gynecological CA -->
-						<input type="checkbox" id="Gyn_Ca" name="Gyn_Ca" onclick="
-						var BoxesToCheck = []
-						var DiagnosisAndIndicationsValue = 'Gyn CA workup, ';
-						var SubjectValue = 'Gyn CA, ';
-						var AdditionalTestInstructionsValue = 'CA125, CEA, CA19-9, CA15-3, ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">Gyn Cancer<br>
+<!-- PrEP baseline -->
+<input type="checkbox" id="PrEP_Base" name="PrEP_Base" title="Pre-Exposure Prophylaxis for HIV Baseline" onclick="
+var BoxesToCheck = ['UrineMacroscopicOnly', 'ACR', 'CreatinineGFR', 'CTGC_Urine', 'ChronicViralHepatitis', 'HepatitisAImmuneStatus', 'HIVNominal'];
+var DiagnosisAndIndicationsValue = 'Pre-Exposure Prophylaxis Baseline Order, ';
+var SubjectValue = 'PrEP baseline, ';
+var AdditionalTestInstructionsValue = 'HIV Ab/Ag EIA, T. pallidum EIA, Gonorrhea/Chlamydia NAAT (throat or rectal prn). (Preg test if female) ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">PrEP Baseline
 
-						<!-- IV Contrast Protocol -->
-						<input type="checkbox" id="RenalFunctionsRadiology" name="RenalFunctionsRadiology" title="Identify which site to copy results" onclick="
-						var BoxesToCheck = ['CreatinineGFR']
-						var DiagnosisAndIndicationsValue = 'For IV contrast imaging study, ';
-						var SubjectValue = 'eGFR, ';
-						var AdditionalTestInstructionsValue = 'eGFR within 30 days prior to test and repeat after if required, ';
-						var PatientInstructionsValue = 'Do blood work within 30 days BEFORE procedure and repeat 48 hrs after, if required. ';
-						var CopyToValue = 'Radiology Department, ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						TogglePatientInstructions(this.id, PatientInstructionsValue);
-						ToggleCopyTo(this.id, CopyToValue);
-							if (document.getElementById('RenalFunctionsRadiology').checked == true) {
-						document.getElementById('CopyTo').style.background = 'yellow';
-							} else {
-						document.getElementById('CopyTo').style.background = 'white';
-							}
-						">IV Contrast Protocol<br>
+<!-- PrEP 1 mo F/U -->
+<input type="checkbox" id="PrEP_first" name="PrEP_first" title="Pre-Exposure Prophylaxis for HIV 1 mo F/U" onclick="
+var BoxesToCheck = ['UrineMacroscopicOnly', 'ACR', 'CreatinineGFR', 'CTGC_Urine', 'HIVNominal'];
+var DiagnosisAndIndicationsValue = 'Pre-Exposure Prophylaxis 1 mo follow-up, ';
+var SubjectValue = 'PrEP 1 mo FU, ';
+var AdditionalTestInstructionsValue = 'HIV Ab/Ag EIA (Preg test if female) '
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">PrEP 1 mo<br>
 
-						<!-- INR standing order -->
-						<input type="checkbox" id="INR_SO" name="INR_SO" onclick="
-						var BoxesToCheck = ['PTINR', 'Warfarin_Yes']
-						var DiagnosisAndIndicationsValue = 'On Warfarin, ';
-						var SubjectValue = 'INR SO, ';
-						var AdditionalTestInstructionsValue = 'Standing Order: INR PRN for 2 yr. ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-							if (document.getElementById('INR_SO').checked == true) {
-						document.getElementById('Anticoag_text').value = 'Warfarin';
-							} else {
-						document.getElementById('Anticoag_text').value = '';
-							}
-						">INR Standing Order<br>
-
-						<!-- TSH standing order -->
-						<input type="checkbox" id="TSH_SO" name="TSH_SO" onclick="
-						var BoxesToCheck = ['MonitorThyroidRx'];
-						var DiagnosisAndIndicationsValue = 'Hypothyroidism, ';
-						var SubjectValue = 'TSH SO, ';
-						var CurrentMedicationsLastDoseValue = 'Thyroxin ';
-						var AdditionalTestInstructionsValue = 'Standing Order: TSH PRN for 2 yr. ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						ToggleCurrentMedications(this.id, CurrentMedicationsLastDoseValue);
-						">TSH Standing Order<br>
-
-						<!-- Plasma K+ -->
-						<input type="checkbox" id="Kpl" name="Kpl" title="Plasma potassium" onclick="
-						var BoxesToCheck = [];
-						var DiagnosisAndIndicationsValue = 'Plasma potassium required, ';
-						var SubjectValue = 'Plasma K, ';
-						var AdditionalTestInstructionsValue = 'Please do Plasma K+ ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">Plasma K+<br>
-
-						<!-- PrEP baseline -->
-						<input type="checkbox" id="PrEP_Base" name="PrEP_Base" title="Pre-Exposure Prophylaxis for HIV Baseline" onclick="
-						var BoxesToCheck = ['UrineMacroscopicOnly', 'ACR', 'CreatinineGFR', 'CTGC_Urine', 'ChronicViralHepatitis', 'HepatitisAImmuneStatus', 'HIVNominal'];
-						var DiagnosisAndIndicationsValue = 'Pre-Exposure Prophylaxis Baseline Order, ';
-						var SubjectValue = 'PrEP baseline, ';
-						var AdditionalTestInstructionsValue = 'HIV Ab/Ag EIA, T. pallidum EIA, Gonorrhea/Chlamydia NAAT (throat or rectal prn). (Preg test if female) ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">PrEP Baseline
-
-						<!-- PrEP 1 mo F/U -->
-						<input type="checkbox" id="PrEP_first" name="PrEP_first" title="Pre-Exposure Prophylaxis for HIV 1 mo F/U" onclick="
-						var BoxesToCheck = ['UrineMacroscopicOnly', 'ACR', 'CreatinineGFR', 'CTGC_Urine', 'HIVNominal'];
-						var DiagnosisAndIndicationsValue = 'Pre-Exposure Prophylaxis 1 mo follow-up, ';
-						var SubjectValue = 'PrEP 1 mo FU, ';
-						var AdditionalTestInstructionsValue = 'HIV Ab/Ag EIA (Preg test if female) '
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">PrEP 1 mo<br>
-
-						<!-- PrEP q3mo -->
-						<input type="checkbox" id="PrEP_SO" name="PrEP_SO" title="Pre-Exposure Prophylaxis for HIV Standing Order" onclick="
-						var BoxesToCheck = [];
-						var DiagnosisAndIndicationsValue = 'Pre-Exposure Prophylaxis regular follow-up, ';
-						var SubjectValue = 'PrEP q3mo SO, ';
-						var AdditionalTestInstructionsValue = 'Standing Order: q3mo for 2 yr: Cr/eGFR, urinalysis, ACR, HIV Ab/Ag EIA, T. pallidum EIA, Gonorrhea/Chlamydia NAAT (urine). Standing Order: q6mo for 2 yr: anti-HCV (Pregnancy test if female) ';
-						ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-						ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-						">PrEP q3mo Standing Order<br><br><br><br>
+<!-- PrEP q3mo -->
+<input type="checkbox" id="PrEP_SO" name="PrEP_SO" title="Pre-Exposure Prophylaxis for HIV Standing Order" onclick="
+var BoxesToCheck = [];
+var DiagnosisAndIndicationsValue = 'Pre-Exposure Prophylaxis regular follow-up, ';
+var SubjectValue = 'PrEP q3mo SO, ';
+var AdditionalTestInstructionsValue = 'Standing Order: q3mo for 2 yr: Cr/eGFR, urinalysis, ACR, HIV Ab/Ag EIA, T. pallidum EIA, Gonorrhea/Chlamydia NAAT (urine). Standing Order: q6mo for 2 yr: anti-HCV (Pregnancy test if female) ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">PrEP q3mo Standing Order<br>
+						
 					</td></tr>
 				</table>
 <br>
