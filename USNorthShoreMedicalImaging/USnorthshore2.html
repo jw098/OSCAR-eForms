@@ -161,6 +161,44 @@ function printSubmit() {
 	window.print();
 	setTimeout('submission()', 500);
 }
+
+function addSubject(examRequestedID, examRequested) {
+  const subjectLine = document.getElementById("subject");
+  console.log( document.getElementById(examRequestedID).value )
+  if(document.getElementById(examRequestedID).checked == true 
+    || (document.getElementById(examRequestedID).value != 'X' 
+        && document.getElementById(examRequestedID).classList.contains('Xbox'))) {
+    subjectLine.value += examRequested + ", ";
+	} 
+  else {
+    subjectLine.value = subjectLine.value.replace((examRequested + ", "),'');
+  }
+}	
+
+
+let oldOtherRequestedExam = "";
+
+/* 
+ - When focus in to the "OtherText" field. Saves the current value of "OtherText"
+ - allows you to delete the old text once you focus out.
+ */
+function saveOldOtherRequestedExam(){
+  oldOtherRequestedExam = document.getElementById("OtherText").value;
+}
+
+function addSubjectOther() {
+  const subjectLine = document.getElementById("subject");
+  // remove old Other Text
+  if(oldOtherRequestedExam != ""){
+    subjectLine.value = subjectLine.value.replace((oldOtherRequestedExam + ", "),'');
+  }
+  // insert new Other Text
+  const newOtherText = document.getElementById("OtherText").value;
+  if (newOtherText != ""){
+    subjectLine.value +=  newOtherText  + ", ";
+  }
+}	
+
 </script>
 
 
@@ -209,23 +247,35 @@ function printSubmit() {
 
 
 
-<input name="Abdomen" id="Abdomen" type="text" class="Xbox"  style="position: absolute; left: 12px; top: 503px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
-<input name="Pelvis" id="Pelvis" type="text" class="Xbox"  style="position: absolute; left: 12px; top: 528px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
-<input name="Renal" id="Renal" type="text" class="Xbox"  style="position: absolute; left: 12px; top: 553px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
-<input name="OBSTETRICS" id="OBSTETRICS" type="text" class="Xbox"  style="position: absolute; left: 12px; top: 578px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="Abdomen" id="Abdomen" type="text" class="Xbox"  onclick="addSubject(this.id, 'Abdo')" style="position: absolute; left: 12px; top: 503px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="Pelvis" id="Pelvis" type="text" class="Xbox"  onclick="addSubject(this.id, 'Pelvis')" style="position: absolute; left: 12px; top: 528px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="Renal" id="Renal" type="text" class="Xbox"  onclick="addSubject(this.id, 'Renal/Bladder')" style="position: absolute; left: 12px; top: 553px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="OBSTETRICS" id="OBSTETRICS" type="text" class="Xbox"  onclick="addSubject(this.id, 'OB')" style="position: absolute; left: 12px; top: 578px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
 <input name="LMP" type="text" class="editable" id="datepicker2" style="position: absolute; left: 182px; top:577px; width: 79px;" size="15" oscarDB=m$LMP#value>
-<input name="NTyes" id="NTyes" type="text" class="Xbox"  style="position: absolute; left: 12px; top: 603px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;" >
-<input name="ScreeningBreastUS" id="ScreeningBreastUS" type="text" class="Xbox"  style="position: absolute; left: 12px; top: 628px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;" >
+<input name="NTyes" id="NTyes" type="text" class="Xbox"  onclick="addSubject(this.id, 'NT')" style="position: absolute; left: 12px; top: 603px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;" >
+<input name="ScreeningBreastUS" id="ScreeningBreastUS" type="text" class="Xbox"  onclick="addSubject(this.id, 'Screening Breast')" style="position: absolute; left: 12px; top: 628px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;" >
 
-<input name="Breast" id="Breast" type="text" class="Xbox"  style="position: absolute; left: 263px; top: 503px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
-<input name="Hernia" id="Hernia" type="text" class="Xbox"  style="position: absolute; left: 263px; top: 528px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
-<input name="Thyroid" id="Thyroid" type="text" class="Xbox"  style="position: absolute; left: 263px; top: 553px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
-<input name="Scrotum" id="Scrotum" type="text" class="Xbox"  style="position: absolute; left: 263px; top: 578px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="Breast" id="Breast" type="text" class="Xbox"  onclick="addSubject(this.id, 'Breast')" style="position: absolute; left: 263px; top: 503px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="Hernia" id="Hernia" type="text" class="Xbox"  onclick="addSubject(this.id, 'Hernia')" style="position: absolute; left: 263px; top: 528px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="Thyroid" id="Thyroid" type="text" class="Xbox"  onclick="addSubject(this.id, 'Thyroid')" style="position: absolute; left: 263px; top: 553px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
+<input name="Scrotum" id="Scrotum" type="text" class="Xbox"  onclick="addSubject(this.id, 'Scrotum')" style="position: absolute; left: 263px; top: 578px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
 <input name="Other" id="Other" type="text" class="Xbox"  style="position: absolute; left: 263px; top: 603px; width:14px; height:14px; font-family:sans-serif; font-style:normal; font-weight:bold; font-size:14px; text-align:center; border:1px solid  #000000; background-color:white;"  >
-<input name="OtherText" type="text" class="editable" id="OtherText" style="position: absolute; left: 315px; top:602px; width: 130px;" >
+<input name="OtherText" type="text" class="editable" id="OtherText" onfocusin="saveOldOtherRequestedExam();"  onfocusout="addSubjectOther();" style="position: absolute; left: 315px; top:602px; width: 130px;" >
 <input name="instructionsLABEL" type="text" class="noborder" style="position:absolute; left:23px; top:676px; width: 116px; font-weight:bold" value="INSTRUCTIONS: " size="8" >
 <textarea name="Instructions" class="editable" style="width:725px; height:98px; position: absolute; left: 21px; top:697px;" id="Instructions"></textarea>
-<textarea name="Clinic" cols="50" rows="3" class="noborder" id="Clinic" style="position:absolute; left:28px; top:816px; width: 283px; height: 100px;" oscardb=clinic_label></textarea>
+
+<div class="DoNotPrint" id="BottomButtons" style="position: absolute; top:850px; left:0px;">
+  <table><tr><td>
+    Subject: <input id="subject" name="subject" size="40" type="text"> 
+     <input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick=" submission();"> 
+     <input value="Reset" name="ResetButton" id="ResetButton" type="reset"> 
+     <input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();"> 
+     <input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="printSubmit();"> 
+  </td></tr></table>
+</div>
+
+
+<textarea name="Clinic" cols="50" rows="3" class="noborder" id="Clinic" style="position:absolute; left:28px; top:890px; width: 283px; height: 100px;" oscardb=clinic_label></textarea>
   
 </form>       
         
@@ -330,10 +380,13 @@ Nuchal translucency<br/>
   				Wants to know sex of fetus</p>
      
   
-<input value="Reset Form" name="ResetButton" id="ResetButton" type="reset" onClick="document.FormName.reset()"> <br/><br/>
-<input value="Print and Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="printSubmit();"> 
+<input value="Reset Form" name="ResetButton" id="ResetButton" type="reset" onClick="document.FormName.reset()"> 
+<!-- <input value="Print and Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="printSubmit();"> 
 <input value="Submit" name="SubmitButton" id="SubmitButton" type="button" onclick="submission();"><br/> 
-Subject:<input name="subjectName" id="subjectName" type="text" size="15" >
+Subject:<input name="subject" id="subject" type="text" size="15" style="width: 230px">
+ -->
+ <br/><br/>
+
 </p>
 </p>
 </form>
