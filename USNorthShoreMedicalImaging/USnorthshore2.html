@@ -162,6 +162,13 @@ function printSubmit() {
 	setTimeout('submission()', 500);
 }
 
+function addSubject_radioButtons(examRequested) {
+  const subjectLine = document.getElementById("subject");
+  subjectLine.value = examRequested + ", ";
+
+}	
+
+
 function addSubject(examRequestedID, examRequested) {
   const subjectLine = document.getElementById("subject");
   if(document.getElementById(examRequestedID).checked == true 
@@ -285,14 +292,16 @@ function addSubjectOther() {
 <p><u>OB Ultrasound:</u><br/>
   <input type="radio" name="RadioGroup2" id="RadioGroup2_1" onClick="
                 document.FormName.reset();
+                addSubject_radioButtons('OB Viability');
                 document.FormName.Instructions.value = 'VIABILITY ULTRASOUND';
                 document.FormName.CopyTo.value += ' Maternity ';
                 document.FormName.Female.value = 'X';
                 document.FormName.OBSTETRICS.value = 'X';">
 				Viability<br/>
                 
-<input type="radio" name="RadioGroup2" id="RadioGroup2_2"onClick="
+<input type="radio" name="RadioGroup2" id="RadioGroup2_2" onClick="
                 document.FormName.reset();
+                addSubject_radioButtons('OB Dating');
                 document.FormName.OBSTETRICS.value = 'X';
                 document.FormName.Instructions.value = 'DATING ULTRASOUND';
                 document.FormName.Female.value = 'X';
@@ -301,6 +310,7 @@ function addSubjectOther() {
 				Dating <BR/>
   <input type="radio" name="RadioGroup2" id="RadioGroup2_10" onClick="
                 document.FormName.reset();
+                addSubject_radioButtons('OB NT');
                 document.FormName.OBSTETRICS.value = 'X';
                 document.FormName.NTyes.value = 'X';
                 document.FormName.Female.value = 'X';
@@ -310,6 +320,7 @@ Nuchal translucency<br/>
   
     <input type="radio" name="RadioGroup2" id="RadioGroup2_3" onClick="
                 document.FormName.reset();
+                addSubject_radioButtons('OB Detailed');
                 document.FormName.OBSTETRICS.value = 'X';
                 document.FormName.Female.value = 'X';
                 document.FormName.CopyTo.value += ' Maternity ';
@@ -318,6 +329,7 @@ Nuchal translucency<br/>
   
     <input type="radio" name="RadioGroup2" id="RadioGroup2_4" onClick="
                 document.FormName.reset();
+                addSubject_radioButtons('OB Detailed - no markers');
                 document.FormName.OBSTETRICS.value = 'X';
                 document.FormName.Female.value = 'X';
                 document.FormName.CopyTo.value += ' Maternity ';
@@ -326,6 +338,7 @@ Nuchal translucency<br/>
   
     <input type="radio" name="RadioGroup2" id="RadioGroup2_5" onClick="
                 document.FormName.reset();
+                addSubject_radioButtons('OB Growth/Fluid');
                 document.FormName.OBSTETRICS.value = 'X';
                 document.FormName.Female.value = 'X';
                 document.FormName.CopyTo.value += ' Maternity ';
@@ -334,6 +347,7 @@ Nuchal translucency<br/>
   
     <input type="radio" name="RadioGroup2" id="RadioGroup2_9" onClick="
                 document.FormName.reset();
+                addSubject_radioButtons('OB Cervical length');
                 document.FormName.OBSTETRICS.value = 'X';
                 document.FormName.Female.value = 'X';
                 document.FormName.CopyTo.value += ' Maternity ';
@@ -342,6 +356,7 @@ Nuchal translucency<br/>
   
     <input type="radio" name="RadioGroup2" id="RadioGroup2_8" onClick="
                 document.FormName.reset();
+                addSubject_radioButtons('OB Placental location');
                 document.FormName.OBSTETRICS.value = 'X';
                 document.FormName.Female.value = 'X';
                 document.FormName.CopyTo.value += ' Maternity ';
@@ -350,28 +365,31 @@ Nuchal translucency<br/>
   
     <input type="radio" name="RadioGroup2" id="RadioGroup2_6" onClick="
                 document.FormName.reset();
+                addSubject_radioButtons('OB Presentation/Position');
                 document.FormName.OBSTETRICS.value = 'X';
                 document.FormName.Female.value = 'X';
                 document.FormName.CopyTo.value += ' Maternity ';
                 document.FormName.Instructions.value = 'PRESENTATION & POSITION ASSESSMENT';">
-  Presentation <br/>
+  Presentation/Position <br/>
   
     <input type="radio" name="RadioGroup2" id="RadioGroup2_7" onClick="
                 document.FormName.reset();
+                addSubject_radioButtons('OB Postdates fluid assessment');
                 document.FormName.OBSTETRICS.value = 'X';
                 document.FormName.Female.value = 'X';
                 document.FormName.CopyTo.value += ' Maternity ';
                 document.FormName.Instructions.value = 'POSTDATES FLUID ASSESSMENT';">
-  Postdates <br/>
+  Postdates fluid assesment <br/>
   
     <input type="radio" name="RadioGroup2" id="RadioGroup2_8" onClick="
                 document.FormName.reset();
+                addSubject_radioButtons('OB r/o retained products');
                 document.FormName.Pelvis.value = 'X';
                 document.FormName.Instructions.value ='POSTPARTUM ASSESSMENT - suspected retained products';
                 document.FormName.Female.value = 'X';
                 document.FormName.LMP.value='NA';
                 document.FormName.EDD.value='NA';">
-  Postpartum </p>
+  Postpartum, suspect retained products </p>
 <p><u>Patient:</u><br/>
                 
 <input name="Sex" type="checkbox" onClick="
