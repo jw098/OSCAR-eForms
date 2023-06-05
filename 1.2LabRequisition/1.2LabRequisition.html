@@ -2456,6 +2456,18 @@ ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndications
 TogglePatientInstructions(this.id, PatientInstructionsValue);
 ">Fatigue<br>
 
+<!-- Alopecia -->
+<input type="checkbox" id="alopecia" name="alopecia" title="if female with acne, considertotal testosterone, DHEAS. if female with irregular periods, consider PCOS workup"onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'TSH', 'Sodium', 'Potassium', 'CreatinineGFR', 'ALT', 'B12', 'Lipid_full']
+var DiagnosisAndIndicationsValue = 'Alopecia, ';
+var SubjectValue = 'Alopecia, ';
+var PatientInstructionsValue = 'No fasting required. ';
+var AdditionalTestInstructionsValue = 'syphilis testing, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+TogglePatientInstructions(this.id, PatientInstructionsValue);
+">Alopecia<br>
+
 <!-- Stool -->
 <input type="checkbox" id="Stool" name="Stool" onclick="
 var BoxesToCheck = ['StoolCS', 'StoolOP'];
@@ -2768,6 +2780,18 @@ var DiagnosisAndIndicationsValue = '';
 var SubjectValue = 'LE/LFTs, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ">Liver Enzymes/LFTs<br>
+
+<!-- Chronic HBV infection follow-up -->
+<input type="checkbox" id="hepB_initial" name="hepB_initial" title="Hep B initial" onclick="
+var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'CreatinineGFR', 'HIVNominal', 'ChronicViralHepatitis'];
+var DiagnosisAndIndicationsValue = 'Hep B, ';
+var SubjectValue = 'Hep B initial, ';
+var AdditionalTestInstructionsValue = 'AST, anti HAV IgG, HBeAg, anti-HBeAg, HBV DNA, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);">
+<a href="http://www.hepatology.ca/wp-content/uploads/2012/06/2012HepBGuidelines_CJG.pdf"
+	target="_blank" title="Web reference">Hep B initial</a><br>
+
 <!-- Chronic HBV infection follow-up -->
 <input type="checkbox" id="Chronic_HBV_FU" name="Chronic_HBV_FU" title="Chronic HBV infection" onclick="
 var BoxesToCheck = ['ALT'];
@@ -2799,6 +2823,16 @@ var AdditionalTestInstructionsValue = 'LDH, serum protein electrophoresis, Hapto
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 ">Normocytic Anemia <br>
+
+<!-- Polycythemia -->
+<input type="checkbox" name="polycythemia" id ="polycythemia" title="polycythemia. consider HSAT." onclick="
+var BoxesToCheck = ['HematologyProfile', 'Sodium', 'Potassium', 'CreatinineGFR', ];
+var DiagnosisAndIndicationsValue = 'Polycythemia, ';
+var SubjectValue = 'Polycythemia, ';
+var AdditionalTestInstructionsValue = 'serum EPO, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Polycythemia<br>
 
 <!-- Neutropenia -->
 <input type="checkbox" name="neutropenia" id ="neutropenia" title="neutropenia" onclick="
@@ -2846,7 +2880,7 @@ ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 MENTAL HEALTH:<br>
 	<!-- Mental health -->
 	<input type="checkbox" id="mentalHealth" name = "mentalHealth" title = "mental health. consider Bhcg, UA, urine tox" onclick="
-	var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'ALT', 'B12', 'CreatinineGFR', 'Lipid_full', 'TSH'];
+	var BoxesToCheck = ['HematologyProfile', 'Sodium', 'Potassium', 'Ferritin', 'A1c', 'ALT', 'B12', 'CreatinineGFR', 'Lipid_full', 'TSH'];
 	addPregTestIfFemale(BoxesToCheck);
 	var DiagnosisAndIndicationsValue = 'Mental health, ';
 	var SubjectValue = 'Mental health, ';
