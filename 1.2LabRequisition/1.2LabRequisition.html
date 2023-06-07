@@ -2468,6 +2468,27 @@ ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 TogglePatientInstructions(this.id, PatientInstructionsValue);
 ">Alopecia<br>
 
+<!-- Palpitations -->
+<input type="checkbox" id="palpitations" name="palpitations" onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'TSH', 'Sodium', 'Potassium', 'CreatinineGFR', 'ALT', 'B12', 'Lipid_full', 'ECG']
+var DiagnosisAndIndicationsValue = 'Palpitations, ';
+var SubjectValue = 'Palpitations, ';
+var PatientInstructionsValue = 'No fasting required. ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+TogglePatientInstructions(this.id, PatientInstructionsValue);
+">Palpitations<br>
+
+<!-- Syncope -->
+<input type="checkbox" id="syncope" name="syncope" onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'TSH', 'Sodium', 'Potassium', 'CreatinineGFR', 'ALT', 'B12', 'Lipid_full', 'ECG']
+addPregTestIfFemale(BoxesToCheck);
+var DiagnosisAndIndicationsValue = 'Syncope, ';
+var SubjectValue = 'Syncope, ';
+var PatientInstructionsValue = 'No fasting required. ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+TogglePatientInstructions(this.id, PatientInstructionsValue);
+">Syncope<br>
+
 <!-- Stool -->
 <input type="checkbox" id="Stool" name="Stool" onclick="
 var BoxesToCheck = ['StoolCS', 'StoolOP'];
@@ -2833,6 +2854,16 @@ var AdditionalTestInstructionsValue = 'serum EPO, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 ">Polycythemia<br>
+
+<!-- Macrocytosis -->
+<input type="checkbox" name="macrocytosis" id ="macrocytosis" title="macrocytosis." onclick="
+var BoxesToCheck = ['HematologyProfile', 'B12', 'Potassium', 'CreatinineGFR', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'TSH', 'HIVNominal'];
+var DiagnosisAndIndicationsValue = 'Macrocytosis, ';
+var SubjectValue = 'Macrocytosis, ';
+var AdditionalTestInstructionsValue = 'reticulocytes, folate ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Macrocytosis<br>
 
 <!-- Neutropenia -->
 <input type="checkbox" name="neutropenia" id ="neutropenia" title="neutropenia" onclick="
