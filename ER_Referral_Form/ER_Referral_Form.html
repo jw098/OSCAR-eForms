@@ -144,6 +144,8 @@ $(document).ready(function() {
 		startup functions 
 		****************************/
 		function startUp(){
+
+			postAllHistory();
 			const medical_history = document.getElementById('medical_history').value;
 			const current_rx = document.getElementById('current_rx').value;
 			const druglist_generic = document.getElementById('druglist_generic').value;
@@ -151,6 +153,7 @@ $(document).ready(function() {
 			const ongoingconcerns = document.getElementById('ongoingconcerns').value;
 			const other_medications_history = document.getElementById('other_medications_history').value;
 			const social_family_history = document.getElementById('social_family_history').value;
+
 			console.log(medical_history);
 			console.log(current_rx);
 			console.log(druglist_generic);
@@ -158,6 +161,18 @@ $(document).ready(function() {
 			console.log(ongoingconcerns);
 			console.log(other_medications_history);
 			console.log(social_family_history);
+
+			// const pastMedHx = "medical_history: " +  medical_history + "\n" +
+			// "current_rx: " + current_rx + "\n" + 
+			// "Druglist_generic: " + druglist_generic + "\n" + 
+			// "reminders: " + reminders + "\n" + 
+			// "ongoingconcerns: " + ongoingconcerns + "\n" + 
+			// "other_medications_history: " + other_medications_history + "\n" + 
+			// "social_family_history: " + social_family_history + "\n";
+			// document.getElementById('PtInfo').value = pastMedHx;
+			
+
+
 			setDocumentTitle('ER_Referral_Form',document.getElementById('patient_nameL').value);
 			setDefaults();
 			reImg();
@@ -230,6 +245,131 @@ $(document).ready(function() {
 				}
 			});
 		}
+
+async function postAllHistory() {
+
+	const [medHistory, socHistory, famHistory, otherMeds] = await Promise.all([getHistory(urlMedHistory()), getHistory(urlSocHistory()), getHistory(urlFamHistory()), getHistory(urlOtherMeds())]);
+
+	const allHistory = "Past Medical History:\n" + medHistory + "\nSocial History:\n" + socHistory + "\nFamily History:\n"  + famHistory + "\nOther Meds:\n"  + otherMeds;
+	console.log(allHistory);
+
+	const clinInfoTextBox = document.getElementById('PtInfo');
+	clinInfoTextBox.value = allHistory;
+}
+
+async function getHistory(URL) {
+	const otherPageXMLText = await getXMLHTTP(URL);
+	const otherPageHTML = new DOMParser().parseFromString(otherPageXMLText, "text/html");
+  const historyDivList = otherPageHTML.querySelectorAll("body > div"); 
+
+  if (historyDivList.length == 0){
+  	return "<no data>\n"
+  }
+  else {
+		const historyText = getHistoryAsText(historyDivList);
+		console.log(historyText);
+
+		return historyText;
+  }
+
+}
+
+function getHistoryAsText(historyDivList){
+	let historyTextAllLines = "";
+	for (i = 0; i < historyDivList.length; i++){
+		const historyDiv = historyDivList[i];
+		const isArchived = historyDiv.children[1].innerText.includes("ARCHIVED");
+		if(isArchived){
+			// don't add text that is ARCHIVED.
+			continue;
+		}
+		const historyTextOneLine = historyDiv.children[0].innerText;
+		historyTextAllLines += historyTextOneLine + "\n";
+	}
+	return historyTextAllLines;
+}
+
+/*
+- returns a promise that returns the xmlhttp response text
+*/
+function getXMLHTTP(theURL){
+	let myPromise = new Promise(function (resolve, reject){
+		let xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", theURL, true);
+		
+		xmlhttp.onload = function(){
+			if (xmlhttp.status == 200) {
+				resolve(xmlhttp.responseText);
+      		} 
+			else {
+				reject(new Error("File not Found"));
+      		}
+		};
+		xmlhttp.onerror = function () {
+			reject(new Error("File not Found"));
+		};
+		xmlhttp.send();
+	});
+
+	return myPromise;
+}
+
+
+function getURLOrigin(){
+	const  urlElements = (window.location.pathname.split('/', 2));
+	const firstUrlElement = (urlElements.slice(1));
+	return window.location.origin + '/' + firstUrlElement + '/';
+}
+
+
+/////////////////////////////////////////////////////
+// get URL, URL elements
+/////////////////////////////////////////////////////
+function urlSocHistory(){
+	var newURL = getURLOrigin() + "CaseManagementEntry.do?method=issuehistory&demographicNo="+ getDemographicNum() + "&issueIds=65";
+
+	return newURL;
+}
+
+function urlMedHistory(){
+	var newURL = getURLOrigin() + "CaseManagementEntry.do?method=issuehistory&demographicNo="+ getDemographicNum() + "&issueIds=66";
+
+	return newURL;
+}
+
+function urlFamHistory(){
+	var newURL = getURLOrigin() + "CaseManagementEntry.do?method=issuehistory&demographicNo="+ getDemographicNum() + "&issueIds=69";
+
+	return newURL;
+}
+
+
+function urlEChart(){
+	var newURL = getURLOrigin() + "casemgmt/forward.jsp?action=view&demographicNo="+ getDemographicNum();
+
+	return newURL;
+}
+
+
+function urlOtherMeds(){
+	var newURL = getURLOrigin() + "CaseManagementEntry.do?method=issuehistory&demographicNo="+ getDemographicNum() + "&issueIds=64";
+
+	return newURL;
+}
+
+function getDemographicNum(){
+	var params = {}; //Get Params
+	if (location.search) {
+	    var parts = location.search.substring(1).split('&');
+	    for (var i = 0; i < parts.length; i++) {
+	        var nv = parts[i].split('=');
+	        if (!nv[0]) continue;``
+	        params[nv[0]] = nv[1] || true;
+	    }
+	}
+
+	return params.demographic_no;
+}
 
 </script>
 
@@ -332,11 +472,11 @@ function reImg(){
 <input type="hidden" name="PtInfo_fontsize" id="PtInfo_fontsize" value="">
 
 <div style='position:absolute; left:0px; top:20px; width:750px; text-align:center; font-size:18px;'>
-	<b>Emergency Department Fax Referral</b></div>
+	<b>Emergency Department Referral</b></div>
 
 
 <div style='position:absolute; left:40px; top:80px; width:700px; text-align:left; font-size:14px;'>
-<b>Date: <input name="today" id="today"  type="text" class=" noborder" style="width:200px; font-size:14px; background:transparent;" oscarDB=today> Y-M-D</b><br>
+<b>Date (Y-M-D):<input name="today" id="today"  type="text" class=" noborder" style="width:200px; font-size:14px; background:transparent;" oscarDB=today></b><br>
 <hr>
 </div>
 <div style='position:absolute; left:40px; top:140px; width:700px; text-align:left; font-size:14px;'>
@@ -352,23 +492,26 @@ Fax:<input name="clinic_fax" id="clinic_fax" type="text" class="noborder" style=
 <b>Patient Info:</b>
 </div>
 <div style='position:absolute; left:180px; top:240px; width:700px; text-align:left; font-size:14px;'>
-<b>Name: <input name="patient_name" id="patient_name"  type="text" class=" noborder" style="width:400px; font-size:14px; background:transparent;" oscarDB=patient_name>(Last, First)<br>
+<b>Name: <input name="patient_name" id="patient_name"  type="text" class=" noborder" style="width:400px; font-size:14px; background:transparent;" oscarDB=patient_name><br>
 Age:<input name="age" id="age" type="text" class=" noborder" style="width:30px; font-size:14px; background:transparent;" oscarDB=age>, DOB:<input name="dob" id="dob" type="text" class=" noborder" style="width:150px; font-size:14px; background:transparent;" oscarDB=dob><br>
 PHN:<input name="hinc" id="hinc" type="text" class="noborder" style="width:100px; font-size:14px; background:transparent;" oscarDB=hinc>
 </b></div>
 <div style='position:absolute; left:40px; top:320px; width:700px; text-align:left; font-size:14px;'>
-<b>Reason for Referral:<input name="Reason" id="Reason" type="text" class="noborder" style="width:500px; font-size:14px; background:transparent;" ></b>
+<b>Reason for Referral:<br>
+	<textarea name="Reason" id="Reason" type="text" class="noborder" style="width:700px; height:150px;font-size:14px; background:transparent;" ></textarea>
+</b>
 </div>
-<div style='position:absolute; left:40px; top:350px; width:700px; text-align:left; font-size:14px;'>
-<b>Patient&#8217;s Relevent History and Physical:<br>
-	<textarea name="PtInfo" id="PtInfo" type="text" class=" noborder" style="width:680px; height:400px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:14px; text-align:left; background-color:transparent;" oscarDB=medical_history></textarea><br>
-	<input name="Attached" id="Attached" type="text" class="Xbox box1" > &nbsp; &nbsp; &nbsp; &nbsp; Please attach a copy of relevant clinical records if available.<br><br>
+<div style='position:absolute; left:40px; top:500px; width:700px; text-align:left; font-size:14px;'>
+<b>Past Medical History:<br>
+	<textarea name="PtInfo" id="PtInfo" type="text" class=" noborder" style="width:680px; height:600px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:14px; text-align:left; background-color:transparent;"></textarea><br>
+	<!-- <input name="Attached" id="Attached" type="text" class="Xbox box1" > &nbsp; &nbsp; &nbsp; &nbsp; Please attach a copy of relevant clinical records if available. -->
+	<br><br>
 <hr>
 <hr>
 </b>
 </div>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size PtInfo" style="left:740px; top:370px;" onclick="changeFontSize('PtInfo', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size PtInfo" style="left:740px; top:390px;" onclick="changeFontSize('PtInfo', -1);">&#9660;</span>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size PtInfo" style="left:740px; top:530px;" onclick="changeFontSize('PtInfo', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size PtInfo" style="left:740px; top:545px;" onclick="changeFontSize('PtInfo', -1);">&#9660;</span>
 
 <!-- Links to other parts of the chart -->
 
@@ -381,7 +524,7 @@ PHN:<input name="hinc" id="hinc" type="text" class="noborder" style="width:100px
 <!-- End Links -->
 
 
-<div class="DoNotPrint" id="BottomButtons" style="position: absolute; top:920px; left:0px;">
+<div class="DoNotPrint" id="BottomButtons" style="position: absolute; top:1200px; left:0px;">
 	<table><tr><td>
 		<input type="hidden" name="newForm" id="newForm" value="True" />
 		Subject: <input name="subject" size="40" type="text"> <br> 
