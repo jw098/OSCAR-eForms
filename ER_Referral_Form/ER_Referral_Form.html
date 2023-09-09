@@ -145,31 +145,44 @@ $(document).ready(function() {
 		****************************/
 		function startUp(){
 
-			postAllHistory();
+			// postAllHistory();
 			const medical_history = document.getElementById('medical_history').value;
 			const current_rx = document.getElementById('current_rx').value;
+			const current_rx_lt = document.getElementById('current_rx_lt').value;
 			const druglist_generic = document.getElementById('druglist_generic').value;
 			const reminders = document.getElementById('reminders').value;
 			const ongoingconcerns = document.getElementById('ongoingconcerns').value;
 			const other_medications_history = document.getElementById('other_medications_history').value;
 			const social_family_history = document.getElementById('social_family_history').value;
+			const family_history = document.getElementById('family_history').value;
+			const allergies_des_no_archived = document.getElementById('allergies_des_no_archived').value;
 
-			console.log(medical_history);
-			console.log(current_rx);
-			console.log(druglist_generic);
-			console.log(reminders);
-			console.log(ongoingconcerns);
-			console.log(other_medications_history);
-			console.log(social_family_history);
+			
+			// console.log(medical_history);
+			// console.log(current_rx);
+			// console.log(druglist_generic);
+			// console.log(reminders);
+			// console.log(ongoingconcerns);
+			// console.log(other_medications_history);
+			// console.log(social_family_history);
 
-			// const pastMedHx = "medical_history: " +  medical_history + "\n" +
-			// "current_rx: " + current_rx + "\n" + 
-			// "Druglist_generic: " + druglist_generic + "\n" + 
-			// "reminders: " + reminders + "\n" + 
-			// "ongoingconcerns: " + ongoingconcerns + "\n" + 
-			// "other_medications_history: " + other_medications_history + "\n" + 
-			// "social_family_history: " + social_family_history + "\n";
-			// document.getElementById('PtInfo').value = pastMedHx;
+			const pastMedHx = 
+			"medical_history: " + "\n"+  medical_history + "\n\n" +
+			"social_family_history: " + "\n" + social_family_history + "\n\n" +
+			"family_history: " + "\n" + family_history + "\n\n" +
+			"reminders: " + "\n" + reminders + "\n\n" + 
+			"ongoingconcerns: " + "\n" + ongoingconcerns + "\n\n";
+
+			const pastMedHx2 = 
+			"allergies_des_no_archived: " + "\n" + allergies_des_no_archived + "\n\n" + 
+			"current_rx_lt: " + "\n" + current_rx_lt + "\n\n" + 
+			"Druglist_generic: " + "\n" + druglist_generic + "\n\n" + 
+			"other_medications_history: " + "\n" + other_medications_history + "\n\n" +
+			"current_rx: " + "\n" + current_rx + "\n\n"; 
+
+
+			document.getElementById('PtInfo').value = pastMedHx;
+			document.getElementById('PtInfo2').value = pastMedHx2;
 			
 
 
@@ -462,13 +475,19 @@ function reImg(){
 
 <!-- Hidden Inputs -->
 <input name="patient_nameL" id="patient_nameL" type="hidden"  oscarDB=patient_nameL>
+
 <input name="medical_history" id="medical_history" type="hidden"  oscarDB=medical_history>
 <input name="current_rx" id="current_rx" type="hidden"  oscarDB=current_rx>
+<input name="current_rx_lt" id="current_rx_lt" type="hidden"  oscarDB=current_rx_lt>
 <input name="druglist_generic" id="druglist_generic" type="hidden"  oscarDB=druglist_generic>
 <input name="reminders" id="reminders" type="hidden"  oscarDB=reminders>
 <input name="ongoingconcerns" id="ongoingconcerns" type="hidden"  oscarDB=ongoingconcerns>
 <input name="other_medications_history" id="other_medications_history" type="hidden"  oscarDB=other_medications_history>
 <input name="social_family_history" id="social_family_history" type="hidden"  oscarDB=social_family_history>
+<input name="family_history" id="family_history" type="hidden"  oscarDB=family_history>
+<input name="allergies_des_no_archived" id="allergies_des_no_archived" type="hidden"  oscarDB=allergies_des_no_archived>
+
+
 <input type="hidden" name="PtInfo_fontsize" id="PtInfo_fontsize" value="">
 
 <div style='position:absolute; left:0px; top:20px; width:750px; text-align:center; font-size:18px;'>
@@ -503,7 +522,8 @@ PHN:<input name="hinc" id="hinc" type="text" class="noborder" style="width:100px
 </div>
 <div style='position:absolute; left:40px; top:500px; width:700px; text-align:left; font-size:14px;'>
 <b>Past Medical History:<br>
-	<textarea name="PtInfo" id="PtInfo" type="text" class=" noborder" style="width:680px; height:600px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:14px; text-align:left; background-color:transparent;"></textarea><br>
+	<textarea name="PtInfo" id="PtInfo" type="text" class=" noborder" style="width:340px; height:600px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:14px; text-align:left; background-color:transparent;"></textarea>
+	<textarea name="PtInfo2" id="PtInfo2" type="text" class=" noborder" style="width:340px; height:600px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:14px; text-align:left; background-color:transparent;"></textarea><br>
 	<!-- <input name="Attached" id="Attached" type="text" class="Xbox box1" > &nbsp; &nbsp; &nbsp; &nbsp; Please attach a copy of relevant clinical records if available. -->
 	<br><br>
 <hr>
