@@ -2264,10 +2264,10 @@ ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 <!-- CKD etiology -->
 <input type="checkbox" id = "CKDEtiology" name="CKDEtiology" title="Consider U/S" onclick="
 var BoxesToCheck = ['Sodium', 'Potassium', 'CreatinineGFR', 'A1c', 'ACR', 'HematologyProfile', 'Ferritin', 'Calcium', 'Albumin','UrineMacroscopicOnly', 'UrineMicroscopicOnly'];
-var DiagnosisAndIndicationsValue = 'Chronic Kidney Disease, ';
+var DiagnosisAndIndicationsValue = 'CKD, ';
 var SubjectValue = 'CKD Etiology, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-var AdditionalTestInstructionsValue = 'Phosphate, SPEP, UPEP';
+var AdditionalTestInstructionsValue = 'Phosphate, SPEP, UPEP, CRP, anti-CCP, rheumatoid factor, ANA, ';
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 ">Etiology
 <!-- CKD annual -->
@@ -2488,6 +2488,38 @@ var PatientInstructionsValue = 'No fasting required. ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 TogglePatientInstructions(this.id, PatientInstructionsValue);
 ">Syncope<br>
+
+<!-- Pedal edema -->
+<input type="checkbox" id="pedalEdema" name="pedalEdema" onclick="
+var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No',  'Albumin', 'AlkPhos', 'Sodium', 'Potassium', 'CreatinineGFR', 'ALT', 'Bilirubin', 'TSH', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'UrineMacroscopicCultureIfPyuriaOrNitrate',]
+
+var DiagnosisAndIndicationsValue = 'Pedal edema, ';
+var SubjectValue = 'Pedal edema, ';
+var AdditionalTestInstructionsValue = 'NT-BNP, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Pedal edema<br>
+
+<!-- Tremor -->
+<input type="checkbox" id="Tremor" name="Tremor" onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'SuspectHyperthyroidism', 'Sodium', 'Potassium', 'CreatinineGFR', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'B12', 'Calcium']
+var DiagnosisAndIndicationsValue = 'Tremor, ';
+var SubjectValue = 'Tremor, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+var AdditionalTestInstructionsValue = 'ceruloplasmin, ';
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Tremor<br>
+
+<!-- Weight loss -->
+<input type="checkbox" id="weightloss" name="weightloss" onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'SuspectHyperthyroidism', 'Sodium', 'Potassium', 'CreatinineGFR', 'ALT', 'B12', 'Lipid_full', 'HIVNominal', 'ChronicViralHepatitis', 'FIT_Other']
+var DiagnosisAndIndicationsValue = 'Weight loss, ';
+var SubjectValue = 'Weight loss, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+var AdditionalTestInstructionsValue = 'anti-TTG, urea breath test, ';
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Weight loss<br>
+
 
 <!-- Stool -->
 <input type="checkbox" id="Stool" name="Stool" onclick="
@@ -2785,20 +2817,22 @@ var AdditionalTestInstructionsValue = 'ANA, anti-mitochondrial AB, ceruloplasmin
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 ">Chronic LFTs<br>
+
 <!-- Elevated Bili -->
 <input type="checkbox" id="elevated_bili" name="elevated_bili" onclick="
-var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin'];
-var AdditionalTestInstructionsValue = 'conjugated bilirubin, unconjugated bilirubin, ';
+var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'UrineMacroscopicCultureIfPyuriaOrNitrate'];
+var AdditionalTestInstructionsValue = 'conjugated bilirubin, unconjugated bilirubin, peripheral blood smear, LDH, Haptoglobin, reticulocyte, anti-TTG, serum iron, TIBC, iron saturation, ';
 var DiagnosisAndIndicationsValue = 'Elevated Bilirubin, ';
 var SubjectValue = 'Elevated Bilirubin, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 ">Elevated Bili<br>
+
 <!-- All LE/LFT tests -->
 <input type="checkbox" id="LFT" name="LFT" title="Liver enzymes and function tests" onclick="
 var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin'];
-var DiagnosisAndIndicationsValue = '';
-var SubjectValue = 'LE/LFTs, ';
+var DiagnosisAndIndicationsValue = 'LFTs';
+var SubjectValue = 'LFTs, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ">Liver Enzymes/LFTs<br>
 
@@ -2840,7 +2874,7 @@ ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndications
 var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'ChronicViralHepatitis', 'ALT', 'Bilirubin', 'GGT', 'PTINR', 'Warfarin_No', 'CreatinineGFR', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'UrineMacroscopicCultureIfPyuriaOrNitrate', 'FIT_Other', 'HIVNominal', 'B12'];
 var DiagnosisAndIndicationsValue = 'Normocytic Anemia, ';
 var SubjectValue = 'Normocytic Anemia, ';
-var AdditionalTestInstructionsValue = 'LDH, serum protein electrophoresis, Haptoglobin, reticulocyte, anti-TTG, serum iron, TIBC, iron saturation, ';
+var AdditionalTestInstructionsValue = 'LDH, serum protein electrophoresis, urine protein electrophoresis, Haptoglobin, reticulocyte, anti-TTG, serum iron, TIBC, iron saturation, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 ">Normocytic Anemia <br>
@@ -2863,17 +2897,37 @@ var SubjectValue = 'Macrocytosis, ';
 var AdditionalTestInstructionsValue = 'reticulocytes, folate ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-">Macrocytosis<br>
+">Macrocytosis
 
-<!-- Neutropenia -->
+<!-- Microcytosis -->
+<input type="checkbox" name="microcytosis" id ="microcytosis" title="microcytosis." onclick="
+var BoxesToCheck = ['HematologyProfile', 'Ferritin'];
+var DiagnosisAndIndicationsValue = 'Microcytosis, ';
+var SubjectValue = 'Microcytosis, ';
+var AdditionalTestInstructionsValue = 'Iron, iron saturation, Hemoglobin electrophoresis, serum lead, ';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Microcytosis<br>
+
+<!-- Neutropenia initial -->
 <input type="checkbox" name="neutropenia" id ="neutropenia" title="neutropenia" onclick="
 var BoxesToCheck = ['HematologyProfile'];
-var DiagnosisAndIndicationsValue = 'Neutropenia, ';
-var SubjectValue = 'Neutropenia, ';
+var DiagnosisAndIndicationsValue = 'Neutropenia initial, ';
+var SubjectValue = 'Neutropenia initial, ';
 var AdditionalTestInstructionsValue = 'peripheral blood smear, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
-">Neutropenia <br>
+">Neutropenia initial<br>
+
+<!-- Neutropenia f/u -->
+<input type="checkbox" name="neutropenia2" id ="neutropenia2" title="neutropenia2" onclick="
+var BoxesToCheck = ['HematologyProfile', 'CreatinineGFR', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'HIVNominal', 'ChronicViralHepatitis', 'B12', 'Ferritin'];
+var DiagnosisAndIndicationsValue = 'Neutropenia f/u, ';
+var SubjectValue = 'Neutropenia f/u, ';
+var AdditionalTestInstructionsValue = 'peripheral blood smear, iron, iron saturation, CRP, ANA, ANCA, anti-CCP, Rheumatoid factor';
+ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+">Neutropenia f/u<br>
 
 <!-- Iron Deficiency -->
 <input type="checkbox" name="ironDeficiency" id ="ironDeficiency" title="Iron Deficiency" onclick="
