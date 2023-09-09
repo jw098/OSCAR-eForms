@@ -1008,7 +1008,7 @@ var jg = new jsGraphics(cnv);
 <font face="Arial,Helvetica,sans-serif" size="1" > * as date of onset of puberty varies BMI becomes a better measure than weight alone<br>
   Images Copyright 2010 by Dieticians of Canada licensed for non commercial use.  <a onclick="alert(kAboutThisEForm);" style="cursor: hand; color: Blue;">About WHO 2-19 Years EForm</a></font> <br><br>
 		 Subject: <input name="subject" size="40" type="text"> <br>
-			<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick="exportme(); releaseDirtyFlag();">
+			<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick="releaseDirtyFlag();">
 			<input value="Plot Ht & Wt" name="PlotHW" id="PlotHW" type="button" onclick="jg.clear(); plotHeightAndWeight();"> 
 			<input value="Plot BMI" name="PlotBMIb" id="PlotBMIb" type="button" disabled onclick="jg.clear(); plotBMI();">
 			<input value="B&W" name="bw" id="bw" type="button" onclick="black();jg.clear(); document.getElementById('table1').style.display='block'; document.getElementById('table2').style.display='none'; plotHeightAndWeight(); document.getElementById('PlotBMIb').disabled=true; document.getElementById('PlotHW').disabled=false;">
