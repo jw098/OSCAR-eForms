@@ -167,25 +167,24 @@ $(document).ready(function() {
 			// console.log(social_family_history);
 
 			const pastMedHx = 
-			"medical_history: " + "\n"+  medical_history + "\n\n" +
-			"social_family_history: " + "\n" + social_family_history + "\n\n" +
-			"family_history: " + "\n" + family_history + "\n\n" +
-			"reminders: " + "\n" + reminders + "\n\n" + 
-			"ongoingconcerns: " + "\n" + ongoingconcerns + "\n\n";
+			"Medical History: " + "\n"+  medical_history + "\n\n" +
+			"Social History: " + "\n" + social_family_history + "\n\n" +
+			"Family History: " + "\n" + family_history + "\n\n";
+			//"reminders: " + "\n" + reminders + "\n\n" + 
+			//"ongoingconcerns: " + "\n" + ongoingconcerns + "\n\n";
 
 			const pastMedHx2 = 
-			"allergies_des_no_archived: " + "\n" + allergies_des_no_archived + "\n\n" + 
-			"current_rx_lt: " + "\n" + current_rx_lt + "\n\n" + 
-			"Druglist_generic: " + "\n" + druglist_generic + "\n\n" + 
-			"other_medications_history: " + "\n" + other_medications_history + "\n\n" +
-			"current_rx: " + "\n" + current_rx + "\n\n"; 
+			"Allergies: " + "\n" + allergies_des_no_archived + "\n\n" + 
+			"Current Meds: " + "\n" + current_rx + "\n\n" + 			
+			"Other Meds: " + "\n" + other_medications_history + "\n\n";
+			// "Druglist_generic: " + "\n" + druglist_generic + "\n\n" + 
+			//"current_rx_lt: " + "\n" + current_rx_lt + "\n\n" ; 
 
 
-			document.getElementById('PtInfo').value = pastMedHx;
+			document.getElementById('PtInfo1').value = pastMedHx;
 			document.getElementById('PtInfo2').value = pastMedHx2;
 			
-
-
+			loadFontSize();
 			setDocumentTitle('ER_Referral_Form',document.getElementById('patient_nameL').value);
 			setDefaults();
 			reImg();
@@ -203,7 +202,7 @@ $(document).ready(function() {
 			if (document.getElementById("newForm").value == 'True') {
   				parseName('doctor');
               }
-}
+		}
 
 
 		function parseName(id) {
@@ -266,7 +265,7 @@ async function postAllHistory() {
 	const allHistory = "Past Medical History:\n" + medHistory + "\nSocial History:\n" + socHistory + "\nFamily History:\n"  + famHistory + "\nOther Meds:\n"  + otherMeds;
 	console.log(allHistory);
 
-	const clinInfoTextBox = document.getElementById('PtInfo');
+	const clinInfoTextBox = document.getElementById('PtInfo1');
 	clinInfoTextBox.value = allHistory;
 }
 
@@ -488,7 +487,8 @@ function reImg(){
 <input name="allergies_des_no_archived" id="allergies_des_no_archived" type="hidden"  oscarDB=allergies_des_no_archived>
 
 
-<input type="hidden" name="PtInfo_fontsize" id="PtInfo_fontsize" value="">
+<input type="hidden" name="PtInfo1_fontsize" id="PtInfo1_fontsize" value="">
+<input type="hidden" name="PtInfo2_fontsize" id="PtInfo2_fontsize" value="">
 
 <div style='position:absolute; left:0px; top:20px; width:750px; text-align:center; font-size:18px;'>
 	<b>Emergency Department Referral</b></div>
@@ -522,7 +522,7 @@ PHN:<input name="hinc" id="hinc" type="text" class="noborder" style="width:100px
 </div>
 <div style='position:absolute; left:40px; top:500px; width:700px; text-align:left; font-size:14px;'>
 <b>Past Medical History:<br>
-	<textarea name="PtInfo" id="PtInfo" type="text" class=" noborder" style="width:340px; height:600px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:14px; text-align:left; background-color:transparent;"></textarea>
+	<textarea name="PtInfo1" id="PtInfo1" type="text" class=" noborder" style="width:340px; height:600px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:14px; text-align:left; background-color:transparent;"></textarea>
 	<textarea name="PtInfo2" id="PtInfo2" type="text" class=" noborder" style="width:340px; height:600px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:14px; text-align:left; background-color:transparent;"></textarea><br>
 	<!-- <input name="Attached" id="Attached" type="text" class="Xbox box1" > &nbsp; &nbsp; &nbsp; &nbsp; Please attach a copy of relevant clinical records if available. -->
 	<br><br>
@@ -530,8 +530,11 @@ PHN:<input name="hinc" id="hinc" type="text" class="noborder" style="width:100px
 <hr>
 </b>
 </div>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size PtInfo" style="left:740px; top:530px;" onclick="changeFontSize('PtInfo', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size PtInfo" style="left:740px; top:545px;" onclick="changeFontSize('PtInfo', -1);">&#9660;</span>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size PtInfo1" style="left:15px; top:530px;" onclick="changeFontSize('PtInfo1', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size PtInfo1" style="left:15px; top:545px;" onclick="changeFontSize('PtInfo1', -1);">&#9660;</span>
+
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size PtInfo2" style="left:740px; top:530px;" onclick="changeFontSize('PtInfo2', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size PtInfo2" style="left:740px; top:545px;" onclick="changeFontSize('PtInfo2', -1);">&#9660;</span>
 
 <!-- Links to other parts of the chart -->
 
