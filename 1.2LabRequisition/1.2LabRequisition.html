@@ -2193,6 +2193,8 @@ var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'FIT_Other'];
 var DiagnosisAndIndicationsValue = 'Lower Abdo Pain, ';
 var SubjectValue = 'Lower Abdo Pain, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+var AdditionalTestInstructionsValue = 'anti TTG, ';
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 ">Lower Abdo Pain<br>
 <!-- Diarrhea -->
 <input type="checkbox" id = "Diarrhea" name="Diarrhea" onclick="
@@ -2969,7 +2971,7 @@ MENTAL HEALTH:<br>
 	addPregTestIfFemale(BoxesToCheck);
 	var DiagnosisAndIndicationsValue = 'Mental health, ';
 	var SubjectValue = 'Mental health, ';
-	var AdditionalTestInstructionsValue = 'urine drug screen, ';
+	var AdditionalTestInstructionsValue = 'urine drug screen (not for third party), ';
 	ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 	ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 	">Mental health<br>
