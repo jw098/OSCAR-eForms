@@ -144,8 +144,6 @@ $(document).ready(function() {
 		startup functions 
 		****************************/
 		function startUp(){
-
-			
 			
 			loadFontSize();
 			setDocumentTitle('ER_Referral_Form',document.getElementById('patient_nameL').value);
@@ -164,11 +162,16 @@ $(document).ready(function() {
             // check the newform flag to ensure this is the initial load of the form
 			if (document.getElementById("newForm").value == 'True') {
   				parseName('doctor');
-
+				  
+	
+				postPatientAgeGender();
 				postAllHistory();
 				postAllHistoryWithOscardbTags();
             }
 		}
+
+		
+
 
 
 		function parseName(id) {
@@ -224,10 +227,81 @@ $(document).ready(function() {
 			});
 		}
 
+/////////////////////////////////////////////////////////////////
+// Post Patient age and gender
+/////////////////////////////////////////////////////////////////
+
+
+function postPatientAgeGender(){
+	const birthDate = document.getElementById("dobc2").value;
+	const genderLetter = document.getElementById("sex").value;
+
+	const age = calcPatientAge(birthDate);
+	const gender = getGender(genderLetter);
+	document.getElementById("Reason").value = "Please see this " + age + gender + " for ";
+}
+
+function getGender(genderLetter){
+	let gender = "";
+	switch(genderLetter){
+		case "M":
+			gender = " male";
+			break;
+		case "F":
+			gender = " female";
+			break;
+		case "O":
+			gender = " (sex: Other)";
+			break;
+		case "U":
+			gender = " (sex: Undefined)";
+			break;
+		case "T":
+			gender = " transgender";
+			break;
+	}
+
+	return gender;
+}
+
+function calcPatientAge(birthDate){
+	const ageYears = yearsDiff(new Date(), new Date(birthDate));
+
+	if (ageYears >= 2){
+			return ageYears + "-year-old";
+	}
+	else {
+		const ageMonths = monthsDiff(new Date(), new Date(birthDate));
+		return ageMonths + "-month-old";
+	}
+
+}
+
+function monthsDiff(d1, d2){
+	const diffTime = Math.abs(d1 - d2); // time difference in milliseconds
+	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+	return Math.floor(diffDays/30);
+	// return (
+	//     d1.getMonth() -
+	//     d2.getMonth() +
+	//     12 * (d1.getFullYear() - d2.getFullYear())
+	//   );
+}
+
+function yearsDiff(d1, d2) {    
+	const diffTime = Math.abs(d1 - d2); // time difference in milliseconds
+	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+var timeFromEpoch = new Date(diffTime);  // the date diffTime miliseconds from the epoch (1970)
+console.log(timeFromEpoch);
+const yearsDiff = Math.abs(timeFromEpoch.getUTCFullYear() - 1970);
+	return yearsDiff;
+}
 
 /////////////////////////////////////////////////////////////////
 // Past Medical History, Social History, Family History
 /////////////////////////////////////////////////////////////////
+
 /* 
 - deprecated. no longer used because the oscardb tags for the CPP don't reliably work. need to ask your oscar vendor to fix them.
  */
@@ -273,22 +347,21 @@ function postAllHistoryWithOscardbTags(){
 
 async function postAllHistory() {
 
-	const [medHistory, socHistory, famHistory, otherMeds] = await Promise.all([getHistory(urlMedHistory()), getHistory(urlSocHistory()), getHistory(urlFamHistory()), getHistory(urlOtherMeds())]);
+	const [medListAndAllergyList, medHistory, socHistory, famHistory, otherMeds] = await Promise.all([getMedAndAllergyList(), getHistory(urlMedHistory()), getHistory(urlSocHistory()), getHistory(urlFamHistory()), getHistory(urlOtherMeds())]);
 
 	const ptInfo1 = 
 		"Past Medical History:\n" + medHistory + "\nSocial History:\n" + socHistory + "\nFamily History:\n"  + famHistory ;
+	
+	document.getElementById('PtInfo1').value = ptInfo1;
 
-	const medAndAllergyList = await getMedAndAllergyList();
-	const allergies = medAndAllergyList["allergies"];
-	const medList = medAndAllergyList["medList"];
+	const allergies = medListAndAllergyList["allergies"];
+	const medList = medListAndAllergyList["medList"];
 
 	const ptInfo2 = 
 		"Allergies: " + "\n" + allergies + "\n\n" + 
 		"Current Meds: " + "\n" + medList + "\n\n" +
 		"Other Meds:\n"  + otherMeds;
-
-
-	document.getElementById('PtInfo1').value = ptInfo1;
+	
 	document.getElementById('PtInfo2').value = ptInfo2;
 }
 
@@ -367,6 +440,9 @@ async function getMedAndAllergyList(){
 
 	const allergies = otherPageHTML.getElementById("allergies").innerText;
 	const medList = otherPageHTML.getElementById("currentMedications").innerText;
+
+	// const otherPageXMLText2 = await getXMLHTTP("https://carefiniti.kai-oscar.com/oscar/oscarRx/choosePatient.do?providerNo=54&demographicNo=27290&autoSaveOpenerOnOpen=true");
+	// console.log(otherPageXMLText2);
 
 	return {allergies: allergies, medList: medList};
 
@@ -539,6 +615,8 @@ function reImg(){
 <input name="family_history" id="family_history" type="hidden"  oscarDB=family_history>
 <input name="allergies_des_no_archived" id="allergies_des_no_archived" type="hidden"  oscarDB=allergies_des_no_archived>
 
+<input name="dobc2" id="dobc2" type="hidden"  oscarDB=dobc2>
+
 
 <input type="hidden" name="PtInfo1_fontsize" id="PtInfo1_fontsize" value="">
 <input type="hidden" name="PtInfo2_fontsize" id="PtInfo2_fontsize" value="">
@@ -565,7 +643,7 @@ Fax:<input name="clinic_fax" id="clinic_fax" type="text" class="noborder" style=
 </div>
 <div style='position:absolute; left:180px; top:240px; width:700px; text-align:left; font-size:14px;'>
 <b>Name: <input name="patient_name" id="patient_name"  type="text" class=" noborder" style="width:400px; font-size:14px; background:transparent;" oscarDB=patient_name><br>
-Age:<input name="age" id="age" type="text" class=" noborder" style="width:30px; font-size:14px; background:transparent;" oscarDB=age>, DOB:<input name="dob" id="dob" type="text" class=" noborder" style="width:150px; font-size:14px; background:transparent;" oscarDB=dob><br>
+Age:<input name="age" id="age" type="text" class=" noborder" style="width:30px; font-size:14px; background:transparent;" oscarDB=age>, Sex: <input name="sex" id="sex" type="text" class=" noborder" style="width:15px; font-size:14px; background:transparent;" oscarDB=sex> DOB:<input name="dob" id="dob" type="text" class=" noborder" style="width:150px; font-size:14px; background:transparent;" oscarDB=dob><br>
 PHN:<input name="hinc" id="hinc" type="text" class="noborder" style="width:100px; font-size:14px; background:transparent;" oscarDB=hinc>
 </b></div>
 <div style='position:absolute; left:40px; top:320px; width:700px; text-align:left; font-size:14px;'>
@@ -610,8 +688,7 @@ PHN:<input name="hinc" id="hinc" type="text" class="noborder" style="width:100px
 		<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag(); setFlag(); setTimeout('SubmitButton.click()',2000);"> 
 	</td></tr></table>
 
-<!-- Copy Left -->
- <a rel="licence" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US" target="blank"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png" /></a><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title"> created February 5<sup>th</sup> 2021 by <a  href="https://giphy.com/gifs/jQVYFoAicMNIs9m4xZ/html5" target="_blank" >Dr. John Robertson</a>, </span>licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US" target="_blank">GPL</a>.<br> <span style="color:forestgreen;">Please consider supporting </span> <a href="http://oscarbc.ca/" target="_blank" >oscarbc.ca</a> | <a id="emailLnk1" style="cursor: pointer;" onclick="javascript:window.open('mailto:info@oscarbc.ca', 'mail'); event.preventDefault();" title="Email to OSCAR BC" >info@oscarbc.ca</a> |  <a href="https://www.facebook.com/pg/OSCARBCcommunity" target="_blank" >Facebook</a> |  <a href="https://twitter.com/OSCARBCemr" target="_blank" >Twitter </a>|  <a href="https://www.linkedin.com/company/oscarbc/" target="_blank" >LinkedIn </a> |<br>
+
 </div>
 </div>
 </form>
