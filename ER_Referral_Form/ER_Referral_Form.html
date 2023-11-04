@@ -145,44 +145,7 @@ $(document).ready(function() {
 		****************************/
 		function startUp(){
 
-			// postAllHistory();
-			const medical_history = document.getElementById('medical_history').value;
-			const current_rx = document.getElementById('current_rx').value;
-			const current_rx_lt = document.getElementById('current_rx_lt').value;
-			const druglist_generic = document.getElementById('druglist_generic').value;
-			const reminders = document.getElementById('reminders').value;
-			const ongoingconcerns = document.getElementById('ongoingconcerns').value;
-			const other_medications_history = document.getElementById('other_medications_history').value;
-			const social_family_history = document.getElementById('social_family_history').value;
-			const family_history = document.getElementById('family_history').value;
-			const allergies_des_no_archived = document.getElementById('allergies_des_no_archived').value;
-
 			
-			// console.log(medical_history);
-			// console.log(current_rx);
-			// console.log(druglist_generic);
-			// console.log(reminders);
-			// console.log(ongoingconcerns);
-			// console.log(other_medications_history);
-			// console.log(social_family_history);
-
-			const pastMedHx = 
-			"Medical History: " + "\n"+  medical_history + "\n\n" +
-			"Social History: " + "\n" + social_family_history + "\n\n" +
-			"Family History: " + "\n" + family_history + "\n\n";
-			//"reminders: " + "\n" + reminders + "\n\n" + 
-			//"ongoingconcerns: " + "\n" + ongoingconcerns + "\n\n";
-
-			const pastMedHx2 = 
-			"Allergies: " + "\n" + allergies_des_no_archived + "\n\n" + 
-			"Current Meds: " + "\n" + current_rx + "\n\n" + 			
-			"Other Meds: " + "\n" + other_medications_history + "\n\n";
-			// "Druglist_generic: " + "\n" + druglist_generic + "\n\n" + 
-			//"current_rx_lt: " + "\n" + current_rx_lt + "\n\n" ; 
-
-
-			document.getElementById('PtInfo1').value = pastMedHx;
-			document.getElementById('PtInfo2').value = pastMedHx2;
 			
 			loadFontSize();
 			setDocumentTitle('ER_Referral_Form',document.getElementById('patient_nameL').value);
@@ -201,7 +164,10 @@ $(document).ready(function() {
             // check the newform flag to ensure this is the initial load of the form
 			if (document.getElementById("newForm").value == 'True') {
   				parseName('doctor');
-              }
+
+				postAllHistory();
+				postAllHistoryWithOscardbTags();
+            }
 		}
 
 
@@ -258,15 +224,72 @@ $(document).ready(function() {
 			});
 		}
 
+
+/////////////////////////////////////////////////////////////////
+// Past Medical History, Social History, Family History
+/////////////////////////////////////////////////////////////////
+/* 
+- deprecated. no longer used because the oscardb tags for the CPP don't reliably work. need to ask your oscar vendor to fix them.
+ */
+function postAllHistoryWithOscardbTags(){
+	const medical_history = document.getElementById('medical_history').value;
+	const current_rx = document.getElementById('current_rx').value;
+	const current_rx_lt = document.getElementById('current_rx_lt').value;
+	const druglist_generic = document.getElementById('druglist_generic').value;
+	const reminders = document.getElementById('reminders').value;
+	const ongoingconcerns = document.getElementById('ongoingconcerns').value;
+	const other_medications_history = document.getElementById('other_medications_history').value;
+	const social_family_history = document.getElementById('social_family_history').value;
+	const family_history = document.getElementById('family_history').value;
+	const allergies_des_no_archived = document.getElementById('allergies_des_no_archived').value;
+
+	
+	console.log("medical_history" + medical_history);
+	console.log("current_rx" + current_rx);
+	console.log("druglist_generic" + druglist_generic);
+	console.log("reminders" + reminders);
+	console.log("ongoingconcerns" + ongoingconcerns);
+	console.log("other_medications_history" + other_medications_history);
+	console.log("social_family_history" + social_family_history);
+
+	// const pastMedHx = 
+	// "Medical History: " + "\n"+  medical_history + "\n\n" +
+	// "Social History: " + "\n" + social_family_history + "\n\n" +
+	// "Family History: " + "\n" + family_history + "\n\n";
+	// //"reminders: " + "\n" + reminders + "\n\n" + 
+	// //"ongoingconcerns: " + "\n" + ongoingconcerns + "\n\n";
+
+	// const pastMedHx2 = 
+	// "Allergies: " + "\n" + allergies_des_no_archived + "\n\n" + 
+	// "Current Meds: " + "\n" + current_rx + "\n\n" + 			
+	// "Other Meds: " + "\n" + other_medications_history + "\n\n";
+	// // "Druglist_generic: " + "\n" + druglist_generic + "\n\n" + 
+	// //"current_rx_lt: " + "\n" + current_rx_lt + "\n\n" ; 
+
+
+	// document.getElementById('PtInfo1').value = pastMedHx;
+	// document.getElementById('PtInfo2').value = pastMedHx2; 
+}
+
 async function postAllHistory() {
 
 	const [medHistory, socHistory, famHistory, otherMeds] = await Promise.all([getHistory(urlMedHistory()), getHistory(urlSocHistory()), getHistory(urlFamHistory()), getHistory(urlOtherMeds())]);
 
-	const allHistory = "Past Medical History:\n" + medHistory + "\nSocial History:\n" + socHistory + "\nFamily History:\n"  + famHistory + "\nOther Meds:\n"  + otherMeds;
-	console.log(allHistory);
+	const ptInfo1 = 
+		"Past Medical History:\n" + medHistory + "\nSocial History:\n" + socHistory + "\nFamily History:\n"  + famHistory ;
 
-	const clinInfoTextBox = document.getElementById('PtInfo1');
-	clinInfoTextBox.value = allHistory;
+	const medAndAllergyList = await getMedAndAllergyList();
+	const allergies = medAndAllergyList["allergies"];
+	const medList = medAndAllergyList["medList"];
+
+	const ptInfo2 = 
+		"Allergies: " + "\n" + allergies + "\n\n" + 
+		"Current Meds: " + "\n" + medList + "\n\n" +
+		"Other Meds:\n"  + otherMeds;
+
+
+	document.getElementById('PtInfo1').value = ptInfo1;
+	document.getElementById('PtInfo2').value = ptInfo2;
 }
 
 async function getHistory(URL) {
@@ -279,7 +302,7 @@ async function getHistory(URL) {
   }
   else {
 		const historyText = getHistoryAsText(historyDivList);
-		console.log(historyText);
+		// console.log(historyText);
 
 		return historyText;
   }
@@ -333,6 +356,22 @@ function getURLOrigin(){
 	return window.location.origin + '/' + firstUrlElement + '/';
 }
 
+/* 
+- returns object containingthe Allergy list, and the Medication List
+notes: 
+- uses XHR by looking at the Consultation page. doesn't work when you use XHR on the encounters page, nor can you easily get the data directly.
+ */
+async function getMedAndAllergyList(){
+	const otherPageXMLText = await getXMLHTTP(urlConsultPage());
+	const otherPageHTML = new DOMParser().parseFromString(otherPageXMLText, "text/html");
+
+	const allergies = otherPageHTML.getElementById("allergies").innerText;
+	const medList = otherPageHTML.getElementById("currentMedications").innerText;
+
+	return {allergies: allergies, medList: medList};
+
+}
+
 
 /////////////////////////////////////////////////////
 // get URL, URL elements
@@ -358,6 +397,20 @@ function urlFamHistory(){
 
 function urlEChart(){
 	var newURL = getURLOrigin() + "casemgmt/forward.jsp?action=view&demographicNo="+ getDemographicNum();
+
+	return newURL;
+}
+
+function urlMedPage(){
+	var newURL = getURLOrigin() + "oscarRx/choosePatient.do?demographicNo=" + getDemographicNum() + "&autoSaveOpenerOnOpen=true";
+
+	return newURL;
+}
+
+function urlConsultPage(){
+	var newURL = getURLOrigin() + "oscarEncounter/oscarConsultationRequest/ConsultationFormRequest.jsp?de=" + getDemographicNum() + "&teamVar=&appNo=null";
+
+	
 
 	return newURL;
 }
@@ -440,12 +493,12 @@ function confirmExit(){
 	 }
 }
 
-		function setFlag()
-		{
+function setFlag(){
 		// indicate that the form has been submitted
-		if (document.getElementById("newForm").value == 'True')
-			document.getElementById("newForm").value = 'False';
-		}
+	if (document.getElementById("newForm").value == 'True'){
+		document.getElementById("newForm").value = 'False';
+	}
+}
 </script>
 
 
