@@ -1,0 +1,934 @@
+<html>
+<head>
+
+<!-- Created March 2013 for Version 12.1. Updated background. Has X-boxes, BCCA reference; JohnY, HerbC, GuntherK -->
+<!-- Updated April 2014 with current Pap screening program link -->
+<!-- Updated August 2015 with CheckCopyTo function: JohnY -->
+<!-- Updated October 2015 with integrated calendar picker, jQuery X-boxes, new off-line architecture; no more floating menu: JohnY, KevinY -->
+<!-- V10 upgrade: Oct 2015: additional radio-button behaviour for X-boxes (manual inputs): JohnY -->
+<!-- V11 upgrade: Oct 2015: deconstructed clinic label: JohnR -->
+<!-- V12 (2017 V1) upgrade: July 2017: New Background. removed boxes no longer used, link to back of page, link to electronic form online.  JohnR -->
+<!-- V13 (2017 V2) upgrade: Jul23_2017: make textarea size fixed, standardize font size, radio option list, debug LMP input, reuse clinic label database, and add font-size change to clinic label; JohnY -->
+<!-- V14 (2017 V3) upgrade: Jul23_2017: Returned  LMP input back to the ability to push back to OSCAR; Re-established link to Preventions Module JohnR -->
+<!-- V15 (2017 V4) upgrade: Dec8_2017: streamline printSubmit; parseDate only on initial load, not reload; resize cliniclabel; JohnY -->
+<!-- V16_Jun5_2018 update with push-pull date format fix as per John Robertson; JohnY -->
+<!-- V17_Mar27_2019 allow push-pull LMP value to accept date or text.  Requires change of LMP measurement to NO VALIDATION (default is date validation) JohnY -->
+<!-- V18_Apr6_2019 update to Jan2019 background, JohnY; toggle functions as per ChrisC -->
+<!-- V19_Apr7_2019 Added date picker to hysterectomy date.  Removed push on LMP back to OSCAR.  Some CSS added -->
+
+<!-- measurement type="LMP" typeDesc="LMP" typeDisplayName="LMP" measuringInstrc="" validationRule name="No Validations" -->
+
+<link rel="stylesheet" type="text/css" media="print" href="${oscar_image_path}JSMPC.css" />
+
+<script>
+// For OSCAR to detect what files to include in the generated ZIP, the
+// filename must appear in the HTML document within quotation marks, with the ${oscar_image_path} in front of it;
+// this serves as a workaround to force the files to be included for ZIP exports.
+// Allows for appropriate import of all png files that are not referenced by BGImage tags
+// Place any needed image or js file names within the script tabs, and to the right of the double slashes
+// "${oscar_image_path}CCSL_Req_Form_Jan_2019.png"
+// "${oscar_image_path}Gyne-cytology-req-form-2017-2.png"
+</script>
+
+<!-- main calendar program -->
+<script type="text/javascript" src="../share/calendar/calendar.js"></script>
+<script type="text/javascript" src="../share/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="../share/calendar/calendar-setup.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="../share/calendar/calendar.css" title="win2k-cold-1" />
+
+<!-- jQuery file for testing outside of OSCAR -->
+<script type='text/javascript' src='jquery-1.12.0.min.js'></script>
+<script type="text/javascript" src="jSignature.min.js"></script>
+
+<!-- OSCAR based files for greater functionality -->
+<script type="text/javascript" src='${oscar_image_path}jquery-1.12.0.min.js'></script>
+
+<!-- script to link to other pages -->
+<script language="javascript" src="${oscar_image_path}onBodyLoad.js"></script>
+
+<!-- Freeform Signatures -->
+<script type="text/javascript" src="${oscar_image_path}jSignature.min.js"></script>
+
+	
+<style type="text/css" media="screen" >
+	input#SubmitButton { 
+		color: #ffffff;
+		text-shadow: 0px 1px 1px #ffffff;
+		border-bottom: 2px solid #b2b2b2;
+		background-color: #229ece;
+		background: -webkit-gradient(linear, left top, left bottom, from(#6bb5d2), to(#229ece));
+		background: -moz-linear-gradient(top, #6bb5d2, #229ece);
+		background: -o-linear-gradient(top, #6bb5d2, #229ece);
+		background: -ms-linear-gradient(top, #6bb5d2, #229ece);}
+	input#SubmitButton:hover {
+		color: #333333;
+		border: 1px solid #a4a4a4;
+		border-top: 2px solid #b2b2b2;
+		background-color: #a0dbc4;
+		background: -webkit-gradient(linear, left top, left bottom, from(#229ece), to(#6bb5d2));
+		background: -moz-linear-gradient(top, #229ece, #6bb5d2);
+		background: -o-linear-gradient(top, #229ece, #6bb5d2);
+		background: -ms-linear-gradient(top, #229ece, #6bb5d2);}
+ 
+	input#PrintSubmitButton {
+		color: white;
+		text-shadow: 0px 1px 1px #ffffff;
+		border-bottom: 2px solid #b2b2b2;
+		background-color: rebeccapurple;
+		background: -webkit-gradient(linear, left top, left bottom, from(rebeccapurple), to(#835aac));
+		background: -moz-linear-gradient(top, rebeccapurple, #835aac);
+		background: -o-linear-gradient(top, rebeccapurple, #835aac);
+		background: -ms-linear-gradient(top, rebeccapurple, #835aac);}
+	input#PrintSubmitButton:hover {
+		color: fcf4fc;
+		border: 1px solid #a4a4a4;
+		border-top: 2px solid #b2b2b2;
+		background-color: #835aac;
+		background: -webkit-gradient(linear, left top, left bottom, from(#835aac), to(rebeccapurple));
+		background: -moz-linear-gradient(top, #835aac, rebeccapurple);
+		background: -o-linear-gradient(top, #835aac, rebeccapurple);
+		background: -ms-linear-gradient(top, #835aac, rebeccapurple);}
+ .sig {
+	border: 2px dotted blue;
+	color: Black;
+	background-color: white;
+ }
+/* Drawing the 'gripper' for touch-enabled devices */
+ html.touch #content {
+	float:left;
+	width:92%;
+}
+ html.touch #scrollgrabber {
+	float:right;
+	width:4%;
+	margin-right:2%;
+	background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAFCAAAAACh79lDAAAAAXNSR0IArs4c6QAAABJJREFUCB1jmMmQxjCT4T/DfwAPLgOXlrt3IwAAAABJRU5ErkJggg==)
+ }
+ html.borderradius #scrollgrabber {
+	border-radius: 1em;
+ }
+ a {text-decoration: none;}
+ a:hover { border: 1px solid #000000; border-style:outset;}
+ a:active { border: 3px solid #000000; border-style: inset;}
+</style>
+<style type="text/css" media="print">
+	
+ input {
+	-moz-box-sizing: content-box;
+	-webkit-print-color-adjust: exact;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box
+ }
+ .DoNotPrint {display: none;}
+ .noborder {
+	border : 0px;
+	background: transparent;
+	overflow: hidden;
+ }
+ .sig {
+	border: 2px dotted blue;
+	background: lightgrey;
+}
+</style>
+
+<style type="text/css" media="print">
+.DoNotPrint {display: none;}
+.noborder {
+	border: 0px;
+	background: transparent;
+	scrollbar-3dlight-color: transparent;
+	scrollbar-arrow-color: transparent;
+	scrollbar-base-color: transparent;
+	scrollbar-darkshadow-color: transparent;
+	scrollbar-face-color: transparent;
+	scrollbar-highlight-color: transparent;
+	scrollbar-shadow-color: transparent;
+	scrollbar-track-color: transparent;
+	overflow: hidden;
+}
+.sig {
+	border-style: solid;
+	border-color: transparent;
+	background: transparent;
+}
+.Show {
+	visibility:visible;
+	display:inline;
+}
+.Hide {
+	visibility:hidden;
+	display:none;
+}
+</style>
+
+<!-- Xbox styling -->
+<style type="text/css">
+.box1 {
+	position: absolute;
+	width: 17px;
+	height: 17px;
+	font-size: 17px;
+	border: 1px solid #000000;
+	cursor: pointer;
+	font-weight: bold;
+	text-align: center;
+	background: aqua;
+}
+.box2 {
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	font-size: 15px;
+	border: 1px solid #000000;
+	cursor: pointer;
+	font-weight: bold;
+	text-align: center;
+	background: aqua;
+}
+.Show {
+	visibility:visible;
+	display:inline;
+}
+.Hide {
+	visibility:hidden;
+	display:none;
+}
+.FontSizeChange {
+	position:absolute;
+	width:16px;
+	height:15px;
+	font-size:13px;
+	cursor:pointer;
+	background:yellow;
+	text-align:center;
+	border: 1px solid #000000;
+}
+</style>
+
+<script language="javascript" type="text/javascript">
+				/****************************
+				startup functions
+				****************************/
+				function startUp() {
+						setDocumentTitle('Pap_Req_2019',document.getElementById('PatientNameL').value);
+						changeImage("CCSL_Req_Form_Jan_2019.png", "BGImage");
+						changeImage("Gyne-cytology-req-form-2017-2.png", "BGImage2");
+						loadFontSize();
+						setDefaults();
+ 
+						//optimize window size/width
+						top.window.resizeTo(1100, screen.availHeight);
+				}
+
+				function resourceLink(resource, extension) {
+						// Takes two arguments -- the base filename and its extension -- and
+						// returns a string depending on whether the page has been opened
+						// locally or if it has been uploaded to OSCAR.
+						//
+						// Example usage: resourceLink('image1', 'png')
+						// Return value: 'image1.png' or '${oscar_image_path}image1.png'
+
+						var prefix = (window.location.href.toLowerCase().indexOf("http") != -1) ? '${oscar_image_path}' : '';
+
+						if (typeof extension === "undefined") {
+								var extension = '';
+						} else {
+								var extension = '.' + extension;
+						}
+
+						return prefix + resource + extension;
+				}
+
+				function selectorValue(selectId) {
+						return selectId.value;
+				}
+
+				function changeImage(img, imgId) {
+						// Changes the src value of an <img>.
+						document.getElementById(imgId).src = resourceLink(img)
+						document.getElementById(imgId).href = resourceLink(img)
+				}
+
+				function setDocumentTitle(Title,PatientNameL) {
+						// set document title
+						document.title = Title + '_' + PatientNameL;
+				}
+
+				function setDefaults() {
+						// check the newform flag to ensure this is the initial load of the form
+						if (document.getElementById("newForm").value == 'True') {
+							checkGender();
+							document.getElementById("Brush").value = 'X';
+							document.getElementById("Spatula").value = 'X';
+							Names();
+							CheckCopyTo();
+							parseDate1();
+							parseDateLMP(); //manually choose LMP?
+						}
+				}
+
+				/****************************
+				Change name to proper order
+				****************************/
+				function Names() {
+					// Change user name to full First Name, Last Name
+					// Get the name
+					var CurrentfullName = document.getElementById('CurrentUser').value;
+					var CurrentMSP = document.getElementById('CurrentUser_MSP').value;
+
+					var PatientMDfullName = document.getElementById('PatientMD').value;
+					var PatientMDMSP = document.getElementById('PatientMD_MSP').value;
+
+					// Split the value of current user
+					var CurrentsplitName = CurrentfullName.split(",");
+					var CurrentfirstName = "";
+					var CurrentlastName  = "";
+
+					// Check for last name
+					if(CurrentsplitName.length >= 1) {
+						CurrentlastName = CurrentsplitName[0].trim();
+					}
+					if(CurrentsplitName.length >= 2) {
+						CurrentfirstName = CurrentsplitName[1].trim();
+					}
+
+					var CurrentFirst_Last_Name = CurrentfirstName + " " + CurrentlastName;
+
+					// Split the value of PatientMD
+					var PatientMDsplitName = PatientMDfullName.split(",");
+					var PatientMDfirstName = "";
+					var PatientMDlastName  = "";
+
+					// Check for last name
+					if(PatientMDsplitName.length >= 1) {
+						PatientMDlastName = PatientMDsplitName[0].trim();
+					}
+					if(PatientMDsplitName.length >= 2) {
+						PatientMDfirstName = PatientMDsplitName[1].trim();
+					}
+
+					var PatientMDFirst_Last_Name = PatientMDfirstName + " " + PatientMDlastName;
+
+					// Show the fields on the page
+					document.FormName.SampleProvider.value = CurrentFirst_Last_Name + ', ' + CurrentMSP;
+					document.FormName.PatientMD_FirstLast.value = PatientMDFirst_Last_Name + ', ' + PatientMDMSP;
+				}
+
+				/****************************
+				submit and print functions
+				****************************/
+				function printSubmit() {
+						printLetter();						
+						setTimeout('submission()', 50);
+				}
+
+				function printLetter() {
+						// remove highlight
+						document.FormName.LMP.style.background ='transparent';
+						// print the letter
+						window.print();
+				}
+
+				function submission() {
+						setFlag();
+						releaseDirtyFlag();
+						SendBackLMP();
+                                                document.FormName.submit();
+
+				}
+
+				function setFlag() {
+						// indicate that the form has been submitted
+						if (document.getElementById("newForm").value == 'True')
+						document.getElementById("newForm").value = 'False';
+				}
+
+				/****************************
+				Checkbox functions
+				****************************/
+				$(document).ready(function() {
+						$( ".Xbox" ).click(function() {
+						var st = $( this ).val();
+						if (st=="X") {
+						$( this ).val("");
+						}
+						else {
+								$( this ).val("X");
+						}
+				});
+
+				$( ".Xbox" ).keypress(function(event) {
+						// any key press except tab will constitute a value change to the checkbox
+						if (event.which != 0) {
+						$( this ).click();
+						return false;
+						}
+					});
+				});
+
+				// script to confirm closing of window if it has not been saved yet
+				//keypress events trigger dirty flag
+				var needToConfirm = false;
+				document.onkeyup=setDirtyFlag;
+
+				function setDirtyFlag() {
+						needToConfirm = true;
+				}
+
+				function releaseDirtyFlag() {
+						needToConfirm = false; //Call this function if does not require an alert.
+				//this could be called when save button is clicked
+				}
+
+				window.onbeforeunload = confirmExit;
+
+				function confirmExit() {
+						if (needToConfirm) {
+								return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+						}
+				}
+
+				function CheckCopyTo() {
+						if (document.getElementById("CurrentUser").value != document.getElementById("PatientMD").value) {
+								// document.getElementById("FollowUpPhysician").value = document.getElementById("PatientMD_FirstLast").value;
+								document.getElementById("FollowUpPhysician").value = document.getElementById("CurrentUser").value;
+								document.getElementById("Provider_Locum").value = 'X'; 
+						}
+						else {
+							document.getElementById("FollowUpPhysician").value = document.getElementById("SampleProvider").value;  
+							document.getElementById("Provider_Locum").value = ''; 
+						} 
+				}
+
+				//script to close quick select menu
+				var persistclose=0 //set to 0 or 1. 1 means once the bar is manually closed, it will remain closed for browser session
+
+				function closebar() {
+						if (persistclose)
+						document.cookie="remainclosed=1"
+						document.getElementById("LabQuickSelect").style.visibility="hidden"
+						document.getElementById("LabQuickSelect").style.display="none"
+				}
+
+				/****************************
+				script to Increase or Decrease the Font Size
+				name = input name/id, delta = increase (+) or decrease (-) increment #
+				Requires loadFontSize(); in startUp, or in onload line
+				****************************/
+				function changeFontSize(name, delta) {
+						var element = $("#" + name)
+						var oldSize = parseInt(element.css("font-size"));
+						var newSize = oldSize + delta;
+
+						// Save new font size into "value" field of hidden element
+						$("#" + name + "_fontsize").attr('value', newSize);
+
+						// Set font size
+						element.css({'font-size': newSize + 'px'});
+				}
+
+				// Retains altered font size when eForm is reopened;
+				// Requires hidden inputs with format for each field using this feature:
+				// <input type="hidden" name="Input_fontsize" id="Input_fontsize" value="">
+				function loadFontSize() {
+						$.each($("input[name*='_fontsize'"), function(index, element) {
+								var fontSize = element.value;
+
+								if (!!fontSize) {
+										var name = element.name.split('_')[0];
+										$("#" + name).css({'font-size': fontSize + 'px'});
+								}
+						});
+				}
+
+				/****************************
+				scripts to checkGender
+				****************************/
+				function checkGender() {
+					if (document.getElementById('PatientGender').value == 'F') {
+						document.getElementById('Gender_Female').value = 'X';
+					}
+					else if (document.getElementById('PatientGender').value == 'T') {
+						document.getElementById('Gender_Trans').value = 'X';
+					}
+					else if (document.getElementById('PatientGender').value == 'O') {
+						document.getElementById('Gender_Other').value = 'X';
+					}
+				}
+
+				/****************************
+				Toggle and Array functions to show and hide supplemental text and X-box combinations
+				****************************/
+				function checkArray(x) {
+				for (var i = 0; i < x.length; i++) {
+					if (document.getElementById(x[i]).value == ''){
+						document.getElementById(x[i]).value='X'}
+					}
+				}
+		
+				function uncheckArray(x) {
+				for (var i = 0; i < x.length; i++) {
+					if (document.getElementById(x[i]).value == 'X'){
+						document.getElementById(x[i]).value=''}
+					}
+				}
+		
+				function ToggleBoxesAndDiagnosisAndSubject(ElementId,BoxesToCheck,SubjectValue) {
+					if (document.getElementById(ElementId).checked == true || (document.getElementById(ElementId).value != 'X' && document.getElementById(ElementId).classList.contains('box2'))) {
+					checkArray(BoxesToCheck)
+					document.FormName.subject.value += SubjectValue;
+					}
+					else {
+					uncheckArray(BoxesToCheck)
+					document.FormName.subject.value = document.FormName.subject.value.replace(SubjectValue,'');
+					}
+				}
+</script>
+
+<script>
+				/****************************
+				Radio-XBox functions 
+				Changes function of X_boxes to radio_boxes when the id of the radiobox is passed as x and is named in the convention name_X where X appears in the string defined in scales
+				****************************/
+				function Radio_Box1(x) {
+					var scales = ["Male", "Female", "Trans", "Other"];
+					var partA = x.substring(0, x.indexOf("_"));
+					var i = x.substring(x.indexOf("_"));
+					var j = i.substr(1);
+			
+					for (var n in scales) {
+						if ( j == scales[n]) {
+							for (var m in scales){
+								if (m != n) { document.getElementById(partA+"_"+scales[m]).value = ''; }
+							}
+						}
+					}
+				return false;
+				}
+
+				function Radio_Box2(x) {
+					var scales = ["Locum", "RN", "ND"];
+					var partA = x.substring(0, x.indexOf("_"));
+					var i = x.substring(x.indexOf("_"));
+					var j = i.substr(1);
+			
+					for (var n in scales) {
+						if ( j == scales[n]) {
+							for (var m in scales){
+								if (m != n) { document.getElementById(partA+"_"+scales[m]).value = ''; }
+							}
+						}
+					}
+				return false;
+				}
+		
+				function Radio_Box3(x) {
+					var scales = ["Yes", "No"];
+					var partA = x.substring(0, x.indexOf("_"));
+					var i = x.substring(x.indexOf("_"));
+					var j = i.substr(1);
+			
+					for (var n in scales) {
+						if ( j == scales[n]) {
+							for (var m in scales){
+								if (m != n) { document.getElementById(partA+"_"+scales[m]).value = ''; }
+							}
+						}
+					}
+				return false;
+				}
+</script>
+
+<script type="text/javascript">
+				/****************************
+					script to Push and Pull date with correct format
+					for form background AND Oscar
+				****************************/
+				function parseDate1() {
+					// Change date field to dd/mmm/yyyy format
+					// Function expects an array of date components in yyyy-mm-dd format
+					// Get the date
+					var FullDate = document.getElementById("Date1").value;
+					var delimiter = '-';
+
+					// Split the value
+					var Year = FullDate.split(delimiter)[0];
+					var MonthNum = FullDate.split(delimiter)[1];
+					var Day = FullDate.split(delimiter)[2];
+					var Month  = "";
+
+					// Convert Numeric Month to 3 letter month
+					if(MonthNum == 1) { Month = "Jan"; }
+					if(MonthNum == 2) { Month = "Feb"; }
+					if(MonthNum == 3) { Month = "Mar"; }
+					if(MonthNum == 4) { Month = "Apr"; }
+					if(MonthNum == 5) { Month = "May"; }
+					if(MonthNum == 6) { Month = "Jun"; }
+					if(MonthNum == 7) { Month = "Jul"; }
+					if(MonthNum == 8) { Month = "Aug"; }
+					if(MonthNum == 9) { Month = "Sep"; }
+					if(MonthNum == 10) { Month = "Oct"; }
+					if(MonthNum == 11) { Month = "Nov"; }
+					if(MonthNum == 12) { Month = "Dec"; }
+
+					var MixedDate = Day + "/" + Month + "/" + Year;
+					var NumericDate = Day + "/" + MonthNum + "/" + Year;
+
+					// Show the fields on the page
+					document.FormName.TodayDate.value = NumericDate ;
+				}
+
+				function parseDateLMP() {
+					// Change date field to dd/mm/yyyy format for Pap form
+					// Function expects an array of date components in yyyy-mm-dd format from Oscar LMP measurement
+
+
+					// Get the date
+					var FullDate = document.getElementById("LMP_Pre").value;
+					var delimiter = '-';
+
+					// Split the value
+					var Year = FullDate.split(delimiter)[0];
+					var MonthNum = FullDate.split(delimiter)[1];
+					var Day = FullDate.split(delimiter)[2];
+					var Month  = "";
+
+					// Convert Numeric Month to 3 letter month
+					if(MonthNum == 1) { Month = "Jan"; }
+					if(MonthNum == 2) { Month = "Feb"; }
+					if(MonthNum == 3) { Month = "Mar"; }
+					if(MonthNum == 4) { Month = "Apr"; }
+					if(MonthNum == 5) { Month = "May"; }
+					if(MonthNum == 6) { Month = "Jun"; }
+					if(MonthNum == 7) { Month = "Jul"; }
+					if(MonthNum == 8) { Month = "Aug"; }
+					if(MonthNum == 9) { Month = "Sep"; }
+					if(MonthNum == 10) { Month = "Oct"; }
+					if(MonthNum == 11) { Month = "Nov"; }
+					if(MonthNum == 12) { Month = "Dec"; }
+
+					var MixedDate = Day + "/" + Month + "/" + Year;
+					var NumericDate = Day + "/" + MonthNum + "/" + Year;
+
+					// Show the fields on the page
+					document.FormName.LMP.value = NumericDate ;
+				}
+
+				function SendBackLMP() {
+					// Change date field to yyyy-mm-dd format
+					// Function expects an array of date components in dd/mm/yyyy format
+
+					// Check to see if text or just yyyy
+				  if (document.getElementById("LMP").length != 10 || document.getElementById("LMP").value != NaN) {
+					  document.getElementById("LMP_Post").value = document.getElementById("LMP").value;
+					  return;
+				  }
+
+					// Get the date
+					var FullDate = document.getElementById("LMP").value;
+					var delimiter = '/';
+
+					// Split the value
+					var Day = FullDate.split(delimiter)[0];
+					var MonthNum = FullDate.split(delimiter)[1];
+					var Year = FullDate.split(delimiter)[2];
+					var Month  = "";
+
+					// Convert Numeric Month to 3 letter month
+					if(MonthNum == 1) { Month = "Jan"; }
+					if(MonthNum == 2) { Month = "Feb"; }
+					if(MonthNum == 3) { Month = "Mar"; }
+					if(MonthNum == 4) { Month = "Apr"; }
+					if(MonthNum == 5) { Month = "May"; }
+					if(MonthNum == 6) { Month = "Jun"; }
+					if(MonthNum == 7) { Month = "Jul"; }
+					if(MonthNum == 8) { Month = "Aug"; }
+					if(MonthNum == 9) { Month = "Sep"; }
+					if(MonthNum == 10) { Month = "Oct"; }
+					if(MonthNum == 11) { Month = "Nov"; }
+					if(MonthNum == 12) { Month = "Dec"; }
+
+					var MixedDate = Year + "-" + Month + "-" + Day;
+					var NumericDate = Year + "-" + MonthNum + "-" + Day;
+
+					// Show the fields on the page
+					document.getElementById("LMP_Post").value = NumericDate ;
+				}
+</script>
+
+</head>
+
+<body onload="startUp();">
+<form method="post" action="" name="FormName" id="FormName" >
+
+<div id="page1" style="position:relative; left:0px; top:0px; width:750px;" class="pagebreak">
+<img id="BGImage" SRC="" width="750px">
+
+<!-- Hidden input for eForm title -->
+<input type="hidden" name="PatientNameL" id="PatientNameL" oscarDB=patient_nameL>
+
+<!-- Hidden input for CopyTo -->
+<input type="hidden" name="CurrentUser" id="CurrentUser" oscarDB=current_user>
+<input type="hidden" name="CurrentUser_MSP" id="CurrentUser_MSP" oscarDB=current_user_ohip_no>
+<input type="hidden" name="PatientMD" id="PatientMD" oscarDB=doctor>
+<input type="hidden" name="PatientMD_FirstLast" id="PatientMD_FirstLast" value="">
+<input type="hidden" name="PatientMD_MSP" id="PatientMD_MSP" oscarDB=doctor_ohip_no>
+
+<!-- Hidden input to manage date format changes -->
+<input type="hidden" name="LMP_Pre" id="LMP_Pre" oscarDB=m$LMP#value>
+<input type="hidden" name="m$LMP#value" id="LMP_Post" >
+<input type="hidden" name="Date1" id="Date1" oscarDB=today>
+
+<!-- Hidden input for font size changer inputs -->
+<input type="hidden" name="ClinicLabel_fontsize" id="ClinicLabel_fontsize" value="">
+<input type="hidden" name="ClinicalComments_fontsize" id="ClinicalComments_fontsize" value="">
+
+<!-- Hidden input for checkGender -->
+<input type="hidden" name="PatientGender" id="PatientGender" oscarDB=sex>
+
+<a name="BGImage2" id="BGImage2" class="DoNotPrint" style="position:absolute; left:205px; top:105px; width:350px; height:20px; background:transparent;" title="back of page" href="" target="_blank"></a>
+
+<!-- All textfields/checkboxes/textareas go here... -->
+<!-- Patient Info -->
+<input name="PHN" type="text" class="noborder" style="position:absolute; left:65px; top:165px; width:145px; font-family:sans-serif; font-size:18px; text-align:center; background:transparent;" oscarDB=HINc>
+<input name="DOB" type="text" class="noborder" style="position:absolute; left:225px; top:165px; width:155px; font-family:sans-serif; font-size:18px; text-align:center; background:transparent;" oscarDB=DOBc>
+
+<input name="patient_name" type="text" class="noborder" style="position:absolute; left:65px; top:230px; width:315px; font-family:sans-serif; font-size:16px; background:white;" oscarDB=patient_name>
+
+<!-- Sex/Gender -->
+<input name="Gender_Female" id="Gender_Female" type="text" class="XBox box1" style="left:90px; top:266px;" onclick="Radio_Box1(this.id);">
+<input name="Gender_Trans" id="Gender_Trans" type="text" class="XBox box1" style="left:90px; top:285px;" onclick="Radio_Box1(this.id);">
+<input name="Gender_Other" id="Gender_Other" type="text" class="XBox box1" style="left:170px; top:285px;" onclick="Radio_Box1(this.id);">
+
+<input name="TodayDate" id="TodayDate" type="text" class="noborder" style="position:absolute; left:65px; top:345px; width:145px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;" >
+<input name="LMP" id="LMP" type="text" class="noborder" style="position:absolute; left:225px; top:345px; width:155px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;" >
+
+<!-- Clinic Label -->
+<div style="position:absolute; left:400px; top:165px;">
+<input name="FollowUpPhysician" id="FollowUpPhysician" type="text" class="noborder" style="position:absolute; top:0px; width:285px; font-family:sans-serif; font-size:16px; background:transparent;" value="">
+<textarea name="ClinicLabel" id="ClinicLabel" type="text" class="noborder" style="position:absolute; top:23px; width:290px; height:72px; resize:none; font-family:sans-serif; font-size:13px; background:transparent;" oscarDB=clinic_label></textarea>
+<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="position:absolute; left:295px; top:25px;" onclick="changeFontSize('ClinicLabel', 1);">&#9650;</span>
+<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="position:absolute; left:295px; top:40px;" onclick="changeFontSize('ClinicLabel', -1);">&#9660;</span>
+
+<textarea name="SampleProvider" id="SampleProvider" type="text" class="noborder" style="position:absolute; top:112px; width:203px; height:56px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;" value=""></textarea>
+
+<!-- Provider Information-->
+<input name="Provider_Locum" id="Provider_Locum" type="text" class="Xbox box2" style="left:210px; top:100px;" onclick="Radio_Box2(this.id);">
+<input name="Provider_RN" id="Provider_RN" type="text" class="Xbox box2" style="left:210px; top:116px;" onclick="Radio_Box2(this.id);">
+<input name="Provider_ND" id="Provider_ND" type="text" class="Xbox box2" style="left:210px; top:132px;" onclick="Radio_Box2(this.id);">
+</div>
+
+<textarea name="CopyTo1" id="CopyTo1" type="text" class="noborder" style="position:absolute; left:400px; top:352px; width:145px; height:40px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;" value=""></textarea>
+<textarea name="CopyTo2" id="CopyTo2" type="text" class="noborder" style="position:absolute; left:555px; top:352px; width:135px; height:40px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=referral_no></textarea>
+
+<!-- Smear Site -->
+<input name="Cervix_Yes" id="Cervix_Yes" type="text" class="Xbox box1" style="left:64px; top:418px;" onclick="Radio_Box3(this.id);">
+<input name="Cervix_No" id="Cervix_No" type="text" class="Xbox box1" style="left:64px; top:435px;" onclick="Radio_Box3(this.id);">
+
+<!-- Collection Method -->
+<input name="Spatula" id="Spatula" type="text" class="Xbox box1" style="left:64px; top:582px;">
+<input name="Brush" id="Brush" type="text" class="Xbox box1" style="left:64px; top:599px;">
+<input name="BroomDevice" id="BroomDevice" type="text" class="Xbox box1" style="left:64px; top:616px;">
+
+<!-- Reason for test -->
+<input name="AsymptomaticScreen_Yes" id="AsymptomaticScreen_Yes" type="text" class="Xbox box1" style="left:223px; top:419px;" onclick="Radio_Box3(this.id);">
+
+<input name="AsymptomaticScreen_No" id="AsymptomaticScreen_No" type="text" class="Xbox box1" style="left:223px; top:436px;" onclick="Radio_Box3(this.id);">
+<input name="AbnormalBleeding" id="AbnormalBleeding" type="text" class="Xbox box1" style="left:241px; top:454px;">
+<input name="SuspiciousLesion" id="SuspiciousLesion" type="text" class="Xbox box1" style="left:241px; top:471px;">
+
+<input name="ASCUS_FU" id="ASCUS_FU" type="text" class="Xbox box1" style="left:223px; top:489px;">
+<input name="Rx_FU" id="Rx_FU" type="text" class="Xbox box1" style="left:223px; top:506px;">
+
+<!-- Past Hx of Cervical Abn -->
+<input name="Within5Yr" id="Within5Yr" type="text" class="Xbox box1" style="left:421px; top:432px;">
+<input name="Within5Yr_Invasive" id="Within5Yr_Invasive" type="text" class="Xbox box1" style="left:437px; top:449px;">
+<input name="Within5Yr_CIN" id="Within5Yr_CIN" type="text" class="Xbox box1" style="left:437px; top:466px;">
+
+<input name="More5Yr" id="More5Yr" type="text" class="Xbox box1" style="left:421px; top:485px;">
+<input name="More5Yr_Invasive" id="More5Yr_Invasive" type="text" class="Xbox box1" style="left:437px; top:501px;">
+<input name="More5Yr_CIN" id="More5Yr_CIN" type="text" class="Xbox box1" style="left:437px; top:517px;">
+
+<input name="Hx_AIS" id="Hx_AIS" type="text" class="Xbox box1" style="left:421px; top:536px;">
+
+<!-- Clinical Info -->
+<input name="Immunocompromised" id="Immunocompromised" type="text" class="Xbox box1" style="left:223px; top:579px;">
+
+<input name="Pregnant" id="Pregnant" type="text" class="Xbox box1" style="left:223px; top:596px;" onclick="
+				document.FormName.PostPartum.value='';
+				document.FormName.PostMenopausal.value='';">
+<input name="PostPartum" id="PostPartum" type="text" class="Xbox box1" style="left:223px; top:613px;" onclick="
+				document.FormName.PostMenopausal.value='';
+				document.FormName.Pregnant.value='';">
+<input name="PostMenopausal" id="PostMenopausal" type="text" class="Xbox box1" style="left:223px; top:630px;" onclick="
+				document.FormName.PostPartum.value='';
+				document.FormName.Pregnant.value='';">
+
+<input name="UsingIUD" id="UsingIUD" type="text" class="Xbox box1" style="left:223px; top:647px;">
+<input name="ComboOCP" id="ComboOCP" type="text" class="Xbox box1" style="left:223px; top:663px;">
+<input name="Estrogen" id="Estrogen" type="text" class="Xbox box1" style="left:223px; top:680px;">
+<input name="Progesterone" id="Progesterone" type="text" class="Xbox box1" style="left:223px; top:697px;">
+
+<input name="HPV" id="HPV" type="text" class="Xbox box1" style="left:223px; top:714px;">
+<input name="PelvicRadiation" id="PelvicRadiation" type="text" class="Xbox box1" style="left:223px; top:730px;">
+
+<input name="TotalHysterectomy" id="TotalHysterectomy" type="text" class="Xbox box1" style="left:425px; top:581px;" onclick="
+	if(document.getElementById('TotalHysterectomy').value != 'X' && document.getElementById('Cervix_Yes').value =='X') {
+			  document.FormName.Cervix_Yes.value='';
+	};">
+
+<input name="DateHysterectomy" id="DateHysterectomy" type="text" class="noborder" style="position:absolute; left:482px; top:605px; width:200px; font-family:sans-serif; font-size:16px; text-align:left; background:transparent;" value="">
+
+<input name="Pathology_No" id="Pathology_No" type="text" class="noborder" style="position:absolute; left:555px; top:628px; width:130px; font-family:sans-serif; font-size:16px; background:transparent;" value="">
+
+<input name="NoCxAbn" id="NoCxAbn" type="text" class="Xbox box1" style="left:445px; top:652px;">
+<input name="CINX" id="CINX" type="text" class="Xbox box1" style="left:445px; top:669px;">
+<input name="AIS" id="AIS" type="text" class="Xbox box1" style="left:445px; top:686px;">
+<input name="InvasiveCxCA" id="InvasiveCxCA" type="text" class="Xbox box1" style="left:445px; top:703px;">
+<input name="EndometrialCA" id="EndometrialCA" type="text" class="Xbox box1" style="left:445px; top:720px;">
+
+<textarea name="ClinicalComments" id="ClinicalComments" type="text" class="noborder" style="position:absolute; left:65px; top:765px; width:625px; height:50px; resize:none; font-family:sans-serif; font-size:14px; background:transparent;"></textarea>
+<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="position:absolute; left:695; top:767px;" onclick="changeFontSize('ClinicalComments', 1);">&#9650;</span>
+<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="position:absolute; left:695; top:782px;" onclick="changeFontSize('ClinicalComments', -1);">&#9660;</span>
+
+<a href="http://www.bccancer.bc.ca/lab-services-site/Documents/Cervical%20Cancer%20Screening%20Lab%20Requisition%20-%20Jan%202019%20FINAL.pdf" style="position:absolute; left:380px; top:920px; width:320px; height:15px;" title="Electronic Version" target="_blank"></a>
+</div>
+
+<!-- The submit/print/reset buttons -->
+<div class="DoNotPrint" id="BottomButtons" style="position:absolute; left:65px; top:970px;">
+	<table><tr><td >
+		<input type="hidden" id="newForm" name="newForm" value="True" />
+		Subject: <input name="subject" size="40" type="text">
+		<input value="Submit" name="SubmitButton" id="SubmitButton" type="button" onclick="submission();">
+		<input value="Reset" name="ResetButton" id="ResetButton" type="reset" onclick="history.go(0);">
+		<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="printLetter();">
+		<input value="Print and Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="printSubmit();">
+	 </td></tr></table>
+</div>
+
+<script type="text/javascript">
+  Calendar.setup( { inputField :"LMP", ifFormat : "%d/%m/%Y", button : "LMP" } );
+  Calendar.setup( { inputField :"TodayDate", ifFormat : "%d/%m/%Y", button : "TodayDate" } );
+  Calendar.setup( { inputField :"DateHysterectomy", ifFormat : "%d/%m/%Y", button : "DateHysterectomy" } );
+</script>
+
+<!-- Quick Select menu items -->
+<div id="LabQuickSelect" class="DoNotPrint" style="position:absolute; left:710px; top:245px; width:250px; background:lavender; border:solid black 1px; padding:2px; font-size:13px;">
+<span style="font-size:15px;"><b>Use Yellow arrows to increase or decrease the clinic label to fit.</b></span><br><br>
+
+<u><b>PAP:</b></u><input name="ChooseLMP" id="ChooseLMP" type="checkbox" onclick="
+			if(document.getElementById('ChooseLMP').checked != false) {
+			  document.FormName.LMP.style.background ='transparent';
+			  parseDateLMP();
+			}
+			else {
+			  document.FormName.LMP.style.background ='transparent';
+			  document.FormName.LMP.value='';
+			}">Click to add existing LMP
+<br>
+
+<input name="PAP_normalnotonBCP" id="PAP_normalnotonBCP" type="checkbox" onclick="
+			document.FormName.Cervix_No.value='';
+			document.FormName.AsymptomaticScreen_No.value='';
+			var BoxesToCheck = ['Cervix_Yes', 'AsymptomaticScreen_Yes'];
+			var SubjectValue = 'Pap, no OCP ';
+			ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, SubjectValue);
+		">Normal PAP not on BCP
+<br>
+
+<input name="PAP_normalonBCP" id="PAP_normalonBCP" type="checkbox" onclick="
+			document.FormName.Cervix_No.value='';
+			document.FormName.AsymptomaticScreen_No.value='';
+			var BoxesToCheck = ['Cervix_Yes', 'AsymptomaticScreen_Yes', 'ComboOCP'];
+			var SubjectValue = 'Pap, on OCP ';
+			ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, SubjectValue);
+		">Normal PAP on OCP
+<br>
+
+<input name="PAP_normalonProgestinOC" id="PAP_normalonProgestinOC" type="checkbox" onclick="
+			document.FormName.Cervix_No.value='';
+			document.FormName.AsymptomaticScreen_No.value='';
+			var BoxesToCheck = ['Cervix_Yes', 'AsymptomaticScreen_Yes', 'Progesterone'];
+			var SubjectValue = 'Pap, on Progesterone ';
+			ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, SubjectValue);
+		">Normal PAP on Progestin only BCP
+<br>
+
+<input name="PAP_normalwithIUD" id="PAP_normalwithIUD" type="checkbox" onclick="
+			document.FormName.Cervix_No.value='';
+			document.FormName.AsymptomaticScreen_No.value='';
+			var BoxesToCheck = ['Cervix_Yes', 'AsymptomaticScreen_Yes', 'UsingIUD'];
+			var SubjectValue = 'Pap, with IUD ';
+			ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, SubjectValue);
+		">Normal PAP using IUD
+<br>
+
+<input name="PAP_normalpregnant" id="PAP_normalpregnant" type="checkbox" onclick="
+			document.FormName.Cervix_No.value='';
+			document.FormName.AsymptomaticScreen_No.value='';
+		var BoxesToCheck = ['Cervix_Yes', 'AsymptomaticScreen_Yes', 'Pregnant'];
+			var SubjectValue = 'Pap, pregnant ';
+			ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, SubjectValue);
+		">PAP Pregnant
+<br>
+
+<input name="PAP_postpartum" id="PAP_postpartum" type="checkbox" onclick="
+			document.FormName.Cervix_No.value='';
+			document.FormName.AsymptomaticScreen_No.value='';
+			var BoxesToCheck = ['Cervix_Yes', 'AsymptomaticScreen_Yes', 'PostPartum'];
+			var SubjectValue = 'Pap, post-partum ';
+			ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, SubjectValue);
+		">PAP Postpartum
+<br>
+
+<input name="PAP_postmenopausal" id="PAP_postmenopausal" type="checkbox" onclick="
+			document.FormName.Cervix_No.value='';
+			document.FormName.AsymptomaticScreen_No.value='';
+			var BoxesToCheck = ['Cervix_Yes', 'AsymptomaticScreen_Yes', 'PostMenopausal'];
+			var SubjectValue = 'Pap, post-menopausal ';
+			ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, SubjectValue);
+			if(document.getElementById('PAP_postmenopausal').checked != false) {
+				document.FormName.LMP.value='menopausal';
+			}
+			else {
+				document.FormName.LMP.value='';
+			}
+		">PAP Postmenopausal
+
+<input name="PAP_postmenopausal_yr" id="PAP_postmenopausal_yr" type="checkbox" title="Add just the year" onclick="
+			document.FormName.Cervix_No.value='';
+			document.FormName.AsymptomaticScreen_No.value='';
+			document.FormName.LMP.value='';
+			var BoxesToCheck = ['Cervix_Yes', 'AsymptomaticScreen_Yes', 'PostMenopausal'];
+			var SubjectValue = 'Pap, post-menopausal ';
+			ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, SubjectValue);
+			if(document.getElementById('PAP_postmenopausal_yr').checked != false) {
+				document.FormName.LMP.style.background ='yellow';
+			}
+			else {
+				document.FormName.LMP.style.background ='transparent';
+			}
+		">Year
+<br>
+
+<input name="HPVvaccine" id="HPVvaccine" type="checkbox" onclick="
+			if(document.getElementById('HPVvaccine').checked != false) {
+			  document.FormName.HPV.value='X';
+			}
+			else {
+			  document.FormName.HPV.value='';
+			}
+		 ">Received HPV Vaccine
+<br>
+&nbsp; <b>&lpar;Choose one. Reset to start over.&rpar;</b>
+<br>
+
+		<input value="Reset" name="reset" type="reset">
+		<input value="Close" name="Close" type="button" onclick="javascript:closebar(); return false;">
+		F5 to reopen
+<br><br>
+<input name="prevention_link" id="prevention_link" style="color:green;" type="Button" Value="to Prevention" onclick="onBodyLoad(); prevention();">
+</div>
+
+</form>
+</body></html>
