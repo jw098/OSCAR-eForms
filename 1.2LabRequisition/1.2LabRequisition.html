@@ -1727,27 +1727,32 @@ a:visited {color: black}
 
 				<input name="Lipid_full" id="Lipid_full" type="text" class="box2" style="left:570px; top:567px; background:#b3d0ea;" 
 					onclick="
-						checkLipids(this.id); 
+						// checkLipids(this.id); 
 						Radio_Box2(this.id);"
 					onkeypress="
+						// checkLipids(this.id);
 						javascript:Radio_Box2(this.id); 
-						checkLipids(this.id);">
+						">
 
 				<input name="Lipid_FU" id="Lipid_FU" type="text" class="box2" style="left:570px; top:593px; background:#b3d0ea;" 
 					onclick="
+						// checkLipids(this.id);
 						Radio_Box2(this.id); 
-						checkLipids(this.id);"
+						"
 					onkeypress="
+						// checkLipids(this.id);
 						javascript:Radio_Box2(this.id); 
-						checkLipids(this.id);">
+						">
 
 				<input name="Lipid_ApoB" id="Lipid_ApoB" type="text" class="box2" style="left:570px; top:607px; background:#b3d0ea;" 
 					onclick="
+						// checkLipids(this.id);
 						Radio_Box2(this.id); 
-						checkLipids(this.id);"
+						"
 					onkeypress="
+						// checkLipids(this.id);
 						javascript:Radio_Box2(this.id); 
-						checkLipids(this.id);">
+						">
 			</div>
 
 				<!-- Thyroid Function -->
@@ -2184,14 +2189,17 @@ var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'ALT', 'GGT', 'Bilirubin', 
 var DiagnosisAndIndicationsValue = 'Dyspepsia, ';
 var SubjectValue = 'Dyspepsia, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
-var AdditionalTestInstructionsValue = 'anti TTG, lipase, urea breath test';
+var AdditionalTestInstructionsValue = 'anti TTG, lipase, H. pylori serology, ';
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+// var PatientInstructionsValue = 'Do not smoke or eat anything for 4 hr before test.  Do not drink any fluids for 1 hr before test. Testing may take up to 40 minutes. ***No antibiotics x 4 weeks, no Pepto-bismol x 2 weeks, no PPI x 7 days, no Zantac x 1 day, no antacids x 2 days before the test. ';
+// TogglePatientInstructions(this.id, PatientInstructionsValue);
 ">Dyspepsia
 <!-- Lower Abdo pain -->
 <input type="checkbox" id = "LowerAbdoPain" name="LowerAbdoPain" title="Consider imaging, such as Abdo CT or U/S." onclick="
-var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'FIT_Other'];
+var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'FIT_Other', 'UrineMacroscopicMicroscopicIfDipstickPositive', 'Urine_CS', 'CTGC_Urine'];
 var DiagnosisAndIndicationsValue = 'Lower Abdo Pain, ';
 var SubjectValue = 'Lower Abdo Pain, ';
+addPregTestIfFemale(BoxesToCheck);
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 var AdditionalTestInstructionsValue = 'anti TTG, ';
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
@@ -2284,8 +2292,8 @@ ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 <!-- CKD standing order -->
 <input type="checkbox" id="CKDQ6months" name="CKDQ6months" onclick="
 var BoxesToCheck = [];
-var DiagnosisAndIndicationsValue = 'Chronic Kidney Disease, ';
-var SubjectValue = 'SO eGFR, ';
+var DiagnosisAndIndicationsValue = 'eGFR standing order, ';
+var SubjectValue = 'eGFR standing order, ';
 var AdditionalTestInstructionsValue = 'Standing Order: Cr/eGFR and ACR Q6 months for 2 yr. '
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
@@ -2305,8 +2313,8 @@ ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndications
 <!-- DM A1c standing order -->
 <input type="checkbox" id="DMStandingQ3months" name="DMStandingQ3months" onclick="
 var BoxesToCheck = [];
-var DiagnosisAndIndicationsValue = 'Diabetes Mellitus, ';
-var SubjectValue = 'SO A1C, ' ;
+var DiagnosisAndIndicationsValue = 'A1c standing order, ';
+var SubjectValue = 'A1c standing order, ' ;
 var AdditionalTestInstructionsValue = 'Standing Order: A1C q3 months for 1 yr. ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
@@ -2428,7 +2436,7 @@ ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 
 <!-- UTI -->
 <input type="checkbox" id="UTI" name="UTI" onclick="
-var BoxesToCheck = ['UrineMacroscopicCultureIfPyuriaOrNitrate'];
+var BoxesToCheck = ['UrineMacroscopicMicroscopicIfDipstickPositive', 'Urine_CS'];
 var DiagnosisAndIndicationsValue = 'UTI, ';
 var SubjectValue = 'UTI, ';
 var AdditionalTestInstructionsValue = '';
@@ -2454,8 +2462,10 @@ var BoxesToCheck = ['HematologyProfile', 'Ferritin', 'A1c', 'TSH', 'Sodium', 'Po
 var DiagnosisAndIndicationsValue = 'Fatigue, ';
 var SubjectValue = 'Fatigue, ';
 var PatientInstructionsValue = 'No fasting required. ';
+var AdditionalTestInstructionsValue = 'iron, TSAT, AM cortisol, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 TogglePatientInstructions(this.id, PatientInstructionsValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 ">Fatigue<br>
 
 <!-- Alopecia -->
@@ -2520,6 +2530,8 @@ var SubjectValue = 'Weight loss, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 var AdditionalTestInstructionsValue = 'anti-TTG, urea breath test, ';
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+var PatientInstructionsValue = 'Do not smoke or eat anything for 4 hr before test.  Do not drink any fluids for 1 hr before test. Testing may take up to 40 minutes. ***No antibiotics x 4 weeks, no Pepto-bismol x 2 weeks, no PPI x 7 days, no Zantac x 1 day, no antacids x 2 days before the test. ';
+TogglePatientInstructions(this.id, PatientInstructionsValue);
 ">Weight loss<br>
 
 
@@ -2546,9 +2558,9 @@ ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 <!-- H Pylori UBT -->
 <input type="checkbox" name="HP_Breath_Test" id="HP_Breath_Test" onclick="
 var BoxesToCheck = [];
-var DiagnosisAndIndicationsValue = 'Query peptic ulcer disease, ';
-var SubjectValue = 'HP Breath Test, ';
-var AdditionalTestInstructionsValue = 'HP Breath Test, ';
+var DiagnosisAndIndicationsValue = 'r/o H. pylori, ';
+var SubjectValue = 'r/o H. pylori, ';
+var AdditionalTestInstructionsValue = 'H. Pylori Breath Test, ';
 var PatientInstructionsValue = 'Do not smoke or eat anything for 4 hr before test.  Do not drink any fluids for 1 hr before test. Testing may take up to 40 minutes. ***No antibiotics x 4 weeks, no Pepto-bismol x 2 weeks, no PPI x 7 days, no Zantac x 1 day, no antacids x 2 days before the test. ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
@@ -2803,8 +2815,8 @@ First Prenatal Labs</span><br>
 LFTs:<br>
 <!-- Acute elevated LFT-->
 <input type="checkbox" id="Acute_Elevated_LFT" name="Acute_Elevated_LFT" onclick="
-var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'Ferritin', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'AcuteViralHepatitis'];
-var AdditionalTestInstructionsValue = 'TSAT, iron ';
+var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'Ferritin', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin', 'AcuteViralHepatitis', 'ChronicViralHepatitis'];
+var AdditionalTestInstructionsValue = 'TSAT, iron, AST ';
 var DiagnosisAndIndicationsValue = 'Elevated LFT, ';
 var SubjectValue = 'Elevated LFTs, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
@@ -2834,8 +2846,10 @@ ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 <input type="checkbox" id="LFT" name="LFT" title="Liver enzymes and function tests" onclick="
 var BoxesToCheck = ['HematologyProfile', 'PTINR', 'Warfarin_No', 'ALT', 'GGT', 'AlkPhos', 'Bilirubin', 'Albumin'];
 var DiagnosisAndIndicationsValue = 'LFTs';
+var AdditionalTestInstructionsValue = 'TSAT, iron, AST ';
 var SubjectValue = 'LFTs, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
+ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
 ">Liver Enzymes/LFTs<br>
 
 <!-- Chronic HBV infection follow-up -->
@@ -2939,6 +2953,8 @@ var SubjectValue = 'Iron Deficiency, ';
 var AdditionalTestInstructionsValue = 'anti-TTG, urea breath test, TSAT, iron, ';
 ToggleBoxesAndDiagnosisAndSubject(this.id, BoxesToCheck, DiagnosisAndIndicationsValue, SubjectValue);
 ToggleAdditionalTestInstructions(this.id, AdditionalTestInstructionsValue);
+var PatientInstructionsValue = 'Do not smoke or eat anything for 4 hr before test.  Do not drink any fluids for 1 hr before test. Testing may take up to 40 minutes. ***No antibiotics x 4 weeks, no Pepto-bismol x 2 weeks, no PPI x 7 days, no Zantac x 1 day, no antacids x 2 days before the test. ';
+TogglePatientInstructions(this.id, PatientInstructionsValue);
 ">Iron Deficiency<br>
 
 
