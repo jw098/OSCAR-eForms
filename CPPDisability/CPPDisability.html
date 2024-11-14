@@ -1,0 +1,888 @@
+<html>
+<head>
+
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="Canada Pension Plan form for claiming Disability Benefits circa 2018" />
+<meta name="keywords" content="Canada, Pension, Plan, Disability, Benefits, Claim" />
+<meta name="robots" content="nofollow" />
+<meta http-equiv="author" content="John Robertson" />
+
+<!--  Medical_Report_CPP_Disability_Benefit_2018 -->
+
+<!-- Created 2019-Dec-15 22:21 -->
+
+<!-- Updated 2019-Dec-16 15:08 to include annexes and examples -->
+<!-- Updated V3_Dec19_2019 font-size change capacity and cosmetic clean-ups, John Yap -->
+
+<!-- eForm DISCLAIMER: As is: eForms are shared as-is, free of charge on a share-alike basis with absolutely no guarantee or warranty.
+ No Quality Control: The author does not vet any eForms and does not purport to apply any manner of quality control.
+ Responsibility: The responsibility for the clinical and medical-legal consequences of any and all eForms, rest with the clinical OSCAR end-users themselves, not with the author of the eForm.
+ This applies to both eForms shared by others, and those created by users themselves.
+ Attribution: eForms are shared freely among the user community, with attribution to the original author of the eForm.
+ Free: eForms so shared may not be sold or purchased.
+ Provincial validation:  eForms are optional and non-essential add-ons, separate from OSCAR, and with their own license terms.
+ eForms are not part of the OSCAR core program functionality and code base.
+ For this reason eForms are not subject to provincial validation testing and conformance criteria. 
+ eForms are also not subject to the ISO production process for OSCAR. -->
+
+<!-- Do not use apostrophes - they do not allow for proper eForm zip inside Oscar.  Instead, use: &#8217; -->
+
+<style>
+.input {
+	 -moz-box-sizing: content-box;
+	 -webkit-print-color-adjust: exact;
+	 -webkit-box-sizing: content-box;
+	 box-sizing: content-box
+}
+.sig {
+	 border: 2px dotted blue;
+	 background: transparent;
+}
+</style>
+
+<style type="text/css" media="screen" >
+.input {
+	-moz-box-sizing: content-box;
+	-webkit-print-color-adjust: exact;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box
+ }
+/* Drawing the 'gripper' for touch-enabled devices */
+html.touch #content {
+	float:left;
+	width:92%;
+}
+html.touch #scrollgrabber {
+	float:right;
+	width:4%;
+	margin-right:2%;
+	background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAFCAAAAACh79lDAAAAAXNSR0IArs4c6QAAABJJREFUCB1jmMmQxjCT4T/DfwAPLgOXlrt3IwAAAABJRU5ErkJggg==)
+}
+html.borderradius #scrollgrabber {
+	border-radius: 1em;
+}
+input#SubmitButton {
+		color: black;
+		text-shadow: 0px 1px 1px #ffffff;
+		border-bottom: 2px solid #b2b2b2;
+		background: #a2dce7;
+		background: -webkit-gradient(linear, left top, left bottom, from(rebeccapurple), to(#a2dce7;));
+		background: -moz-linear-gradient(top, rebeccapurple, #a2dce7;);
+		background: -o-linear-gradient(top, rebeccapurple, #a2dce7;);
+		background: -ms-linear-gradient(top, rebeccapurple, #a2dce7;);}
+
+input#SubmitButton:hover {
+		color: fcf4fc;
+		border: 1px solid #a4a4a4;
+		border-top: 2px solid #b2b2b2;
+		background: rebeccapurple;;
+		background: -webkit-gradient(linear, left top, left bottom, from(#a2dce7;), to(rebeccapurple));
+		background: -moz-linear-gradient(top, #a2dce7;, rebeccapurple);
+		background: -o-linear-gradient(top, #a2dce7;, rebeccapurple);
+		background: -ms-linear-gradient(top, #a2dce7;, rebeccapurple);}
+ 
+input#PrintSubmitButton {
+		color: black;
+		text-shadow: 0px 1px 1px #ffffff;
+		border-bottom: 2px solid #b2b2b2;
+		background: #a2dce7;
+		background: -webkit-gradient(linear, left top, left bottom, from(rebeccapurple), to(#a2dce7;));
+		background: -moz-linear-gradient(top, rebeccapurple, #a2dce7;);
+		background: -o-linear-gradient(top, rebeccapurple, #a2dce7;);
+		background: -ms-linear-gradient(top, rebeccapurple, #a2dce7;);}
+
+input#PrintSubmitButton:hover {
+		color: fcf4fc;
+		border: 1px solid #a4a4a4;
+		border-top: 2px solid #b2b2b2;
+		background: rebeccapurple;
+		background: -webkit-gradient(linear, left top, left bottom, from(#a2dce7;), to(rebeccapurple));
+		background: -moz-linear-gradient(top, #a2dce7;, rebeccapurple);
+		background: -o-linear-gradient(top, #a2dce7;, rebeccapurple);
+		background: -ms-linear-gradient(top, #a2dce7;, rebeccapurple);}
+
+a {
+		text-decoration: none;
+ 		color: fcf4fc;
+		background: rebeccapurple;
+		border: 1px solid #a4a4a4;
+		border-top: 2px solid #b2b2b2;}
+
+a:hover { border: 1px solid #000000; border-style:outset;} 
+a:active { border: 3px solid #000000; border-style: inset;}
+</style>
+
+<style type="text/css" media="print">
+.DoNotPrint {
+	display: none;
+}
+.noborder {
+	border : 0px;
+	background: transparent;
+	overflow: hidden;
+}
+.sig {
+	border-style: solid;
+	border-color: transparent;
+	color: black;
+}
+</style>
+
+<!-- jQuery for greater functionality -->
+<script type="text/javascript" src='jquery-1.12.0.min.js'></script>
+<script type="text/javascript" src='${oscar_image_path}jquery-1.12.0.min.js'></script>
+
+<!-- scripts for Xbox functions -->
+<script  type="text/javascript" language="javascript">
+$(document).ready(function(){
+	$( ".Xbox" ).click(function(){
+		var st = $( this ).val();
+		if (st=="X") {
+			$( this ).val("");
+		} else {
+			$( this ).val("X");
+		}
+	});
+
+	$( ".Xbox" ).keypress(function(event) {
+	// any key press except tab will constitute a value change to the checkbox
+		if (event.which != 0){
+			$( this ).click();
+			return false;
+			}
+	});
+
+});
+
+		/****************************
+		jQuery for radio fields
+		****************************/
+$(document).ready(function(){
+	$('[class^="only-one-"]').click(function(){
+		if ( $(this).is('input:checkbox') ){
+			$('.'+$(this).attr('class')).prop('checked', false);
+			$(this).prop('checked', true);
+		}
+
+		if ( $(this).is('input:text') ){
+			$('.'+$(this).attr('class')).val('');
+			$( this ).val('X');
+		}
+	});
+});
+</script>
+
+<!-- XBox code -->
+<style type="text/css">
+	.box1 {
+		position: absolute;
+		width:20px;
+		height:20px;
+		font-size: 20px;
+		font-family:Arial;
+		border: 1px solid #000000;
+		cursor: pointer;
+		font-weight: bold;
+		text-align: center;
+		background: #a2dce7;
+	}
+	[class^="only-one-radio_"] {
+		position: absolute;
+		width: 20px;
+		height: 20px;
+		font-size: 20px;
+		font-family:Arial;
+		border: 1px solid #000000;
+		border-radius: 20px;
+		cursor: pointer;
+		font-weight: bold;
+		text-align: center;
+		background: #a2dce7;
+	}
+	.FontSizeChange {
+		position:absolute;
+		width:16px;
+		height:15px;
+		font-size:13px;
+		cursor:pointer;
+		background:yellow;
+		text-align:center;
+		border: 1px solid #000000;
+	}
+</style>
+
+<!-- Push SIN to each page -->
+<script type="text/javascript" language="javascript">
+ 	function setSIN1(id) {
+		var SIN= document.getElementById(id).value;
+			for (i = 1; i < 10; i++) {
+  		idname="SIN"+i;
+  		document.getElementById(idname).value=SIN;
+		} 
+	}
+</script>
+
+<!-- Freeform Signatures -->
+<script type="text/javascript" src="jSignature.min.js"></script>
+<script type="text/javascript" src="SignHere.js"></script>
+<script type="text/javascript" src="${oscar_image_path}SignHere.js"></script>
+<script type="text/javascript" src="${oscar_image_path}jSignature.min.js"></script>
+
+<!-- main calendar program -->
+<script type="text/javascript" src="../share/calendar/calendar.js"></script>
+<script type="text/javascript" src="../share/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="../share/calendar/calendar-setup.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="../share/calendar/calendar.css" title="win2k-cold-1" />
+
+<!--[if lt IE 9]>
+<script type="text/javascript" src="${oscar_javascript_path}flashcanvas.js"></script>
+<![endif]-->
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	$("#CanvasSignature1").jSignature({'decor-color':'rgba(255, 255, 255, 0.0)'})
+	$("#CanvasSignature2").jSignature({'decor-color':'rgba(255, 255, 255, 0.0)'})
+	$("#CanvasSignature3").jSignature({'decor-color':'rgba(255, 255, 255, 0.0)'})
+	var pdf = jQuery("input[name='pdfButton']");
+	if (pdf.size() != 0) {
+		pdf.attr('onclick', '').unbind('click');
+		pdf.attr('value', 'PDF');
+		pdf.click(function(){saveSig();PrintSubmitButton(false);});
+		}
+	var pdfSave = jQuery("input[name='pdfSaveButton']");
+	if (pdfSave.size() != 0) {
+		pdfSave.attr('onclick', '').unbind('click');
+		pdfSave.attr('value', 'Submit & PDF');
+		pdfSave.click(function(){saveSig();PrintSubmitButton(true);});
+		}
+})
+</script>
+
+<script type="text/javascript">
+function saveSig(){
+	var $sig=$("#CanvasSignature1");
+	var datapair=new Array();
+	datapair=$sig.jSignature("getData","base30");
+	document.getElementById("StoreSignature1").value=datapair.join(",");
+
+	var $sig=$("#CanvasSignature2");
+	var datapair=new Array();
+	datapair=$sig.jSignature("getData","base30");
+	document.getElementById("StoreSignature2").value=datapair.join(",");
+
+	var $sig=$("#CanvasSignature3");
+	var datapair=new Array();
+	datapair=$sig.jSignature("getData","base30");
+	document.getElementById("StoreSignature3").value=datapair.join(",");
+}
+
+function clearSig1(){
+	$("#CanvasSignature1").jSignature("reset");
+}
+function clearSig2(){
+	$("#CanvasSignature2").jSignature("reset");
+}
+function clearSig3(){
+	$("#CanvasSignature3").jSignature("reset");
+}
+
+function loadSig(){
+	var $sig=$("#CanvasSignature1");
+	var data
+	data=document.getElementById("StoreSignature1").value;
+	$sig.jSignature("setData","data:"+ data) ;
+
+	var $sig=$("#CanvasSignature2");
+	var data
+	data=document.getElementById("StoreSignature2").value;
+	$sig.jSignature("setData","data:"+ data) ;
+
+	var $sig=$("#CanvasSignature3");
+	var data
+	data=document.getElementById("StoreSignature3").value;
+	$sig.jSignature("setData","data:"+ data) ;
+}
+</script>
+
+<!-- scripts to confirm closing of window if it hadnt been saved yet -->
+<script language="javascript">
+//keypress events trigger dirty flag
+var needToConfirm = false;
+document.onkeyup=setDirtyFlag;
+function setDirtyFlag(){
+	needToConfirm = true;
+}
+
+function releaseDirtyFlag(){
+	needToConfirm = false; //Call this function to prevent an alert.
+//this could be called when save button is clicked
+}
+window.onbeforeunload = confirmExit;
+
+function confirmExit(){
+	if (needToConfirm){
+		 return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+	 }
+}
+
+		/****************************
+			script to Increase or Decrease the Font Size
+			name = input name/id, delta = increase (+) or decrease (-) increment #
+			Requires loadFontSize(); in startUp, or in onload line
+		****************************/
+		function changeFontSize(name, delta) {
+			var element = $("#" + name)
+			var oldSize = parseInt(element.css("font-size"));
+			var newSize = oldSize + delta;
+	
+			// Save new font size into "value" field of hidden element
+			$("#" + name + "_fontsize").attr('value', newSize);
+	
+			// Set font size
+			element.css({'font-size': newSize + 'px'});
+		}
+
+		// Retains altered font size when eForm is reopened; 
+		// Requires hidden inputs with format for each field using this feature: 
+		// <input type="hidden" name="Input_fontsize" id="Input_fontsize" value="">
+		function loadFontSize(){
+			$.each($("input[name*='_fontsize'"), function(index, element) {
+				var fontSize = element.value;
+	
+				if (!!fontSize) {
+					var name = element.name.split('_')[0];
+					$("#" + name).css({'font-size': fontSize + 'px'});
+				}
+			});
+		}
+</script>
+
+<script type="text/javascript">
+function reImg(){
+		/****************************
+		startup functions
+		****************************/
+		// for stand alone development without uploading to OSCAR
+	var strLoc = window.location.href.toLowerCase();
+	if(strLoc.indexOf("https") == -1) {
+		var src1 = document.getElementById("BGImage1").src;
+		document.getElementById("BGImage1").src = src1.replace("$%7Boscar_image_path%7D","");
+		var src2 = document.getElementById("BGImage2").src;
+		document.getElementById("BGImage2").src = src2.replace("$%7Boscar_image_path%7D","");
+		var src3 = document.getElementById("BGImage3").src;
+		document.getElementById("BGImage3").src = src3.replace("$%7Boscar_image_path%7D","");
+		var src4 = document.getElementById("BGImage4").src;
+		document.getElementById("BGImage4").src = src4.replace("$%7Boscar_image_path%7D","");
+		var src5 = document.getElementById("BGImage5").src;
+		document.getElementById("BGImage5").src = src5.replace("$%7Boscar_image_path%7D","");
+		var src6 = document.getElementById("BGImage6").src;
+		document.getElementById("BGImage6").src = src6.replace("$%7Boscar_image_path%7D","");
+		var src7 = document.getElementById("BGImage7").src;
+		document.getElementById("BGImage7").src = src7.replace("$%7Boscar_image_path%7D","");
+		var src8 = document.getElementById("BGImage8").src;
+		document.getElementById("BGImage8").src = src8.replace("$%7Boscar_image_path%7D","");
+		var src9 = document.getElementById("BGImage9").src;
+		document.getElementById("BGImage9").src = src9.replace("$%7Boscar_image_path%7D","");
+		var src10 = document.getElementById("BGImage10").href;
+		document.getElementById("BGImage10").href = src10.replace("$%7Boscar_image_path%7D","");
+		var src11 = document.getElementById("BGImage11").href;
+		document.getElementById("BGImage11").href = src11.replace("$%7Boscar_image_path%7D","");
+		var src12 = document.getElementById("BGImage12").href;
+		document.getElementById("BGImage12").href = src12.replace("$%7Boscar_image_path%7D","");
+		var src13 = document.getElementById("BGImage13").href;
+		document.getElementById("BGImage13").href = src13.replace("$%7Boscar_image_path%7D","");
+		var src14 = document.getElementById("BGImage14").href;
+		document.getElementById("BGImage14").href = src14.replace("$%7Boscar_image_path%7D","");
+
+	}
+			loadFontSize();
+			setDefaults();
+
+			//optimize window size/width
+			top.window.resizeTo(1100, screen.availHeight);
+
+			setDocumentTitle("Medical_Report_CPP_2018",document.getElementById('PatientNameL').value);
+}
+
+		function setDocumentTitle(Title,PatientNameL) {
+			// set document title
+			document.title = Title + '_' + PatientNameL;
+		}
+
+		function setDefaults(){
+			// check the newform flag to ensure this is the initial load of the form
+			if (document.getElementById("newForm").value == 'True') {
+				document.getElementById('English').value = 'X';
+
+			// Change user name to full First Name, Last Name
+			// Get the name
+			var fullName = document.getElementById('current_user_name').value;
+	
+			// Split the value
+			var splitName = fullName.split(",");
+			var firstName = "";
+			var lastName  = "";
+	
+			// Check for last name
+			if(splitName.length >= 1) {
+				lastName = splitName[0].trim();
+			}
+			if(splitName.length >= 2) {
+				firstName = splitName[1].trim();
+			}
+			var First_Last_Name = firstName + " " + lastName;
+	
+			// Show the fields on the page
+			document.FormName.CurrentProviderDoctor1.value = First_Last_Name ;
+			}
+			// actions if eForm is reopened
+		}
+
+		/****************************
+			submit and print functions
+		****************************/
+		function printSubmit(){
+			printLetter();
+			setTimeout('submission()',1000);
+		}
+
+		function printLetter(){
+			window.print();
+		}
+
+		function submission(){
+			setFlag();
+			releaseDirtyFlag();
+			saveSig();
+			// setTimeout('SubmitButton.click()',2000);
+		}
+
+		function setFlag(){
+		// indicate that the form has been submitted
+		if (document.getElementById("newForm").value == 'True')
+			document.getElementById("newForm").value = 'False';
+		}
+</script>
+</head>
+
+<body onload="reImg(); loadSig();">
+<form method="post" action="" name="FormName" id="FormName">
+
+<!-- Hidden input for eForm title -->
+<input type="hidden" name="PatientNameL" id="PatientNameL" oscarDB=patient_nameL>
+
+<!-- Hidden input for normal order of user name, name="CurrentProviderDoctorX" -->
+<input type="hidden" name="current_user_name" id="current_user_name" oscarDB=current_user>
+
+<!-- Hidden input for font size changer inputs -->
+<input type="hidden" name="Impairments_fontsize" id="Impairments_fontsize" value="">
+<input type="hidden" name="Limitations_fontsize" id="Limitations_fontsize" value="">
+<input type="hidden" name="Impairments2_fontsize" id="Impairments2_fontsize" value="">
+<input type="hidden" name="Limitations2_fontsize" id="Limitations2_fontsize" value="">
+<input type="hidden" name="Impairments3_fontsize" id="Impairments3_fontsize" value="">
+<input type="hidden" name="Limitations3_fontsize" id="Limitations3_fontsize" value="">
+<input type="hidden" name="OtherInfo_fontsize" id="OtherInfo_fontsize" value="">
+
+<div id="page1" style="page-break-after:always; position:relative;">
+<img id="BGImage1" src="${oscar_image_path}ISP_2519-1.png" style="position:relative; left:0px; top:0px; width:750px;">
+<a name="BGImage10" id="BGImage10" style="position:absolute; left:45px; top:5px;" class="DoNotPrint" href="${oscar_image_path}ISP_2519-10.png" target="blank" title="Use CTRL+P to Print">Service Canada Offices</a>
+
+<input name="SIN1" id="SIN1" type="text" class="noborder" style="position:absolute; left:50px; top:574px; width:260px; font-family:sans-serif; font-size:18px; background:transparent;" onblur="setSIN1(this.id);" oscarDB=sin>
+
+<input name="English" id="English" type="text" class="only-one-radio_Language" style="left:363px; top:577px;">
+<input name="French" id="French" type="text" class="only-one-radio_Language" style="left:442px; top:577px;">
+
+<input name="Mr" id="Mr" type="text" class="only-one-radio_Prefix" style="left:115px; top:606px;">
+<input name="Mrs" id="Mrs" type="text" class="only-one-radio_Prefix" style="left:164px; top:606px;">
+<input name="Miss" id="Miss" type="text" class="only-one-radio_Prefix" style="left:225px; top:606px;">
+<input name="Ms" id="Ms" type="text" class="only-one-radio_Prefix" style="left:286px; top:606px;">
+
+<input name="first_last_name" id="first_last_name" type="text" class="noborder" style="position:absolute; left:50px; top:645px; width:510px; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=first_last_name>
+<input name="dobc2" id="dobc2" type="text" class="noborder" style="position:absolute; left:50px; top:689px; width:190px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;" oscarDB=dobc2>
+<input name="LastNameAtBirth" id="LastNameAtBirth" type="text" class="noborder" style="position:absolute; left:250px; top:689px; width:310px; font-family:sans-serif; font-size:16px; background:transparent;">
+<input name="addressline" id="addressline" type="text" class="noborder" style="position:absolute; left:50px; top:735px; width:655px; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=addressline>
+
+<input name="phone" id="phone" type="text" class="noborder" style="position:absolute; left:50px; top:780px; width:325px; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=phone>
+<input name="cell" id="cell" type="text" class="noborder" style="position:absolute; left:380px; top:780px; width:325px; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=cell>
+
+<input name="Morning" id="Morning" type="text" class="only-one-radio_Time" style="left:322px; top:815px;">
+<input name="Afternoon" id="Afternoon" type="text" class="only-one-radio_Time" style="left:400px; top:815px;">
+<input name="DontCall" id="DontCall" type="text" class="only-one-radio_Time" style="left:486px; top:815px;">
+</div>
+
+<div id="page2" style="page-break-after:always; position:relative;">
+<img id="BGImage2" src="${oscar_image_path}ISP_2519-2.png" style="position:relative; left:0px; top:0px; width:750px;">
+
+<input name="SIN2" id="SIN2" type="text" class="noborder" style="position:absolute; left:180px; top:29px; width:130px; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=sin>
+
+<input name="ConsentYes" id="ConsentYes" type="text" class="only-one-radio_Consent" style="left:46px; top:455px;">
+<input name="ConsentNo" id="ConsentNo" type="text" class="only-one-radio_Consent" style="left:46px; top:505px;">
+
+	<div id="CanvasSignature1" class="sig" style="position:absolute; left:62px; top:620px; width:320px; height:60px; z-index:10;">
+	<input type="hidden" name="StoreSignature1" id="StoreSignature1" value="">
+	</div>
+	<input name="ClearButton" id="ClearButton" type="button" class="DoNotPrint" value="Clear Sig" style="position:absolute; left:720px; top:641px; color:green;" onclick="clearSig1();"> 
+
+<input name="today" id="today" type="text" class="noborder" style="position:absolute; left:424px; top:647px; width:120px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;" oscarDB=today>
+
+<input name="WitnessName" id="WitnessName" type="text" class="noborder" style="position:absolute; left:50px; top:765px; width:465px; font-family:sans-serif; font-size:16px; background:transparent;">
+
+<input name="WitnessTel" id="WitnessTel" type="text" class="noborder" style="position:absolute; left:525px; top:765px; width:180px; font-family:sans-serif; font-size:16px; background:transparent;">
+
+	<div id="CanvasSignature2" class="sig" style="position:absolute; left:146px; top:780px; width:340px; height:50; z-index:10;">
+	<input type="hidden" name="StoreSignature2" id="StoreSignature2" value="">
+	</div>
+	<input name="ClearButton" id="ClearButton" type="button" class="DoNotPrint" value="Clear Sig" style="position:absolute; left:720px; top:790px; color:green;" onclick="clearSig2();"> 
+
+<input name="today1" id="today1" type="text" class="noborder" style="position:absolute; left:525px; top:805px; width:180px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;" oscarDB=today>
+</div>
+
+<div id="page3" style="page-break-after:always; position:relative;">
+<img id="BGImage3" src="${oscar_image_path}ISP_2519-3.png" style="position:relative; left:0px; top:0px; width:750px;">
+
+<input name="SIN3" id="SIN3" type="text" class="noborder" style="position:absolute; left:180px; top:29px; width:130px; font-family:sans-serif; font-size:16px; background:transparent;">
+</div>
+
+<div id="page4" style="page-break-after:always; position:relative;">
+<img id="BGImage4" src="${oscar_image_path}ISP_2519-4.png" style="position:relative; left:0px; top:0px; width:750px;">
+
+<input name="SIN4" id="SIN4" type="text" class="noborder" style="position:absolute; left:180px; top:29px; width:130px; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=sin>
+
+<input name="1" id="1" type="text" class="only-one-radio_Years" style="left:46px; top:150px;">
+<input name="2" id="2" type="text" class="only-one-radio_Years" style="left:158px; top:150px;">
+<input name="3" id="3" type="text" class="only-one-radio_Years" style="left:263px; top:150px;">
+<input name="5" id="5" type="text" class="only-one-radio_Years" style="left:367px; top:150px;">
+
+<input name="NumberOfVisits" id="NumberOfVisits" type="text" class="noborder" style="position:absolute; left:450px; top:178px; width:114px; font-family:sans-serif; font-size:16px; background:transparent;">
+<input name="appt_date" id="appt_date" type="text" class="noborder" style="position:absolute; left:257px; top:206px; width:144px; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=appt_date>
+<input name="DateOfFirstVisit" id="DateOfFirstVisit" type="text" class="noborder" style="position:absolute; left:510px; top:240px; width:139px; font-family:sans-serif; font-size:16px; background:transparent;">
+
+<input name="Terminal" id="Terminal" type="text" class="Xbox box1" style="left:80px; top:512px;" onclick="getElementById('TerminalDiagnosis').required = true;">
+
+<textarea name="TerminalDiagnosis" id="TerminalDiagnosis" type="text" class="noborder" style="position:absolute; left:60px; top:578px; width:330px; height:43px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=dxregistry></textarea>
+<textarea name="Terminal_ICD9" id="Terminal_ICD9" type="text" class="noborder" style="position:absolute; left:392px; top:578px; width:140px; font-family:sans-serif; height:43px; resize:none; font-size:16px; text-align:center; background:transparent;" oscarDB=OHIPdxCode></textarea>
+<input name="TerminalDate" id="TerminalDate" type="text" class="noborder" style="position:absolute; left:536px; top:585px; width:150px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+
+<input name="Grave" id="Grave" type="text" class="Xbox box1" style="left:80px; top:759px;" onclick="getElementById('MedicalCondition').required = true; getElementById('Impairments').required = true; getElementById('Limitations').required = true;">
+
+<a name="BGImage11" id="BGImage11" style="position:absolute; left:365px; top:732px;"class="DoNotPrint" href="${oscar_image_path}ISP_2519-11.png" target="blank" title="Use CTRL+P to Print">Grave Conditions</a>
+</div>
+
+<div id="page5" style="page-break-after:always; position:relative;">
+<img id="BGImage5" src="${oscar_image_path}ISP_2519-5.png" style="position:relative; left:0px; top:0px; width:750px;">
+
+<input name="SIN5" id="SIN5" type="text" class="noborder" style="position:absolute; left:180px; top:29px; width:130px; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=sin>
+
+<span class="DoNotPrint" style="position:absolute; left:730px; top:120px;">
+	<a name="BGImage13" id="BGImage13" class="DoNotPrint" href="${oscar_image_path}ISP_2519-13.png" target="blank" title="Use CTRL+P to Print">Example 1 DDD of LS with Radiculopathy</a><br>
+	<a name="BGImage14" id="BGImage14" href="${oscar_image_path}ISP_2519-14.png" target="blank" title="Use CTRL+P to Print">Example 2 Major Depression, recurrent</a>
+</span>
+
+<input name="MedicalCondition" id="MedicalCondition" type="text" class="noborder" style="position:absolute; left:150px; top:116px; width:555px; font-family:sans-serif; font-size:16px; background:transparent;">
+<input name="ICD9_2" id="ICD9_2" type="text" class="noborder" style="position:absolute; left:180px; top:139px; width:70px; font-family:sans-serif; font-size:16px; background:transparent;">
+<input name="DateOfSymptoms2" id="DateOfSymptoms2" type="text" class="noborder" style="position:absolute; left:240px; top:162px; width:130px; font-family:sans-serif; font-size:16px; background:transparent;">
+
+<textarea name="Impairments" id="Impairments" type="text" class="noborder" style="position:absolute; left:50px; top:200px; width:655px; height:84px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:710px; top:202px;" onclick="changeFontSize('Impairments', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:710px; top:217px;" onclick="changeFontSize('Impairments', -1);">&#9660;</span>
+
+<textarea name="Limitations" id="Limitations" type="text" class="noborder" style="position:absolute; left:50px; top:305px; width:655px; height:84px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:710px; top:307px;" onclick="changeFontSize('Limitations', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:710px; top:322px;" onclick="changeFontSize('Limitations', -1);">&#9660;</span>
+
+<span class="DoNotPrint" style="position:absolute; left:730px; top:307px;">
+<a name="BGImage12" id="BGImage12" class="DoNotPrint" href="${oscar_image_path}ISP_2519-12.png" target="blank" title="Use CTRL+P to Print">Examples of Functional Limitations</a>
+</span>
+
+<input name="Improve" id="Improve" type="text" class="only-one-radio_Prognosis" style="left:162px; top:410px;">
+<input name="Deteriorate" id="Deteriorate" type="text" class="only-one-radio_Prognosis" style="left:255px; top:410px;">
+<input name="Remain" id="Remain" type="text" class="only-one-radio_Prognosis" style="left:361px; top:410px;">
+<input name="Unknown" id="Unknown" type="text" class="only-one-radio_Prognosis" style="left:494px; top:410px;">
+
+<input name="LessThan1" id="LessThan1" type="text" class="only-one-radio_Duration" style="left:162px; top:440px;">
+<input name="MoreThan1" id="MoreThan1" type="text" class="only-one-radio_Duration" style="left:307px; top:440px;">
+
+<input name="Recurrent" id="Recurrent" type="text" class="only-one-radio_Frequency" style="left:162px; top:467px;">
+<input name="Continuous" id="Continuous" type="text" class="only-one-radio_Frequency" style="left:307px; top:467px;">
+<input name="Unknown2" id="Unknown2" type="text" class="only-one-radio_Frequency" style="left:418px; top:467px;">
+
+<textarea name="Medication1" id="Medication1" type="text" class="noborder" style="position:absolute; left:46px; top:546px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="StartDate1" id="StartDate1" type="text" class="noborder" style="position:absolute; left:246px; top:556px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="EndDate1" id="EndDate1" type="text" class="noborder" style="position:absolute; left:356px; top:556px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="Response1" id="Response1" type="text" class="noborder" style="position:absolute; left:465px; top:546px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Medication2" id="Medication2" type="text" class="noborder" style="position:absolute; left:46px; top:590px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="StartDate2" id="StartDate2" type="text" class="noborder" style="position:absolute; left:246px; top:600px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="EndDate2" id="EndDate2" type="text" class="noborder" style="position:absolute; left:356px; top:600px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="Response2" id="Response2" type="text" class="noborder" style="position:absolute; left:465px; top:590px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Medication3" id="Medication3" type="text" class="noborder" style="position:absolute; left:46px; top:635px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="StartDate3" id="StartDate3" type="text" class="noborder" style="position:absolute; left:246px; top:645px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="EndDate3" id="EndDate3" type="text" class="noborder" style="position:absolute; left:356px; top:645px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="Response3" id="Response3" type="text" class="noborder" style="position:absolute; left:465px; top:635px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Treatment1" id="Treatment1" type="text" class="noborder" style="position:absolute; left:46px; top:734px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="TreatmentStart1" id="TreatmentStart1" type="text" class="noborder" style="position:absolute; left:246px; top:744px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="TreatmentEnd1" id="TreatmentEnd1" type="text" class="noborder" style="position:absolute; left:356px; top:744px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="TreatmentResponse1" id="TreatmentResponse1" type="text" class="noborder" style="position:absolute; left:466px; top:734px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Treatment2" id="Treatment2" type="text" class="noborder" style="position:absolute; left:46px; top:778px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="TreatmentStart2" id="TreatmentStart2" type="text" class="noborder" style="position:absolute; left:246px; top:788px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="TreatmentEnd2" id="TreatmentEnd2" type="text" class="noborder" style="position:absolute; left:356px; top:788px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="TreatmentResponse2" id="TreatmentResponse2" type="text" class="noborder" style="position:absolute; left:466px; top:778px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Treatment3" id="Treatment3" type="text" class="noborder" style="position:absolute; left:46px; top:822px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="TreatmentStart3" id="TreatmentStart3" type="text" class="noborder" style="position:absolute; left:246px; top:833px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="TreatmentEnd3" id="TreatmentEnd3" type="text" class="noborder" style="position:absolute; left:356px; top:833px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="TreatmentResponse3" id="TreatmentResponse3" type="text" class="noborder" style="position:absolute; left:466px; top:822px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+</div>
+
+<div id="page6" style="page-break-after:always; position:relative;">
+<img id="BGImage6" src="${oscar_image_path}ISP_2519-6.png" style="position:relative; left:0px; top:0px; width:750px;">
+
+<input name="SIN6" id="SIN6" type="text" class="noborder" style="position:absolute; left:180px; top:29px; width:130px; font-family:sans-serif; font-size:14px; background:transparent;" oscarDB=sin>
+
+<input name="MedicalCondition2" id="MedicalCondition2" type="text" class="noborder" style="position:absolute; left:150px; top:95px; width:555px; font-family:sans-serif; font-size:16px; background:transparent;">
+<input name="ICD9_2A" id="ICD9_2A" type="text" class="noborder" style="position:absolute; left:180px; top:116px; width:70px; font-family:sans-serif; font-size:16px; background:transparent;">
+<input name="DateOfSymptoms2A" id="DateOfSymptoms2A" type="text" class="noborder" style="position:absolute; left:240px; top:140px; width:130px; font-family:sans-serif; font-size:16px; background:transparent;">
+
+<textarea name="Impairments2" id="Impairments2" type="text" class="noborder" style="position:absolute; left:50px; top:178px; width:655px; height:84px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:710px; top:180px;" onclick="changeFontSize('Impairments2', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:710px; top:195px;" onclick="changeFontSize('Impairments2', -1);">&#9660;</span>
+
+<textarea name="Limitations2" id="Limitations2" type="text" class="noborder" style="position:absolute; left:50px; top:283px; width:655px; height:84px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:710px; top:285px;" onclick="changeFontSize('Limitations2', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:710px; top:300px;" onclick="changeFontSize('Limitations2', -1);">&#9660;</span>
+
+<input name="Improve2" id="Improve2" type="text" class="only-one-radio_Prognosis2" style="left:162px; top:387px;">
+<input name="Deteriorate2" id="Deteriorate2" type="text" class="only-one-radio_Prognosis2" style="left:255px; top:387px;">
+<input name="Remain2" id="Remain2" type="text" class="only-one-radio_Prognosis2" style="left:361px; top:387px;">
+<input name="Unknown2A" id="Unknown2A" type="text" class="only-one-radio_Prognosis2" style="left:494px; top:387px;">
+
+<input name="LessThan1_2" id="LessThan1_2" type="text" class="only-one-radio_Duration2" style="left:162px; top:417px;">
+<input name="MoreThan1_2" id="MoreThan1_2" type="text" class="only-one-radio_Duration2" style="left:307px; top:417px;">
+
+<input name="Recurrent_2" id="Recurrent_2" type="text" class="only-one-radio_Frequency2" style="left:162px; top:445px;">
+<input name="Continuous_2" id="Continuous_2" type="text" class="only-one-radio_Frequency2" style="left:307px; top:445px;">
+<input name="Unknown2B" id="Unknown2B" type="text" class="only-one-radio_Frequency2" style="left:418px; top:445px;">
+
+<textarea name="Medication4" id="Medication4" type="text" class="noborder" style="position:absolute; left:46px; top:525px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="StartDate4" id="StartDate4" type="text" class="noborder" style="position:absolute; left:246px; top:535px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="EndDate4" id="EndDate4" type="text" class="noborder" style="position:absolute; left:356px; top:535px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="Response4" id="Response4" type="text" class="noborder" style="position:absolute; left:465px; top:525px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Medication5" id="Medication5" type="text" class="noborder" style="position:absolute; left:46px; top:569px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="StartDate5" id="StartDate5" type="text" class="noborder" style="position:absolute; left:246px; top:579px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="EndDate5" id="EndDate5" type="text" class="noborder" style="position:absolute; left:356px; top:579px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="Response5" id="Response5" type="text" class="noborder" style="position:absolute; left:465px; top:569px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Medication6" id="Medication6" type="text" class="noborder" style="position:absolute; left:46px; top:614px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="StartDate6" id="StartDate6" type="text" class="noborder" style="position:absolute; left:246px; top:624px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="EndDate6" id="EndDate6" type="text" class="noborder" style="position:absolute; left:356px; top:624px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="Response6" id="Response6" type="text" class="noborder" style="position:absolute; left:465px; top:614px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Treatment4" id="Treatment4" type="text" class="noborder" style="position:absolute; left:46px; top:711px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="TreatmentStart4" id="TreatmentStart4" type="text" class="noborder" style="position:absolute; left:246px; top:721px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="TreatmentEnd4" id="TreatmentEnd4" type="text" class="noborder" style="position:absolute; left:356px; top:721px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="TreatmentResponse4" id="TreatmentResponse4" type="text" class="noborder" style="position:absolute; left:466px; top:711px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Treatment5" id="Treatment5" type="text" class="noborder" style="position:absolute; left:46px; top:755px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="TreatmentStart5" id="TreatmentStart5" type="text" class="noborder" style="position:absolute; left:246px; top:765px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="TreatmentEnd5" id="TreatmentEnd5" type="text" class="noborder" style="position:absolute; left:356px; top:765px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="TreatmentResponse5" id="TreatmentResponse5" type="text" class="noborder" style="position:absolute; left:466px; top:755px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Treatment6" id="Treatment6" type="text" class="noborder" style="position:absolute; left:46px; top:800px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="TreatmentStart6" id="TreatmentStart6" type="text" class="noborder" style="position:absolute; left:246px; top:810px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="TreatmentEnd6" id="TreatmentEnd6" type="text" class="noborder" style="position:absolute; left:356px; top:810px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="TreatmentResponse6" id="TreatmentResponse6" type="text" class="noborder" style="position:absolute; left:466px; top:800px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+</div>
+
+<div id="page7" style="page-break-after:always; position:relative;">
+<img id="BGImage7" src="${oscar_image_path}ISP_2519-7.png" style="position:relative; left:0px; top:0px; width:750px;">
+
+<input name="SIN7" id="SIN7" type="text" class="noborder" style="position:absolute; left:180px; top:29px; width:130px; font-family:sans-serif; font-size:16px; background:transparent;">
+
+<input name="MedicalCondition3" id="MedicalCondition3" type="text" class="noborder" style="position:absolute; left:150px; top:95px; width:555px; font-family:sans-serif; font-size:16px; background:transparent;">
+<input name="ICD9_3" id="ICD9_3" type="text" class="noborder" style="position:absolute; left:180px; top:116px; width:70px; font-family:sans-serif; font-size:16px; background:transparent;">
+<input name="DateOfSymptoms3" id="DateOfSymptoms3" type="text" class="noborder" style="position:absolute; left:240px; top:140px; width:130px; font-family:sans-serif; font-size:16px; background:transparent;">
+
+<textarea name="Impairments3" id="Impairments3" type="text" class="noborder" style="position:absolute; left:50px; top:178px; width:655px; height:84px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:710px; top:180px;" onclick="changeFontSize('Impairments3', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:710px; top:195px;" onclick="changeFontSize('Impairments3', -1);">&#9660;</span>
+
+<textarea name="Limitations3" id="Limitations3" type="text" class="noborder" style="position:absolute; left:50px; top:283px; width:655px; height:84px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:710px; top:285px;" onclick="changeFontSize('Limitations3', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:710px; top:300px;" onclick="changeFontSize('Limitations3', -1);">&#9660;</span>
+
+<input name="Improve3" id="Improve3" type="text" class="only-one-radio_Prognosis3" style="left:162px; top:387px;">
+<input name="Deteriorate3" id="Deteriorate3" type="text" class="only-one-radio_Prognosis3" style="left:255px; top:387px;">
+<input name="Remain3" id="Remain3" type="text" class="only-one-radio_Prognosis3" style="left:361px; top:387px;">
+<input name="Unknown3A" id="Unknown3A" type="text" class="only-one-radio_Prognosis3" style="left:494px; top:387px;">
+
+<input name="LessThan1_3" id="LessThan1_3" type="text" class="only-one-radio_Duration3" style="left:162px; top:417px;">
+<input name="MoreThan1_3" id="MoreThan1_3" type="text" class="only-one-radio_Duration3" style="left:307px; top:417px;">
+
+<input name="Recurrent_3" id="Recurrent_3" type="text" class="only-one-radio_Frequency3" style="left:162px; top:445px;">
+<input name="Continuous_3" id="Continuous_3" type="text" class="only-one-radio_Frequency3" style="left:307px; top:445px;">
+<input name="Unknown3B" id="Unknown3B" type="text" class="only-one-radio_Frequency3" style="left:418px; top:445px;">
+
+<textarea name="Medication7" id="Medication7" type="text" class="noborder" style="position:absolute; left:46px; top:525px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="StartDate7" id="StartDate7" type="text" class="noborder" style="position:absolute; left:246px; top:535px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="EndDate7" id="EndDate7" type="text" class="noborder" style="position:absolute; left:356px; top:535px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="Response7" id="Response7" type="text" class="noborder" style="position:absolute; left:465px; top:525px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Medication8" id="Medication8" type="text" class="noborder" style="position:absolute; left:46px; top:569px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="StartDate8" id="StartDate8" type="text" class="noborder" style="position:absolute; left:246px; top:579px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="EndDate8" id="EndDate8" type="text" class="noborder" style="position:absolute; left:356px; top:579px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="Response8" id="Response8" type="text" class="noborder" style="position:absolute; left:465px; top:569px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Medication9" id="Medication9" type="text" class="noborder" style="position:absolute; left:46px; top:613px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="StartDate9" id="StartDate9" type="text" class="noborder" style="position:absolute; left:246px; top:624px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="EndDate9" id="EndDate9" type="text" class="noborder" style="position:absolute; left:356px; top:624px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="Response9" id="Response9" type="text" class="noborder" style="position:absolute; left:465px; top:613px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Treatment7" id="Treatment7" type="text" class="noborder" style="position:absolute; left:46px; top:711px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="TreatmentStart7" id="TreatmentStart7" type="text" class="noborder" style="position:absolute; left:246px; top:721px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="TreatmentEnd7" id="TreatmentEnd7" type="text" class="noborder" style="position:absolute; left:356px; top:721px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="TreatmentResponse7" id="TreatmentResponse7" type="text" class="noborder" style="position:absolute; left:466px; top:711px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Treatment8" id="Treatment8" type="text" class="noborder" style="position:absolute; left:46px; top:755px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="TreatmentStart8" id="TreatmentStart8" type="text" class="noborder" style="position:absolute; left:246px; top:765px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="TreatmentEnd8" id="TreatmentEnd8" type="text" class="noborder" style="position:absolute; left:356px; top:765px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="TreatmentResponse8" id="TreatmentResponse8" type="text" class="noborder" style="position:absolute; left:466px; top:755px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+
+<textarea name="Treatment9" id="Treatment9" type="text" class="noborder" style="position:absolute; left:46px; top:800px; width:195px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+<input name="TreatmentStart9" id="TreatmentStart9" type="text" class="noborder" style="position:absolute; left:246px; top:810px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<input name="TreatmentEnd9" id="TreatmentEnd9" type="text" class="noborder" style="position:absolute; left:356px; top:810px; width:105px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+<textarea name="TreatmentResponse9" id="TreatmentResponse9" type="text" class="noborder" style="position:absolute; left:466px; top:800px; width:240px; height:41px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+</div>
+
+<div id="page8" style="page-break-after:always; position:relative;">
+<img id="BGImage8" src="${oscar_image_path}ISP_2519-8.png" style="position:relative; left:0px; top:0px; width:750px;">
+
+<input name="SIN8" id="SIN8" type="text" class="noborder" style="position:absolute; left:180px; top:29px; width:130px; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=sin>
+
+<input name="StopYes" id="StopYes" type="text" class="only-one-radio_StopWork" style="left:63px; top:150px;">
+<input name="StopNo" id="StopNo" type="text" class="only-one-radio_StopWork" style="left:63px; top:175px;">
+<input name="StopNA" id="StopNA" type="text" class="only-one-radio_StopWork" style="left:63px; top:204px;">
+
+<input name="StopWorkDate" id="StopWorkDate" type="text" class="noborder" style="position:absolute; left:430px; top:152px; width:133px; font-family:sans-serif; font-size:16px; text-align:center; background:transparent;">
+
+<input name="ReturnYes" id="ReturnYes" type="text" class="only-one-radio_ReturnWork" style="left:62px; top:298px;">
+<input name="ReturNo" id="ReturNo" type="text" class="only-one-radio_ReturnWork" style="left:62px; top:326px;">
+<input name="ReturNA" id="ReturNA" type="text" class="only-one-radio_ReturnWork" style="left:62px; top:352px;">
+
+<input name="6" id="6" type="text" class="only-one-radio_ReturnWorkWhen" style="left:63px; top:420px;">
+<input name="12" id="12" type="text" class="only-one-radio_ReturnWorkWhen" style="left:200px; top:420px;">
+<input name="24" id="24" type="text" class="only-one-radio_ReturnWorkWhen" style="left:343px; top:420px;">
+<input name="ReturnUnk" id="ReturnUnk" type="text" class="only-one-radio_ReturnWorkWhen" style="left:514px; top:420px;">
+
+<input name="Usual" id="Usual" type="text" class="only-one-radio_ReturnWorkType" style="left:63px; top:484px;">
+<input name="Modified" id="Modified" type="text" class="only-one-radio_ReturnWorkType" style="left:172px; top:484px;">
+<input name="Another" id="Another" type="text" class="only-one-radio_ReturnWorkType" style="left:299px; top:484px;">
+<input name="Other" id="Other" type="text" class="only-one-radio_ReturnWorkType" style="left:63px; top:512px;" onclick="getElementById('OtherTypeOfWork').required = true;">
+
+<input name="OtherTypeOfWork" id="OtherTypeOfWork" type="text" class="noborder" style="position:absolute; left:130px; top:514px; width:570px; font-family:sans-serif; font-size:16px; background:transparent;">
+<textarea name="OtherInfo" id="OtherInfo" type="text" class="noborder" style="position:absolute; left:46px; top:634px; width:659px; height:275px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;"></textarea>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:710px; top:636px;" onclick="changeFontSize('OtherInfo', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:710px; top:651px;" onclick="changeFontSize('OtherInfo', -1);">&#9660;</span>
+</div>
+
+<div id="page9" style="page-break-after:always; position:relative;">
+<img id="BGImage9" src="${oscar_image_path}ISP_2519-9.png" style="position:relative; left:0px; top:0px; width:750px;">
+
+<input name="SIN9" id="SIN9" type="text" class="noborder" style="position:absolute; left:180px; top:29px; width:130px; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=sin>
+
+<input name="Longitudinal" id="Longitudinal" type="text" class="Xbox box1" style="left:57px; top:160px;">
+<input name="MedicalInvestigations" id="MedicalInvestigations" type="text" class="Xbox box1" style="left:57px; top:188px;">
+<input name="SpecialistReports" id="SpecialistReports" type="text" class="Xbox box1" style="left:57px; top:215px;">
+<input name="HospitalDC" id="HospitalDC" type="text" class="Xbox box1" style="left:57px; top:243px;">
+<input name="OtherMedicalReports" id="OtherMedicalReports" type="text" class="Xbox box1" style="left:57px; top:271px;" onclick="getElementById('OtherMedicalReportText').required = true;">
+
+<input name="OtherMedicalReportText" id="OtherMedicalReportText" type="text" class="noborder" style="position:absolute; left:210px; top:272px; width:490px; font-family:sans-serif; font-size:16px; background:transparent;">
+
+<input name="GP" id="GP" type="text" class="only-one-radio_Declaration" style="left:57px; top:409px;">
+<input name="OtherMD" id="OtherMD" type="text" class="only-one-radio_Declaration" style="left:57px; top:437px;">
+<input name="NP" id="NP" type="text" class="only-one-radio_Declaration" style="left:57px; top:464px;">
+<input name="RN" id="RN" type="text" class="only-one-radio_Declaration" style="left:57px; top:491px;">
+
+<input name="OtherPhysician" id="OtherPhysician" type="text" class="noborder" style="position:absolute; left:315px; top:437px; width:385px; font-family:sans-serif; font-size:16px; background:transparent;">
+<input name="CurrentProviderDoctor1" id="CurrentProviderDoctor1" type="text" class="noborder" style="position:absolute; left:50px; top:540px; width:320px; font-family:sans-serif; font-size:16px; background:transparent;" value="">
+
+	<div id="CanvasSignature3" class="sig" style="position:absolute; left:63px; top:577px; width:305px; height:45; z-index:10;">
+	<input type="hidden" name="StoreSignature3" id="StoreSignature3" value="">
+	</div>
+	<input name="ClearButton" id="ClearButton" type="button" class="DoNotPrint" value="Clear Sig" style="position:absolute; left:720px; top:590px; color:green;" onclick="clearSig3();"> 
+ 
+<input name="today2" id="today2" type="text" class="noborder" style="position:absolute; left:50px; top:640px; width:310px; font-family:sans-serif; font-size:14px; background:transparent;" oscarDB=today>
+<textarea name="clinic_label" id="clinic_label" type="text" class="noborder" style="position:absolute; left:379px; top:556px; width:324px; height:114px; resize:none; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=clinic_label></textarea>
+
+<div class="DoNotPrint" id="BottomButtons" style="position:absolute; left:40px; top:845px;">
+	<table><tr><td>
+		<input type="hidden" id="newForm" name="newForm" value="True" />
+		Subject: <input name="subject" size="80" type="text"> <br> 
+		<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick="submission();"> 
+		<input value="Reset" name="ResetButton" id="ResetButton" type="reset" onclick="history.go(0);">
+		<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="printLetter();"> 
+		<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="printSubmit();"> 
+	</td></tr></table>
+
+<!-- Copy Left -->
+<a rel="liscence" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US" target="blank"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png"/></a>
+</div>
+
+</div>
+</form>
+
+<!-- Define Date Calendars -->
+<script type="text/javascript">
+	Calendar.setup( { inputField: "today", ifFormat: "%Y-%m-%d", showsTime: false, button: "today" } );
+	Calendar.setup( { inputField: "today1", ifFormat: "%Y-%m-%d", showsTime: false, button: "today1" } );
+	Calendar.setup( { inputField: "appt_date", ifFormat: "%Y-%m-%d", showsTime: false, button: "appt_date" } );
+	Calendar.setup( { inputField: "DateOfFirstVisit", ifFormat: "%Y-%m-%d", showsTime: false, button: "DateOfFirstVisit" } );
+	Calendar.setup( { inputField: "TerminalDate", ifFormat: "%Y-%m-%d", showsTime: false, button: "TerminalDate" } );
+	Calendar.setup( { inputField: "DateOfSymptoms2", ifFormat: "%Y-%m-%d", showsTime: false, button: "DateOfSymptoms2" } );
+	Calendar.setup( { inputField: "StartDate1", ifFormat: "%Y-%m-%d", showsTime: false, button: "StartDate1" } );
+	Calendar.setup( { inputField: "EndDate1", ifFormat: "%Y-%m-%d", showsTime: false, button: "EndDate1" } );
+	Calendar.setup( { inputField: "StartDate2", ifFormat: "%Y-%m-%d", showsTime: false, button: "StartDate2" } );
+	Calendar.setup( { inputField: "EndDate2", ifFormat: "%Y-%m-%d", showsTime: false, button: "EndDate2" } );
+	Calendar.setup( { inputField: "StartDate3", ifFormat: "%Y-%m-%d", showsTime: false, button: "StartDate3" } );
+	Calendar.setup( { inputField: "EndDate3", ifFormat: "%Y-%m-%d", showsTime: false, button: "EndDate3" } );
+	Calendar.setup( { inputField: "TreatmentStart1", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentStart1" } );
+	Calendar.setup( { inputField: "TreatmentEnd1", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentEnd1" } );
+	Calendar.setup( { inputField: "TreatmentStart2", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentStart2" } );
+	Calendar.setup( { inputField: "TreatmentEnd2", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentEnd2" } );
+	Calendar.setup( { inputField: "TreatmentStart3", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentStart3" } );
+	Calendar.setup( { inputField: "TreatmentEnd3", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentEnd3" } );
+	Calendar.setup( { inputField: "DateOfSymptoms2A", ifFormat: "%Y-%m-%d", showsTime: false, button: "DateOfSymptoms2A" } );
+	Calendar.setup( { inputField: "StartDate4", ifFormat: "%Y-%m-%d", showsTime: false, button: "StartDate4" } );
+	Calendar.setup( { inputField: "EndDate4", ifFormat: "%Y-%m-%d", showsTime: false, button: "EndDate4" } );
+	Calendar.setup( { inputField: "StartDate5", ifFormat: "%Y-%m-%d", showsTime: false, button: "StartDate5" } );
+	Calendar.setup( { inputField: "EndDate5", ifFormat: "%Y-%m-%d", showsTime: false, button: "EndDate5" } );
+	Calendar.setup( { inputField: "StartDate6", ifFormat: "%Y-%m-%d", showsTime: false, button: "StartDate6" } );
+	Calendar.setup( { inputField: "EndDate6", ifFormat: "%Y-%m-%d", showsTime: false, button: "EndDate6" } );
+	Calendar.setup( { inputField: "TreatmentStart4", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentStart4" } );
+	Calendar.setup( { inputField: "TreatmentEnd4", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentEnd4" } );
+	Calendar.setup( { inputField: "TreatmentStart5", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentStart5" } );
+	Calendar.setup( { inputField: "TreatmentEnd5", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentEnd5" } );
+	Calendar.setup( { inputField: "TreatmentStart6", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentStart6" } );
+	Calendar.setup( { inputField: "TreatmentEnd6", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentEnd6" } );
+	Calendar.setup( { inputField: "DateOfSymptoms3", ifFormat: "%Y-%m-%d", showsTime: false, button: "DateOfSymptoms3" } );
+	Calendar.setup( { inputField: "StartDate7", ifFormat: "%Y-%m-%d", showsTime: false, button: "StartDate7" } );
+	Calendar.setup( { inputField: "EndDate7", ifFormat: "%Y-%m-%d", showsTime: false, button: "EndDate7" } );
+	Calendar.setup( { inputField: "StartDate8", ifFormat: "%Y-%m-%d", showsTime: false, button: "StartDate8" } );
+	Calendar.setup( { inputField: "EndDate8", ifFormat: "%Y-%m-%d", showsTime: false, button: "EndDate8" } );
+	Calendar.setup( { inputField: "StartDate9", ifFormat: "%Y-%m-%d", showsTime: false, button: "StartDate9" } );
+	Calendar.setup( { inputField: "EndDate9", ifFormat: "%Y-%m-%d", showsTime: false, button: "EndDate9" } );
+	Calendar.setup( { inputField: "TreatmentStart7", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentStart7" } );
+	Calendar.setup( { inputField: "TreatmentEnd7", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentEnd7" } );
+	Calendar.setup( { inputField: "TreatmentStart8", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentStart8" } );
+	Calendar.setup( { inputField: "TreatmentEnd8", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentEnd8" } );
+	Calendar.setup( { inputField: "TreatmentStart9", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentStart9" } );
+	Calendar.setup( { inputField: "TreatmentEnd9", ifFormat: "%Y-%m-%d", showsTime: false, button: "TreatmentEnd9" } );
+	Calendar.setup( { inputField: "StopWorkDate", ifFormat: "%Y-%m-%d", showsTime: false, button: "StopWorkDate" } );
+	Calendar.setup( { inputField: "today2", ifFormat: "%Y-%m-%d", showsTime: false, button: "today2" } );
+</script>
+
+</body>
+</html>

@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8"  />
+<meta name="description" content="BCCA Cervical Cancer Screening Lab Requisition Form 2024  "  />
+<meta name="keywords" content="BC, BCCA, Cancer, BC Cancer Agency, Cervical Cancer, Screening, Papanicolaou test, Pap test, HPV Test"  />
+<meta name="robots" content="nofollow"  />
+<meta http-equiv="author" content="John Robertson" />
+<title>Pap Smear/ HPV Test 2024</title>
+
+<!-- BCCA Cervical Cancer Screening Lab Requisition Form 2022 -->
+
+<!-- BCCA Colours 
+Dark Blue color="#0cbfd5"
+Light Blue color="#b7f3fb"
+Dark Purple color="#905aa6"
+Light Purple color="#decde4" 
+-->
+
+<!-- Created March 2013 for Version 12.1. Updated background. Has X-boxes, BCCA reference; JohnY, HerbC, GuntherK -->
+<!-- Updated April 2014 with current Pap screening program link -->
+<!-- Updated August 2015 with CheckCopyTo function: JohnY -->
+<!-- Updated October 2015 with integrated calendar picker, jQuery X-boxes, new off-line architecture; no more floating menu: JohnY, KevinY -->
+<!-- V10 upgrade: Oct 2015: additional radio-button behaviour for X-boxes (manual inputs): JohnY -->
+<!-- V11 upgrade: Oct 2015: deconstructed clinic label: JohnR -->
+<!-- V12 (2017 V1) upgrade: July 2017: New Background. removed boxes no longer used, link to back of page, link to electronic form online.  JohnR -->
+<!-- V13 (2017 V2) upgrade: Jul23_2017: make textarea size fixed, standardize font size, radio option list, debug LMP input, reuse clinic label database, and add font-size change to clinic label; JohnY -->
+<!-- V14 (2017 V3) upgrade: Jul23_2017: Returned  LMP input back to the ability to push back to OSCAR; Re-established link to Preventions Module JohnR -->
+<!-- V15 (2017 V4) upgrade: Dec8_2017: streamline printSubmit; parseDate only on initial load, not reload; resize cliniclabel; JohnY -->
+<!-- V16_Jun5_2018 update with push-pull date format fix as per John Robertson; JohnY -->
+<!-- V17_Mar27_2019 allow push-pull LMP value to accept date or text.  Requires change of LMP measurement to NO VALIDATION (default is date validation) JohnY -->
+<!-- V18_Apr6_2019 update to Jan2019 background, JohnY; toggle functions as per ChrisC -->
+<!-- V19_Apr7_2019 Added date picker to hysterectomy date.  Removed push on LMP back to OSCAR.  Some CSS added -->
+<!-- V20_Apr10_2019 Fix parseDateLMP and sendBackLMP, to accept non-valid date formats. Works best with LMP without validation, but still works with validation = date. JohnY -->
+<!-- V21_Apr10_2019 add warning if no LMP measurement available, as per DavidP -->
+<!-- V22_Apr18_2019 reformatted the X boxes as they appear too large when printed, Image updated to remove boxes  -->
+<!-- V23_Apr26_2019 corrected database tags, Improved background image, added in sex-other: input , add attitional text areas for increased descriptions-->
+<!-- V24_June5_2022 New Background and HPV information, updated parsedate, updated calendar to give abbreviated month name, fixed fontsize arrow positioning for ClinicalComments  -->
+<!-- V38 Jan 21 2024 - New Background new javascript, removed signature stuff, removed old menu,  updated Xbox and Radio Box, updated parsedate, added button for current user -->
+<!-- V39 Feb 6 2024 - Slight update to the background in the colposcopy section -->
+<!-- V40 Feb 8 2024 - corrected formatting issue -->
+
+<!-- eForm DISCLAIMER: As is: eForms are shared as-is, free of charge on a share-alike basis with absolutely no guarantee or warranty.
+ No Quality Control: The author does not vet any eForms and does not purport to apply any manner of quality control.
+ Responsibility: The responsibility for the clinical and medical-legal consequences of any and all eForms, rest with the clinical OSCAR end-users themselves, not with the author of the eForm.
+ This applies to both eForms shared by others, and those created by users themselves.
+ Attribution: eForms are shared freely among the user community, with attribution to the original author of the eForm.
+ Free: eForms so shared may not be sold or purchased.
+ Provincial validation:  eForms are optional and non-essential add-ons, separate from OSCAR, and with their own license terms.
+ eForms are not part of the OSCAR core program functionality and code base.
+ For this reason eForms are not subject to provincial validation testing and conformance criteria. 
+ eForms are also not subject to the ISO production process for OSCAR. -->
+<!--This eForm is protected by the GNU General Public License version 2 (GPLv2)
+You may copy and distribute verbatim copies of the Program's source code as you receive it, in any medium, provided that you conspicuously
+ and appropriately publish on each copy an appropriate copyright notice and disclaimer of warranty; keep intact all the notices that refer
+ to this License and to the absence of any warranty; and give any other recipients of the Program a copy of this License along with the Program. -->
+
+<!-- Do not use apostrophes in text, only in html-required coding - they do not allow for proper eForm zip inside Oscar.  Instead, use: &#8217; -->
+<!-- Do not use \n to create line-feeds.  It does not allow for proper unzipping of html; such code needs to be hived off to js file in image library. -->
+
+<!-- main calendar program -->
+<script type="text/javascript" src="../share/calendar/calendar.js"></script>
+<script type="text/javascript" src="../share/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="../share/calendar/calendar-setup.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="../share/calendar/calendar.css" title="win2k-cold-1" />
+
+<!-- jQuery for greater functionality -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous" ></script>
+<script> window.jQuery || document.write('<script src="../js/jquery-1.7.1.min.js">< \/script>') </script>
+<script>
+if (typeof jQuery === 'undefined') {
+	document.write(unescape('%3Cscript%20src%3D%22../js/jquery-1.7.1.min.js%22%3E%3C/script%3E'));
+}
+</script>
+
+<script type="text/javascript" src="${oscar_javascript_path}eforms/printControl.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}eforms/faxControl.js"></script>
+<!-- script to link to other pages -->
+<script language="javascript" src="${oscar_image_path}onBodyLoad_Oct2018.js"></script>
+<script language="javascript1.2" type="text/javascript" src="onBodyLoad_Oct2018.js"></script>
+	
+<style type="text/css" media="screen" >
+
+	input#SubmitButton {
+		color: white;
+		text-shadow: 0px 1px 1px #ffffff;
+		border-bottom: 2px solid #b2b2b2;
+		background-color: #decde4;
+		background: -webkit-gradient(linear, left top, left bottom, from(#decde4), to(#0cbfd5));
+		background: -moz-linear-gradient(top, #decde4, #0cbfd5);
+		background: -o-linear-gradient(top, #decde4, #0cbfd5);
+		background: -ms-linear-gradient(top, #decde4, #0cbfd5);}
+	input#SubmitButton:hover {
+		color: white;
+		border: 1px solid #a4a4a4;
+		border-top: 2px solid #b2b2b2;
+		background-color: #a0dbc4;
+		background: -webkit-gradient(linear, left top, left bottom, from(#0cbfd5), to(#decde4));
+		background: -moz-linear-gradient(top, #0cbfd5, #decde4);
+		background: -o-linear-gradient(top, #0cbfd5, #decde4);
+		background: -ms-linear-gradient(top, #0cbfd5, #decde4);}
+
+	input#PrintButton {
+		color: black;
+		text-shadow: 0px 1px 1px #ffffff;
+		border-bottom: 2px solid #b2b2b2;
+		background-color: #decde4;
+		background: -webkit-gradient(linear, left top, left bottom, from(#decde4), to(#b7f3fb));
+		background: -moz-linear-gradient(top, #decde4, #b7f3fb);
+		background: -o-linear-gradient(top, #decde4, #b7f3fb);
+		background: -ms-linear-gradient(top, #decde4, #b7f3fb);}
+	input#PrintButton:hover {
+		color: black;
+		border: 1px solid #a4a4a4;
+		border-top: 2px solid #b2b2b2;
+		background-color: #a0dbc4;
+		background: -webkit-gradient(linear, left top, left bottom, from(#b7f3fb), to(#decde4));
+		background: -moz-linear-gradient(top, #b7f3fb, #decde4);
+		background: -o-linear-gradient(top, #b7f3fb, #decde4);
+		background: -ms-linear-gradient(top, #b7f3fb, #decde4);}
+
+.link {  
+ border:2px solid #000000;
+border-color:#b7f3fb;
+ border-style:outset;
+background:transparent;
+text-decoration: none;
+ cursor: pointer;
+}
+
+ .link:hover {
+ border:1px solid #000000;
+ border-style:outset;
+ background:#decde4;
+ opacity:0.4;
+ }
+
+ .link:active { 
+ border:3px solid #000000; 
+ border-style:inset;
+ background:#b7f3fb;
+ }
+::placeholder {
+	color: #905aa6;
+	font-style: italic;
+	opacity: 1;}
+
+.attn{
+  animation-name: lookHere;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-iteration-count: 3;
+  animation-direction: alternate;
+
+}
+
+@keyframes lookHere {
+  0%   {border-color:#decde4;
+box-shadow: 0 0 5px #decde4;}
+  25%  {border-color:#905aa6;
+box-shadow: 0 0 20px #905aa6;}
+  50%  {border-color:#0cbfd5;
+box-shadow: 0 0 5px #0cbfd5;}
+  75%  {border-color:#b7f3fb;
+box-shadow: 0 0 20px #b7f3fb;}
+  100% {border-color:#decde4;
+box-shadow: 0 0 5px #decde4;}
+}
+/* Drawing the 'gripper' for touch-enabled devices */
+ html.touch #content {
+	float:left;
+	width:92%;
+}
+ html.touch #scrollgrabber {
+	float:right;
+	width:4%;
+	margin-right:2%;
+	background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAFCAAAAACh79lDAAAAAXNSR0IArs4c6QAAABJJREFUCB1jmMmQxjCT4T/DfwAPLgOXlrt3IwAAAABJRU5ErkJggg==)
+ }
+ html.borderradius #scrollgrabber {
+	border-radius: 1em;
+ }
+ 
+ textarea {
+    resize: none;
+}
+.noborder {
+    border: 1px solid #d2d2d2 !important;
+}
+
+input:invalid {
+    background-color: ivory;
+    border: none;
+    outline: 1px solid red;
+}
+
+</style>
+<style type="text/css" media="print">
+	
+ .input {
+	-moz-box-sizing: content-box;
+	-webkit-print-color-adjust: exact;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box
+ }
+ .DoNotPrint {display: none;}
+ .DoNotPrint2 {display: none;}
+ .noborder {
+	border : 0px;
+	background: transparent;
+	overflow: hidden;
+ }
+ 
+ @media print {
+  ::-webkit-input-placeholder { /* WebKit browsers */
+      color: transparent;
+  }
+  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+      color: transparent;
+  }
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+      color: transparent;
+  }
+  :-ms-input-placeholder { /* Internet Explorer 10+ */
+      color: transparent;
+  }
+}
+/* hide placeholders on print */
+::placeholder {
+	color: transparent;
+}
+  textarea {
+    resize: none;
+}
+</style>
+
+<!-- Xbox styling -->
+	<style type="text/css">
+	/* x-box styling - using the CSS wildcard 'containing' selector * to include all classes of x-boxes*/
+	input[class*='box'] {
+		position: absolute;
+		font-family: Arial;
+		border: 1px solid black;
+		cursor: pointer;
+		font-weight: bolder;
+		text-align: center;
+		background: #b7f3fb;
+	}
+	input[class*='box']:hover {
+		color: #0cbfd5;
+		border: 1px solid #a4a4a4;
+		border-top: 2px solid #b2b2b2;
+		background-color: #decde4;
+		background: -webkit-gradient(linear, left top, left bottom, from(#b7f3fb), to(#decde4));
+		background: -moz-linear-gradient(top, #b7f3fb, #decde4);
+		background: -o-linear-gradient(top, #b7f3fb, #decde4);
+		background: -ms-linear-gradient(top, #b7f3fb, #decde4);
+		}
+	input[class*='Radio'] {
+		position: absolute;
+		font-family: Arial;
+		border: 1px solid black;
+		cursor: pointer;
+		font-weight: bolder;
+		text-align: center;
+		background: #b7f3fb;
+	}
+	input[class*='Radio']:hover {
+		color: #0cbfd5;
+		border: 1px solid #a4a4a4;
+		border-top: 2px solid #b2b2b2;
+		background-color: #decde4;
+		background: -webkit-gradient(linear, left top, left bottom, from(#b7f3fb), to(#decde4));
+		background: -moz-linear-gradient(top, #b7f3fb, #decde4);
+		background: -o-linear-gradient(top, #b7f3fb, #decde4);
+		background: -ms-linear-gradient(top, #b7f3fb, #decde4);
+		}
+.box1 {
+		font-size: 14px;
+		width:14px;
+		height:14px;
+		}
+		
+.FontSizeChange {
+	position:absolute;
+	width:16px;
+	height:16px;
+	font-size:13px;
+	cursor:pointer;
+	background:yellow;
+	text-align:center;
+	border: 1px solid #000000;
+}
+</style>
+
+<script language="javascript" type="text/javascript">
+				/****************************
+				startup functions
+				****************************/
+				function startUp() {
+						setDocumentTitle('Pap_Req_2024',document.getElementById('PatientNameL').value);
+						reImg();
+						loadFontSize();
+						setDefaults();
+						setFaxNo();
+ 						//optimize window size/width
+						top.window.resizeTo(1100, screen.availHeight);
+				}
+
+				function setDocumentTitle(Title,PatientNameL) {
+						// set document title
+						document.title = Title + '_' + PatientNameL;
+				}
+
+				function setDefaults() {
+						// check the newform flag to ensure this is the initial load of the form
+						if (document.getElementById("newForm").value == 'True') {
+							document.getElementById("Method_LBCCx").value = 'X';
+							document.getElementById("Reason_Screen").value = 'X';
+							checkGender();
+							parseName('PrimaryPName');
+							parseName('ReferralPName');
+							parseName('AlternatePName');
+							parseName('CurrentPName');
+							parseName('PrimaryPCopyTo');
+							parseName('AlternatePCopyTo');
+							parseName('CurrentPCopyTo');
+							document.getElementById("PrimaryP").click();
+//							document.getElementById("ReferralP").click();  move slashes to the line above if most paps are referred
+//							document.getElementById("AlternateP").click();  move slashes two lines above if most paps are done by an alternate in the office
+//							CheckCopyTo();
+							document.getElementById('SampleProvider').value = document.getElementById('AlternatePName').value + ", " + document.getElementById('AlternatePNumber').value;
+							parseDate('today',0,1,2,'-','/');
+							parseDate('LMP',0,1,2,'-','/');
+							
+						}
+				}
+
+				/******************************
+				Sample Provider is Current User
+				******************************/
+	function Spcu(){
+		var SampleProviderNumber = document.getElementById('CurrentPNumber').value;
+
+		if (SampleProviderNumber) {
+			document.getElementById('SampleProvider').value = document.getElementById('CurrentPName').value + ", " + SampleProviderNumber ;
+		}
+		else  {
+			alert('MSP number of  Current User is blank');
+		}
+	}
+				/****************************
+				Change name to proper order
+				****************************/
+
+	function parseName(id) {
+		// Get the name
+		
+		var fullName = document.getElementById(id).value;
+
+		// Split the value
+		var splitName = fullName.split(",");
+		var firstName = "";
+		var lastName  = "";
+
+		// Check for last name
+		if(splitName.length >= 1) {
+			lastName = splitName[0].trim();
+		}
+		if(splitName.length >= 2) {
+			firstName = splitName[1].trim();
+		}
+		var First_Last_Name = firstName + " " + lastName;
+
+		// Show the fields on the page
+		document.getElementById(id).value = First_Last_Name ;
+	}
+				
+	function Assign(id) {
+		// Find out if the submitter is the primary care provider or was the patient referred
+		// Get the particulars
+		var id2 = id + 'Name';
+		var id3 = id + 'Number';
+		var id4 = id + 'Address';
+		var id5 = id + 'CopyTo';
+		var id6 = id + 'CopyToNumber';
+		var NameTest = document.getElementById(id2).value;
+		var MSPTest = document.getElementById(id3).value;
+		console.log(NameTest);
+		console.log(MSPTest);
+		if( NameTest && MSPTest ){
+			// Show the fields on the page
+			document.FormName.FollowUpPhysician.value = document.getElementById(id2).value + ', ' + document.getElementById(id3).value;
+			document.FormName.ClinicLabel.value = document.getElementById(id4).value; 
+		}
+		else if ( NameTest ) {
+			alert('MSP number of  follow up physician is blank');
+			document.FormName.FollowUpPhysician.value = document.getElementById(id2).value + ', ' + document.getElementById(id3).value;
+			document.FormName.ClinicLabel.value = document.getElementById(id4).value; 
+		}
+		else if ( MSPTest ) {
+			alert('Name of  follow up physician is blank');
+			document.FormName.FollowUpPhysician.value = document.getElementById(id2).value + ', ' + document.getElementById(id3).value;
+			document.FormName.ClinicLabel.value = document.getElementById(id4).value; 
+		}
+		else  {
+			alert('Name and MSP number of  follow up physician is blank');
+		}
+	}
+
+	/****************************
+		print and submit/save functions 
+	****************************/
+	function printLetter() {
+		// Save reminder; allows for validity testing
+		document.getElementById('SubmitButton').classList.toggle('attn');
+		document.getElementById('ResetButton').style.color = 'black';
+		document.getElementById('SubmitButton').style.border = '2px solid red';
+		alert("eFORM has NOT been submitted.  If needed, cancel print and complete required fields.  Ensure you click SUBMIT after print.");
+		window.print();
+	}
+
+	function submission() {  // requires type="submit" in submit button input to allow for validity testing
+		setFlag();
+		saveSig();
+		releaseDirtyFlag();
+	}
+
+	function setFlag() {
+	// indicate that the form has been submitted
+	if (document.getElementById("newForm").value == 'True')
+		document.getElementById("newForm").value = 'False';
+	}
+
+				// script to confirm closing of window if it has not been saved yet
+				//keypress events trigger dirty flag
+				var needToConfirm = false;
+				document.onkeyup=setDirtyFlag;
+
+				function setDirtyFlag() {
+						needToConfirm = true;
+				}
+
+				function releaseDirtyFlag() {
+						needToConfirm = false; //Call this function if does not require an alert.
+				//this could be called when save button is clicked
+				}
+
+				window.onbeforeunload = confirmExit;
+
+				function confirmExit() {
+						if (needToConfirm) {
+								return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+						}
+				}
+	function CheckCopyTo() { // checks to if MRP is also the sample provider, from same clinic (see below for outside referrals)
+		if (document.getElementById('CurrentUser_MSP').value != document.getElementById('PrimaryPNumber').value) {
+			document.getElementById('Provider_Locum').style.background = 'yellow';
+			document.getElementById('Provider_RN').style.background = 'yellow';
+			document.getElementById('Provider_ND').style.background = 'yellow';
+			document.getElementById('FollowUpPhysician').value = document.getElementById('PrimaryPName').value + ", " + document.getElementById('PrimaryPNumber').value;
+		} else {
+			document.getElementById('FollowUpPhysician').value = document.getElementById('PrimaryPCopyTo').value + ", " + document.getElementById('CurrentUser_MSP').value;
+		} 
+	}
+
+				/****************************
+				script to Increase or Decrease the Font Size
+				name = input name/id, delta = increase (+) or decrease (-) increment #
+				Requires loadFontSize(); in startUp, or in onload line
+				****************************/
+				function changeFontSize(name, delta) {
+						var element = $("#" + name)
+						var oldSize = parseInt(element.css("font-size"));
+						var newSize = oldSize + delta;
+
+						// Save new font size into "value" field of hidden element
+						$("#" + name + "_fontsize").attr('value', newSize);
+
+						// Set font size
+						element.css({'font-size': newSize + 'px'});
+				}
+
+				// Retains altered font size when eForm is reopened;
+				// Requires hidden inputs with format for each field using this feature:
+				// <input type="hidden" name="Input_fontsize" id="Input_fontsize" value="">
+				function loadFontSize() {
+						$.each($("input[name*='_fontsize'"), function(index, element) {
+								var fontSize = element.value;
+
+								if (!!fontSize) {
+										var name = element.name.split('_')[0];
+										$("#" + name).css({'font-size': fontSize + 'px'});
+								}
+						});
+				}
+
+				/****************************
+				scripts to checkGender
+				****************************/
+				function checkGender() {
+					if (document.getElementById('PatientGender').value == 'F') {
+						document.getElementById('Gender_Female').value = 'X';
+					}
+					else if (document.getElementById('PatientGender').value == 'M') {
+						document.getElementById('Gender_Male').value = 'X';
+					}
+				}
+</script>
+<script language="javascript">
+
+	/****************************
+		script to set Tickler reminder for future date (aka loop closer)
+	****************************/
+	Date.prototype.addDays = function(days) {
+		var dat = new Date(this.valueOf());
+		dat.setDate(dat.getDate() + days);
+		return dat;
+	}
+
+	Date.prototype.addMonths = function(months) {
+		var dat = new Date(this.valueOf());
+		dat.setMonth(dat.getMonth() + months);
+		return dat;
+	}
+
+	function addMonths(months) {
+		var d = new Date();
+		d = d.addMonths(months);
+		var mth = ((d.getMonth()+1)<10)? ("0"+(d.getMonth()+1)) : (d.getMonth()+1);
+		var day =  d.getDate() > 10 ? d.getDate() : ("0" + d.getDate());
+		var newD = d.getFullYear() + "-" + mth + "-" + day;
+		document.FormName.Tickler_date.value = newD;
+	}
+
+	function addDays(numDays) {
+		var d = new Date();
+		d = d.addDays(numDays); 
+		var mth = ((d.getMonth()+1)<10)? ("0"+(d.getMonth()+1)) : (d.getMonth()+1);
+		var day =  d.getDate() > 10 ? d.getDate() : ("0" + d.getDate());
+		var newD = d.getFullYear() + "-" + mth + "-" + day;
+		document.FormName.Tickler_date.value = newD;
+	}
+
+	ticklerReminder = function() {
+		var patient_id = document.getElementById('patient_id').value;
+		var user_id = document.getElementById('current_user_id').value;
+		var ticklerDate = $( '#Tickler_date' ).val();
+
+		sendTickler(patient_id, "Confirm Pap results have been received by Tickler date.", user_id, ticklerDate);
+
+		if (ticklerDate == '') {
+			alert("ERROR: Tickler reminder date is blank.  Please correct before proceeding.");
+			return;
+		}
+	} 
+
+	sendTickler = function(demographicNo, message, taskAssignedTo, ticklerDate) {
+		var ticklerToSend = {};
+		ticklerToSend.demographicNo = demographicNo;
+		ticklerToSend.message = message;
+		ticklerToSend.taskAssignedTo = taskAssignedTo;
+		ticklerToSend.serviceDate = ticklerDate ;
+		jQuery.ajax( {
+		type: "POST",
+		url:  '../ws/rs/tickler/add',
+		dataType:'json',
+		contentType:'application/json',
+		data: JSON.stringify(ticklerToSend),
+		success: processTicklerCallBack
+		});
+	}
+
+	processTicklerCallBack = function(data) {
+		if (data.success) {
+			alert("Pap reminder Tickler created and assigned to you.");
+		} else {
+			alert("ERROR: Tickler failed. Please create tickler manually.");
+		}
+	}
+</script>
+<script language="javascript">
+function setFaxNo(){
+
+	setTimeout(function() {
+	$('#faxSave_button').css("background-color", "yellow");
+	$('#fax_button').hide();
+	document.getElementById("otherFaxInput").value="16047072809"
+	AddOtherFax();
+	return false;
+	   },1000);
+
+   
+	  setTimeout(function() {
+	   $('#otherFaxSelect').prepend('<option value="16047072809">BC Cervical Cancer Screening Laboratory</option>');
+	   $('select option[value="16047072809"]').attr("selected",true);
+	   //$('#faxSave_button').css("background-color", "yellow");
+	   //AddOtherFaxProvider();
+	   return false;
+             },500);
+
+} 
+	/****************************
+		Copy to Clipboard
+	****************************/
+	$(document).ready(function() {
+		var y = document.getElementsByClassName('copyable');
+		$(y).click(function() {
+		this.select();
+		document.execCommand('copy');
+		$(this).css('background-color', '#b7f3fb').fadeIn("slow");
+		$(this).css('opacity', '0.4');
+		})
+	})
+</script>
+
+<script type="text/javascript">
+
+	/****************************
+		Create date in dd/mm/yyyy format; 
+		Oscar default is yyyy-mm-dd
+	****************************/
+
+function parseDate(id, x, y, z, D, d) {
+	// Now included code to remove time from dates
+    // Change date field to dd/mmm/yyyy format
+	//The element that you want to change is passed via the id
+	// If the initial order is  YYYY  MM  DD then x should be 0,y should be 1, and z should be 2
+	// If the initial order is  DD  MM and YYYY then x should be 2,y should be 1, and z should be 0
+	// Delimiter (between the digits for day month and year) is passed as D - usually either a "-"  or a "/"
+	// Output Delimiter (between the digits for day month and year) is passed as d - usually either a "-"  or a "/"
+    // Get the date
+    var fullMeasurementDate = $("#" + id).val();
+    var fullDate = fullMeasurementDate.split(' ')[0];
+
+    if (fullDate) {
+    // Split the value
+        var year = fullDate.split(D)[x];
+        var monthNum = fullDate.split(D)[y];
+        var monthNumArray = monthNum - 1;
+        var day = fullDate.split(D)[z];
+	// Convert Numeric Month to 3 letter month using toLocaleString
+        var date = new Date(year, monthNumArray, day);
+        var month = date.toLocaleString('default', { month: 'short' });
+        var mixedDate = day + d + month + d + year;
+        var numericDate = day + d + monthNum + d + year;
+    // Show the fields on the page
+        $("#" + id).val(mixedDate);
+    //  $("#" + id).val(numericDate);
+    } else {
+        $("#" + id).attr("placeholder", "click for date");
+    }
+}
+</script>
+<script type="text/javascript">
+function reImg(){
+// for stand alone development without uploading to OSCAR
+	var strLoc = window.location.href.toLowerCase();
+	if(strLoc.indexOf("https") == -1) {
+		var src1 = document.getElementById("BGImage1").src;
+		document.getElementById("BGImage1").src = src1.replace("$%7Boscar_image_path%7D","");
+	}
+}
+</script>
+
+</head>
+
+<body onload="startUp();">
+<form method="post" action="" name="FormName" id="FormName" >
+
+<div id="page1" style="position:relative; left:0px; top:0px; width:750px;" class="pagebreak">
+
+<img id="BGImage1" src="${oscar_image_path}Cervical-Cancer-Screening-Lab-Requisition-Jan-2024-v4.png" style="position: relative; left: 0px; top: 0px; width:750px" />
+
+<!-- Hidden input for eForm title -->
+<input type="hidden" name="PatientNameL" id="PatientNameL" oscarDB=patient_nameL /> 
+
+<!-- Hidden input for CopyTo -->
+<input type="hidden" name="CurrentUser_MSP" id="CurrentUser_MSP" oscarDB=current_user_ohip_no />
+<input type="hidden" name="PatientMD_FirstLast" id="PatientMD_FirstLast" />
+<input type="hidden" name="PatientMD" id="PatientMD" oscarDB=referral_name>
+<input type="hidden" name="PatientMD_MSP" id="PatientMD_MSP" oscarDB=referral_no>
+
+<!-- Hidden input for font size changer inputs -->
+<input type="hidden" name="ClinicLabel_fontsize" id="ClinicLabel_fontsize" value="" />
+<input type="hidden" name="ClinicalComments_fontsize" id="ClinicalComments_fontsize" value="" />
+
+<!-- Hidden input for checkGender -->
+<input type="hidden" name="PatientGender" id="PatientGender" oscarDB=sex />
+
+<!-- Hidden inputs needed for Tickler generator (loop closer) -->
+<input type="hidden" name="patient_id" id="patient_id" oscarDB=patient_id />
+<input type="hidden" name="current_user_id" id="current_user_id" oscarDB=current_user_id />
+
+<!-- Hidden inputs needed for MD for Paps --> 
+<input type="hidden" name="PrimaryPName" id="PrimaryPName" oscarDB=doctor />
+<input type="hidden" name="PrimaryPNumber" id="PrimaryPNumber" oscarDB=doctor_ohip_no />
+<input type="hidden" name="PrimaryPAddress" id="PrimaryPAddress" oscarDB=clinic_label />
+<input type="hidden" name="PrimaryPCopyTo" id="PrimaryPCopyTo" oscarDB=appt_provider_name />
+<input type="hidden" name="ReferralPName" id="ReferralPName" oscarDB=bc_referral_name />
+<input type="hidden" name="ReferralPNumber" id="ReferralPNumber" oscarDB=bc_referral_no />
+<input type="hidden" name="ReferralPAddress" id="ReferralPAddress" oscarDB=bc_referral_address />
+<input type="hidden" name="ReferralPCopyTo" id="ReferralPCopyTo" />
+<input type="hidden" name="AlternatePName" id="AlternatePName" oscarDB=appt_provider_name />
+<input type="hidden" name="AlternatePNumber" id="AlternatePNumber" oscarDB=appt_provider_ohip_no />
+<input type="hidden" name="AlternatePAddress" id="AlternatePAddress" oscarDB=clinic_label />
+<input type="hidden" name="AlternatePCopyTo" id="AlternatePCopyTo" oscarDB=doctor />
+<input type="hidden" name="CurrentPName" id="CurrentPName" oscarDB=current_user />
+<input type="hidden" name="CurrentPNumber" id="CurrentPNumber" oscarDB=current_user_ohip_no />
+<input type="hidden" name="CurrentPAddress" id="CurrentPAddress" oscarDB=clinic_label />
+<input type="hidden" name="CurrentPCopyTo" id="CurrentPCopyTo" oscarDB=doctor />
+
+<!-- All textfields/checkboxes/textareas go here... -->
+<!-- Demographics -->
+<span style="position:absolute; left:10px; top:145px; " ><input name="PHN" id="PHN" type="text" class="noborder" style="width:160px; font-family:sans-serif; font-size:18px; text-align:left; background:transparent;" oscarDB=HINc />
+<input name="DOB" id="DOB" type="text" class="noborder" style="width:185px; font-family:sans-serif; font-size:18px; text-align:left; background:transparent;" oscarDB=DOBc />
+</span>
+<input name="patient_nameL" id="patient_nameL" type="text" class="noborder" style="position:absolute; left:10px; top:210px; width:160px; font-family:sans-serif; font-size:18px; background:transparent;" oscarDB=patient_nameL />
+<textarea name="patient_nameF" id="patient_nameF" type="text" class="noborder" style="position:absolute; left:182px; top:210px;width:185px; height:30px; font-family:sans-serif; font-size:16px; background:transparent;" oscarDB=patient_nameF></textarea>
+<!-- Sex -->
+<input name="Gender_Female" id="Gender_Female" type="text"  class="Radio box1" style="left:16px; top:271px;" />
+<input name="Gender_Male" id="Gender_Male" type="text" class="Radio box1" style="left:98px; top:271px;" />
+<input name="Gender_Unknown" id="Gender_Unknown" type="text" class="Radio box1" style="left:165px; top:271px;" />
+<input name="Gender_Haesitabundus" id="Gender_Haesitabundus" type="text" class="Radio box1" style="left:270px; top:271px;" />
+
+<span style="position:absolute; left:10px; top:320px;" ><input name="today" id="today" type="text" class="noborder" style="width:165px; font-family:sans-serif; font-size:16px; text-align:left; background:transparent;" oscarDB=today />
+<input name="LMP" id="LMP" type="text" class="noborder" style="width:170px; font-family:sans-serif; font-size:16px; text-align:left; background:transparent;"  oscarDB=m$LMP#value />
+</span>
+<input name="LMPDescripter" id="LMPDescripter" class="noborder" style="position:absolute; left:182px; top:340px; width:185px; font-family:sans-serif; font-size:16px; text-align:left; background:transparent;" placeholder="Other desc. eg: Unsure" />
+
+<!-- Clinic Label -->
+<div style="position:absolute; left:375px; top:145px;">
+<input name="FollowUpPhysician" id="FollowUpPhysician" type="text" class="noborder" style="position:absolute; top:0px; width:320px; font-family:sans-serif; font-size:16px; background:transparent;" />
+<textarea name="ClinicLabel" id="ClinicLabel" type="text" class="noborder" style="position:absolute; top:23px; width:320px; height:75px; font-family:sans-serif; font-size:13px; background:transparent;" oscarDB=referral_address></textarea>
+<span class="DoNotPrint2 FontSizeChange" title="Increase Font Size" style="position:absolute; left:330px; top:25px;" onclick="changeFontSize('ClinicLabel', 1);">&#9650;</span>
+<span class="DoNotPrint2 FontSizeChange" title="Decrease Font Size" style="position:absolute; left:330px; top:40px;" onclick="changeFontSize('ClinicLabel', -1);">&#9660;</span>
+
+<textarea name="SampleProvider" id="SampleProvider" type="text" class="noborder" style="position:absolute; top:120px; width:215px; height:45px; font-family:sans-serif; font-size:16px; background:transparent;" value=""></textarea>
+
+<!-- Provider Information-->
+<input name="Provider_Locum" id="Provider_Locum" type="text"  class="Radio box1" style="left:224px; top:103px;" />
+<input name="Provider_RN" id="Provider_RN" type="text" class="Radio box1" style="left:224px; top:121px;" />
+<input name="Provider_ND" id="Provider_ND" type="text" class="Radio box1" style="left:224px; top:139px;" />
+<input name="Provider_Other" id="Provider_Other" type="text" class="noborder" style="position:absolute; left:224px; top:153px; width:100px; font-family:sans-serif; font-size:14px; background:transparent; " placeholder="other" />
+<textarea name="CopyTo1" id="CopyTo1" type="text" class="noborder" style="position:absolute; top:190px; width:150px; height:30px; font-family:sans-serif; font-size:14px; background:transparent;"></textarea>
+<textarea name="CopyTo2" id="CopyTo2" type="text" class="noborder" style="position:absolute; left:155px; top:190px; width:170px; height:30px; font-family:sans-serif; font-size:14px; background:transparent;" ></textarea>
+</div>
+
+<!-- Choose  follow up Provider -->
+<span style="position:absolute; left:730px; top:140px;" class="DoNotPrint2">
+<input value="Sample Provider = Current User" name="SPCU" id="SPCU" type="button" class="link" title="Sample provider is current user" onclick="Spcu();"><br>
+<input value="FU with Sample Provider" name="PrimaryP" id="PrimaryP" type="button" class="link" title="Sample provider is follow up physician" onclick="Assign(this.id);"><br>
+<input value="FU with MRP in the Office" name="AlternateP" id="AlternateP" type="button" class="link" title="Sample provider is from the same office" onclick="Assign(this.id);"><br>
+<input value="FU with Referral Physician" name="ReferralP" id="ReferralP" type="button" class="link" title="Results back to referral physician" onclick="Assign(this.id);">
+<input value="FU with Current User" name="CurrentP" id="CurrentP" type="button" class="link" title="Sample provider is from the same office" onclick="Assign(this.id);"><br>
+</span>
+<!-- Tickler Reminders -->
+<div name="SetTickler" id="SetTickler" style="position:absolute; left:730px; top:240px; width:250px; font-size:14px;" class="DoNotPrint">
+	<span style="width:430px; font-size:12px; color:#905aa6;">Choose Tickler reminder date</span>
+	<input name="Tickler_date" id="Tickler_date" type="text" class="noborder" style="width:75px; font-size:14px; text-align:center; background:transparent;" />
+	<input name="Four_weeks" id="Four_weeks" type="checkbox" 
+		onclick="
+			document.getElementById('Eight_weeks').checked = false;
+			document.getElementById('Sixteen_weeks').checked = false;
+			addDays(28);" />4 wks
+	<input name="Eight_weeks" id="Eight_weeks" type="checkbox" 
+		onclick="
+			document.getElementById('Four_weeks').checked = false;
+			document.getElementById('Sixteen_weeks').checked = false;
+			addDays(56);" />8 wks
+	<input name="Sixteen_weeks" id="Sixteen_weeks" type="checkbox" 
+		onclick="
+			document.getElementById('Four_weeks').checked = false;
+			document.getElementById('Eight_weeks').checked = false;
+			addDays(112);" />16 wks &nbsp;
+
+	<input name="ResetTickler" id="ResetTickler" type="button" style="font-size:12px; color:red;" 
+		onclick="
+			document.getElementById('Four_weeks').checked = false; 
+			document.getElementById('Eight_weeks').checked = false; 
+			document.getElementById('Sixteen_weeks').checked = false;
+			document.getElementById('Tickler_date').value = '';" 
+	value="Reset" /><br>
+
+	<input value="Set Tickler" name="Tickler" id="Tickler" type="button" class="link" title="Set tickler reminder for chosen future date" onclick="ticklerReminder();" /> &nbsp; &nbsp; 
+	<input name="prevention_link" id="prevention_link" type="button" class="link" onclick="onBodyLoad(); prevention();" title="Hint: set Pap result as pending for today" value="Prevention" />
+</div>
+
+<!-- Collection Method/ Sample Site -->
+<input name="Method_LBCCx" id="Method_LBCCx" type="text" class="Radio box1" style="left:9px; top:404px;" />
+<input name="Method_LBCVV" id="Method_LBCVV" type="text" class="Radio box1" style="left:9px; top:422px;" />
+<input name="Method_SwabSelf" id="Method_SwabSelf" type="text" class="Radio box1" style="left:186px; top:404px;" />
+<input name="Method_SwabProvider" id="Method_SwabProvider" type="text" class="Radio box1" style="left:186px; top:422px;" />
+
+<!-- Reason for test -->
+<input name="Reason_Screen" id="Reason_Screen" type="text" class="Radio box1" style="left:10px; top:472px;" />
+<input name="Reason_FUCyto" id="Reason_FUCyto" type="text" class="Radio box1" style="left:10px; top:490px;" />
+<input name="Reason_FUHPV" id="Reason_FUHPV" type="text" class="Radio box1" style="left:10px; top:508px;" />
+<input name="Reason_FUCoTest" id="Reason_FUCoTest" type="text" class="Radio box1" style="left:10px; top:526px;" />
+<input name="Reason_AbnBleed" id="Reason_Screen" type="text" class="Radio box1" style="left:10px; top:544px;" />
+<input name="Reason_SuspLes" id="Reason_Screen" type="text" class="Radio box1" style="left:10px; top:562px;" />
+
+<!-- Reason for test Colposcopy -->
+<input name="ColpoHPV_Other" id="ColpoHPV_Other" type="text" class="Radio box1" style="left:441px; top:408px;"  onmouseup="getElementById('OtherHPV').required=false ; document.forms['FormName'].checkValidity();" />
+<input name="ColpoHPV_1618" id="ColpoHPV_1618" type="text" class="Radio box1" style="left:441px; top:426px;"  onmouseup="getElementById('OtherHPV').required=false ; document.forms['FormName'].checkValidity();" />
+<input name="ColpoHPV_Other2" id="ColpoHPV_Other2" type="text" class="Radio box1" style="left:441px; top:444px;"  onmouseup="getElementById('OtherHPV').required=true ; document.forms['FormName'].checkValidity();" />
+<input name="OtherHPV" id="OtherHPV" type="text" class="noborder" style="position:absolute; left:575px; top:440px; width:110px; font-family:sans-serif; font-size:14px; background:transparent; " />
+<input name="CoTest_CIN2" id="CoTest_CIN2" type="text" class="Radio box1" style="left:441px; top:475px;"  onmouseup="getElementById('CoTest').required=false ; document.forms['FormName'].checkValidity();" />
+<input name="CoTest_DES" id="CoTest_DES" type="text" class="Radio box1" style="left:441px; top:493px;"  onmouseup="getElementById('CoTest').required=false ; document.forms['FormName'].checkValidity();" />
+<input name="CoTest_Abn" id="CoTest_Abn" type="text" class="Radio box1" style="left:441px; top:511px;"  onmouseup="getElementById('CoTest').required=true ; document.forms['FormName'].checkValidity();" />
+<input name="CoTest" id="CoTest" type="text" class="noborder" style="position:absolute; left:550px; top:526px; width:130px; font-family:sans-serif; font-size:14px; background:transparent; " />
+<input name="ColpoCyto_Self" id="ColpoCyto_Self" type="text" class="Radio box1" style="left:441px; top:560px;"  onmouseup="getElementById('ColpoCyto').required=false ; document.forms['FormName'].checkValidity();" />
+<input name="ColpoCyto_Other" id="ColpoCyto_Other" type="text" class="Radio box1" style="left:441px; top:591px;"  onmouseup="getElementById('ColpoCyto').required=true ; document.forms['FormName'].checkValidity();" />
+<input name="ColpoCyto" id="ColpoCyto" type="text" class="noborder" style="position:absolute; left:575px; top:589px; width:110px; font-family:sans-serif; font-size:14px; background:transparent; " />
+<!-- Clinical Info -->
+<input name="UsingIUD" id="UsingIUD" type="text" class="Xbox box1" style="left:10px; top:656px;" />
+<input name="DES" id="DES" type="text" class="Xbox box1" style="left:10px; top:675px;" />
+<input name="PelvicRadiation" id="PelvicRadiation" type="text" class="Xbox box1" style="left:10px; top:694px;" />
+<input name="Immunocompromised" id="Immunocompromised" type="text" class="Xbox box1" style="left:10px; top:714px;" />
+
+<a href="http://www.bccancer.bc.ca/screening/health-professionals/cervix/resources" class="DoNotPrint2 link" style="position:absolute; left:170px; top:702px; width:170px; height:30px;" title="Provider Resources" target="_blank"></a>
+
+<textarea name="ClinicalComments" id="ClinicalComments" type="text" class="noborder" style="position:absolute; left:8px; top:760px; width:355px; height:95px; font-family:sans-serif; font-size:14px; background:transparent;"></textarea>
+<span class="DoNotPrint2 FontSizeChange" title="Increase Font Size" style="position:absolute; left:-10px; top:790px;" onclick="changeFontSize('ClinicalComments', 1);">&#9650;</span>
+<span class="DoNotPrint2 FontSizeChange" title="Decrease Font Size" style="position:absolute; left:-10px; top:805px;" onclick="changeFontSize('ClinicalComments', -1);">&#9660;</span>
+<!-- Out of Province -->
+<input name="OOP_Date" id="OOP_Date" type="text" class="noborder" style="position:absolute; left:405px; top:655px; width:110px; font-family:sans-serif; font-size:14px; background:transparent; " />
+<input name="OOP_Location" id="OOP_Location" type="text" class="noborder" style="position:absolute; left:575px; top:655px; width:120px; font-family:sans-serif; font-size:14px; background:transparent; " />
+<input name="OOPC_CIN2" id="OOPC_CIN2" type="text" class="Radio box1" style="left:381px; top:677px;" />
+<input name="OOPC_AIS" id="OOPC_AIS" type="text" class="Radio box1" style="left:538px; top:679px;" />
+<input name="OOPC_Invasive" id="OOPC_Invasive" type="text" class="Radio box1" style="left:381px; top:697px;" />
+<!-- Hysterectomy -->
+<input name="DateHysterectomy" id="DateHysterectomy" type="text" class="noborder" style="position:absolute; left:405px; top:745px; width:100px; font-family:sans-serif; font-size:16px; text-align:left; background:transparent;" />
+<input name="Pathology_No" id="Pathology_No" type="text" class="noborder" style="position:absolute; left:605px; top:745px; width:90px; font-family:sans-serif; font-size:16px; background:transparent;" value="" />
+
+<input name="Unknown" id="Unknown" type="text" class="Xbox box1" style="left:381px; top:776px;" />
+<input name="NoCxAbn" id="NoCxAbn" type="text" class="Xbox box1" style="left:381px; top:794px;" />
+<input name="CINX" id="CINX" type="text" class="Xbox box1" style="left:381px; top:812px;" />
+<input name="AIS" id="AIS" type="text" class="Xbox box1" style="left:381px; top:830px;" />
+<input name="InvasiveCxCA" id="InvasiveCxCA" type="text" class="Xbox box1" style="left:539px; top:777px;" />
+<input name="EndometrialCA" id="EndometrialCA" type="text" class="Xbox box1" style="left:539px; top:795px;" />
+<input name="OtherCA" id="OtherCA" type="text" class="Xbox box1" style="left:539px; top:813px;" />
+<input name="OtherCA_Text1" id="OtherCA_Text1" type="text" class="noborder" style="position:absolute; left:625px; top:821px; width:70px; font-family:sans-serif; font-size:16px; background:transparent;" value="" />
+<input name="OtherCA_Text2" id="OtherCA_Text2" type="text" class="noborder" style="position:absolute; left:545px; top:839px; width:150px; font-family:sans-serif; font-size:16px; background:transparent;" value="" />
+<span class="DoNotPrint2" style="position:absolute; left:240px; top:896px; color:#0cbfd5;">
+<input name="BCCA_Cytoloty_Fax" id="BCCA_Cytoloty_Fax" class="copyable link" style="width:72px; height:10px; background-color:transparent; color:transparent;" title="click to copy" value="1-604-707-2809" > Click to copy
+</span>
+
+<a href="http://www.bccancer.bc.ca/health-professionals/clinical-resources/laboratory-services/cervical-cancer-screening" class="DoNotPrint2 link" style="position:absolute; left:220px; top:934px; width:220px; height:25px;" title="Supplies and electronic requisition" target="_blank"></a>
+</div>
+
+<!-- The submit/print/reset buttons -->
+<div class="DoNotPrint" id="BottomButtons" style="position:absolute; left:0px; top:1010px;">
+	<table><tr><td >
+		<input type="hidden" id="newForm" name="newForm" value="True" />
+		Subject: <input name="subject" size="40" type="text">
+		<input value="Reset" name="ResetButton" id="ResetButton" type="reset" style="color:red;" onclick="history.go(0);" /> 
+		<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="printLetter();" /> 
+		<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick="submission();" />
+	 </td></tr></table>
+<!-- Copy Left -->
+<span>created by Drs Herb Chang, G&uuml;nther Klein, and John Yap; updated January 21<sup>st</sup> 2024 by <a href="https://giphy.com/gifs/H4bBeT91qbkdaD8yrc/html5" target="_blank">Dr. John Robertson</a>, </span> 
+licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.en_US" target="_blank">GPL.</a><br>
+<span style="color:forestgreen;">Please consider supporting </span><a href="https://oscarbc.ca/" target="_blank">oscarbc.ca.</a> |
+<a id="emailLnk1" style="cursor:pointer;" onclick="javascript:window.open('mailto:info@oscarbc.ca', 'mail'); event.preventDefault();" title="Email to OSCAR BC">Email: info@oscarbc.ca/</a> |
+<a href="https://www.facebook.com/pg/OSCARBCcommunity" target="_blank">Facebook</a> | 
+<a href="https://twitter.com/OSCARBCemr" target="_blank">Twitter</a> | 
+<a href="https://www.linkedin.com/company/oscarbc/" target="_blank">LinkedIn</a> |
+<br><br>
+</div>
+
+<script type="text/javascript">
+  Calendar.setup( { inputField :"LMP", ifFormat : "%d/%b/%Y", button : "LMP" } );
+  Calendar.setup( { inputField :"today", ifFormat : "%d/%b/%Y", button : "today" } );
+  Calendar.setup( { inputField :"DateHysterectomy", ifFormat : "%d/%b/%Y", button : "DateHysterectomy" } );
+  Calendar.setup( { inputField :"OOP_Date", ifFormat : "%d/%b/%Y", button : "OOP_Date" } );
+  Calendar.setup({ inputField:"Tickler_date", ifFormat: "%d/%b/%Y", showsTime:false, button:"Tickler_date", singleClick:true, step:1 });
+</script>
+
+<!-- Xbox and Radio scripts -->
+<script>
+var b = document.getElementsByClassName("Xbox");
+// console.log("Xboxes: "+b.length);
+for(var i=0; i<b.length; i++){ 
+ b[i].onclick = function(){ 
+   //console.log("click on " + this.id); 
+// large black box is '\u2B1B' does not render or save properly on all systems
+  if (document.getElementById(this.id).value.length < 1) {
+	document.getElementById(this.id).value = 'X' ;
+	} else {
+	document.getElementById(this.id).value ='';
+	}
+  return false;
+}
+ } 
+
+var r = document.getElementsByClassName("Radio");
+//console.log("Radio array length is "+r.length);
+for(var i=0; i<r.length; i++){
+
+ r[i].onclick = function(){ 
+	let x = this.id;
+
+   var partA = x.substring(0, x.indexOf("_"));
+   let items = document.querySelectorAll("[id^='"+partA+"_']");
+   //console.log("click on " + x + " in a group of " +items.length); 
+     for(let item of items){
+    if (x != item.id) { 
+		item.value = ''; 
+	} else {
+		document.getElementById(x).value ='X';
+	}
+  }
+
+ } 
+} 
+</script>
+
+</form>
+</body></html>

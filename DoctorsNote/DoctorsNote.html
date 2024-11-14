@@ -1,0 +1,414 @@
+<html>
+<head>
+<title>Doctors Note</title>
+
+<!-- E-FORM DISCLAIMER: 
+Licensing: This eForm was created by Gunther Klein on 23 Nov 2015
+and is distributed under the Creative Commons, Attribution-ShareAlike 3.0 Unported Licensse (CC BY-SA 3.0)
+As is: eForms are shared as-is, free of charge on a share-alike basis 
+with absolutely no guarantee or warranty. 
+No Quality Control: The author does not vet any eForms 
+and does not purport to apply any manner of quality control. 
+Responsibility: The responsibility for the clinical and medical-legal consequences 
+of any and all eForms, rest with the clinical OSCAR end-users themselves, not with the author of the eForm. 
+This applies to both eForms shared by others, and those created by users themselves. 
+Attribution: eForms are shared freely among the user community, 
+with attribution to the original author of the eForm. 
+Free: eForms so shared may not be sold or purchased. 
+Provincial validation:  eForms are optional and non-essential add-ons, 
+separate from OSCAR, and with their own license terms.
+eForms are not part of the OSCAR core program functionality and code base. 
+For this reason eForms are not subject to provincial validation testing and conformance criteria.
+eForms are also not subject to the ISO production process for OSCAR. -->
+
+<!-- Dec6/15: add RHS CPAP req template; onbodyload links to billing and message, JohnY -->
+<!-- Dec11/15: tickler added, JohnY -->
+<!-- For NWFP V3, Dec12/15: Missed Appointment added, JohnR -->
+<!-- Feb6/16: remove float, better for smaller displays; complete style in topbar CSS, and remove float script; limit max height/width of comment box; JohnY -->
+<!-- Version 5 Mar8_2016: add user name full First/Last: JohnY -->
+<!-- V6 May11_2016: allow for salutation line edits. -->
+<!-- V7 May12_2015: Move Signature_add and all other phrases to image js file to allow for zip -->
+<!-- V8 May15_2016: addition of missed appointment 2nd notice + invoice. New js file needed Doctors_Note_V8.js -->
+<!-- V9 Apr7_2017: add font size changer -->
+<!-- V10 Apr9_2017: changed font-size retained on reload of eForm as per KevinY -->
+
+<!-- script to link to other Oscar pages -->
+<script language="javascript" src="${oscar_image_path}onBodyLoad.js"></script>
+
+<!-- script to allow formatted comment text -->
+<script language="javascript" type="text/javascript" src="${oscar_image_path}Doctors_Note_V8.js"></script>
+<script language="javascript" type="text/javascript" src="Doctors_Note_V8.js"></script>
+
+<!-- jQuery file for testing outside of OSCAR -->
+<script type='text/javascript' src='jquery-1.12.0.min.js'></script>
+
+<!-- OSCAR based files for greater functionality -->
+<script type='text/javascript' src='${oscar_image_path}jquery-1.12.0.min.js'></script>
+
+<!-- main calendar program -->
+<script type="text/javascript" src="../share/calendar/calendar.js"></script>
+<script type="text/javascript" src="../share/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="../share/calendar/calendar-setup.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="../share/calendar/calendar.css" title="win2k-cold-1" />
+
+<style type="text/css" media="print">
+.DoNotPrint {display: none;}
+.noborder {
+	border : 0px;
+	background: transparent;
+	scrollbar-3dlight-color: transparent;
+	scrollbar-3dlight-color: transparent;
+	scrollbar-arrow-color: transparent;
+	scrollbar-base-color: transparent;
+	scrollbar-darkshadow-color: transparent;
+	scrollbar-face-color: transparent;
+	scrollbar-highlight-color: transparent;
+	scrollbar-shadow-color: transparent;
+	scrollbar-track-color: transparent;
+	 overflow: hidden;
+}
+</style>
+
+<style type="text/css">
+input.title {
+	font-family: URW Gothic L;
+	font-size: 24;
+	font-weight: bolder;
+	color: #000000;
+	background: #ffffff;
+	text-align:center;
+	width:100%;
+}
+.normaltext {
+	font-family: Arial;
+	font-size: 14px;
+	text-align: left;
+}
+.smallertext {
+	font-family: Arial;
+	font-size: 11;
+	text-align: left;
+}
+.smalltext {
+	font-family: Arial;
+	font-size: 10;
+	text-align: left;
+}
+.FontSizeChange {
+	position:absolute;
+	width:16px;
+	height:15px;
+	font-size:13px;
+	cursor:pointer;
+	background:yellow;
+	text-align:center;
+	border: 1px solid #000000;
+}
+</style>
+
+<!-- Script for Side menu -->
+<style type="text/css">
+#topbar{
+	position:absolute; 
+	left:800px;
+	top:30px;
+	border: 1px solid black;
+	padding: 15px;
+	background-color: lavender;
+	width: 330px;
+	visibility: show;
+	z-index: 100;
+	font-size: 14px;
+}
+</style>
+
+<script type="text/javascript" language="text/javascript">
+	function checkGender(){
+		 if (document.getElementById('PatientGender').value == 'M'){
+		 document.getElementById('Male').checked = true;
+		 }else if (document.getElementById('PatientGender').value == 'F'){
+		 document.getElementById('Female').checked = true;
+		}
+	 }
+
+	function formPrint() {
+		window.print();
+	}
+
+<!-- scripts to confirm closing of window if it had not been saved yet -->
+	//keypress events trigger dirty flag
+	var needToConfirm = false;
+	document.onkeyup=setDirtyFlag;
+	function setDirtyFlag() {
+		needToConfirm = true;
+	}
+
+	function releaseDirtyFlag()	{
+		needToConfirm = false; //Call this function if doesn't requires an alert.
+	//this could be called when save button is clicked
+	}
+	window.onbeforeunload = confirmExit;
+
+	function confirmExit() {
+		if (needToConfirm) {
+		 return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+		}
+	}
+
+	/****************************
+		script to Increase or Decrease the Font Size
+		name = input name/id, delta = increase (+) or decrease (-) increment #
+		Requires loadFontSize(); in startUp, or in onload line
+	****************************/
+	function changeFontSize(name, delta) {
+		var element = $("#" + name)
+		var oldSize = parseInt(element.css("font-size"));
+		var newSize = oldSize + delta;
+
+		// Save new font size into "value" field of hidden element
+		$("#" + name + "_fontsize").attr('value', newSize);
+
+		// Set font size
+		element.css({'font-size': newSize + 'px'});
+	}
+
+		// ReOpen eForm with altered font size; create hidden inputs with name_fontsize format
+	function loadFontSize() {
+		$.each($("input[name*='_fontsize'"), function(index, element) {
+			var fontSize = element.value;
+
+			if (!!fontSize) {
+				var name = element.name.split('_')[0];
+				$("#" + name).css({'font-size': fontSize + 'px'});
+			}
+		});
+	}
+</script>
+
+<!-- scripts to create signature format -->
+<script language="javascript">
+	function CurrentUserSignature() {
+		// Change user name to full First Name, Last Name
+		// Get the name
+		var fullName = document.getElementById("current_user_name").value;
+
+		// Split the value
+		var splitName = fullName.split(",");
+		var firstName = "";
+		var lastName  = "";
+
+		// Check for last name
+		if(splitName.length >= 1) {
+			lastName = splitName[0].trim();
+		}
+		if(splitName.length >= 2) {
+			firstName = splitName[1].trim();
+		}
+		var First_Last_Name = firstName + " " + lastName;
+
+		// Show the fields on the page
+		document.FormName.CurrentProviderDoctor.value = First_Last_Name ;
+		document.FormName.CurrentProviderDoctor2.value = First_Last_Name;
+
+		//optimize window size/width
+		top.window.resizeTo(1200, screen.availHeight);
+	}
+
+	function SignForm() {
+		var provNum = $('#current_user_id').val();
+		document.getElementById('signature').src = "../eform/displayImage.do?imagefile=consult_sig_" + provNum + ".png";
+		$('#signature').attr(onerror, "this.style.display='none'");
+		document.getElementById('signature').alt= provNum;
+	}
+
+
+</script>
+
+<body OnLoad="SignForm(); CurrentUserSignature(); document.FormName.Comments.focus(); loadFontSize();">
+
+<form method="post" action="" name="FormName" id="FormName">
+
+<input type="hidden" name="current_user_name" id="current_user_name" oscarDB=current_user>
+<input type="hidden" name="current_user" id="current_user" oscarDB=current_user>
+<input type="hidden" name="first_last_name" id="first_last_name" oscarDB=first_last_name>
+<input type="hidden" name="appt_date" id="appt_date" oscarDB=appt_date>
+<input type="hidden" name="current_user_id" id="current_user_id" oscarDB=current_user_id />
+
+<!-- Hidden input for font size changer inputs -->
+<input type="hidden" name="Comments_fontsize" id="Comments_fontsize" value="">
+
+<table width="750px" style="border-style:solid; border-width:3">
+	<tr><td colspan=4>
+		<input name="ClinicName" type="text" class="noborder" style="font-size:30px; width: 100%; text-align:center;" oscardb=clinic_name >
+	</td></tr>
+	<tr><td colspan=4 align="center">
+		<input name="ClinicAddressLine" type="text" class="noborder" style="font-size:12px; width:100%; text-align:center;" oscarDB=clinic_addressLineFull>
+	</td></tr>
+	<tr align="center"><td colspan="4" align="center" class="noborder" style="font-size:12px;">
+		 Ph: <input name="ClinicPhone" type="text" class="noborder" style="font-size:12px; width:105px;" oscarDB=clinic_phone>
+		 Fax: <input name="ClinicFax" type="text" class="noborder" style="font-size:12px; width:105px;" oscarDB=clinic_fax>
+	</td></tr>
+</table>
+
+<div class="normaltext" >
+<br><br><br>
+       <input id="eForm_title" name="eForm_title" type="text" class="noborder" style="position:absolute; font-size:18px; font-weight:bold; width:750px; text-align:center; border:0px;" value="Certificate of Health Status">
+<br><br>
+	<input name="TodayDate" id="TodayDate" type="text" class="noborder normaltext" style="width:100; font-size:14px" oscarDB=today >
+<br><br>
+	Doctor &nbsp;&nbsp;
+	<input name="CurrentProviderDoctor" id="CurrentProviderDoctor" type="text" class="noborder normaltext" style="width:300; font-weight:bold; font-size:14px" value="">
+<br> 
+	<input name="License" id="License" type="text" class="noborder" style="font-size:14pxpx; width:50px; border:0px;" value="CPSID">
+	&nbsp;<input name="LicenseNumber" type="text" class="noborder normaltext" style="width:60px; font-size:14px" oscarDB=current_user_cpsid>
+<br>
+	<input name="MSP_ID" id="MSP_ID" type="text" class="noborder" style="font-size:14pxpx; width:50px; border:0px;" value="MSP ID">
+	&nbsp;<input name="MSPNumber" type="text" class="noborder normaltext" style="width:60px; font-size:14px" oscarDB=current_user_ohip_no>
+<br><br><br>
+</div>
+
+<div class="normaltext" style="font-weight:bold; font-size:14px">
+       <input id="Introduction" name="Introduction" type="text" class="noborder" style="font-weight:bold; font-size:14px; width:750px; border:0px;" value="To Whom this may concern:"><br><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RE: &nbsp;&nbsp;
+        <input name="PatientName" type="text" class="noborder normaltext" style="width:400px; font-weight:bold; font-size:14px" oscarDB=patient_name>
+<br>
+</div>
+
+<div class="normaltext" style="font-weight:bold; font-size:14px">
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input name="DOB1" id="DOB1" type="text" class="noborder" style="font-weight:bold; width:50px; font-size:14px; border:0px;" value="DOB:">
+	<input name="DOB" type="text" class="noborder normaltext" style="width:200; font-size:14px" oscarDB=dob>
+<br><br>
+</div>
+
+<div class="normaltext">
+	<input id="Salutation" name="Salutation" type="text" class="noborder normaltext" style="width:750px; border:0px;" value="Dear Sirs, Mesdames, "><br><br>
+	<textarea name="Comments" id="Comments" type="text" class="noborder normaltext" style="min-width:750px; max-width:750px; height:450px; max-height:510px;"></textarea>
+<span type="text" class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:760px; top:483px;" onclick="changeFontSize('Comments', 1);" value="" >&#9650;</span>
+<span type="text" class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:760px; top:498px;" onclick="changeFontSize('Comments', -1);">&#9660;</span>
+<div id="CanvasProSignature" class="sig" style="">
+	<img id="signature" name="signature" src="" width="300" height="100; z-index:10;">
+</div>
+<br>
+	Signed:
+	<input name="CurrentProviderDoctor2" id="CurrentProviderDoctor2" type="text" class="noborder normaltext" style="width:300px; font-size:14px" value="">
+</div>
+
+<!-- The print and submit buttons -->
+<div class="DoNotPrint" style="position: relative;" id="BottomButtons" >
+	<table><tr><td style="background-color:#e5f2ff;">
+		 	Subject: <input name="subject" size="40" type="text">
+			<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick=" releaseDirtyFlag();"> 
+			<input value="Reset" name="ResetButton" id="ResetButton" type="reset" onClick="history.go(0); document.FormName.eForm_title.value = 'Certificate of Health Status';"> 
+			<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();"> 
+			<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint(); setTimeout('SubmitButton.click()',1000);"> 
+	 </td></tr></table>
+ </div>
+
+<!-- Non-Floating menu items -->
+<div id="topbar" class="DoNotPrint">
+<form name="LazySelect">
+		<p style="text-align:center; font-weight:bold;">SPECIFY DATES OFF WORK:</p>
+		<p style="text-align:center; font-size:11px;">Pick the dates on the calendar fields, then click &ldquo;set&rdquo; to populate the text.</p>
+
+		<span style="position:absolute; font-size:12px; left:15px; top:83px;">Last work date&#58;</span>
+		<input name="LastWorkDate" id="LastWorkDate" type="text" class="noborder normaltext" style="position:absolute; left:100px; top:80px; width:120px; font-size:12px" value="">
+		<input name="LastWorkSet" style="position:absolute; left:220px; top:80px;" type="checkbox"
+			onClick="LastWorkSet_add();">
+		<span style="position:absolute; font-size:12px; left:240px; top:83px;">Set</span><br>
+
+		<span style="position:absolute; font-size:12px; left:15px; top:103px;">First sick date&#58;</span>
+		<input name="OffSinceDate" id="OffSinceDate" type="text" class="noborder normaltext" style="position:absolute; left:100px; top:100px; width:120px; font-size:12px" value="">
+		<input name="OffSinceSet" style="position:absolute; left:220px; top:100px;" type="checkbox"
+			onClick="OffSinceSet_add();">
+		<span style="position:absolute; font-size:12px; left:240px; top:103px;">Set</span><br>
+
+		<span style="position:absolute; font-size:12px; left:15px; top:123px;">Return to work&#58;</span>
+		<input name="RTWdate" id="RTWdate" type="text" class="noborder normaltext" style="position:absolute; left:100px; top:120px; width:120px; font-size:12px" value="">
+		<input name="RTWset" style="position:absolute; left:220px; top:120px;" type="checkbox"
+		onClick="RTWset_add();">
+		<span style="position:absolute; font-size:12px; left:240px; top:123px;">Set</span><br>
+
+		<br>
+
+		<p style="text-align:center; font-weight:bold;">PHRASE SELECTION OPTIONS:</p>
+		<p style="text-align:center; font-size:11px">Click the &ldquo;Reset&rdquo; or &ldquo;Clear Checkboxes&rdquo; buttons to start again.</p>
+		
+		<input name="SeenToday" type="checkbox" 
+			onClick="SeenToday_add();">Seen today at this clinic<br>
+
+		<input name="Offwork2to3d" type="checkbox" 
+			onClick="Offwork2to3d_add();">Off work for <span style="color:red;">2 to 3 days</span><br>
+
+		<input name="Offwork3to5d" type="checkbox"
+			onClick="Offwork3to5d_add();">Off work for <span style="color:red;">3 to 5 days</span><br>
+
+		<input name="Offwork1w" type="checkbox"
+			onClick="Offwork1w_add();">Off work for <span style="color:red;">1 week</span><br>
+
+		<input name="Offwork2w" type="checkbox"
+			onClick="Offwork2w_add();">Off work for <span style="color:red;">2 weeks</span><br>
+
+		<input name="Offwork1m" type="checkbox"
+			onClick="Offwork1m_add();">Off work for <span style="color:red;">1 month</span><br>
+		
+		<input name="Stressleave" type="checkbox"
+			onClick="Stressleave_add();">Stress leave for <span style="color:red;">2 to 4 weeks</span><br>
+
+		<input name="RTWuncertain" type="checkbox"
+			onClick="RTWuncertain_add();">RTW date uncertain<br>
+
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+	<td width="50%" valign="top" class="smallertext">
+		<input name="Backtowork" type="checkbox"
+			onClick="Backtowork_add();">Return to work note<br>
+
+		<input name="Fitforjob" type="checkbox"
+			onClick="Fitforjob_add();">Fit for job<br>
+
+		<input name="Flushot" type="checkbox"
+			onClick="Flushot_add();">Flushot<br>
+
+		<input name="CPAP_Rx" type="checkbox"
+			onClick="CPAP_Rx_add();">CPAP Rx<br>
+
+		<input name="Missed_Appt1" type="checkbox"
+			onClick="Missed_Appt1_add();">Missed Appt warning<br>
+
+		<input name="Missed_Appt2" type="checkbox"
+			onClick="Missed_Appt2_add();">Missed Appt + invoice <span style="color:red;">(add  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; amount $XX.XX)</span><br>
+	</td>
+	
+	<td width="50%" valign="top" class="smallertext">
+		<input name="Daycare" type="checkbox"
+			onClick="Daycare_add();">Return to daycare<br>
+	
+		<input name="Massage_Therapy" type="checkbox"
+			onClick="Massage_Therapy_add();">Massage<br>
+
+		<input name="Orthotics" type="checkbox"
+			onClick="Orthotics_add();">Orthotics<br>
+	</td></table><br>
+
+		<input name="Signature" type="checkbox"
+			onClick="Signature_add();">Add Signature<br>
+		<br>
+		
+		<input value="Clear Checkboxes" name="reset" type="reset" style="font-family:sans-serif; font-size:12px;" onClick="history.go(0)"><br><br>
+		<input name="Billing" id="Billing" class="DoNotPrint" style="color:green;" type="Button" Value="To Billing" onclick="onBodyLoad(); billing();"> 
+		<input name="Message" id="Message" class="DoNotPrint" style="color:green;" type="Button" Value="To Message" onclick="onBodyLoad(); message();"> 
+		<input name="Tickler" id="Tickler" class="DoNotPrint" style="color:green;" type="Button" Value="To Tickler" onclick="onBodyLoad(); tickler();"><br>
+</form>
+</div>
+</form>
+
+<!-- Define Date Calendars -->
+<script type="text/javascript">
+	Calendar.setup( { inputField :"TodayDate", ifFormat : "%Y-%m-%d", button : "TodayDate" } );
+	Calendar.setup( { inputField :"RTWdate", ifFormat : "%a, %b-%d-%Y", button : "RTWdate" } );
+	Calendar.setup( { inputField :"OffSinceDate", ifFormat : "%a, %b-%d-%Y", button : "OffSinceDate" } );
+	Calendar.setup( { inputField :"LastWorkDate", ifFormat : "%a, %b-%d-%Y", button : "LastWorkDate" } );
+</script> 
+
+</body>
+</html>
