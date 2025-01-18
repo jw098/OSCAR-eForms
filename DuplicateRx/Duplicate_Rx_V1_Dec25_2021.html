@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="BC Duplicate Prescription eForm" />
+<meta name="keywords" content="BC, Duplicate, Triplicate, Prescription, Opiate" />
+<meta name="robots" content="nofollow" />
+<meta http-equiv="author" content="John Yap" />
+
+<!-- First attempt at Oscar Duplicate Rx eFORM -->
+
+<!-- V1_Dec25_2021: John Yap -->
+<!-- V2_Jan4_2022: remove digital signature options.  Duplicates require wet signature; John Yap -->
+
+<!-- eForm DISCLAIMER: As is: eForms are shared as-is, free of charge on a share-alike basis with absolutely no guarantee or warranty.
+ No Quality Control: The author does not vet any eForms and does not purport to apply any manner of quality control.
+ Responsibility: The responsibility for the clinical and medical-legal consequences of any and all eForms, rest with the clinical OSCAR end-users themselves, not with the author of the eForm.
+ This applies to both eForms shared by others, and those created by users themselves.
+ Attribution: eForms are shared freely among the user community, with attribution to the original author of the eForm.
+ Free: eForms so shared may not be sold or purchased.
+ Provincial validation:  eForms are optional and non-essential add-ons, separate from OSCAR, and with their own license terms.
+ eForms are not part of the OSCAR core program functionality and code base.
+ For this reason eForms are not subject to provincial validation testing and conformance criteria. 
+ eForms are also not subject to the ISO production process for OSCAR. -->
+
+<!-- Do not use apostrophes - they do not allow for proper eForm zip inside Oscar.  Instead, use: &#8217; -->
+
+<!-- Files for testing outside of OSCAR: comment out this section on upload to Oscar to prevent 404 errors End of files for testing outside of OSCAR: comment out this section on upload to Oscar to prevent 404 errors -->
+<script type='text/javascript' src='jquery-1.12.0.min.js'></script>
+
+<!-- OSCAR based files for greater functionality -->
+<script type="text/javascript" src="${oscar_image_path}jquery-1.12.0.min.js"></script>
+
+<!-- main calendar program -->
+<script type="text/javascript" src="../share/calendar/calendar.js"></script>
+<script type="text/javascript" src="../share/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="../share/calendar/calendar-setup.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="../share/calendar/calendar.css" title="win2k-cold-1" />
+
+<script>
+// For OSCAR to detect what files to include in the generated ZIP, the
+// filename must appear in the HTML document within quotation marks, with the ${oscar_image_path} in front of it;
+// this serves as a workaround to force the files to be included for ZIP exports.
+// Allows for appropriate import of all png files that are not referenced by BGImage tags
+// Place any needed image or js file names within the script tabs, and to the right of the double slashes
+// "${oscar_image_path}2_UP_Rx_Dec2021.png" // background for eFORM only
+// "${oscar_image_path}blankDuplicateRx.png" // allows for printing on College-approved Duplicate Rx paper
+// "${oscar_image_path}CreativeCommonsIcon.png" // for Copy Left footer
+</script>
+
+<style type="text/css" media="screen">
+*{font-family: Helvetica, Arial, sans-serif;}
+
+
+
+input {
+	-moz-box-sizing: content-box;
+	-webkit-print-color-adjust: exact;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box
+}
+
+input#SubmitButton { 
+	color: white;
+	text-shadow: 0px 1px 1px #ffffff;
+	border-bottom: 2px solid #b2b2b2;
+	background: #229ece;
+	background: -webkit-gradient(linear, left top, left bottom, from(#6bb5d2), to(#229ece));
+	background: -moz-linear-gradient(top, #6bb5d2, #229ece);
+	background: -o-linear-gradient(top, #6bb5d2, #229ece);
+	background: -ms-linear-gradient(top, #6bb5d2, #229ece);}
+
+input#SubmitButton:hover {
+	color: #333333;
+	border: 1px solid #a4a4a4;
+	border-top: 2px solid #b2b2b2;
+	background-color: #a0dbc4;
+	background: -webkit-gradient(linear, left top, left bottom, from(#229ece), to(#6bb5d2));
+	background: -moz-linear-gradient(top, #229ece, #6bb5d2);
+	background: -o-linear-gradient(top, #229ece, #6bb5d2);
+	background: -ms-linear-gradient(top, #229ece, #6bb5d2);}
+
+.attn {
+	animation-name: lookHere;
+	animation-duration: 5s;
+	animation-timing-function: linear;
+	animation-iteration-count: 3;
+	animation-direction: alternate;
+}
+
+@keyframes lookHere {
+  0%   {border-color:#ced5e3;
+box-shadow: 0 0 5px #ced5e3;}
+  25%  {border-color:#364460;
+box-shadow: 0 0 20px #364460;}
+  50%  {border-color:#a21d22;
+box-shadow: 0 0 5px #a21d22;}
+  75%  {border-color:#f7977b;
+box-shadow: 0 0 20px #f7977b;}
+  100% {border-color:#ced5e3;
+box-shadow: 0 0 5px #ced5e3;}
+}
+
+.sig {
+	 border: 2px dotted blue;
+	 background: transparent;
+}
+
+a {text-decoration: none;} 
+a:hover {border: 1px solid #000000; border-style: outset; background: pink; opacity: 0.6;}
+a:active {border: 3px solid #000000; border-style: inset;}
+
+.Show {
+	visibility: visible;
+	display: inline;
+}
+.Hide {
+	visibility: hidden;
+	display: none;
+}
+
+::placeholder {
+  color: rebeccapurple;
+  font-style: italic;
+  opacity: 1;
+}
+
+textarea{resize: none;}
+</style>
+
+<style type="text/css" media="print">
+*{font-family: Helvetica, Arial, sans-serif;}
+input {
+	-moz-box-sizing: content-box;
+	-webkit-print-color-adjust: exact;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box
+}
+
+@page {
+    margin-top: 0.15in;
+    margin-bottom: 0.15in;
+    margin-left: 0.15in;
+    margin-right: 0.15in;    
+}
+
+.DoNotPrint {display: none;}
+.noborder {
+	border: 0px;
+	background: transparent;
+	scrollbar-3dlight-color: transparent;
+	scrollbar-arrow-color: transparent;
+	scrollbar-base-color: transparent;
+	scrollbar-darkshadow-color: transparent;
+	scrollbar-face-color: transparent;
+	scrollbar-highlight-color: transparent;
+	scrollbar-shadow-color: transparent;
+	scrollbar-track-color: transparent;
+	overflow: hidden;
+}
+.sig {
+	 background: transparent;
+}
+
+.Show{
+	visibility: visible;
+	display: inline;
+}
+.Hide{
+	visibility: hidden;
+	display: none;
+}
+
+/* hide placehoders */
+::placeholder {
+	color: transparent;
+} 
+</style>
+
+<!-- Xbox styling -->
+<style type="text/css">
+.box1 {
+	position: absolute;
+	width: 14px;
+	height: 16px;
+	font-size: 16px;
+	font-family: Arial;
+	border: 1px solid #000000;
+	cursor: pointer;
+	font-weight: bold;
+	text-align: center;
+	background: aquamarine;
+}
+
+.box2 {
+	position: absolute;
+	width: 8px;
+	height: 10px;
+	font-size: 10px;
+	font-family: Arial;
+	border: 1px solid #000000;
+	cursor: pointer;
+	font-weight: bold;
+	text-align: center;
+	background: aquamarine;
+}
+
+.FontSizeChange {
+	position: absolute;
+	width: 16px;
+	height: 15px;
+	font-size: 13px;
+	cursor: pointer;
+	background: yellow;
+	text-align: center;
+	border: 1px solid #000000;
+}
+
+.Show {
+	visibility: visible;
+	display: inline;
+ }
+.Hide {
+	visibility: hidden;
+	display: none;
+}
+</style>
+
+<script language="javascript" type="text/javascript">
+	/****************************
+		startup functions 
+	****************************/
+	function startUp() {
+		setDocumentTitle('Duplicate_Rx',document.getElementById('PatientNameL').value);
+		changeImage("2_UP_Rx_Dec2021.png", "BGImage1");
+		changeImage("CreativeCommonsIcon.png", "CreativeCommons"); // for Copy Left footer
+		loadFontSize();
+		setDefaults();
+
+		// Optimize window size/width
+		top.window.resizeTo(1100, screen.availHeight);
+	}
+
+	function resourceLink(resource, extension) {
+		// Takes two arguments -- the base filename and its extension -- and
+		// returns a string depending on whether the page has been opened
+		// locally or if it has been uploaded to OSCAR.
+		//
+		// Example usage: resourceLink('image1', 'png')
+		// Return value: 'image1.png' or '${oscar_image_path}image1.png'
+		var prefix = (window.location.href.toLowerCase().indexOf("http") != -1) ? '${oscar_image_path}' : '';
+
+		if (typeof extension === "undefined") {
+			var extension = '';
+		} else {
+			var extension = '.' + extension;
+		}
+		return prefix + resource + extension;
+	}
+
+	function changeImage(img, imgId) {
+		// Changes the src value of an <img>.
+		document.getElementById(imgId).src = resourceLink(img)
+		document.getElementById(imgId).href = resourceLink(img)
+	}
+
+	function setDocumentTitle(Title, PatientNameL) {
+		// set document title
+		document.title = Title + '_' + PatientNameL;
+	}
+
+	function setDefaults() {
+		// check the newform flag to ensure this is the initial load of the form
+		if (document.getElementById("newForm").value == 'True') {
+			parseDate('Rx_date');
+			parseDate('Rx_date_duplicate');
+			parseName('patient_name');
+			parseName('patient_name_duplicate');
+			document.getElementById('city_province').value = document.getElementById('city').value + ', ' + document.getElementById('province').value;
+			document.getElementById('city_province_duplicate').value = document.getElementById('city').value + ', ' + document.getElementById('province').value;
+
+		//	document.getElementById('ClinicAddressPhone').value = document.getElementById('clinic_addressLineFull').value + ', Ph: ' + document.getElementById('clinic_phone').value;
+		//	document.getElementById('ClinicAddressPhone_duplicate').value = document.getElementById('clinic_addressLineFull').value + ', Ph: ' + document.getElementById('clinic_phone').value;
+
+			// document.getElementById('ClinicAddressPhone').value = 'New Westminster Family Practice' + '\n' + '242-610 Sixth Street' + '\n' + 'New Westminster, BC' + '\n' + 'V3L 3C2 20211203';
+			// document.getElementById('ClinicAddressPhoneDuplicate').value = 'New Westminster Family Practice' + '\n' + '242-610 Sixth Street' + '\n' + 'New Westminster, BC' + '\n' + 'V3L 3C2 20211203';
+
+			parseName('current_user'); 
+			parseName('current_user_duplicate'); 
+		} else {
+		}
+	}
+
+	/****************************
+		Create name in proper order 
+	****************************/
+	function parseName(id) {
+		// Get the name
+		var fullName = document.getElementById(id).value;
+
+		// Split the value
+		var splitName = fullName.split(",");
+		var firstName = "";
+		var lastName  = "";
+
+		// Check for last name
+		if(splitName.length >= 1) {
+			lastName = splitName[0].trim();
+		}
+		if(splitName.length >= 2) {
+			firstName = splitName[1].trim();
+		}
+		var First_Last_Name = firstName + " " + lastName;
+
+		// Show the fields on the page
+		document.getElementById(id).value = First_Last_Name;
+	}
+
+	/****************************
+		Create date in dd mm  yyyy format; 
+		Oscar default is yyyy-mm-dd
+	****************************/
+	function parseDate(id) {
+		// Change date field to dd/mmm/yyyy format
+		// Function expects an array of date components in yyyy-mm-dd format
+		// Get the date
+		var FullDate = document.getElementById(id).value;
+		var delimiter = '-';
+
+		// Split the value
+		var Year = FullDate.split(delimiter)[0];
+		var MonthNum = FullDate.split(delimiter)[1];
+		var Day = FullDate.split(delimiter)[2];
+		var NumericDate = " " + Day + "     " + MonthNum + "    " + Year;
+
+		// Show the fields on the page
+		document.getElementById(id).value = NumericDate;
+	}
+
+	/****************************
+		submit and print functions 
+	****************************/
+	function printLetter() {
+		// Save reminder; allows for validity testing
+		document.getElementById('SubmitButton').classList.toggle('attn');
+		document.getElementById('ResetButton').style.color = 'black';
+		document.getElementById('SubmitButton').style.border = '2px solid red';
+		// alert("eFORM has NOT been submitted.  If needed, cancel print and complete required fields.  Ensure you click SUBMIT after print.");
+
+		// remove eFORM background and switch to blank, to allow printing on special Duplicate Rx paper
+		changeImage("blankDuplicateRx.png", "BGImage1");
+		document.getElementById("refresh").value = '';
+		window.print();
+	} 
+
+	function submission() { // requires type="submit" in submit button input to allow for validity testing
+		setFlag();
+		releaseDirtyFlag();
+	}
+
+	function setFlag() {
+	// indicate that the form has been submitted
+	if (document.getElementById("newForm").value == 'True')
+	document.getElementById("newForm").value = 'False';
+	}
+
+	/****************************
+		Checkbox functions 
+	****************************/
+	$(document).ready(function() {
+		$( ".Xbox" ).click(function() {
+		var st = $( this ).val();
+		if (st=="X") {
+		$( this ).val("");
+		}
+		else {
+			$( this ).val("X");
+		}
+	});
+
+	$( ".Xbox" ).keypress(function(event) {
+		// any key press except tab will constitute a value change to the checkbox
+		if (event.which != 0) {
+			$( this ).click();
+			return false;
+			}
+		});
+	});
+
+	/****************************
+		scripts to confirm closing of window if have not saved yet
+	****************************/
+		//keypress events trigger dirty flag
+		var needToConfirm = true;
+		document.onkeyup=setDirtyFlag;
+	function setDirtyFlag() {
+		needToConfirm = true;
+	}
+
+	function releaseDirtyFlag() {
+		needToConfirm = false; //Call this function if does not require an alert.
+		//this could be called when save button is clicked
+	}
+		window.onbeforeunload = confirmExit;
+
+	function confirmExit() {
+		if (needToConfirm) {
+	return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+		}
+	}
+
+	/****************************
+		script to Increase or Decrease the Font Size
+		name = input name/id, delta = increase (+) or decrease (-) increment #
+		Requires loadFontSize(); in startUp, or in onload line
+	****************************/
+	function changeFontSize(name, delta) {
+		var element = $("#" + name)
+		var oldSize = parseInt(element.css("font-size"));
+		var newSize = oldSize + delta;
+
+		// Save new font size into "value" field of hidden element
+		$("#" + name + "_fontsize").attr('value', newSize);
+
+		// Set font size
+		element.css({'font-size': newSize + 'px'});
+	}
+
+	// Retains altered font size when eForm is reopened; 
+	// Requires hidden inputs with format for each field using this feature: 
+	// <input type="hidden" name="Input_fontsize" id="Input_fontsize">
+	function loadFontSize() {
+		$.each($("input[name*='_fontsize'"), function(index, element) {
+			var fontSize = element.value;
+
+			if (!!fontSize) {
+				var name = element.name.split('_')[0];
+				$("#" + name).css({'font-size': fontSize + 'px'});
+			}
+		});
+	}
+
+	/****************************
+		Radio-XBox functions 
+		Changes function of X_boxes to radio_boxes when the id of the radiobox is passed as x 
+		and is named in the convention name_X where X appears in the string defined in scales
+		Ensure that the list is sequential. Do no skip numbers. An input can be hidden if appropriate.
+	****************************/
+	function Radio_Box(x) {
+		var scales = ["1", "2", "3", "4", "5"];
+		var partA = x.substring(0, x.indexOf("_"));
+		var i = x.substring(x.indexOf("_"));
+		var j = i.substr(1);
+
+		for (var n in scales) {
+			if ( j == scales[n]) {
+				for (var m in scales){
+					if (m != n) { document.getElementById(partA+"_"+scales[m]).value = ''; }
+				}
+			}
+		}
+	return false;
+	}
+
+	/****************************
+		scripts to Duplicate; i = original value; j is duplicate destination
+	****************************/
+	function duplicateThisTo(i, j) {
+		var original = document.getElementById(i).value;
+		var duplicate = j;
+		document.getElementById(duplicate).value = original;
+	}
+
+	/****************************
+ 	 * Convert an integer to its words representation
+	 * 
+	 * @author McShaman (http://stackoverflow.com/users/788657/mcshaman)
+	 * @source http://stackoverflow.com/questions/14766951/convert-digits-into-words-with-javascript
+	****************************/
+	function numberToEnglish(n, custom_join_character) {
+
+	var string = n.toString(),
+		units, tens, scales, start, end, chunks, chunksLen, chunk, ints, i, word, words;
+		
+	var and = custom_join_character || 'and';
+		
+	/* Is number zero? */
+	if (parseInt(string) === 0) {
+		return 'zero';
+	}
+	
+	/* Array of units as words */
+	units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+	
+	/* Array of tens as words */
+	tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+	
+	/* Array of scales as words */
+	scales = ['', 'thousand', 'million', 'billion', 'trillion', 'quadrillion', 'quintillion', 'sextillion', 'septillion', 'octillion', 'nonillion', 'decillion', 'undecillion', 'duodecillion', 'tredecillion', 'quatttuor-decillion', 'quindecillion', 'sexdecillion', 'septen-decillion', 'octodecillion', 'novemdecillion', 'vigintillion', 'centillion'];
+	
+	/* Split user argument into 3 digit chunks from right to left */
+	start = string.length;
+	chunks = [];
+	while (start > 0) {
+		end = start;
+		chunks.push(string.slice((start = Math.max(0, start - 3)), end));
+	}
+	
+	/* Check if function has enough scale words to be able to stringify the user argument */
+	chunksLen = chunks.length;
+	if (chunksLen > scales.length) {
+		return '';
+	}
+	
+	/* Stringify each integer in each chunk */
+	words = [];
+	for (i = 0; i < chunksLen; i++) {
+		chunk = parseInt(chunks[i]);
+
+		if (chunk) {
+			/* Split chunk into array of individual integers, in reverse order, units position 0 */
+			ints = chunks[i].split('').reverse().map(parseFloat);
+		
+			/* If tens integer is 1, i.e. 10, then add 10 to units integer */
+			if (ints[1] === 1) {
+				ints[0] += 10;
+			}
+			/* Add scale word if chunk is not zero and array item exists */
+			if ((word = scales[i])) {
+				words.push(word);
+			}
+			/* Add unit word if array item exists */
+			if ((word = units[ints[0]])) {
+				words.push(word);
+			}
+			/* Add tens word if array item exists */
+			if ((word = tens[ints[1]])) {
+				words.push(word);
+			}
+			/* Add 'and' string after units or tens integer if: */
+			if (ints.length >= 3 && ints[0] != 0) { // if value is over 100
+				/* Chunk has a hundreds integer or chunk is the first of multiple chunks */
+				if ((ints[2] || !i && chunksLen)) {
+					words.push(and);
+				}
+			}
+			/* Add hundreds word if array item exists */
+			if ((word = units[ints[2]])) {
+				words.push(word + ' hundred');
+			}
+		}
+	}
+	return words.reverse().join(' ');
+	}
+
+	/****************************
+		script to set end date for OAT (from OAT start day)
+	****************************/
+	Date.prototype.addDays = function(days) { // format used dd/mm/yyyy
+		var startOAT = document.getElementById('OAT_start_date').value;
+		var delimiter = '/';
+
+		// Split the value
+		var Year = startOAT.split(delimiter)[2];
+		var MonthNum = startOAT.split(delimiter)[1] - 1; // the month is 0-indexed
+		var Day = startOAT.split(delimiter)[0];
+
+		var dat = new Date(Year, MonthNum, Day);
+		dat.setDate(dat.getDate() + days);
+		return dat;
+	}
+
+	Date.prototype.addMonths = function(months) { // format used dd/mm/yyyy
+		var startOAT = document.getElementById('OAT_start_date').value;
+		var delimiter = '/';
+
+		// Split the value
+		var Year = startOAT.split(delimiter)[2];
+		var MonthNum = startOAT.split(delimiter)[1] - 1; // the month is 0-indexed
+		var Day = startOAT.split(delimiter)[0];
+
+		var dat = new Date(Year, MonthNum, Day);
+		dat.setMonth(dat.getMonth() + months);
+		return dat;
+	}
+		
+	function addMonths(months) {
+		var d = new Date();
+		d = d.addMonths(months);
+		var mth = ((d.getMonth()+1)<10)? ("0"+(d.getMonth()+1)) : (d.getMonth()+1);
+		var day =  d.getDate() > 10 ? d.getDate() : (d.getDate());
+		var newD = day + "/" + mth + "/" + d.getFullYear();
+		document.FormName.OAT_end_date.value = newD;
+		document.FormName.OAT_end_date_duplicate.value = newD;
+	}
+
+	function addDays(numDays) {
+		var d = new Date();
+		d = d.addDays(numDays);  
+		var mth = ((d.getMonth()+1)<10)? ("0"+(d.getMonth()+1)) : (d.getMonth()+1);
+		var day =  d.getDate() > 10 ? d.getDate() : (d.getDate());
+		var newD = day + "/" + mth + "/" + d.getFullYear();
+		document.FormName.OAT_end_date.value = newD;
+		document.FormName.OAT_end_date_duplicate.value = newD;
+	}
+
+	/****************************
+		Script to add input Name chosen to subject input
+		It is possible to use spaces in name!  name="add this to subject"
+	****************************/
+	function addSubject(i) {
+		var AddSubject = document.getElementById(i).value;
+		document.FormName.subject.value = AddSubject;
+	}
+
+	/****************************
+		Script to recreate original background for eFORM
+	****************************/
+	function refreshBackground() {
+		// return eFORM background from blank, to get navigation back
+		var background = document.getElementById("BGImage1"); // id of the background <img> element
+		background.src = resourceLink('2_UP_Rx_Dec2021', 'png');
+	}
+
+	function blankBackground() {
+		// return eFORM background from blank, to get navigation back
+		var background = document.getElementById("BGImage1"); // id of the background <img> element
+		background.src = resourceLink('blankDuplicateRx', 'png');
+	}
+</script>
+</head>
+
+<body onload="startUp();" onbeforeprint="document.forms['FormName'].reportValidity();">
+	<form method="post" action="" name="FormName" id="FormName">
+
+<div id="page1" style="position:relative; left:-21px; top:-22px; width:925px; height:675px;">
+	<img id="BGImage1" src="" style="position:relative; left:0px; top:0px; width:925px; height:675px;">
+
+<!-- Hidden input for eForm title -->
+<input type="hidden" name="PatientNameL" id="PatientNameL" oscarDB=patient_nameL>
+
+<!-- Hidden input for address -->
+<input type="hidden" name="city" id="city" oscarDB=city>
+<input type="hidden" name="province" id="province" oscarDB=province>
+<input type="hidden" name="clinic_addressLineFull" id="clinic_addressLineFull" oscarDB=clinic_addressLineFull>
+<input type="hidden" name="clinic_phone" id="clinic_phone" oscarDB=clinic_phone>
+
+<!-- Hidden input for font size changer inputs -->
+<input type="hidden" name="Directions_fontsize" id="Directions_fontsize">
+<input type="hidden" name="DirectionsDuplicate_fontsize" id="DirectionsDuplicate_fontsize">
+<input type="hidden" name="ClinicAddressPhone_fontsize" id="ClinicAddressPhone_fontsize">
+<input type="hidden" name="ClinicAddressPhoneDuplicate_fontsize" id="ClinicAddressPhoneDuplicate_fontsize">
+
+<!-- White Outs -->
+<span name="whiteout_ClinicAddressPhone" style="position:absolute; left:20px; top:547px; width:285px; height:53px; background:white;"></span>
+<span name="whiteout_ClinicAddressPhoneDuplicate" style="position:absolute; left:480px; top:547px; width:285px; height:53px; background:white;"></span>
+
+<span name="whiteout_current_user_cpsid" style="position:absolute; left:310px; top:535px; width:135px; height:18px; background:white;"></span>
+<span name="whiteout_current_user_cpsid_duplicate" style="position:absolute; left:770px; top:535px; width:135px; height:18px; background:white;"></span>
+
+<span name="whiteout_Folio" style="position:absolute; left:310px; top:569px; width:135px; height:18px; background:white;"></span>
+<span name="whiteout_FolioDuplicate" style="position:absolute; left:770px; top:569px; width:135px; height:18px; background:white;"></span>
+
+<!-- Warnings -->
+<div id="Duplicate_Warning" class="DoNotPrint" style="position:absolute; left:930px; top:155px; width:250px; ">
+<span style="height:30px; color:green;">Please ignore the misalignment in the Duplicate side.</span>
+</div>
+<div id="Signature_Warning" class="DoNotPrint" style="position:absolute; left:930px; top:510px; width:250px; ">
+	<span style="height:30px; color:red;">&#8592; &#8592; Wet signatures required.</span>
+	</div>
+	
+<!-- Patient Info -->
+<input name="HIN" id="HIN" type="text" class="noborder" style="position:absolute; left:30px; top:35px; width:275px; font-size:18px; background:transparent;" oscardb=HIN>
+<input name="Rx_date" id="Rx_date" type="text" class="noborder" style="position:absolute; left:325px; top:35px; width:115px; font-size:16px; text-align:center; background:transparent;" oscarDB=today>
+
+<input name="patient_name" id="patient_name" type="text" class="noborder" style="position:absolute; left:65px; top:69px; width:375px; font-size:18px; background:transparent;" oscardb=patient_name>
+
+<input name="address_street_number_and_name" id="address_street_number_and_name" type="text" class="noborder" style="position:absolute; left:65px; top:103px; width:375px; font-size:16px; background:transparent;" oscardb=address_street_number_and_name>
+
+<input name="city_province" id="city_province" type="text" class="noborder" style="position:absolute; left:65px; top:128px; width:240px; font-size:16px; background:transparent;">
+
+<input name="dob_day" id="dob_day" type="text" class="noborder" style="position:absolute; left:321px; top:128px; width:30px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_day>
+<input name="dob_month" id="dob_month" type="text" class="noborder" style="position:absolute; left:365px; top:128px; width:30px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_month>
+<input name="dob_year" id="dob_year" type="text" class="noborder" style="position:absolute; left:408px; top:128px; width:34px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_year>
+
+<!-- Medication -->
+<input name="DrugName" id="DrugName" type="text" class="noborder" style="position:absolute; left:20px; top:165px; width:420px; font-size:16px; background:transparent;" onblur="addSubject(this.id); duplicateThisTo(this.id, 'DrugNameDuplicate');">
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:455px; top:172px;" onclick="changeFontSize('DrugName', 1); changeFontSize('DrugNameDuplicate', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:455px; top:187px;" onclick="changeFontSize('DrugName', -1); changeFontSize('DrugNameDuplicate', -1);">&#9660;</span>
+
+<input name="Quantity_Numeric" id="Quantity_Numeric" type="text" class="noborder" style="position:absolute; left:20px; top:210px; width:110px; font-size:16px; text-align:center; background:transparent;" placeholder="number only" required
+	onblur="
+		document.getElementById('Quantity_Alpha').value = numberToEnglish(this.value);
+		document.getElementById('Quantity_Alpha_duplicate').value = numberToEnglish(this.value);
+		duplicateThisTo(this.id, 'Quantity_Numeric_duplicate');">
+<input name="Quantity_Alpha" id="Quantity_Alpha" type="text" class="noborder" style="position:absolute; left:140px; top:210px; width:300px; font-size:16px; text-align:center; background:transparent;" onclick="duplicateThisTo(this.id, 'Quantity_Alpha_duplicate');">
+
+<!-- Medication OAT-->
+<input name="OAT_start_date" id="OAT_start_date" type="text" class="noborder" style="position:absolute; left:95px; top:255px; width:120px; font-size:15px; text-align:center; background:transparent;" onblur="duplicateThisTo(this.id, 'OAT_start_date_duplicate');">
+<input name="OAT_end_date" id="OAT_end_date" type="text" class="noborder" style="position:absolute; left:300px; top:255px; width:120px; font-size:15px; text-align:center; background:transparent;" onblur="duplicateThisTo(this.id, 'OAT_end_date_duplicate');">
+
+<input name="Total_daily_dose_Numeric" id="Total_daily_dose_Numeric" type="text" class="noborder" style="position:absolute; left:20px; top:300px; width:50px; font-size:18px; text-align:center; background:transparent;" 
+	onblur="
+		document.getElementById('Total_daily_dose_Alpha').value = numberToEnglish(this.value);
+		document.getElementById('Total_daily_dose_Alpha_duplicate').value = numberToEnglish(this.value);
+		duplicateThisTo(this.id, 'Total_daily_dose_Numeric_duplicate');">
+<input name="Total_daily_dose_Alpha" id="Total_daily_dose_Alpha" type="text" class="noborder" style="position:absolute; left:85px; top:300px; width:140px; font-size:18px; text-align:center; background:transparent;" onblur="duplicateThisTo(this.id, 'Total_daily_dose_Alpha_duplicate');">
+
+<input name="DaysPerWkDWI_Numeric" id="DaysPerWkDWI_Numeric" type="text" class="noborder" style="position:absolute; left:240px; top:300px; width:50px; font-size:18px; text-align:center; background:transparent;" 
+	onblur="
+		document.getElementById('DaysPerWkDWI_Alpha').value = numberToEnglish(this.value);
+		document.getElementById('DaysPerWkDWI_Alpha_duplicate').value = numberToEnglish(this.value);
+		duplicateThisTo(this.id, 'DaysPerWkDWI_Numeric_duplicate');">
+<input name="DaysPerWkDWI_Alpha" id="DaysPerWkDWI_Alpha" type="text" class="noborder" style="position:absolute; left:305px; top:300px; width:135px; font-size:18px; text-align:center; background:transparent;" onblur="duplicateThisTo(this.id, 'DaysPerWkDWI_Alpha_duplicate');">
+
+<!-- No Delivery! -->
+<input name="NoDelivery" id="NoDelivery" type="text" class="Xbox box1 DoNotPrint" style="left:20px; top:337px;" onblur="duplicateThisTo(this.id, 'NoDelivery_duplicate');">
+
+<!-- Directions -->
+<textarea name="Directions" id="Directions" class="noborder" style="position:absolute; left:20px; top:370px; width:420px; height:107px; font-size:16px; background:transparent;" onblur="duplicateThisTo(this.id, 'DirectionsDuplicate');"></textarea>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:455px; top:377px;" onclick="changeFontSize('Directions', 1); changeFontSize('DirectionsDuplicate', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:455px; top:392px;" onclick="changeFontSize('Directions', -1); changeFontSize('DirectionsDuplicate', -1);">&#9660;</span>
+
+<!-- Referring Doctor -->
+<input name="current_user" id="current_user" type="text" class="noborder DoNotPrint" style="position:absolute; left:150px; top:533px; width:150px; font-size:13px; background:transparent;" oscarDB=current_user>
+
+<textarea name="ClinicAddressPhone" id="ClinicAddressPhone" class="noborder DoNotPrint" style="position:absolute; left:20px; top:553px; width:280px; height:40px; font-size:9px; background:transparent;"></textarea>
+	<span class="DoNotPrint FontSizeChange" title="Increase Font Size address" style="left:455px; top:555px;" onclick="changeFontSize('ClinicAddressPhone', 1); changeFontSize('ClinicAddressPhoneDuplicate', 1);">&#9650;</span>
+	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size address" style="left:455px; top:570px;" onclick="changeFontSize('ClinicAddressPhone', -1); changeFontSize('ClinicAddressPhoneDuplicate', -1);">&#9660;</span>
+
+<input name="current_user_cpsid" id="current_user_cpsid" type="text" class="noborder DoNotPrint" style="position:absolute; left:310px; top:533px; width:130px; font-size:14px; text-align:center; background:transparent;" oscarDB=current_user_cpsid>
+
+<!-- Folio -->
+<input name="Folio" id="Folio" type="text" class="noborder DoNotPrint" style="position:absolute; left:310px; top:565px; width:130px; font-size:16px; text-align:center; background:transparent;" onblur="duplicateThisTo(this.id, 'Folio_duplicate');">
+
+
+<!-- Duplicate Scripts -->
+<!-- Patient Info -->
+<input name="HIN_duplicate" id="HIN_duplicate" type="text" class="noborder" style="position:absolute; left:500px; top:35px; width:275px; font-size:18px; background:transparent;" oscardb=HIN>
+<input name="Rx_date_duplicate" id="Rx_date_duplicate" type="text" class="noborder" style="position:absolute; left:795px; top:35px; width:115px; font-size:16px; text-align:center; background:transparent;" oscarDB=today>
+<input name="patient_name_duplicate" id="patient_name_duplicate" type="text" class="noborder" style="position:absolute; left:535px; top:69px; width:375px; font-size:16px; background:transparent;" oscardb=patient_name>
+<input name="address_street_number_and_name_duplicate" id="address_street_number_and_name_duplicate" type="text" class="noborder" style="position:absolute; left:535px; top:108px; width:375px; font-size:16px; background:transparent;" oscardb=address_street_number_and_name>
+<input name="city_province_duplicate" id="city_province_duplicate" type="text" class="noborder" style="position:absolute; left:535px; top:128px; width:240px; font-size:16px; background:transparent;">
+<input name="dob_day_duplicate" id="dob_day_duplicate" type="text" class="noborder" style="position:absolute; left:791px; top:128px; width:30px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_day>
+<input name="dob_month_duplicate" id="dobc_duplicate" type="text" class="noborder" style="position:absolute; left:835px; top:128px; width:30px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_month>
+<input name="dob_year_duplicate" id="dob_year_duplicate" type="text" class="noborder" style="position:absolute; left:878px; top:128px; width:34px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_year>
+
+<!-- Medication -->
+<input name="DrugNameDuplicate" id="DrugNameDuplicate" type="text" class="noborder" style="position:absolute; left:490px; top:165px; width:420px; font-size:16px; background:transparent;">
+<input name="Quantity_Numeric_duplicate" id="Quantity_Numeric_duplicate" type="text" class="noborder" style="position:absolute; left:490px; top:210px; width:110px; font-size:16px; text-align:center; background:transparent;">
+<input name="Quantity_Alpha_duplicate" id="Quantity_Alpha_duplicate" type="text" class="noborder" style="position:absolute; left:610px; top:210px; width:300px; font-size:16px; text-align:center; background:transparent;">
+
+<!-- Medication OAT-->
+<input name="OAT_start_date_duplicate" id="OAT_start_date_duplicate" type="text" class="noborder" style="position:absolute; left:565px; top:255px; width:120px; font-size:15px; text-align:center; background:transparent;">
+<input name="OAT_end_date_duplicate" id="OAT_end_date_duplicate" type="text" class="noborder" style="position:absolute; left:770px; top:255px; width:120px; font-size:15px; text-align:center; background:transparent;">
+
+<input name="Total_daily_dose_Numeric_duplicate" id="Total_daily_dose_Numeric_duplicate" type="text" class="noborder" style="position:absolute; left:490px; top:300px; width:50px; font-size:18px; text-align:center; background:transparent;">
+<input name="Total_daily_dose_Alpha_duplicate" id="Total_daily_dose_Alpha_duplicate" type="text" class="noborder" style="position:absolute; left:555px; top:300px; width:140px; font-size:18px; text-align:center; background:transparent;">
+
+<input name="DaysPerWkDWI_Numeric_duplicate" id="DaysPerWkDWI_Numeric_duplicate" type="text" class="noborder" style="position:absolute; left:710px; top:300px; width:50px; font-size:18px; text-align:center; background:transparent;">
+<input name="DaysPerWkDWI_Alpha_duplicate" id="DaysPerWkDWI_Alpha_duplicate" type="text" class="noborder" style="position:absolute; left:775px; top:300px; width:135px; font-size:18px; text-align:center; background:transparent;">
+
+<!-- No Delivery! -->
+<input name="NoDelivery_duplicate" id="NoDelivery_duplicate" type="text" class="Xbox box1 DoNotPrint" style="left:495px; top:337px;">
+
+<!-- Directions -->
+<textarea name="DirectionsDuplicate" id="DirectionsDuplicate" class="noborder" style="position:absolute; left:495px; top:370px; width:420px; height:109px; font-size:16px; background:transparent;"></textarea>
+
+<!-- Referring Doctor -->
+<input name="current_user_duplicate" id="current_user_duplicate" type="text" class="noborder DoNotPrint" style="position:absolute; left:620px; top:533px; width:150px; font-size:13px; background:transparent;" oscarDB=current_user>
+<textarea name="ClinicAddressPhoneDuplicate" id="ClinicAddressPhoneDuplicate" class="noborder DoNotPrint" style="position:absolute; left:490px; top:553px; width:280px; height:40px; font-size:9px; background:transparent;"></textarea>
+<input name="current_user_cpsid_duplicate" id="current_user_cpsid_duplicate" type="text" class="noborder DoNotPrint" style="position:absolute; left:780px; top:533px; width:130px; font-size:14px; text-align:center; background:transparent;" oscarDB=current_user_cpsid>
+
+<!-- Folio -->
+<input name="Folio_duplicate" id="Folio_duplicate" type="text" class="noborder DoNotPrint" style="position:absolute; left:780px; top:565px; width:130px; font-size:16px; text-align:center; background:transparent;">
+
+<!-- The submit/print/reset buttons -->
+<div class="DoNotPrint" id="BottomButtons" style="position:absolute; left:20px; top:700px; width:850px; font-size:13px;">
+	<table><tr><td style="background-color:#e5f2ff;">
+		<input type="hidden" id="newForm" name="newForm" value="True" />
+		Subject: <input name="subject" id="subject" size="40" type="text">
+		<input value="Reset" name="ResetButton" id="ResetButton" type="reset" style="color:red;" onclick="history.go(0);"> 
+		<input value="Print" name="PrintButton" id="PrintButton" type="button" style="color:green;" onclick="printLetter();"> 
+		<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick="submission();">
+		<span style="padding-left:5px; padding-right:5px;">HINT: Print Rx and input Folio number before submit</span>
+	</td></tr></table>
+
+<!-- Copy Left -->
+<a rel="licence" href="https://creativecommons.org/licenses/by-sa/3.0/deed.en_US" target="blank"><img alt="Creative Commons License" id="CreativeCommons" style="border:0px;" src="" /></a>
+<span> Duplicate Rx V2_Jan4_2022, by Dr. John Yap, is licensed under a</span> 
+<a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.en_US" target="_blank">GPL.</a><br>
+<span style="color:forestgreen;">Please consider supporting </span><a href="http://oscarbc.ca/" target="_blank">oscarbc.ca.</a> |
+<a id="emailLnk1" style="cursor:pointer;" onclick="javascript:window.open('mailto:info@oscarbc.ca', 'mail'); event.preventDefault();" title="Email to OSCAR BC">Email: info@oscarbc.ca/</a> |
+<a href="https://www.facebook.com/pg/OSCARBCcommunity" target="_blank">Facebook</a> | 
+<a href="https://twitter.com/OSCARBCemr" target="_blank">Twitter</a> | 
+<a href="https://www.linkedin.com/company/oscarbc/" target="_blank">LinkedIn</a> |
+<br><br>
+</div>
+
+
+<!-- Quick Pick Menu Items -->
+<div id="LabQuickSelect" class="DoNotPrint" style="position:absolute; left:930px; padding:5px; top:205px; width:250px; height:180px; background:lightyellow; border-style:solid; border-color:black; border-width:1px; font-size:12px;">
+<b>Quantity:</b><br>
+	<input type="text" class="Xbox box2" name="30" id="Quantity_1" style="left:5px;"
+		onclick="
+			document.getElementById('Quantity_Numeric').value = this.name;
+			document.getElementById('Quantity_Alpha').value = numberToEnglish(this.name);
+			document.getElementById('Quantity_Numeric_duplicate').value = this.name;
+			document.getElementById('Quantity_Alpha_duplicate').value = numberToEnglish(this.name);
+		Radio_Box(this.id);">
+		<span style="position:relative; left:18px; top:1px;">30</span>
+	
+	<input type="text" class="Xbox box2" name="60" id="Quantity_2" style="left:45px;"
+		onclick="
+			document.getElementById('Quantity_Numeric').value = this.name;
+			document.getElementById('Quantity_Alpha').value = numberToEnglish(this.name);
+			document.getElementById('Quantity_Numeric_duplicate').value = this.name;
+			document.getElementById('Quantity_Alpha_duplicate').value = numberToEnglish(this.name);
+		Radio_Box(this.id);">
+		<span style="position:relative; left:41px; top:1px;">60</span>
+
+	<input type="text" class="Xbox box2" name="90" id="Quantity_3" style="left:85px;"
+		onclick="
+			document.getElementById('Quantity_Numeric').value = this.name;
+			document.getElementById('Quantity_Alpha').value = numberToEnglish(this.name);
+			document.getElementById('Quantity_Numeric_duplicate').value = this.name;
+			document.getElementById('Quantity_Alpha_duplicate').value = numberToEnglish(this.name);
+		Radio_Box(this.id);">
+		<span style="position:relative; left:64px; top:1px;">90</span>
+
+	<input type="text" class="Xbox box2" name="100" id="Quantity_4" style="left:125px;"
+		onclick="
+			document.getElementById('Quantity_Numeric').value = this.name;
+			document.getElementById('Quantity_Alpha').value = numberToEnglish(this.name);
+			document.getElementById('Quantity_Numeric_duplicate').value = this.name;
+			document.getElementById('Quantity_Alpha_duplicate').value = numberToEnglish(this.name);
+		Radio_Box(this.id);">
+		<span style="position:relative; left:87px; top:1px;">100</span>
+
+		<input type="text" class="Xbox box2" name="reset_quantity" id="Quantity_5" style="left:165px;"
+		onclick="
+			document.getElementById('Quantity_Numeric').value = '';
+			document.getElementById('Quantity_Alpha').value = '';
+			document.getElementById('Quantity_Numeric_duplicate').value = '';
+			document.getElementById('Quantity_Alpha_duplicate').value = '';
+		Radio_Box(this.id);">
+		<span style="position:relative; left:105px; top:1px; color:red;">Reset</span>
+<br><br>
+
+<!-- OAT Dates -->
+<span style="width:200px; font-size:12px; color:green;" title="Opiate Agonist Treatment">Set End Date for OAT</span><br>
+<input name="OatEndDate" id="Four_weeks" type="radio" 
+	onclick="
+		addDays(28);">4 weeks
+<input name="OatEndDate" id="Twelve_weeks" type="radio" 
+	onclick="
+		addDays(84);">12 weeks<br>
+<input name="OatEndDate" id="One_month" type="radio" 
+	onclick="
+		addMonths(1);">1 mo
+<input name="OatEndDate" id="Two_month" type="radio" 
+	onclick="
+		addMonths(2);">2 mo
+<input name="OatEndDate" id="Two_month" type="radio" 
+onclick="
+	addMonths(3);">3 mo<br>
+<input name="OatEndDate" id="ResetTickler" type="radio" style="font-size:10px; color:red;" 
+onclick="
+	addDays(0);
+	addMonths(0);
+	document.getElementById('OAT_end_date').value = '';
+	document.getElementById('OAT_end_date_duplicate').value = '';">
+<span style="color:red">Reset</span>
+<br><br>
+
+<!-- Add Folio numbers -->
+<span style="width:200px; font-size:12px; color:green;" title="Add Folio # to eFORM, but not to print">Set Folio Number - complete the xxx value</span><br>
+<input name="FolioNumber" id="FolioSet" style="left:5px;" type="radio" 
+	onclick="
+		document.getElementById('Folio').value = '0000059-xxx';
+		document.getElementById('Folio_duplicate').value = '0000059-xxx';">
+<span style="color:green;">Set</span>
+
+<input name="FolioNumber" id="FolioReset" style="left:55px;" type="radio" 
+	onclick="
+		document.getElementById('Folio').value = '';
+		document.getElementById('Folio_duplicate').value = '';">
+<span style="color:red;">Reset</span>
+<br><br>
+
+<!-- Refresh background -->
+<input type="text" class="Xbox box2" name="refresh" id="refresh" style="position:absolute; left:5px;" onclick="changeImage('2_UP_Rx_Dec2021.png', 'BGImage1');">
+<span style="position:relative; left:23px; top:2px; color:green;" title="click if background is blank">Refresh background</span><br>
+</div>
+
+</form>
+
+<script type="text/javascript">
+	Calendar.setup({ inputField:"Rx_date", ifFormat: "%d/%m/%Y", showsTime:false, button:"Rx_date", singleClick:true, step:1 });
+	Calendar.setup({ inputField:"Rx_date_duplicate", ifFormat: "%d/%m/%Y", showsTime:false, button:"Rx_date_duplicate", singleClick:true, step:1 });
+	Calendar.setup({ inputField:"OAT_start_date", ifFormat: "%d/%m/%Y", showsTime:false, button:"OAT_start_date", singleClick:true, step:1 });
+		Calendar.setup({ inputField:"OAT_end_date", ifFormat: "%d/%m/%Y", showsTime:false, button:"OAT_end_date", singleClick:true, step:1 });</script>
+
+</body></html>
