@@ -187,7 +187,7 @@ input {
 	height: 16px;
 	font-size: 16px;
 	font-family: Arial;
-	border: 1px solid #000000;
+	/* border: 1px solid #000000; */
 	cursor: pointer;
 	font-weight: bold;
 	text-align: center;
@@ -673,17 +673,17 @@ input {
 	
 <!-- Patient Info -->
 <input name="HIN" id="HIN" type="text" class="noborder" style="position:absolute; left:30px; top:35px; width:275px; font-size:18px; background:transparent;" oscardb=HIN>
-<input name="Rx_date" id="Rx_date" type="text" class="noborder" style="position:absolute; left:325px; top:35px; width:115px; font-size:16px; text-align:center; background:transparent;" oscarDB=today>
+<input name="Rx_date" id="Rx_date" type="text" class="noborder" style="position:absolute; left:335px; top:32px; width:115px; font-size:16px; text-align:center; background:transparent;" oscarDB=today>
 
 <input name="patient_name" id="patient_name" type="text" class="noborder" style="position:absolute; left:65px; top:69px; width:375px; font-size:18px; background:transparent;" oscardb=patient_name>
 
-<input name="address_street_number_and_name" id="address_street_number_and_name" type="text" class="noborder" style="position:absolute; left:65px; top:103px; width:375px; font-size:16px; background:transparent;" oscardb=address_street_number_and_name>
+<input name="address_street_number_and_name" id="address_street_number_and_name" type="text" class="noborder" style="position:absolute; left:65px; top:100px; width:375px; font-size:16px; background:transparent;" oscardb=address_street_number_and_name>
 
 <input name="city_province" id="city_province" type="text" class="noborder" style="position:absolute; left:65px; top:128px; width:240px; font-size:16px; background:transparent;">
 
-<input name="dob_day" id="dob_day" type="text" class="noborder" style="position:absolute; left:321px; top:128px; width:30px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_day>
-<input name="dob_month" id="dob_month" type="text" class="noborder" style="position:absolute; left:365px; top:128px; width:30px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_month>
-<input name="dob_year" id="dob_year" type="text" class="noborder" style="position:absolute; left:408px; top:128px; width:34px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_year>
+<input name="dob_day" id="dob_day" type="text" class="noborder" style="position:absolute; left:331px; top:125px; width:30px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_day>
+<input name="dob_month" id="dob_month" type="text" class="noborder" style="position:absolute; left:375px; top:125px; width:30px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_month>
+<input name="dob_year" id="dob_year" type="text" class="noborder" style="position:absolute; left:418px; top:125px; width:34px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_year>
 
 <!-- Medication -->
 <input name="DrugName" id="DrugName" type="text" class="noborder" style="position:absolute; left:20px; top:165px; width:420px; font-size:16px; background:transparent;" onblur="addSubject(this.id); duplicateThisTo(this.id, 'DrugNameDuplicate');">
@@ -716,7 +716,7 @@ input {
 <input name="DaysPerWkDWI_Alpha" id="DaysPerWkDWI_Alpha" type="text" class="noborder" style="position:absolute; left:305px; top:300px; width:135px; font-size:18px; text-align:center; background:transparent;" onblur="duplicateThisTo(this.id, 'DaysPerWkDWI_Alpha_duplicate');">
 
 <!-- No Delivery! -->
-<input name="NoDelivery" id="NoDelivery" type="text" class="Xbox box1 DoNotPrint" style="left:20px; top:337px;" onblur="duplicateThisTo(this.id, 'NoDelivery_duplicate');">
+<input name="NoDelivery" id="NoDelivery" type="text" class="Xbox box1" style="left:20px; top:330px;" onblur="duplicateThisTo(this.id, 'NoDelivery_duplicate');">
 
 <!-- Directions -->
 <textarea name="Directions" id="Directions" class="noborder" style="position:absolute; left:20px; top:370px; width:420px; height:107px; font-size:16px; background:transparent;" onblur="duplicateThisTo(this.id, 'DirectionsDuplicate');"></textarea>
@@ -739,13 +739,13 @@ input {
 <!-- Duplicate Scripts -->
 <!-- Patient Info -->
 <input name="HIN_duplicate" id="HIN_duplicate" type="text" class="noborder" style="position:absolute; left:500px; top:35px; width:275px; font-size:18px; background:transparent;" oscardb=HIN>
-<input name="Rx_date_duplicate" id="Rx_date_duplicate" type="text" class="noborder" style="position:absolute; left:795px; top:35px; width:115px; font-size:16px; text-align:center; background:transparent;" oscarDB=today>
+<input name="Rx_date_duplicate" id="Rx_date_duplicate" type="text" class="noborder" style="position:absolute; left:805px; top:32px; width:115px; font-size:16px; text-align:center; background:transparent;" oscarDB=today>
 <input name="patient_name_duplicate" id="patient_name_duplicate" type="text" class="noborder" style="position:absolute; left:535px; top:69px; width:375px; font-size:16px; background:transparent;" oscardb=patient_name>
-<input name="address_street_number_and_name_duplicate" id="address_street_number_and_name_duplicate" type="text" class="noborder" style="position:absolute; left:535px; top:108px; width:375px; font-size:16px; background:transparent;" oscardb=address_street_number_and_name>
+<input name="address_street_number_and_name_duplicate" id="address_street_number_and_name_duplicate" type="text" class="noborder" style="position:absolute; left:535px; top:100px; width:375px; font-size:16px; background:transparent;" oscardb=address_street_number_and_name>
 <input name="city_province_duplicate" id="city_province_duplicate" type="text" class="noborder" style="position:absolute; left:535px; top:128px; width:240px; font-size:16px; background:transparent;">
-<input name="dob_day_duplicate" id="dob_day_duplicate" type="text" class="noborder" style="position:absolute; left:791px; top:128px; width:30px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_day>
-<input name="dob_month_duplicate" id="dobc_duplicate" type="text" class="noborder" style="position:absolute; left:835px; top:128px; width:30px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_month>
-<input name="dob_year_duplicate" id="dob_year_duplicate" type="text" class="noborder" style="position:absolute; left:878px; top:128px; width:34px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_year>
+<input name="dob_day_duplicate" id="dob_day_duplicate" type="text" class="noborder" style="position:absolute; left:801px; top:125px; width:30px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_day>
+<input name="dob_month_duplicate" id="dobc_duplicate" type="text" class="noborder" style="position:absolute; left:845px; top:125px; width:30px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_month>
+<input name="dob_year_duplicate" id="dob_year_duplicate" type="text" class="noborder" style="position:absolute; left:888px; top:125px; width:34px; font-size:14px; text-align:center; background:transparent;" oscardb=dob_year>
 
 <!-- Medication -->
 <input name="DrugNameDuplicate" id="DrugNameDuplicate" type="text" class="noborder" style="position:absolute; left:490px; top:165px; width:420px; font-size:16px; background:transparent;">
@@ -763,7 +763,7 @@ input {
 <input name="DaysPerWkDWI_Alpha_duplicate" id="DaysPerWkDWI_Alpha_duplicate" type="text" class="noborder" style="position:absolute; left:775px; top:300px; width:135px; font-size:18px; text-align:center; background:transparent;">
 
 <!-- No Delivery! -->
-<input name="NoDelivery_duplicate" id="NoDelivery_duplicate" type="text" class="Xbox box1 DoNotPrint" style="left:495px; top:337px;">
+<input name="NoDelivery_duplicate" id="NoDelivery_duplicate" type="text" class="Xbox box1" style="left:490px; top:330px;">
 
 <!-- Directions -->
 <textarea name="DirectionsDuplicate" id="DirectionsDuplicate" class="noborder" style="position:absolute; left:495px; top:370px; width:420px; height:109px; font-size:16px; background:transparent;"></textarea>
