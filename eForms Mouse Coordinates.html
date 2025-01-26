@@ -1,0 +1,51 @@
+<!-- SCRIPT GIVES THE MOUSE COORDINATES - Hold SHIFT and click two points for distance between -->
+<script type="text/javascript" language="javascript">
+var isIE = document.all?true:false;
+if (!isIE) document.captureEvents(Event.MOUSEMOVE);
+document.onmousemove = getMousePosition;
+document.onclick = captureposition;
+var capX1 = 0;
+var capY1 = 0;
+var sy = 0;
+var sx = 0;
+
+function getMousePosition(e) {
+   var _x;
+   var _y;
+   if (!isIE) {
+      _x = e.pageX;
+      _y = e.pageY;
+   }
+   document.title = _x + " " + _y;
+   return true;
+}
+
+function captureposition(e) {
+
+  if (e.shiftKey) {
+     if ((capX1 == 0) && (capY1 == 0)) {
+        capX1 = e.pageX;
+        capY1 = e.pageY;
+     } else {
+         const capX2 = e.pageX;
+         const capY2 = e.pageY;
+         var diffX = capX2-capX1;
+         var diffY = capY2-capY1;
+         const left = capX1 < capX2 ? capX1 : capX2;
+         const top = capY1 < capY2 ? capY1 : capY2;
+         const width = Math.abs(diffX);
+         const height = Math.abs(diffY);
+         alert(`left:${left}px; top:${top}px; width:${width}px; height:${height}px`);
+
+      //   if (Math.abs(diffX) > Math.abs(diffY)) {
+      //       alert('X-coordinate distance: ' + diffX + 'px');
+      //   } else {
+      //       alert('Y-coordinate distance: ' + diffY + 'px');
+      //   }
+        capX1 = 0;
+        capY1 = 0;
+     }
+   }
+}
+</script>
+<!-- ----------End coordinate script--------------------------------------------------------- -->
