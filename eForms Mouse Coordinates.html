@@ -1,13 +1,21 @@
-<!-- SCRIPT GIVES THE MOUSE COORDINATES - Hold SHIFT and click two points for distance between -->
+<!-- SCRIPT GIVES THE MOUSE COORDINATES - Hold SHIFT and click two points to draw a rectangle -->
+<!-- The popup will state the rectangle's position. Hover your mouse over the rectangle to also get its position. -->
+<!-- Press the Escape button on the keyboard to delete the most recently drawn rectangle  -->
 <script type="text/javascript" language="javascript">
 var isIE = document.all?true:false;
 if (!isIE) document.captureEvents(Event.MOUSEMOVE);
+
 document.onmousemove = getMousePosition;
-document.onclick = captureposition;
+document.onclick = drawRectangle;
+document.onkeydown = deleteLastRectangle;
 var capX1 = 0;
 var capY1 = 0;
-var sy = 0;
-var sx = 0;
+
+function addRectangleListDiv(){
+   const rectangle_list = document.createElement("div");
+   rectangle_list.id = "rectangle_list";
+   document.body.appendChild(rectangle_list);
+}
 
 function getMousePosition(e) {
    var _x;
@@ -20,13 +28,26 @@ function getMousePosition(e) {
    return true;
 }
 
-function captureposition(e) {
+// Delete the last rectangle drawn
+function deleteLastRectangle(e){
+   if (e.key == "Escape"){
+      const rectangle_list = document.getElementById("rectangle_list");
+      if (rectangle_list != null){
+         const lastChild = rectangle_list.lastChild;
+         if (lastChild != null){
+            rectangle_list.removeChild(lastChild);
+         }
+      }
+   }
+}
 
-  if (e.shiftKey) {
-     if ((capX1 == 0) && (capY1 == 0)) {
-        capX1 = e.pageX;
-        capY1 = e.pageY;
-     } else {
+function drawRectangle(e) {
+   if (e.shiftKey) {
+      if ((capX1 == 0) && (capY1 == 0)) {
+         capX1 = e.pageX;
+         capY1 = e.pageY;
+      } else {
+         // get rectangle coordinates
          const capX2 = e.pageX;
          const capY2 = e.pageY;
          var diffX = capX2-capX1;
@@ -35,16 +56,26 @@ function captureposition(e) {
          const top = capY1 < capY2 ? capY1 : capY2;
          const width = Math.abs(diffX);
          const height = Math.abs(diffY);
-         alert(`left:${left}px; top:${top}px; width:${width}px; height:${height}px`);
 
-      //   if (Math.abs(diffX) > Math.abs(diffY)) {
-      //       alert('X-coordinate distance: ' + diffX + 'px');
-      //   } else {
-      //       alert('Y-coordinate distance: ' + diffY + 'px');
-      //   }
-        capX1 = 0;
-        capY1 = 0;
-     }
+         // create rectangle
+         const rectangle = document.createElement("div");
+         rectangle.style = `position:absolute; left:${left}px; top:${top}px; width:${width}px; height:${height}px; border:2px solid red; background-color: transparent"`
+         rectangle.title = `left:${left}px; top:${top}px; width:${width}px; height:${height}px`
+
+         // create div rectangle_list, if not already exists
+         // add rectangle to rectangle_list
+         let rectangle_list = document.getElementById("rectangle_list");
+         if (rectangle_list == null){
+            addRectangleListDiv();
+            rectangle_list = document.getElementById("rectangle_list");
+         }
+         rectangle_list.appendChild(rectangle);
+         
+         alert(`left:${left}px; top:${top}px; width:${width}px; height:${height}px; `);
+
+         capX1 = 0;
+         capY1 = 0;
+      }
    }
 }
 </script>
