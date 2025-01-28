@@ -1,0 +1,21 @@
+#Suggestions for adjusting input boxes with the coordinate script
+- Consider setting the body margin to 0 (in style sheet: body{margin: 0px; padding: 0px}). Otherwise, the default margin of the body is 10px by 10px, which causes all coordinates to be off by 10.
+- If the eForm has multiple pages, there may be issues with the Y-coordinate for pages 2 and above, since this script gives the Y-coordinate relative to the top of the document, but when placing down elements, we want the Y-coordinate relative to the top of the current page (That is, unless you have built your eForm where each elements' parent is `form` instead of the respective pages' div-block. But this breaks the html hierarchy, so I wouldn't recommend it). One workaround is to temporarily rearrange the div-block of the pages, so that the page that you're working on is at the top.
+
+#More notes on adjusting input coordinates
+- Xbox. The top, left coordinates can be set for each individual Xbox. To adjust the width/height/font-size for each Xbox, it is better to adjust this in the CSS stylesheet. 
+- font size vs height: for Arial
+Font 14px = height 22px 
+Font 10 = height 13
+Font 12 = height 16
+Font 14 = height 18
+Font 16 = height 20
+
+#Position: relative vs absolute
+In summary, relative positioning moves an element relative to its default position on the page, while absolute positioning moves an element relative to its nearest positioned ancestor.
+
+If multiple pages, better to use relative position
+
+
+#Preview EForm progress
+Consider previewing the eform locally (e.g. view the html file in Firefox), rather than in OSCAR, as reloading a local html file is faster than saving the new html in OSCAR, then reloading the eform in OSCAR.

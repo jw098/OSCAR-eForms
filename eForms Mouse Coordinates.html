@@ -1,6 +1,18 @@
 <!-- SCRIPT GIVES THE MOUSE COORDINATES - Hold SHIFT and click two points to draw a rectangle -->
 <!-- The popup will state the rectangle's position. Hover your mouse over the rectangle to also get its position. -->
 <!-- Press the Escape button on the keyboard to delete the most recently drawn rectangle  -->
+
+<!-- 
+Tips/suggestions for using the coordinate script to place input boxes
+- Consider setting the body margin to 0 (in style sheet: body{margin: 0px; padding: 0px;}). 
+Otherwise, the default margin of the body is 8px, which causes all coordinates to be off by this amount.
+- If the eForm has multiple pages, there may be issues with the Y-coordinate for pages 2 and above, 
+since this script gives the Y-coordinate relative to the top of the document.
+However, when placing down elements, we want the Y-coordinate relative to the top of the current page. 
+One workaround is to temporarily rearrange the div-block of the pages, so that the page that you're working on is at the top. 
+-->
+
+
 <script type="text/javascript" language="javascript">
 const isIE = document.all?true:false;
 if (!isIE) document.captureEvents(Event.MOUSEMOVE);

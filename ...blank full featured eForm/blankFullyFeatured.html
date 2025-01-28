@@ -32,48 +32,132 @@
 <link rel="stylesheet" type="text/css" media="all" href="../share/calendar/calendar.css" title="win2k-cold-1" />
 
 
-<!-- SCRIPT GIVES THE MOUSE COORDINATES - Hold SHIFT and click two points for distance between -->
+<!-- SCRIPT GIVES THE MOUSE COORDINATES - Hold SHIFT and click two points to draw a rectangle -->
+<!-- The popup will state the rectangle's position. Hover your mouse over the rectangle to also get its position. -->
+<!-- Press the Escape button on the keyboard to delete the most recently drawn rectangle  -->
 <script type="text/javascript" language="javascript">
-var isIE = document.all?true:false;
-if (!isIE) document.captureEvents(Event.MOUSEMOVE);
-document.onmousemove = getMousePosition;
-document.onclick = captureposition;
-var capX = 0;
-var capY = 0;
-var sy = 0;
-var sx = 0;
-
-function getMousePosition(e) {
-var _x;
-var _y;
-if (!isIE) {
-_x = e.pageX;
-_y = e.pageY;
-}
-	document.title = _x + " " + _y;
-	return true;
-}
-function captureposition(e) {
-
-	if (e.shiftKey) {
-		if ((capX == 0) && (capY == 0)) {
-		capX = e.pageX;
-		capY = e.pageY;
-		} else {
-		var diffX = e.pageX-capX;
-		var diffY = e.pageY-capY;
-		if (Math.abs(diffX) > Math.abs(diffY)) {
-			alert('X-coordinate distance: ' + diffX + 'px');
-		} else {
-			alert('Y-coordinate distance: ' + diffY + 'px');
-		}
-		capX = 0;
-		capY = 0;
-		}
+	const isIE = document.all?true:false;
+	if (!isIE) document.captureEvents(Event.MOUSEMOVE);
+	
+	document.onmousemove = (e) =>{
+	   getMousePosition(e);
+	   drawRectanglePreview(e);
+	};
+	document.onclick = drawRectangle;
+	document.onkeydown = deleteLastRectangle;
+	document.addEventListener("keyup", (e) => {
+	   // if no longer holding shift key, reset position of capX1, capY1. reset rectangle preview
+	   if (e.key == "Shift"){
+		  capX1 = -1;
+		  capY1 = -1;
+		  resetRectanglePreview();
+	   }
+	
+	});
+	let capX1 = -1;
+	let capY1 = -1;
+	
+	function addRectangleListDiv(){
+	   const rectangle_list = document.createElement("div");
+	   rectangle_list.id = "rectangle_list";
+	   document.body.appendChild(rectangle_list);
 	}
-}
-</script>
-<!-- ----------End coordinate script--------------------------------------------------------- -->
+	
+	function getMousePosition(e) {
+	   let _x;
+	   let _y;
+	   if (!isIE) {
+		  _x = e.pageX;
+		  _y = e.pageY;
+	   }
+	   document.title = _x + " " + _y;
+	   return true;
+	}
+	
+	// Delete the last rectangle drawn
+	function deleteLastRectangle(e){
+	   if (e.key == "Escape"){
+		  const rectangle_list = document.getElementById("rectangle_list");
+		  if (rectangle_list != null){
+			 const lastChild = rectangle_list.lastChild;
+			 if (lastChild != null){
+				rectangle_list.removeChild(lastChild);
+			 }
+		  }
+	   }
+	}
+	
+	// return position of rectangle as a string in the following format: 
+	//  - left:${left}px; top:${top}px; width:${width}px; height:${height}px;
+	function getRectanglePosition(e){
+	   if ((capX1 == -1) && (capY1 == -1)) {
+		  return "";
+	   }
+	
+	   // get rectangle coordinates
+	   const capX2 = e.pageX;
+	   const capY2 = e.pageY;
+	   const diffX = capX2-capX1;
+	   const diffY = capY2-capY1;
+	   const left = capX1 < capX2 ? capX1 : capX2;
+	   const top = capY1 < capY2 ? capY1 : capY2;
+	   const width = Math.abs(diffX);
+	   const height = Math.abs(diffY);
+	
+	   return `left:${left}px; top:${top}px; width:${width}px; height:${height}px;`
+	}
+	
+	function resetRectanglePreview(){
+	   let rectangle_preview = document.getElementById("rectangle_preview");
+	   if (rectangle_preview != null){
+		  rectangle_preview.style = `position:absolute; left:-1px; top:-1px; width:0px; height:0px;`;
+	   }
+	}
+	
+	function drawRectanglePreview(e){
+	   if (e.shiftKey && !((capX1 == -1) && (capY1 == -1))) {
+			 // create rectangle_preview, if doesn't already exist
+			 let rectangle_preview = document.getElementById("rectangle_preview");
+			 if (rectangle_preview == null){
+				const rectangle = document.createElement("div");
+				rectangle.id = "rectangle_preview";
+				document.body.appendChild(rectangle);
+				rectangle_preview = document.getElementById("rectangle_preview");
+			 }
+	
+			 rectangle_preview.style = "position:absolute; " + getRectanglePosition(e) + " border:2px solid red; background-color: transparent";
+	   }
+	}
+	
+	function drawRectangle(e) {
+	   if (e.shiftKey) {
+		  if ((capX1 == -1) && (capY1 == -1)) {
+			 capX1 = e.pageX;
+			 capY1 = e.pageY;
+		  } else {
+			 // create rectangle
+			 const rectangle = document.createElement("div");
+			 rectangle.style = "position:absolute; " + getRectanglePosition(e) + " border:2px solid red; background-color: transparent";
+			 rectangle.title = getRectanglePosition(e);
+	
+			 // create div rectangle_list, if doesn't already exist
+			 // add rectangle to rectangle_list
+			 let rectangle_list = document.getElementById("rectangle_list");
+			 if (rectangle_list == null){
+				addRectangleListDiv();
+				rectangle_list = document.getElementById("rectangle_list");
+			 }
+			 rectangle_list.appendChild(rectangle);
+	
+			 alert(getRectanglePosition(e));
+			 resetRectanglePreview();
+			 capX1 = -1;
+			 capY1 = -1;
+		  }
+	   }
+	}
+	</script>
+	<!-- ----------End coordinate script--------------------------------------------------------- -->
 
 
 <script>
@@ -87,6 +171,11 @@ function captureposition(e) {
 </script>
 
 <style type="text/css" media="screen">
+body{
+	margin:0px;
+	padding:0px;
+}
+
 *{font-family: Helvetica, Arial, sans-serif;}
 input {
 	-moz-box-sizing: content-box;
@@ -246,6 +335,7 @@ input {
 function startUp() {
 	setDocumentTitle('Custom eForm',document.getElementById('PatientNameL').value);
 	changeImage("customimage.png", "BGImage1");
+	changeImage("customimage.png", "BGImage2");
 	loadFontSize();
 	setDefaults();
 
@@ -253,13 +343,14 @@ function startUp() {
 	top.window.resizeTo(1100, screen.availHeight);
 }
 
+// Takes two arguments -- the base filename and its extension -- and
+// returns a string depending on whether the page has been opened
+// locally or if it has been uploaded to OSCAR.
+//
+// Example usage: resourceLink('image1', 'png')
+// Return value: 'image1.png' or '${oscar_image_path}image1.png'
 function resourceLink(resource, extension) {
-	// Takes two arguments -- the base filename and its extension -- and
-	// returns a string depending on whether the page has been opened
-	// locally or if it has been uploaded to OSCAR.
-	//
-	// Example usage: resourceLink('image1', 'png')
-	// Return value: 'image1.png' or '${oscar_image_path}image1.png'
+	// checks if the file is open locally, or online (presumably in OSCAR), then sets the prefix accordingly
 	var prefix = (window.location.href.toLowerCase().indexOf("http") != -1) ? '${oscar_image_path}' : '';
 
 	if (typeof extension === "undefined") {
@@ -605,10 +696,8 @@ function addSubject(i) {
 <body onload="startUp();" onbeforeprint="document.forms['FormName'].reportValidity();">
 <form method="post" action="" name="FormName" id="FormName" >
 
-<div id="page1" style="position:absolute; left:0px; top:0px; width:850px;">
-	<img id="BGImage1" src="">
-
-
+<div id="page1" style="break-after:always; position:relative;">
+	<img id="BGImage1" src="" style="position:relative; left:0px; top:0px; width:750px;">
 
 <!-- Hidden input for gender -->
 <input name="PatientGender" id="PatientGender" type="hidden" oscarDB=sex >
@@ -616,55 +705,42 @@ function addSubject(i) {
 <!-- Hidden input for eForm title -->
 <input type="hidden" name="PatientNameL" id="PatientNameL" oscarDB=patient_nameL>
 
-
 <!-- Hidden Inputs for contact phone -->
 <input type="hidden" name="home" id="home" oscarDB=phone>
 <input type="hidden" name="cell" id="cell" oscarDB=cell>
 <input type="hidden" name="work" id="work" oscarDB=phone2>
 
-
+<!-- Date -->
 <input name="today" id="today" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:16px; background:transparent;" oscarDB=today>
 
-<!-- <input name="copy_Fax" id="copy_Fax" class="copyable DoNotPrint" style="position:absolute; left:0px; padding-left:0px; top:0px; width:0px; font-size:18px; font-style:italic; border:0px; background:white;" title="click to copy" value="604-520-4871"> -->
-
 <!--  Patient Info  -->
+<input name="patient_name" id="patient_name" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscarDB=patient_name>
+<input name="patient_lastname" id="patient_lastname" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscarDB=patient_nameL>
+<input name="patient_firstname" id="patient_firstname" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscarDB=patient_nameF>
 
-<!-- <input name="patient_name" id="patient_name" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:16px; background:transparent;" oscarDB=patient_name> -->
-<input name="patient_lastname" id="patient_lastname" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" oscarDB=patient_nameL>
-<input name="patient_firstname" id="patient_firstname" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" oscarDB=patient_nameF>
+<input name="primaryPhone" id="primaryPhone" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscardb=phone>
+<input name="secondaryPhone" id="secondaryPhone" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscardb=phone>
 
-<input name="primaryPhone" id="primaryPhone" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" oscardb=phone>
-<input name="secondaryPhone" id="secondaryPhone" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" oscardb=phone>
-
+<input name="patientAddress" id="patientAddress" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px;" oscarDB=addressline>
 <textarea name="patientAddress" id="patientAddress" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:10px; background:white;" oscarDB=addressline></textarea>
 
 <input name="dateOfBirth" id="dateOfBirth" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:10px; background:transparent;" oscardb=dobc2>
 
-<input name="PHN" id="PHN" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" oscardb=HINc>
+<input name="PHN" id="PHN" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscardb=HINc>
 
 <input name="maleGenderBox" id="maleGenderBox" type="text" class="Xbox box3" style="left:0px; top:0px;">
 <input name="femaleGenderBox" id="femaleGenderBox" type="text" class="Xbox box3" style="left:0px; top:0px;">
 <input name="otherGenderBox" id="otherGenderBox" type="text" class="Xbox box3" style="left:0px; top:0px;">
 
-<textarea name="language" id="language" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:14px; background:white;"></textarea>
+<textarea name="language" id="language" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:12px; background:white;"></textarea>
 
-<input name="yesInterpreterReq" id="yesInterpreterReq" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="noInterpreterReq" id="noInterpreterReq" type="text" class="Xbox box3" style="left:0px; top:0px;">
-
-<!-- <input name="email" id="email" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:16px; background:transparent;" oscardb=email> -->
+<input name="email" id="email" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscardb=email>
 
 <!-- Emergency Contact -->
 <input name="emergContactName" id="emergContactName" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:10px; background:transparent;" >
 <input name="emergContactPhone" id="emergContactPhone" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:10px; background:transparent;" >
 <input name="emergContactRelation" id="emergContactRelation" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:10px; background:transparent;" >
 
-<!-- Other Agencies involved -->
-<input name="WSBC_involved" id="WSBC_involved" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="ICBC_involved" id="ICBC_involved" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="MCFD_involved" id="MCFD_involved" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="BC_MHSUS_involved" id="BC_MHSUS_involved" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="Corrections_involved" id="Corrections_involved" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="Other_involved" id="Other_involved" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:10px; background:transparent;" >
 
 <!-- Phone selector -->
 <div id="Default_phone" class="DoNotPrint" style="position:absolute; left:825px; top:252px; width:250px; font-size:14px; color:green;">
@@ -685,11 +761,11 @@ function addSubject(i) {
 <input name="MSP" id="MSP" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscarDB=current_user_ohip_no>
 
 <textarea name="clinic_addressLineFull" id="clinic_addressLineFull" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:12px; background:white;" oscarDB=clinic_addressLineFull></textarea>
+<input name="clinic_addressLine" id="clinic_addressLine" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:white;" oscarDB=clinic_addressLine>
+<input name="clinic_email" id="clinic_email" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" >
 
 <input name="clinic_phone" id="clinic_phone" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscardb=clinic_phone>
 <input name="clinic_fax" id="clinic_fax" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" oscardb=clinic_fax>
-
-<textarea name="role" id="role" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:12px; background:white;"></textarea>
 
 <!-- Family Doctor -->
 <input name="familyDoctor" id="familyDoctor" type="text" class="noborder" style="position:absolute; left:377px; top:310px; width:245px; font-size:12px; background:transparent;" oscarDB=doctor>
@@ -701,40 +777,6 @@ function addSubject(i) {
 	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('reasonForReferral', -1);">&#9660;</span>
 	<input type="hidden" name="reasonForReferral_fontsize" id="reasonForReferral_fontsize">
 
-<!-- Expectations for Referral -->
-<input name="expect_consult" id="expect_consult" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="expect_teamCare" id="expect_teamCare" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="expect_dxClarify" id="expect_dxClarify" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="expect_medReview" id="expect_medReview" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="expect_groupTherapy" id="expect_groupTherapy" type="text" class="Xbox box3" style="left:0px; top:0px;">
-
-
-<!-- Psych -->
-<input name="PHQ9" id="PHQ9" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" >
-<input name="GAD7" id="GAD7" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" >
-<input name="edinburghPostnatalDepressionScale" id="edinburghPostnatalDepressionScale" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:14px; background:transparent;" >
-
-<input name="yesPrevMHSU_Assessment" id="yesPrevMHSU_Assessment" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="noPrevMHSU_Assessment" id="noPrevMHSU_Assessment" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="yesPrevPsychConsult" id="yesPrevPsychConsult" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="noPrevPsychConsult" id="noPrevPsychConsult" type="text" class="Xbox box3" style="left:0px; top:0px;">
-
-<input name="depression" id="depression" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="anxiety" id="anxiety" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="schizophrenia" id="schizophrenia" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="psychosis" id="psychosis" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="bipolar" id="bipolar" type="text" class="Xbox box3" style="left:0px; top:0px;">
-
-<input name="psychosocial" id="psychosocial" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="suicidalIdeation" id="suicidalIdeation" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="substanceUse" id="substanceUse" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="personality" id="personality" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="perinatalDepressionAnxiety" id="perinatalDepressionAnxiety" type="text" class="Xbox box3" style="left:0px; top:0px;">
-
-<input name="PTSD" id="PTSD" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="eatingProblems" id="eatingProblems" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="otherPsychIssue" id="otherPsychIssue" type="text" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; font-size:12px; background:transparent;" >
-
 <!-- Past Medical History -->
 
 <textarea name="currentMedications" id="currentMedications" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:12px; background:transparent;"></textarea>
@@ -742,48 +784,11 @@ function addSubject(i) {
 	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('currentMedications', -1);">&#9660;</span>
 	<input type="hidden" name="currentMedications_fontsize" id="currentMedications_fontsize">
 
-<textarea name="prevTriedMedications" id="prevTriedMedications" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:12px; background:transparent;"></textarea>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:0px; top:0px;" onclick="changeFontSize('prevTriedMedications', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('prevTriedMedications', -1);">&#9660;</span>	
-	<input type="hidden" name="prevTriedMedications_fontsize" id="prevTriedMedications_fontsize">
-
-<textarea name="adverseReactionsToMeds" id="adverseReactionsToMeds" class="noborder" style="position:absolute; left:0px; top:655px; width:0px; height:0px; font-size:12px; background:transparent;"></textarea>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:0px; top:0px;" onclick="changeFontSize('adverseReactionsToMeds', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('adverseReactionsToMeds', -1);">&#9660;</span>	
-	<input type="hidden" name="adverseReactionsToMeds_fontsize" id="adverseReactionsToMeds_fontsize">
-
-<textarea name="otherMedicalConditions" id="otherMedicalConditions" class="noborder" style="position:absolute; left:0px; top:691px; width:0px; height:0px; font-size:12px; background:transparent;"></textarea>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:0px; top:0px;" onclick="changeFontSize('otherMedicalConditions', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('otherMedicalConditions', -1);">&#9660;</span>
-	<input type="hidden" name="otherMedicalConditions_fontsize" id="otherMedicalConditions_fontsize">
-
-<textarea name="otherMedications" id="otherMedications" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:0px; font-size:12px; background:transparent;"></textarea>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:0px; top:0px;" onclick="changeFontSize('otherMedications', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('otherMedications', -1);">&#9660;</span>
-	<input type="hidden" name="otherMedications_fontsize" id="otherMedications_fontsize">
-
-
-<!-- Risk -->
-<input name="priority_high" id="priority_high" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="priority_medium" id="priority_medium" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="priority_low" id="priority_low" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="priority_urgent" id="priority_urgent" type="text" class="Xbox box3" style="left:0px; top:0px;">
-
-<input name="selfHarm_high" id="selfHarm_high" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="selfHarm_medium" id="selfHarm_medium" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="selfHarm_low" id="selfHarm_low" type="text" class="Xbox box3" style="left:0px; top:0px;">
-
-<input name="harmOthers_high" id="harmOthers_high" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="harmOthers_medium" id="harmOthers_medium" type="text" class="Xbox box3" style="left:0px; top:0px;">
-<input name="harmOthers_low" id="harmOthers_low" type="text" class="Xbox box3" style="left:0px; top:0px;">
-
-<textarea name="riskDetails" id="riskDetails" class="noborder" style="position:absolute; left:0px; top:0px; width:0px; height:20px; font-size:12px; background:transparent;"></textarea>
-	<span class="DoNotPrint FontSizeChange" title="Increase Font Size" style="left:0px; top:0px;" onclick="changeFontSize('riskDetails', 1);">&#9650;</span>
-	<span class="DoNotPrint FontSizeChange" title="Decrease Font Size" style="left:0px; top:0px;" onclick="changeFontSize('riskDetails', -1);">&#9660;</span>
-	<input type="hidden" name="riskDetails_fontsize" id="riskDetails_fontsize">
-
 </div>
 
+<div id="page2" style="break-after:always; position:relative;">
+	<img id="BGImage2" src="" style="position:relative; left:0px; top:0px; width:750px;">
+</div>	
 
 
 <!-- The submit/print/reset buttons -->
